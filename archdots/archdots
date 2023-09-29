@@ -81,6 +81,8 @@ archdots_setup_usage() {
   printf "  %s   \n" "git-credentials"
   printf "  %s   \n" "git-delta      "
   printf "  %s   \n" "nvim           "
+  printf "  %s   \n" "evrouter       "
+  printf "  %s   \n" "monitors       "
   echo
 
   # :command.long_usage
@@ -203,6 +205,64 @@ archdots_setup_nvim_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup nvim\n"
   printf "  archdots setup nvim --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_evrouter_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup evrouter\n"
+    echo
+
+  else
+    printf "archdots setup evrouter\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup evrouter\n"
+  printf "  archdots setup evrouter --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_monitors_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup monitors\n"
+    echo
+
+  else
+    printf "archdots setup monitors\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup monitors\n"
+  printf "  archdots setup monitors --help | -h\n"
   echo
 
   # :command.long_usage
@@ -580,7 +640,7 @@ archdots_list_usage() {
   fi
 
   printf "%s\n" "Usage:"
-  printf "  archdots list COMMAND\n"
+  printf "  archdots list [OPTIONS] COMMAND\n"
   printf "  archdots list [COMMAND] --help | -h\n"
   echo
   # :command.usage_commands
@@ -592,6 +652,12 @@ archdots_list_usage() {
   # :command.long_usage
   if [[ -n $long_usage ]]; then
     printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--unmanaged"
+    printf "    only show unmanaged packages\n"
+    echo
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -777,15 +843,15 @@ archdots_setup_git_delta_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [[ -z "$(cat ~/.gitconfig|rg 'pager = delta')" ]]; then
+  	if [[ -z "$(cat ~/.gitconfig|grep 'pager = delta')" ]]; then
   		echo notok
   	fi
   	exit
   fi
 
-  if [[ -z "$(cat ~/.gitconfig|rg 'pager = delta')" ]]; then
+  if [[ -z "$(cat ~/.gitconfig|grep 'pager = delta')" ]]; then
   	echo Appending git delta configuration to $HOME/.gitconfig
-  	cat "$(dirname $0)/src/gitdelta_snippet.txt" >> $HOME/.gitconfig
+  	cat "$(dirname $0)/public/gitdelta_snippet.txt" >> $HOME/.gitconfig
 
   else
   	echo Alredy configured
@@ -815,6 +881,57 @@ archdots_setup_nvim_command() {
 }
 
 # :command.function
+archdots_setup_evrouter_command() {
+  # src/setup_evrouter_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+
+  	if [ ! -d "$(dirname $0)/public/evrouter/pkg" ]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [ ! -d "$(dirname $0)/public/evrouter/pkg" ]; then
+  	(cd "$(dirname $0)/public/evrouter" && makepkg --install)
+  else
+  	echo Alredy configured
+  fi
+
+}
+
+# :command.function
+archdots_setup_monitors_command() {
+  # src/setup_monitors_command.sh
+  # echo "# this file is located in 'src/setup_monitors_command.sh'"
+  # echo "# code for 'archdots setup monitors' goes here"
+  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
+  # inspect_args
+
+  apps=$HOME/.config/bspwm/apps.json
+
+  available_monitors=($(xrandr -q|rg connected|awk '{ print $1 }'))
+
+  primary_monitor="$(gum choose --header="Primary Monitor $(jq .monitors.primary $apps)" "${available_monitors[@]}")"
+  secundary_monitor="$(gum choose --header="Secundary Monitor $(jq .monitors.secundary $apps)" "${available_monitors[@]}")"
+  tv_monitor="$(gum choose --header="TV $(jq .monitors.tv $apps)" "${available_monitors[@]}")"
+
+  result="$(cat $apps|jq\
+  	--arg primary $primary_monitor\
+  	--arg secundary $secundary_monitor\
+  	--arg tv $tv_monitor\
+  	'.monitors.primary = $primary | .monitors.secundary = $secundary | .monitors.tv = $tv')"
+
+  echo "$result"|jq '.' > $apps
+
+  # for item in ${available_monitors[@]}; do
+  # 	echo $item
+  # done
+
+}
+
+# :command.function
 archdots_edit_command() {
   # src/edit_command.sh
 
@@ -823,7 +940,7 @@ archdots_edit_command() {
   if [[ ${args[--list]} -eq 1 ]]; then
   	pacdef group list
   elif [[ -n $group ]]; then
-  	if [[ -n "$(pacdef group list|rg -w $group)" ]];then
+  	if [[ -n "$(pacdef group list|grep -w $group)" ]];then
   		cd "$HOME/.config/pacdef/groups"
   		$EDITOR "$HOME/.config/pacdef/groups/${args[group]}"
   	else
@@ -842,8 +959,7 @@ archdots_edit_command() {
 # :command.function
 archdots_diff_command() {
   # src/diff_command.sh
-
-  chezmoi diff --pager 'bat --diff'
+  chezmoi diff --pager 'bat'
 
 }
 
@@ -855,10 +971,10 @@ archdots_sync_all_command() {
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
-  gum style --foreground 212 --padding "1 4" --border rounded "Syncing Apps"
+  [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Apps"
   source $(dirname $0)/src/sync_apps_command.sh
 
-  gum style --foreground 212 --padding "1 4" --border rounded "Syncing Dots"
+  [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Dots"
   source $(dirname $0)/src/sync_dots_command.sh
 
 }
@@ -868,6 +984,12 @@ archdots_sync_apps_command() {
   # src/sync_apps_command.sh
   pacdef package sync
 
+  unmanaged=$(echo "$(pacdef package unmanaged)"|rg -vU '^(WARNING|\[|#|\n)'|wc -l)
+
+  if [ $unmanaged -gt 0 ]; then
+  	echo "you have $unmanaged unmanaged packages\nRun 'archdots list --unmanaged' to view them or 'archdots review' to decide what to do with each one"
+  fi
+
 }
 
 # :command.function
@@ -876,10 +998,14 @@ archdots_sync_dots_command() {
 
   cd ~/.local/share/chezmoi
 
-  git add .
-  if [[ ${args[--remote]} -ne 1 ]]; then
-  	chezmoi re-add
+  if [ -f "$(which gum)" ]; then
+  	echo massa
+  	git add .
+  	if [[ ${args[--remote]} -ne 1 ]] ; then
+  		chezmoi re-add
+  	fi
   fi
+
   chezmoi update||echo Failed to update
 
   git diff --cached --stat
@@ -1156,6 +1282,20 @@ archdots_setup_parse_requirements() {
       shift $#
       ;;
 
+    evrouter)
+      action="evrouter"
+      shift
+      archdots_setup_evrouter_parse_requirements "$@"
+      shift $#
+      ;;
+
+    monitors)
+      action="monitors"
+      shift
+      archdots_setup_monitors_parse_requirements "$@"
+      shift $#
+      ;;
+
     # :command.command_fallback
     "")
       archdots_setup_usage >&2
@@ -1351,6 +1491,94 @@ archdots_setup_nvim_parse_requirements() {
 
   # :command.command_filter
   action="setup nvim"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_evrouter_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_evrouter_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup evrouter"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_monitors_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_monitors_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup monitors"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1959,6 +2187,14 @@ archdots_list_parse_requirements() {
         exit
         ;;
 
+      # :flag.case
+      --unmanaged)
+
+        # :flag.case_no_arg
+        args['--unmanaged']=1
+        shift
+        ;;
+
       *)
         break
         ;;
@@ -2143,6 +2379,8 @@ run() {
     "setup git-credentials") archdots_setup_git_credentials_command ;;
     "setup git-delta") archdots_setup_git_delta_command ;;
     "setup nvim") archdots_setup_nvim_command ;;
+    "setup evrouter") archdots_setup_evrouter_command ;;
+    "setup monitors") archdots_setup_monitors_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
     "sync") archdots_sync_command ;;

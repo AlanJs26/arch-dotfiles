@@ -16,6 +16,8 @@ commands:
   - name: git-credentials
   - name: git-delta
   - name: nvim
+  - name: evrouter
+  - name: monitors
 
     # args:
     # - name: source
@@ -76,6 +78,9 @@ commands:
 
 - name: list
   help: list all packages separated by group
+  flags:
+  - long: --unmanaged
+    help: only show unmanaged packages
 
   commands:
   - name: dots

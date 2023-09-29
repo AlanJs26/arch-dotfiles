@@ -3,7 +3,14 @@ xdotool
 libnotify
 betterlockscreen
 
+moreutils
+udisks2
+
 docker
+
+# fonts
+
+ttf-jetbrains-mono-nerd
 
 # cli minimal
 zsh

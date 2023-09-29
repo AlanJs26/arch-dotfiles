@@ -3,8 +3,9 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
-gum style --foreground 212 --padding "1 4" --border rounded "Syncing Apps"
+
+[ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Apps"
 source $(dirname $0)/src/sync_apps_command.sh
 
-gum style --foreground 212 --padding "1 4" --border rounded "Syncing Dots"
+[ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Dots"
 source $(dirname $0)/src/sync_dots_command.sh

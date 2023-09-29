@@ -12,9 +12,9 @@ else
     echo "$mode" > /tmp/active-monitor-mode
 fi
 
-small_monitor="DP-2"
-big_monitor="DP-1-1"
-tv_monitor="HDMI-1-1"
+small_monitor="$(jq '.monitors.secundary' $BSPDIR/apps.json)"
+big_monitor="$(jq '.monitors.primary' $BSPDIR/apps.json)"
+tv_monitor="$(jq '.monitors.tv' $BSPDIR/apps.json)"
 
 
 case "$mode" in

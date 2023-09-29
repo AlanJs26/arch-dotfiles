@@ -54,6 +54,15 @@ alias ls="eza"
 alias ll="eza --long"
 alias l="eza --long"
 
+function zz(){
+    result="$(zoxide query $@|head -n1)"
+
+    echo $result
+    ls $result
+}
+
+alias cat="bat"
+
 alias gits="git status"
 
 alias copy="xclip -sel copy"

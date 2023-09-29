@@ -1,8 +1,13 @@
 {
-  "browser": "vivaldi-snapshot",
+  "browser": "vivaldi-stable",
   "file_explorer": "nemo",
   "terminal": "kitty",
   "sound_manager": "pavucontrol",
   "pdf_viewer": "sioyek",
-  "music_player": "spotify"
+  "music_player": "spotify",
+  "monitors": {
+    "primary": "DP-1-1",
+    "secundary": "DP-2",
+    "tv": "HDMI-1-1"
+  }
 }

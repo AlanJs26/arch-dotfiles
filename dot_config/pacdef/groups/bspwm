@@ -3,20 +3,38 @@ bspwm
 sxhkd
 picom
 xorg-xmodmap
-numlockx
 
 pulseaudio
 pulseaudio-alsa
 playerctl
+
+ttf-icomoon-feather
+ttf-iosevka-nerd
 
 zscroll-git
 pavucontrol
 flameshot
 network-manager-applet
 
+numlockx
+
+cronie
+xorg-xsetroot
+dunst
+evrouter
+jgmenu
+unclutter
+
+polkit
+polkit-gnome
+wmutils-git
+
+
 
 
 polybar
 eww-git
 rofi
+rofi-power-menu
+rofi-file-browser-extended-git
 

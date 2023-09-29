@@ -3,15 +3,22 @@
 topath=(
 "$HOME/.local/share/gem/ruby/3.0.0/bin"
 "$HOME/.scripts/tools"
+"$HOME/.scripts/tools/bspwm-scripts"
 "$HOME/.local/share/chezmoi/archdots"
+"$HOME/.local/bin"
+"/opt/urserver"
 )
 
 for item in ${topath[@]}; do
 	export PATH="$PATH:$item"
 done
 
+export NEOVIDE_MULTIGRID=1
 
-# export GIT_PAGER="bat"
+export ROFISTYLE="$HOME/.config/rofi/tokyonight"
+export TOOLS="$HOME/.scripts/tools"
+export BSPDIR="$HOME/.config/bspwm"
+
 export SHELL="$(which zsh)";
 export VISUAL=nvim;
 export EDITOR=nvim;

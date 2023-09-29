@@ -1,10 +1,13 @@
 
 cd ~/.local/share/chezmoi
 
-git add .
-if [[ ${args[--remote]} -ne 1 ]]; then
-	chezmoi re-add
+if [ -f "$(which gum)" ]; then
+	git add .
+	if [[ ${args[--remote]} -ne 1 ]] ; then
+		chezmoi re-add
+	fi
 fi
+
 chezmoi update||echo Failed to update
 
 git diff --cached --stat

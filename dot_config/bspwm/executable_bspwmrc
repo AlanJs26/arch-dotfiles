@@ -1,16 +1,7 @@
 #!/bin/bash
 
-export PATH="$PATH:$HOME/.local/bin"
+source $HOME/.env.sh
 
-export NEOVIDE_MULTIGRID=1
-
-export ROFISTYLE="$HOME/.config/rofi/tokyonight"
-export TOOLS="$HOME/Documentos/tools"
-export BSPDIR="$HOME/.config/bspwm"
-
-if [ -d "$TOOLS" ]; then
-  export PATH="$PATH:$TOOLS"
-fi
 
 crontab -l
 

@@ -1,0 +1,10 @@
+K 10
+svn:ignore
+V 37
+tmp
+evrouter
+*.log
+*.substvars
+files
+
+END

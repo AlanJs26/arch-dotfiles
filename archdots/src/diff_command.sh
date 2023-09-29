@@ -1,2 +1,1 @@
-
-chezmoi diff --pager 'bat --diff'
+chezmoi diff --pager 'bat'
