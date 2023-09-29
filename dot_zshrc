@@ -47,7 +47,7 @@ zinit light zsh-users/zsh-completions
 zinit light hlissner/zsh-autopair 
 
 
-source ~/.local/share/chezmoi/env.sh
+source ~/.env.sh
 
 
 alias ls="eza"

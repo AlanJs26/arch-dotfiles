@@ -3,4 +3,5 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
-chezmoi git ${other_args[@]}
+cd ~/.local/share/chezmoi
+git ${other_args[@]}

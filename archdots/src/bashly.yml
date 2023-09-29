@@ -54,6 +54,10 @@ commands:
 
 
   - name: apps
+    flags:
+    - long: --remote
+      help: only use remote changes
+
   - name: dots
 
 - name: cd
@@ -61,6 +65,9 @@ commands:
   commands:
   - name: dots
   - name: apps
+
+- name: status
+  help: an alias for archdots git status
 
 - name: git
   help: run git commands from chezmoi repo
