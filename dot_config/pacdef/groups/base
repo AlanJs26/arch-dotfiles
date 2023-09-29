@@ -1,4 +1,5 @@
 [arch]
+tree
 xdotool
 libnotify
 betterlockscreen

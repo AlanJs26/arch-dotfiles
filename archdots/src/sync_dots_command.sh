@@ -1,15 +1,14 @@
 
 cd ~/.local/share/chezmoi
 
-echo $(pwd)
 if [ -f "$(which gum)" ]; then
-	git add .
+	chezmoi git add .
 	if [[ ${args[--remote]} -ne 1 ]]; then
-		chezmoi re-add
+		gum spin --title="Re-adding..." -- chezmoi re-add
 	fi
 fi
 
-chezmoi update||echo Failed to update
+gum spin --title="Updating..." -- chezmoi update||echo Failed to update
 
 git diff --cached --stat
 
