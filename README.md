@@ -48,25 +48,6 @@ Para montar partições ao iniciar o sistema é preciso criar uma entrada no `/e
 
 Lembre-se de criar a pasta no ponto de montagem, senão a montagem vai falhar
 
-# Usando o archdots
-
-`archdots` é um wrapper para facilitar o uso do chezmoi e pacdef. Os principais comandos são:
-
-`archdots sync`
-
-Esse comando syncroniza o chezmoi e o pacdef
-
-`archdots setup`
-
-Esse comando contém vários scripts de instalação que o chezmoi e pacdef não fornecem de forma satisfatória
-
-`archdots edit`
-
-Esse comando usa o editor padrão para modificar os arquivos de pacotes do pacdef
-
-`archdots git SUBCOMANDO`
-
-Esse é um atalho para o git desse repo
 
 # Gerenciando os dotfiles
 

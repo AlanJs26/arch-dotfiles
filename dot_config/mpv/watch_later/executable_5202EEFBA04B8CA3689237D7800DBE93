@@ -1,0 +1,5 @@
+start=997.663333
+pause=yes
+fullscreen=yes
+af=dynaudnorm=f=400:g=5:m=4:p=%4%0.95:t=0
+sid=no

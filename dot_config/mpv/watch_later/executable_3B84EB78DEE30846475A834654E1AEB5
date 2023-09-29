@@ -1,0 +1,5 @@
+start=779.760000
+speed=100.000000
+fullscreen=yes
+vf=@skiptosilence-blackout:lavfi=graph=%32%nullsink,color=c=black:s=640x360
+af=@skiptosilence:lavfi=graph=%31%silencedetect=noise=-30dB:d=0.1

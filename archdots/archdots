@@ -580,8 +580,77 @@ archdots_list_usage() {
   fi
 
   printf "%s\n" "Usage:"
-  printf "  archdots list [OPTIONS]\n"
-  printf "  archdots list --help | -h\n"
+  printf "  archdots list COMMAND\n"
+  printf "  archdots list [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "Commands:"
+  printf "  %s   \n" "dots"
+  printf "  %s    (default)\n" "apps"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_list_dots_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots list dots\n"
+    echo
+
+  else
+    printf "archdots list dots\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots list dots [OPTIONS]\n"
+  printf "  archdots list dots --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--unmanaged"
+    printf "    only show unmanaged packages\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_list_apps_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots list apps\n"
+    echo
+
+  else
+    printf "archdots list apps\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots list apps [OPTIONS]\n"
+  printf "  archdots list apps --help | -h\n"
   echo
 
   # :command.long_usage
@@ -739,7 +808,6 @@ archdots_setup_nvim_command() {
   if [[ ! -d "$HOME/.config/nvim" ]]; then
   	echo cloning nvim repo
   	git clone "git@github.com:AlanJs26/nvim_config.git"
-  	chezmoi add $HOME/.config/nvim
   else
   	echo Alredy configured
   fi
@@ -892,8 +960,20 @@ archdots_git_command() {
 }
 
 # :command.function
-archdots_list_command() {
-  # src/list_command.sh
+archdots_list_dots_command() {
+  # src/list_dots_command.sh
+
+  if [[ ${args[--unmanaged]} -eq 1 ]]; then
+  	chezmoi unmanaged
+  else
+  	chezmoi managed
+  fi
+
+}
+
+# :command.function
+archdots_list_apps_command() {
+  # src/list_apps_command.sh
 
   if [[ ${args[--unmanaged]} -eq 1 ]]; then
   	pacdef package unmanaged
@@ -1887,7 +1967,128 @@ archdots_list_parse_requirements() {
   done
 
   # :command.command_filter
-  action="list"
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    dots)
+      action="dots"
+      shift
+      archdots_list_dots_parse_requirements "$@"
+      shift $#
+      ;;
+
+    apps)
+      action="apps"
+      shift
+      archdots_list_apps_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    *)
+      action="apps"
+      archdots_list_apps_parse_requirements "$@"
+      shift $#
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_list_dots_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_list_dots_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="list dots"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --unmanaged)
+
+        # :flag.case_no_arg
+        args['--unmanaged']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_list_apps_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_list_apps_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="list apps"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1954,6 +2155,8 @@ run() {
     "status") archdots_status_command ;;
     "git") archdots_git_command ;;
     "list") archdots_list_command ;;
+    "list dots") archdots_list_dots_command ;;
+    "list apps") archdots_list_apps_command ;;
   esac
 }
 

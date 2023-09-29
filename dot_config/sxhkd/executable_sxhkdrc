@@ -1,0 +1,436 @@
+
+# Reload sxhkdrc
+super + Escape
+    pkill -usr1 -x sxhkd; notify-send -a sxhkd 'sxhkd' 'Reloaded config' -u low;
+
+#######################################################################
+#                               Others                                #
+#######################################################################
+
+# Toggle right click context menu. (jgmenu)
+~button3
+	  xqp 0 $(xdo id -N Bspwm -n root) && jgmenu_run
+
+# Dunst history
+super + n
+	eww open disclose --toggle;\
+	eww close mainframe
+  # dunst-history.sh
+
+# Dunst close all
+super + ctrl + n
+	$HOME/.config/eww/scripts/notification_logger.zsh clear;\
+	eww close disclose mainframe;\
+  # dunstctl close-all
+
+# Hide polybar (all monitors)
+super + shift + y
+	echo {1,0} > /tmp/is_polybar_hidden;\
+	[ $(cat /tmp/is_polybar_hidden) = "0" ] && polybar-msg cmd show || (polybar-msg cmd hide&&bspc config top_padding 0) 
+
+# Hide polybar
+super + y
+	$TOOLS/polybar-hide-monitor.sh $(bspc query -M -m .focused --names)
+  
+
+# Screenshot region
+Print
+  flameshot gui
+
+# Screenshot screen (clipboard)
+super + Print
+  flameshot screen -c
+
+# Screenshot screen (file)
+super + shift + Print
+  flameshot screen --path "$HOME/Imagens"
+
+# Color Picker (fn + F10)
+XF86HomePage
+	colorpicker-selection.sh
+
+# Change Audio device (fn + F11)
+XF86Calculator
+	cycle-audio-devices.sh
+
+super + button2
+	bspdragwin.py hold
+
+super + @button2
+	bspdragwin.py release
+
+# ~Escape
+# 	eww close-all
+
+
+
+###################
+#  Rofi / Launch  #
+###################
+
+# Show all available rofi menus
+{@Menu, super + c}
+	rofi-all.sh
+
+# Change Monitors (fn + F09)
+XF86Mail
+	rofi-monitors.sh
+
+# Sound Manager (fn + F12)
+XF86Search 
+	bsplaunch sound_manager
+
+# Terminal Emulator
+super + Return
+	bsplaunch terminal
+
+# Web Browser
+super + shift + Return
+	bsplaunch browser
+
+# File-explorer
+super + shift + n
+	bsplaunch file_explorer
+
+# Launch Programs
+super + @space
+	rofi -show drun
+
+# ssh
+super + ctrl + Return
+	$TOOLS/rofi-ssh-aliases.sh
+
+# Zoxide
+super + ctrl + @space
+	rofi-zoxide.sh
+
+# File Browser
+super + alt + @space
+	rofi -show filebrowser -run-command "run.sh \"\{cmd\}\""
+
+# Show shortcuts
+super + shift + question
+	bash ~/.config/sxhkd/sxhkd-help
+
+# Power Menu
+super + shift + e
+	rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate"
+
+# Clipboard Menu
+super + shift + v
+	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
+
+# Scratchpad Menu
+super + ctrl + i
+	bash rofi-scratchpad-bspwm.sh
+
+#######################################################################
+#                             Scratchpad                              #
+#######################################################################
+
+# Hide window
+super + ctrl + m
+	bspc node --flag hidden=on
+
+# Add window to scratchpad
+super + alt + a
+	bspc node --flag hidden=on -t floating
+
+# Cicle all scratchpad windows
+super + shift + a
+	scratchpad.py ".*" -b i3 --not_class "$(bash bsplaunch pdf_viewer -r)|qalculate-gtk" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
+
+# Youtube Music or MPV
+super + ctrl + z
+	scratchpad.py "(YouTube Music)|mpv|Spotify" --behaviour nomark
+
+# Pdf Viewer
+super + shift + backslash
+	scratchpad.py --class "$(bash bsplaunch pdf_viewer -r)" --behaviour swap
+
+# Qalculate
+super + ctrl + backslash
+	scratchpad.py --class "qalculate-gtk" -r "qalculate-gtk" --behaviour nomark
+
+# floating kitty
+super + shift + z
+	scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
+
+# floating kitty neovim
+super + alt + Return
+	scratchpad.py "floatkittynvim$" --class "__float__|__float_center__" -r "kitty --title floatkittynvim --class __float_center__ nvim" --behaviour i3
+
+
+#######################################################################
+#                            Manage Bspwm                             #
+#######################################################################
+
+
+# quit/restart bspwm
+super + alt + r
+	bspc wm -r
+
+# restart scripts
+super + shift + r
+	bash $BSPDIR/bspscripts restart scripts && notify-send -a bspwm 'Bspwm' 'Restarted all scripts' -u low;
+
+# restart programs
+super + shift + alt + r
+	bash $BSPDIR/bspscripts restart programs && notify-send -a bspwm 'Bspwm' 'Restarted all autostart programs' -u low;
+
+# close and kill
+super + {shift + ,alt + }q
+	[ "$(bspc query -T -n focused|jq .client.className -r)" = "tabbed" ]\
+	&& (id="$(bsptab list|head -n1)"; bsptab remove $id && sleep 0.1 && bspc node $id -{c,k})\
+	|| bspc node -{c,k}
+
+
+# Increase/Decrease Gaps
+super + {equal, minus} 
+    { bspc config -d focused window_gap $(( $(bspc config -d focused window_gap) + 10 )), \
+    [ $(bspc config -d focused window_gap) -ge 10 ] && \
+			bspc config -d focused window_gap $(( $(bspc config -d focused window_gap) - 10 )) }
+
+
+
+#######################################################################
+#                            Window State                             #
+#######################################################################
+
+# Add or remove window from tabbed wrapper
+super + {_,shift + }w
+	bsptab {add,remove}
+
+# alternate between the tiled and monocle layout
+super + {m,a}
+	bspc desktop -l next;\
+	polybar-msg action bspwm-monocle hook 0
+
+# Toggle Floating/Tiled
+super + s
+	state="$(bspc query -T -n |jq ".client.state" -r)";\
+	[ "$state" = "floating" ] && bspc node -t tiled || bspc node -t floating
+	# bspc node -t "~floating"
+
+# Toggle Pseudo Tiled/Tiled
+super + t
+	state="$(bspc query -T -n |jq ".client.state" -r)";\
+	[ "$state" = "pseudo_tiled" ] && bspc node -t tiled || bspc node -t pseudo_tiled
+
+# Toggle fullscreen
+super + f 
+  bspc node -t "~fullscreen"	
+
+# Set Window as locked/sticky/private
+super + ctrl + {o,s,p}
+	bspc node -g {locked,sticky,private}
+
+# mark node or move marked node to preselection
+super + ctrl + a
+	if [ -n "$(bspc query -N -n .marked.\!floating.\!focused.window)" ];then;\
+		bspc node newest.marked -n newest.\!automatic;\
+		bspc query -N -n .\!floating|xargs -i bspc node \{\} -g marked=off;\
+	else;\
+		bspc node -g marked;\
+	fi
+
+
+#######################################################################
+#                            Focus Windows                            #
+#######################################################################
+
+# Focus next tabbed window
+# alt + Tab
+# 	tabc 
+
+# Focus Window
+super + {h,j,k,l}
+	focusmover {west,south,north,east}
+
+# Focus Window (Arrow Keys)
+super + {Left,Down,Up,Right}
+	focusmover {west,south,north,east}
+
+# Go go next monitor
+super + u
+  bspc monitor -f last
+
+# focus the next/previous window in the current desktop
+super + {_,shift + }x
+	if [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
+		bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
+	else;\
+		bspc node -f {next,prev}.local.\!hidden.window;\
+	fi
+
+# focus the next/previous tab of monocle window
+alt + {_,shift + }~Tab
+	if   [ "$(bspc query -T -n focused|jq .client.className -r)" != "tabbed" ]\
+		&& [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
+			bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
+	fi
+	# bspc node -f @{parent,brother}
+
+# focus the next/previous desktop in the current monitor
+super + {shift + ,_}Tab
+	DIR="{prev,next}";\
+	if ! [ $(bspc query -N -n .\!hidden.local.leaf) ]; then;\
+		bspc query -N -n .hidden.local.leaf|xargs -i bspc node \{\} -d $DIR.local.occupied;\
+	fi;\
+	bspc desktop -f $DIR.local.occupied
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+
+#######################################################################
+#                            Move Windows                             #
+#######################################################################
+
+# swap the current node and the biggest window
+super + d
+	bspc node -s biggest.window.local || \
+	bspc node -s last.local
+
+# transplant into window in chosen direction
+super + shift + {Left,Down,Up,Right}
+  euclid_mover {west,south,north,east}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+# Swap Windows
+super + shift + {h,j,k,l}
+	dir="{west,south,north,east}";\
+	if [ -z "$(bspc query -N "$dir.local")" ]; then;\
+		bspc node -m $dir --follow;\
+	else;\
+		bspc node -s $dir.local;\
+	fi
+	# windowgrabber {west,south,north,east}
+
+# Move desktop to monitor
+super + shift + ctrl + {h,l}
+  bspc desktop --to-monitor {prev,next} --follow
+
+# send a window to the next occupied workspace and focus it
+super + {_,shift + } alt + Tab
+	bspc node -d {next,prev}.local.occupied -f
+
+# focus next free desktop or send a window there
+super + {_,shift + }apostrophe
+	bspc {desktop -f, node -d} any.local.\!occupied
+
+# send a window to the next free workspace and focus it
+super + alt + apostrophe
+	bspc node -d any.local.\!occupied -f
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '{1-9,10}'
+	# bspc {desktop -f,node -d} '^{1-9,10}'
+
+# send and focus to the given desktop
+super + alt + {1-9,0}
+	bspc node -d '{1-9,10}' -f
+
+
+# super + {_,shift + }{1-9,0}
+    # d='{1-9,10}'; \
+    # bspc {desktop -f,node -d} "$d.local" || bspc desktop -s "$d"
+
+
+#######################################################################
+#                              Preselect                              #
+#######################################################################
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# # cancel the preselection for the focused node
+# super + ctrl + space
+# 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+	# bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+# super + ctrl + shift + space
+	# bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+
+#######################################################################
+#                     Advanced Layout Management                      #
+#######################################################################
+
+# flip all nodes in current desktop
+super + {comma,period}
+	bspc node @/ -F {horizontal,vertical}
+
+# Rotate tree positions
+super + {_,shift + } ccedilla
+    bspc node @/ -C {forward,backward}
+
+# Rotate tree layout
+super + alt + {_,shift + } ccedilla
+    bspc node @/ -R {90,270}
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+  sh ~/.config/sxhkd/resize {x -, y +, y -, x +}
+
+# Rotate tree layout (relative)
+super + {_,shift + } bracketleft
+	bspc node @parent -R {90,270}
+
+# Toggle automatic balancing of windows (relative)
+super + bracketright
+  bspc node @parent -E 
+
+
+#######################################################################
+#                                Media                                #
+#######################################################################
+
+# Increase Volume
+XF86AudioRaiseVolume
+	amixer -q -D pulse sset Master 5%+
+
+# Decrease Volume
+XF86AudioLowerVolume
+	amixer -q -D pulse sset Master 5%-
+
+# Play Pause
+XF86AudioPlay
+	playerctl play-pause
+
+# Next song
+XF86AudioNext
+	playerctl next
+
+# Previous song
+XF86AudioPrev
+	playerctl previous
+
+# Mute
+XF86AudioMute
+	amixer -q -D pulse set Master toggle
+
+# # Paste with Mouse
+# {_,shift + }button9
+# 	xdotool key {ctrl+v,shift+ctrl+v}
+#
+# # Copy with Mouse
+# {_,shift + }button8
+# 	# xdotool key {ctrl+c,shift+ctrl+c}
+	
+
+
+

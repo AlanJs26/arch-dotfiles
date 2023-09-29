@@ -1,0 +1,9 @@
+"USB GAMING MOUSE " "/dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse" none key/276 "XKey/Control_L+v"
+"USB GAMING MOUSE " "/dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse" none key/275 "XKey/Control_L+c"
+
+"USB GAMING MOUSE " "/dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse" shift key/276 "XKey/Shift_L+Control_L+v"
+"USB GAMING MOUSE " "/dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse" shift key/275 "XKey/Shift_L+Control_L+c"
+
+
+
+"SONiX USB DEVICE" "/dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd" none key/83 "XKey/period"

@@ -1,0 +1,4 @@
+start=1692.250000
+volume=70.000000
+fullscreen=yes
+af=dynaudnorm=f=400:g=5:m=4:p=%4%0.95:t=0,dynaudnorm=f=400:g=5:m=4:p=%4%0.95:t=0

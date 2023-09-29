@@ -76,9 +76,18 @@ commands:
 
 - name: list
   help: list all packages separated by group
-  flags:
-  - long: --unmanaged
-    help: only show unmanaged packages
+
+  commands:
+  - name: dots
+    flags:
+    - long: --unmanaged
+      help: only show unmanaged packages
+
+  - name: apps
+    default: force
+    flags:
+    - long: --unmanaged
+      help: only show unmanaged packages
 
   # flags:
   # - long: --user

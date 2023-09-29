@@ -1,0 +1,17 @@
+configuration {
+  modi: "drun,run";
+  kb-accept-entry: "Return,MouseSecondary";
+  kb-remove-to-eol: "";
+  kb-remove-char-back: "BackSpace,Shift+BackSpace";
+  kb-mode-complete: "Control+i";
+  kb-move-char-forward: "Right,Control+l";
+  kb-move-char-back: "Left,Control+h";
+  kb-row-up: "Up,Control+k,Control+p";
+  kb-row-down: "Down,Control+j,Control+n";
+
+  kb-mode-previous: "Shift+Left,Alt+h";
+  kb-mode-next: "Shift+Right,Alt+l";
+  /* combi-modi: "drun,run,run"; */
+}
+
+@theme "./tokyonight/rofi.rasi"
