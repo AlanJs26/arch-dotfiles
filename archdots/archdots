@@ -80,6 +80,7 @@ archdots_setup_usage() {
   printf "  %s   \n" "all            "
   printf "  %s   \n" "git-credentials"
   printf "  %s   \n" "git-delta      "
+  printf "  %s   \n" "nvim           "
   echo
 
   # :command.long_usage
@@ -173,6 +174,35 @@ archdots_setup_git_delta_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup git-delta\n"
   printf "  archdots setup git-delta --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_nvim_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup nvim\n"
+    echo
+
+  else
+    printf "archdots setup nvim\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup nvim\n"
+  printf "  archdots setup nvim --help | -h\n"
   echo
 
   # :command.long_usage
@@ -633,6 +663,7 @@ archdots_setup_all_command() {
   commands=(
   "git_credentials"
   "git_delta"
+  "nvim"
   )
 
   for item in ${commands[@]}; do
@@ -687,6 +718,28 @@ archdots_setup_git_delta_command() {
   	echo Appending git delta configuration to $HOME/.gitconfig
   	cat "$(dirname $0)/src/gitdelta_snippet.txt" >> $HOME/.gitconfig
 
+  else
+  	echo Alredy configured
+  fi
+
+}
+
+# :command.function
+archdots_setup_nvim_command() {
+  # src/setup_nvim_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! -d "$HOME/.config/nvim" ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [[ ! -d "$HOME/.config/nvim" ]]; then
+  	echo cloning nvim repo
+  	git clone "git@github.com:AlanJs26/nvim_config.git"
+  	chezmoi add $HOME/.config/nvim
   else
   	echo Alredy configured
   fi
@@ -1016,6 +1069,13 @@ archdots_setup_parse_requirements() {
       shift $#
       ;;
 
+    nvim)
+      action="nvim"
+      shift
+      archdots_setup_nvim_parse_requirements "$@"
+      shift $#
+      ;;
+
     # :command.command_fallback
     "")
       archdots_setup_usage >&2
@@ -1167,6 +1227,50 @@ archdots_setup_git_delta_parse_requirements() {
 
   # :command.command_filter
   action="setup git-delta"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_nvim_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_nvim_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup nvim"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1837,6 +1941,7 @@ run() {
     "setup all") archdots_setup_all_command ;;
     "setup git-credentials") archdots_setup_git_credentials_command ;;
     "setup git-delta") archdots_setup_git_delta_command ;;
+    "setup nvim") archdots_setup_nvim_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
     "sync") archdots_sync_command ;;

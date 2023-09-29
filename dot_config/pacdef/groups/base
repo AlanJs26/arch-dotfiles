@@ -1,0 +1,109 @@
+[arch]
+xdotool
+libnotify
+betterlockscreen
+
+docker
+
+# cli minimal
+zsh
+git
+git-delta
+curl
+xclip
+wget
+
+# basic cli tools
+ripgrep
+bat
+fzf
+lf
+eza
+btop
+jq
+gum
+zoxide
+starship
+ncdu
+
+
+# compilers and repls
+rustup
+python
+ruby
+
+
+# useful cli tools
+rclone
+rsync
+
+
+# cli text editors
+nano
+vim
+neovim-nightly-bin
+
+# archdots
+chezmoi
+pacdef
+
+# X11
+i3-wm
+lightdm
+lightdm-gtk-greeter
+
+# theme
+lxappearance
+neofetch
+qogir-gtk-theme-git
+tela-circle-icon
+
+
+# system
+yay
+
+
+
+# system minimal
+make
+acpilight
+alsa-utils
+amd-ucode
+base
+base-devel
+bash-completion
+bind
+cryptsetup
+diffutils
+e2fsprogs
+efibootmgr
+gpm
+grub
+intel-ucode
+lftp
+linux
+linux-firmware
+man-db
+man-pages
+mcmojave-cursors
+mkinitcpio
+networkmanager
+nilfs-utils
+ntfs-3g
+openssh
+os-prober
+parted
+ppp
+python-pip
+reflector
+siji-ttf
+sudo
+ttf-unifont
+wireless_tools
+wpa_supplicant
+xdg-user-dirs
+xf86-input-libinput
+xorg-fonts-misc
+xorg-server
+xorg-xrandr
+

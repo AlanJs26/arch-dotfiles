@@ -1,0 +1,109 @@
+#!/bin/bash
+
+export PATH="$PATH:$HOME/.local/bin"
+
+export NEOVIDE_MULTIGRID=1
+
+export ROFISTYLE="$HOME/.config/rofi/tokyonight"
+export TOOLS="$HOME/Documentos/tools"
+export BSPDIR="$HOME/.config/bspwm"
+
+if [ -d "$TOOLS" ]; then
+  export PATH="$PATH:$TOOLS"
+fi
+
+crontab -l
+
+# fix cursor, keyboard and numlock
+xsetroot -cursor_name left_ptr
+setxkbmap -model abnt2 -layout br -variant abnt2
+numlockx on
+
+xrdb -merge "$HOME/.Xresources"
+
+killall sxhkd; sxhkd&
+
+
+# autostart scripts and programs 
+bash $BSPDIR/bspscripts
+
+# restart urserver
+/opt/urserver/urserver-stop;/opt/urserver/urserver-start --no-manager --no-notify &
+
+
+
+# bspc configurations
+bspc config focused_border_color "#414f6e"
+
+bspc config border_width         2
+bspc config window_gap          12
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus false
+
+bspc config split_ratio        0.52
+bspc config borderless_monocle true
+bspc config single_monocle     true
+bspc config gapless_monocle    true
+bspc config removal_adjustment true
+
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
+bspc config pointer_action1 move
+bspc config pointer_action2 none
+
+## Manage all the unmanaged windows remaining from a previous session.
+bspc wm --adopt-orphans
+
+# remove all rules
+bspc rule -r "*:*"
+
+# window state rules
+floating_windows=(
+  "*:mupdf"
+  "whatsie"
+  "com-azefsw-audioconnect-desktop-app-MainKt"
+  "gnome-calendar"
+  "mpv"
+  "Onboard"
+  "YouTube Music"
+  "com-st-microxplorer-maingui-STM32CubeMX"
+  "__float__:*:*"
+  "org.gnome.clocks"
+)
+
+pseudo_tiled_windows=(
+  "Android Emulator"
+)
+
+for win in "${floating_windows[@]}"; do
+  bspc rule -a "$win" state=floating center=on
+done
+
+for win in "${pseudo_tiled_windows[@]}"; do
+  bspc rule -a "$win" state=pseudo_tiled
+done
+
+
+# specific rules
+bspc rule -a Qalculate-gtk state=floating rectangle="400x500+300+400"
+bspc rule -a "*:*:smallkitty" state=floating center=on rectangle="400x100+300+800"
+
+bspc rule -a "__float_center__:*:*" state=floating center=on rectangle="960x660+200+800"
+
+bspc rule -a "__jupyter__:*:*" hidden=on
+bspc rule -a "__matlab__:*:*" hidden=on
+bspc rule -a "__pluto__:*:*" hidden=on
+
+bspc rule -a peek manage=off
+bspc rule -a fcitx manage=off
+# bspc rule -a "MATLAB R2022b - academic use" manage=on
+
+bspc config external_rules_command $BSPDIR/external_rules.sh
+
+
+# set wallpaper
+feh --bg-fill "$BSPDIR/wallpapers/hell3.png"
+
+# reload statusbar
+$HOME/.config/polybar/launch.sh --tokyonight 
+

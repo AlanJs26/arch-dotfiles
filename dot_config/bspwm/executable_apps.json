@@ -1,0 +1,8 @@
+{
+  "browser": "vivaldi-snapshot",
+  "file_explorer": "nemo",
+  "terminal": "kitty",
+  "sound_manager": "pavucontrol",
+  "pdf_viewer": "sioyek",
+  "music_player": "spotify"
+}

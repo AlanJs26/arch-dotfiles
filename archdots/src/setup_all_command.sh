@@ -3,6 +3,7 @@
 commands=(
 "git_credentials"
 "git_delta"
+"nvim"
 )
 
 for item in ${commands[@]}; do

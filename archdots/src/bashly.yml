@@ -15,6 +15,7 @@ commands:
 
   - name: git-credentials
   - name: git-delta
+  - name: nvim
 
     # args:
     # - name: source

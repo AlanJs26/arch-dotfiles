@@ -1,0 +1,38 @@
+sxhkd: nenhum processo localizado
+INFO: imwheel(pid=180245) killed.
+INFO: imwheel started (pid=228323)
+INFO: imwheel(pid=228323) killed.
+bash: lockscreen.sh start: Arquivo ou diretório inexistente
+INFO: imwheel started (pid=228342)
+    PID TTY          TIME CMD
+ 150445 ?        00:00:00 urserver
+stopping process
+copying user files
+backup remotes
+create custom folder
+copying remotes
+cat: /home/alan/.urserver/urserver.pid: Arquivo ou diretório inexistente
+starting server
+skipping manager
+
+(process:234022): GLib-CRITICAL **: 12:35:45.180: g_string_insert_len: assertion 'len == 0 || val != NULL' failed
+Loaded plugin - navigation
+Loaded plugin - adblocker
+Loaded plugin - in-app-menu
+APPIMAGE env is not defined, current application is not an AppImage
+1
+2
+1
+2
+[234062:0125/132703.071083:ERROR:network_service_instance_impl.cc(461)] Network service crashed, restarting service.
+[234062:0125/132703.083296:ERROR:zygote_communication_linux.cc(275)] Failed to send GetTerminationStatus message to zygote
+[234062:0125/132703.085498:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.086267:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.090836:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.091722:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.092458:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.093204:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.094006:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.161044:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.163316:ERROR:gpu_process_host.cc(960)] GPU process launch failed: error_code=1002
+[234062:0125/132703.163345:FATAL:gpu_data_manager_impl_private.cc(451)] GPU process isn't usable. Goodbye.
