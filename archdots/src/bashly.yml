@@ -1,0 +1,84 @@
+name: archdots
+help: A tool for managing arch dotfiles and packages
+version: 0.1.0
+
+
+commands:
+- name: setup
+  help: Run a setup script
+
+  commands:
+  - name: all
+    flags:
+    - long: --force
+      help: run even if setup is marked as ok
+
+  - name: git-credentials
+  - name: git-delta
+
+    # args:
+    # - name: source
+    #   required: true
+    #   help: URL to download from
+    # - name: target
+    #   help: "Target filename (default: same as source)"
+    #
+    # flags:
+    # - long: --force
+    #   short: -f
+    #   help: Overwrite existing files
+
+
+- name: edit
+  help: edit packages file
+
+  args:
+  - name: group
+    required: false
+    help: specific group to edit
+
+  flags:
+  - long: --list
+    help: list all groups (package definition files)
+
+- name: diff
+  help: show diff since last dotfiles sync
+
+- name: sync
+  help: Sync apps and dotfiles
+
+  commands:
+  - name: all
+    help: run all setup scripts
+    default: force
+
+
+  - name: apps
+  - name: dots
+
+- name: cd
+  help: go to chezmoi repo or pacdef groups folder location
+  commands:
+  - name: dots
+  - name: apps
+
+- name: git
+  help: run git commands from chezmoi repo
+  catch_all: true
+
+- name: list
+  help: list all packages separated by group
+  flags:
+  - long: --unmanaged
+    help: only show unmanaged packages
+
+  # flags:
+  # - long: --user
+  #   short: -u
+  #   arg: user
+  #   help: Username to use for logging in
+  #   required: true
+  # - long: --password
+  #   short: -p
+  #   arg: password
+  #   help: Password to use for logging in

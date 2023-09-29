@@ -1,0 +1,1 @@
+pacdef package sync

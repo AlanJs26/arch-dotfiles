@@ -1,0 +1,11 @@
+#!/bin/sh 
+
+app_name=$(jq -r .$1 "$BSPDIR/apps.json")
+
+if [ "$2" = "-r" ]; then
+	printf "%s" "$app_name"
+else
+	$app_name
+fi
+
+
