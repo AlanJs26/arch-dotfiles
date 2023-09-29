@@ -39,9 +39,10 @@ archdots_usage() {
   printf "  %s   show diff since last dotfiles sync\n" "diff  "
   printf "  %s   Sync apps and dotfiles\n" "sync  "
   printf "  %s   go to chezmoi repo or pacdef groups folder location\n" "cd    "
+  printf "  %s   review unmanaged packages\n" "review"
   printf "  %s   an alias for archdots git status\n" "status"
   printf "  %s   run git commands from chezmoi repo\n" "git   "
-  printf "  %s   list all packages separated by group\n" "list  "
+  printf "  %s   list packages (default) or tracked dotfiles\n" "list  "
   echo
 
   # :command.long_usage
@@ -570,6 +571,35 @@ archdots_cd_apps_usage() {
 }
 
 # :command.usage
+archdots_review_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots review - review unmanaged packages\n"
+    echo
+
+  else
+    printf "archdots review - review unmanaged packages\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots review\n"
+  printf "  archdots review --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
 archdots_status_usage() {
   if [[ -n $long_usage ]]; then
     printf "archdots status - an alias for archdots git status\n"
@@ -630,11 +660,11 @@ archdots_git_usage() {
 # :command.usage
 archdots_list_usage() {
   if [[ -n $long_usage ]]; then
-    printf "archdots list - list all packages separated by group\n"
+    printf "archdots list - list packages (default) or tracked dotfiles\n"
     echo
 
   else
-    printf "archdots list - list all packages separated by group\n"
+    printf "archdots list - list packages (default) or tracked dotfiles\n"
     echo
 
   fi
@@ -657,6 +687,11 @@ archdots_list_usage() {
     # :flag.usage
     printf "  %s\n" "--unmanaged"
     printf "    only show unmanaged packages\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--pending"
+    printf "    only show pending packages\n"
     echo
 
     # :command.usage_fixed_flags
@@ -694,6 +729,11 @@ archdots_list_dots_usage() {
     printf "    only show unmanaged packages\n"
     echo
 
+    # :flag.usage
+    printf "  %s\n" "--tree"
+    printf "    display as a tree\n"
+    echo
+
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
@@ -727,6 +767,11 @@ archdots_list_apps_usage() {
     # :flag.usage
     printf "  %s\n" "--unmanaged"
     printf "    only show unmanaged packages\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--pending"
+    printf "    only show pending packages\n"
     echo
 
     # :command.usage_fixed_flags
@@ -982,12 +1027,12 @@ archdots_sync_all_command() {
 # :command.function
 archdots_sync_apps_command() {
   # src/sync_apps_command.sh
-  pacdef package sync
+  pacdef package sync 2> /dev/null
 
-  unmanaged=$(echo "$(pacdef package unmanaged)"|rg -vU '^(WARNING|\[|#|\n)'|wc -l)
+  unmanaged=$(echo "$(pacdef package unmanaged 2> /dev/null)"|rg -vU '^(WARNING|\[|#|\n)'|wc -l)
 
   if [ $unmanaged -gt 0 ]; then
-  	echo "you have $unmanaged unmanaged packages\nRun 'archdots list --unmanaged' to view them or 'archdots review' to decide what to do with each one"
+  	echo -e "you have $unmanaged unmanaged packages\nRun 'archdots list --unmanaged' to view them or 'archdots review' to decide what to do with each one"
   fi
 
 }
@@ -998,10 +1043,10 @@ archdots_sync_dots_command() {
 
   cd ~/.local/share/chezmoi
 
+  echo $(pwd)
   if [ -f "$(which gum)" ]; then
-  	echo massa
   	git add .
-  	if [[ ${args[--remote]} -ne 1 ]] ; then
+  	if [[ ${args[--remote]} -ne 1 ]]; then
   		chezmoi re-add
   	fi
   fi
@@ -1061,6 +1106,18 @@ archdots_cd_apps_command() {
 }
 
 # :command.function
+archdots_review_command() {
+  # src/review_command.sh
+  # echo "# this file is located in 'src/review_command.sh'"
+  # echo "# code for 'archdots review' goes here"
+  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
+  # inspect_args
+
+  pacdef package review
+
+}
+
+# :command.function
 archdots_status_command() {
   # src/status_command.sh
   # echo "# this file is located in 'src/status_command.sh'"
@@ -1090,9 +1147,17 @@ archdots_list_dots_command() {
   # src/list_dots_command.sh
 
   if [[ ${args[--unmanaged]} -eq 1 ]]; then
-  	chezmoi unmanaged
+  	if [[ ${args[--tree]} -eq 1 ]]; then
+  		tree --fromfile <(chezmoi unmanaged)
+  	else
+  		chezmoi unmanaged
+  	fi
   else
-  	chezmoi managed
+  	if [[ ${args[--tree]} -eq 1 ]]; then
+  		tree --fromfile <(chezmoi managed)
+  	else
+  		chezmoi managed
+  	fi
   fi
 
 }
@@ -1102,9 +1167,17 @@ archdots_list_apps_command() {
   # src/list_apps_command.sh
 
   if [[ ${args[--unmanaged]} -eq 1 ]]; then
-  	pacdef package unmanaged
+  	pacdef package unmanaged 2> /dev/null
+  elif [[ ${args[--pending]} -eq 1 ]]; then
+  	# Isso não funciona para pacotes que não sejam arch
+
+  	all_apps="$(cat ~/.config/pacdef/groups/*|rg -v '^(WARNING|\[|#)'|sort -u)"
+  	installed_apps="$(yay -Q|awk '{ print $1 }'|sort -u)"
+
+  	result=($(comm -13 <(echo "${installed_apps[@]}") <(echo "${all_apps[@]}")))
+  	echo $result
   else
-  	pacdef package search ''
+  	pacdef package search '' 2> /dev/null
   fi
 
 }
@@ -1170,6 +1243,13 @@ parse_requirements() {
       action="cd"
       shift
       archdots_cd_parse_requirements "$@"
+      shift $#
+      ;;
+
+    review)
+      action="review"
+      shift
+      archdots_review_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2083,6 +2163,50 @@ archdots_cd_apps_parse_requirements() {
 }
 
 # :command.parse_requirements
+archdots_review_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_review_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="review"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 archdots_status_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -2195,6 +2319,14 @@ archdots_list_parse_requirements() {
         shift
         ;;
 
+      # :flag.case
+      --pending)
+
+        # :flag.case_no_arg
+        args['--pending']=1
+        shift
+        ;;
+
       *)
         break
         ;;
@@ -2287,6 +2419,14 @@ archdots_list_dots_parse_requirements() {
         shift
         ;;
 
+      # :flag.case
+      --tree)
+
+        # :flag.case_no_arg
+        args['--tree']=1
+        shift
+        ;;
+
       -?*)
         printf "invalid option: %s\n" "$key" >&2
         exit 1
@@ -2335,6 +2475,14 @@ archdots_list_apps_parse_requirements() {
 
         # :flag.case_no_arg
         args['--unmanaged']=1
+        shift
+        ;;
+
+      # :flag.case
+      --pending)
+
+        # :flag.case_no_arg
+        args['--pending']=1
         shift
         ;;
 
@@ -2390,6 +2538,7 @@ run() {
     "cd") archdots_cd_command ;;
     "cd dots") archdots_cd_dots_command ;;
     "cd apps") archdots_cd_apps_command ;;
+    "review") archdots_review_command ;;
     "status") archdots_status_command ;;
     "git") archdots_git_command ;;
     "list") archdots_list_command ;;

@@ -69,6 +69,9 @@ commands:
   - name: dots
   - name: apps
 
+- name: review
+  help: review unmanaged packages
+
 - name: status
   help: an alias for archdots git status
 
@@ -77,22 +80,28 @@ commands:
   catch_all: true
 
 - name: list
-  help: list all packages separated by group
+  help: list packages (default) or tracked dotfiles
   flags:
   - long: --unmanaged
     help: only show unmanaged packages
+  - long: --pending
+    help: only show pending packages
 
   commands:
   - name: dots
     flags:
     - long: --unmanaged
       help: only show unmanaged packages
+    - long: --tree
+      help: display as a tree
 
   - name: apps
     default: force
     flags:
     - long: --unmanaged
       help: only show unmanaged packages
+    - long: --pending
+      help: only show pending packages
 
   # flags:
   # - long: --user

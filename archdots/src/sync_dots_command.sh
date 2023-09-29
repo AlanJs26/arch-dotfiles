@@ -1,9 +1,10 @@
 
 cd ~/.local/share/chezmoi
 
+echo $(pwd)
 if [ -f "$(which gum)" ]; then
 	git add .
-	if [[ ${args[--remote]} -ne 1 ]] ; then
+	if [[ ${args[--remote]} -ne 1 ]]; then
 		chezmoi re-add
 	fi
 fi
