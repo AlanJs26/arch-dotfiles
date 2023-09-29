@@ -1,9 +1,8 @@
 
-chezmoi git add .
-chezmoi apply
+cd ~/.local/share/chezmoi
+git add .
 chezmoi update||echo Failed to update
 
-cd ~/.local/share/chezmoi
 git diff --cached --stat
 
 if [[ $(git diff --cached --numstat|wc -l) -gt 0 ]]; then

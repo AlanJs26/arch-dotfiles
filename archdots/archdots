@@ -717,11 +717,10 @@ archdots_sync_apps_command() {
 archdots_sync_dots_command() {
   # src/sync_dots_command.sh
 
-  chezmoi git add .
-  chezmoi apply
+  cd ~/.local/share/chezmoi
+  git add .
   chezmoi update||echo Failed to update
 
-  cd ~/.local/share/chezmoi
   git diff --cached --stat
 
   if [[ $(git diff --cached --numstat|wc -l) -gt 0 ]]; then
