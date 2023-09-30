@@ -79,11 +79,14 @@ archdots_setup_usage() {
   # :command.usage_commands
   printf "%s\n" "Commands:"
   printf "  %s   \n" "all            "
-  printf "  %s   \n" "git-credentials"
-  printf "  %s   \n" "git-delta      "
+  printf "  %s   \n" "git_credentials"
+  printf "  %s   \n" "git_delta      "
   printf "  %s   \n" "nvim           "
   printf "  %s   \n" "evrouter       "
   printf "  %s   \n" "monitors       "
+  printf "  %s   \n" "pip            "
+  printf "  %s   \n" "docker         "
+  printf "  %s   \n" "ssh_agent      "
   echo
 
   # :command.long_usage
@@ -125,6 +128,11 @@ archdots_setup_all_usage() {
     printf "    run even if setup is marked as ok\n"
     echo
 
+    # :flag.usage
+    printf "  %s\n" "--status"
+    printf "    show status of each script\n"
+    echo
+
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
@@ -136,18 +144,18 @@ archdots_setup_all_usage() {
 # :command.usage
 archdots_setup_git_credentials_usage() {
   if [[ -n $long_usage ]]; then
-    printf "archdots setup git-credentials\n"
+    printf "archdots setup git_credentials\n"
     echo
 
   else
-    printf "archdots setup git-credentials\n"
+    printf "archdots setup git_credentials\n"
     echo
 
   fi
 
   printf "%s\n" "Usage:"
-  printf "  archdots setup git-credentials\n"
-  printf "  archdots setup git-credentials --help | -h\n"
+  printf "  archdots setup git_credentials\n"
+  printf "  archdots setup git_credentials --help | -h\n"
   echo
 
   # :command.long_usage
@@ -165,18 +173,18 @@ archdots_setup_git_credentials_usage() {
 # :command.usage
 archdots_setup_git_delta_usage() {
   if [[ -n $long_usage ]]; then
-    printf "archdots setup git-delta\n"
+    printf "archdots setup git_delta\n"
     echo
 
   else
-    printf "archdots setup git-delta\n"
+    printf "archdots setup git_delta\n"
     echo
 
   fi
 
   printf "%s\n" "Usage:"
-  printf "  archdots setup git-delta\n"
-  printf "  archdots setup git-delta --help | -h\n"
+  printf "  archdots setup git_delta\n"
+  printf "  archdots setup git_delta --help | -h\n"
   echo
 
   # :command.long_usage
@@ -264,6 +272,93 @@ archdots_setup_monitors_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup monitors\n"
   printf "  archdots setup monitors --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_pip_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup pip\n"
+    echo
+
+  else
+    printf "archdots setup pip\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup pip\n"
+  printf "  archdots setup pip --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_docker_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup docker\n"
+    echo
+
+  else
+    printf "archdots setup docker\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup docker\n"
+  printf "  archdots setup docker --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_ssh_agent_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup ssh_agent\n"
+    echo
+
+  else
+    printf "archdots setup ssh_agent\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup ssh_agent\n"
+  printf "  archdots setup ssh_agent --help | -h\n"
   echo
 
   # :command.long_usage
@@ -839,12 +934,24 @@ inspect_args() {
 # :command.function
 archdots_setup_all_command() {
   # src/setup_all_command.sh
+  #!/usr/bin/env bash
 
-  commands=(
-  "git_credentials"
-  "git_delta"
-  "nvim"
-  )
+  commands=$(ls $(dirname $0)/src/setup_* -1|xargs -i basename {}|rg -o 'setup_(.+)_' -r '$1'|rg -v all)
+
+  if [[ ${args[--status]} -eq 1 ]]; then
+
+  	for item in ${commands[@]}; do
+
+  		if [[ "$($(dirname $0)/src/setup_${item}_command.sh check)" = "notok" ]]; then
+  			gum style --foreground 1 $item
+  		else
+  			gum style --foreground 2 $item
+  		fi
+
+  	done
+
+  	exit
+  fi
 
   for item in ${commands[@]}; do
 
@@ -931,14 +1038,13 @@ archdots_setup_evrouter_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-
-  	if [ ! -d "$(dirname $0)/public/evrouter/pkg" ]; then
+  	if [ ! -f "$(which evrouter)" ]; then
   		echo notok
   	fi
   	exit
   fi
 
-  if [ ! -d "$(dirname $0)/public/evrouter/pkg" ]; then
+  if [ ! -f "$(which evrouter)" ]; then
   	(cd "$(dirname $0)/public/evrouter" && makepkg --install)
   else
   	echo Alredy configured
@@ -949,10 +1055,12 @@ archdots_setup_evrouter_command() {
 # :command.function
 archdots_setup_monitors_command() {
   # src/setup_monitors_command.sh
-  # echo "# this file is located in 'src/setup_monitors_command.sh'"
-  # echo "# code for 'archdots setup monitors' goes here"
-  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
-  # inspect_args
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	echo notok
+  	exit
+  fi
 
   apps=$HOME/.config/bspwm/apps.json
 
@@ -961,6 +1069,11 @@ archdots_setup_monitors_command() {
   primary_monitor="$(gum choose --header="Primary Monitor $(jq .monitors.primary $apps)" "${available_monitors[@]}")"
   secundary_monitor="$(gum choose --header="Secundary Monitor $(jq .monitors.secundary $apps)" "${available_monitors[@]}")"
   tv_monitor="$(gum choose --header="TV $(jq .monitors.tv $apps)" "${available_monitors[@]}")"
+
+  if [ -z "$primary_monitor" ] || [ -z "$secundary_monitor" ] || [ -z "$tv_monitor" ]; then
+  	echo Invalid choice
+  	exit
+  fi
 
   result="$(cat $apps|jq\
   	--arg primary $primary_monitor\
@@ -973,6 +1086,82 @@ archdots_setup_monitors_command() {
   # for item in ${available_monitors[@]}; do
   # 	echo $item
   # done
+
+}
+
+# :command.function
+archdots_setup_pip_command() {
+  # src/setup_pip_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ -z "$(cat ~/.config/pip/pip.conf|grep 'break-system-packages')" ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [[ -z "$(cat ~/.config/pip/pip.conf|grep 'break-system-packages')" ]]; then
+  	echo "Appending 'break-system-packages = true' to pip config in ~/.config/pip/pip.conf"
+  	mkdir -p $HOME/.config/pip
+  	cat "$(dirname $0)/public/pipconf_snippet.txt" >> $HOME/.config/pip/pip.conf
+
+  else
+  	echo Alredy configured
+  fi
+
+}
+
+# :command.function
+archdots_setup_docker_command() {
+  # src/setup_docker_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ -z "$(groups|grep docker)" ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [[ -z "$(groups|grep docker)" ]]; then
+  	echo -e "copy the following commands on your current shell\n"
+  	echo sudo groupadd docker
+
+  	echo sudo gpasswd -a $USER docker
+  	echo sudo usermod -aG docker $USER
+  	echo newgrp docker
+  else
+  	echo Alredy configured
+  fi
+
+}
+
+# :command.function
+archdots_setup_ssh_agent_command() {
+  # src/setup_ssh_agent_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! -f "$HOME/.config/systemd/user/ssh-agent.service" ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [[ ! -f "$HOME/.config/systemd/user/ssh-agent.service" ]]; then
+  	echo "Setting up ssh-agent systemd service"
+
+  	mkdir -p "$HOME/.config/systemd/user"
+  	cat "$(dirname $0)/public/ssh-agent.service" > "$HOME/.config/systemd/user/ssh-agent.service"
+
+  	mkdir -p "$HOME/.config/environment.d"
+  	echo "SSH_AUTH_SOCK=\"${XDG_RUNTIME_DIR}/ssh-agent.socket\"" >> "$HOME/.config/environment.d/ssh_auth_socket.conf"
+
+  	systemctl --user enable --now ssh-agent
+  else
+  	echo Alredy configured
+  fi
 
 }
 
@@ -1170,7 +1359,7 @@ archdots_list_apps_command() {
   elif [[ ${args[--pending]} -eq 1 ]]; then
   	# Isso não funciona para pacotes que não sejam arch
 
-  	all_apps="$(cat ~/.config/pacdef/groups/*|rg -v '^(WARNING|\[|#)'|sort -u)"
+  	all_apps="$(cat ~/.config/pacdef/groups/*|rg -U --multiline-dotall --pcre2 '\[arch\].+?(?=\[|\Z)'|rg -v '^(WARNING|\[|#)'|sort -u)"
   	installed_apps="$(yay -Q|awk '{ print $1 }'|sort -u)"
 
   	result=($(comm -13 <(echo "${installed_apps[@]}") <(echo "${all_apps[@]}")))
@@ -1340,15 +1529,15 @@ archdots_setup_parse_requirements() {
       shift $#
       ;;
 
-    git-credentials)
-      action="git-credentials"
+    git_credentials)
+      action="git_credentials"
       shift
       archdots_setup_git_credentials_parse_requirements "$@"
       shift $#
       ;;
 
-    git-delta)
-      action="git-delta"
+    git_delta)
+      action="git_delta"
       shift
       archdots_setup_git_delta_parse_requirements "$@"
       shift $#
@@ -1372,6 +1561,27 @@ archdots_setup_parse_requirements() {
       action="monitors"
       shift
       archdots_setup_monitors_parse_requirements "$@"
+      shift $#
+      ;;
+
+    pip)
+      action="pip"
+      shift
+      archdots_setup_pip_parse_requirements "$@"
+      shift $#
+      ;;
+
+    docker)
+      action="docker"
+      shift
+      archdots_setup_docker_parse_requirements "$@"
+      shift $#
+      ;;
+
+    ssh_agent)
+      action="ssh_agent"
+      shift
+      archdots_setup_ssh_agent_parse_requirements "$@"
       shift $#
       ;;
 
@@ -1444,6 +1654,14 @@ archdots_setup_all_parse_requirements() {
         shift
         ;;
 
+      # :flag.case
+      --status)
+
+        # :flag.case_no_arg
+        args['--status']=1
+        shift
+        ;;
+
       -?*)
         printf "invalid option: %s\n" "$key" >&2
         exit 1
@@ -1481,7 +1699,7 @@ archdots_setup_git_credentials_parse_requirements() {
   done
 
   # :command.command_filter
-  action="setup git-credentials"
+  action="setup git_credentials"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1525,7 +1743,7 @@ archdots_setup_git_delta_parse_requirements() {
   done
 
   # :command.command_filter
-  action="setup git-delta"
+  action="setup git_delta"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -1658,6 +1876,138 @@ archdots_setup_monitors_parse_requirements() {
 
   # :command.command_filter
   action="setup monitors"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_pip_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_pip_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup pip"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_docker_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_docker_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup docker"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_ssh_agent_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_ssh_agent_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup ssh_agent"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -2523,11 +2873,14 @@ run() {
   case "$action" in
     "setup") archdots_setup_command ;;
     "setup all") archdots_setup_all_command ;;
-    "setup git-credentials") archdots_setup_git_credentials_command ;;
-    "setup git-delta") archdots_setup_git_delta_command ;;
+    "setup git_credentials") archdots_setup_git_credentials_command ;;
+    "setup git_delta") archdots_setup_git_delta_command ;;
     "setup nvim") archdots_setup_nvim_command ;;
     "setup evrouter") archdots_setup_evrouter_command ;;
     "setup monitors") archdots_setup_monitors_command ;;
+    "setup pip") archdots_setup_pip_command ;;
+    "setup docker") archdots_setup_docker_command ;;
+    "setup ssh_agent") archdots_setup_ssh_agent_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
     "sync") archdots_sync_command ;;

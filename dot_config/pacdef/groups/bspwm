@@ -39,3 +39,5 @@ rofi
 rofi-power-menu
 rofi-file-browser-extended-git
 
+[python]
+bspcpy

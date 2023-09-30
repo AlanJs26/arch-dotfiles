@@ -46,9 +46,16 @@ zinit light zsh-users/zsh-completions
 # zinit light spaceship-prompt/spaceship-prompt
 zinit light hlissner/zsh-autopair 
 
-
 source ~/.env.sh
 
+# keep working directory on lf exit
+LFCD="$HOME/.config/lf/lfcd.sh"
+if [ -f "$LFCD" ]; then
+    source "$LFCD"
+fi
+alias lf=lfcd
+
+alias "docker compose"="docker-compose"
 
 alias ls="eza"
 alias ll="eza --long"

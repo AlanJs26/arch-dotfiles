@@ -12,12 +12,17 @@ commands:
     flags:
     - long: --force
       help: run even if setup is marked as ok
+    - long: --status
+      help: show status of each script
 
-  - name: git-credentials
-  - name: git-delta
+  - name: git_credentials
+  - name: git_delta
   - name: nvim
   - name: evrouter
   - name: monitors
+  - name: pip
+  - name: docker
+  - name: ssh_agent
 
     # args:
     # - name: source

@@ -14,6 +14,7 @@ for item in ${topath[@]}; do
 done
 
 export NEOVIDE_MULTIGRID=1
+SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 export ROFISTYLE="$HOME/.config/rofi/tokyonight"
 export TOOLS="$HOME/.scripts/tools"
