@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "check" ]; then
-	echo notok
+	# echo notok
 	exit
 fi
 

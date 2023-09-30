@@ -78,15 +78,18 @@ archdots_setup_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   \n" "all            "
-  printf "  %s   \n" "git_credentials"
-  printf "  %s   \n" "git_delta      "
-  printf "  %s   \n" "nvim           "
-  printf "  %s   \n" "evrouter       "
-  printf "  %s   \n" "monitors       "
-  printf "  %s   \n" "pip            "
-  printf "  %s   \n" "docker         "
-  printf "  %s   \n" "ssh_agent      "
+  printf "  %s   \n" "all                 "
+  printf "  %s   \n" "git_credentials     "
+  printf "  %s   \n" "git_delta           "
+  printf "  %s   \n" "nvim                "
+  printf "  %s   \n" "evrouter            "
+  printf "  %s   \n" "monitors            "
+  printf "  %s   \n" "pip                 "
+  printf "  %s   \n" "docker              "
+  printf "  %s   \n" "ssh_agent           "
+  printf "  %s   \n" "archdots_completions"
+  printf "  %s   \n" "themes              "
+  printf "  %s   \n" "rclone              "
   echo
 
   # :command.long_usage
@@ -359,6 +362,93 @@ archdots_setup_ssh_agent_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup ssh_agent\n"
   printf "  archdots setup ssh_agent --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_archdots_completions_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup archdots_completions\n"
+    echo
+
+  else
+    printf "archdots setup archdots_completions\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup archdots_completions\n"
+  printf "  archdots setup archdots_completions --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_themes_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup themes\n"
+    echo
+
+  else
+    printf "archdots setup themes\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup themes\n"
+  printf "  archdots setup themes --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_rclone_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup rclone\n"
+    echo
+
+  else
+    printf "archdots setup rclone\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup rclone\n"
+  printf "  archdots setup rclone --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1058,7 +1148,7 @@ archdots_setup_monitors_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	echo notok
+  	# echo notok
   	exit
   fi
 
@@ -1166,6 +1256,73 @@ archdots_setup_ssh_agent_command() {
 }
 
 # :command.function
+archdots_setup_archdots_completions_command() {
+  # src/setup_archdots_completions_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! -f $HOME/.oh-my-zsh/completions/_archdots ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [[ ! -f $HOME/.oh-my-zsh/completions/_archdots ]]; then
+  	echo Adding archdots completions to zsh
+  	mkdir -p $HOME/.oh-my-zsh/completions
+  	cp "$(dirname $0)/public/_archdots" "$HOME/.oh-my-zsh/completions/"
+  else
+  	echo Alredy configured
+  fi
+
+}
+
+# :command.function
+archdots_setup_themes_command() {
+  # src/setup_themes_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! -d "$HOME/.themes/TokyoNight" ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  echo "Downloading Tokyonight GTK Theme"
+  [[ ! -f /tmp/master.tar.gz ]] && (cd /tmp&&wget "https://github.com/stronk-dev/Tokyo-Night-Linux/archive/refs/heads/master.tar.gz")
+  [[ -d /tmp/Tokyo-Night-Linux-master ]] && rm -r /tmp/Tokyo-Night-Linux-master
+
+  (cd /tmp&&tar xvf master.tar.gz)
+
+  mkdir -p $HOME/.themes
+  mkdir -p $HOME/.icons
+  # mkdir -p "$HOME/.config/gtk-4.0"
+  rsync -a -v /tmp/Tokyo-Night-Linux-master/usr/share/themes/TokyoNight $HOME/.themes
+
+  # rsync -a -v "$HOME/.themes/Tokyonight-Dark-B/gtk-4.0/assets" "$HOME/.config/gtk-4.0"
+  # rsync -a -v "$HOME/.themes/Tokyonight-Dark-B/gtk-4.0/gtk.css" "$HOME/.config/gtk-4.0"
+  # rsync -a -v "$HOME/.themes/Tokyonight-Dark-B/gtk-4.0/gtk-dark.css" "$HOME/.config/gtk-4.0"
+
+}
+
+# :command.function
+archdots_setup_rclone_command() {
+  # src/setup_rclone_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! $(rclone listremotes 2> /dev/null|rg drive) ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  rclone config
+
+}
+
+# :command.function
 archdots_edit_command() {
   # src/edit_command.sh
 
@@ -1221,7 +1378,13 @@ archdots_sync_apps_command() {
   unmanaged=$(echo "$(pacdef package unmanaged 2> /dev/null)"|rg -vU '^(WARNING|\[|#|\n)'|wc -l)
 
   if [ $unmanaged -gt 0 ]; then
-  	echo -e "you have $unmanaged unmanaged packages\nRun 'archdots list --unmanaged' to view them or 'archdots review' to decide what to do with each one"
+  	echo "you have $unmanaged unmanaged packages"
+
+  	if $(gum confirm "Review now?"); then
+  		pacdef package review
+  	else
+  		echo "Run 'archdots list --unmanaged' to view them or 'archdots review' to decide what to do with each one"
+  	fi
   fi
 
 }
@@ -1582,6 +1745,27 @@ archdots_setup_parse_requirements() {
       action="ssh_agent"
       shift
       archdots_setup_ssh_agent_parse_requirements "$@"
+      shift $#
+      ;;
+
+    archdots_completions)
+      action="archdots_completions"
+      shift
+      archdots_setup_archdots_completions_parse_requirements "$@"
+      shift $#
+      ;;
+
+    themes)
+      action="themes"
+      shift
+      archdots_setup_themes_parse_requirements "$@"
+      shift $#
+      ;;
+
+    rclone)
+      action="rclone"
+      shift
+      archdots_setup_rclone_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2008,6 +2192,138 @@ archdots_setup_ssh_agent_parse_requirements() {
 
   # :command.command_filter
   action="setup ssh_agent"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_archdots_completions_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_archdots_completions_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup archdots_completions"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_themes_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_themes_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup themes"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_rclone_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_rclone_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup rclone"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -2881,6 +3197,9 @@ run() {
     "setup pip") archdots_setup_pip_command ;;
     "setup docker") archdots_setup_docker_command ;;
     "setup ssh_agent") archdots_setup_ssh_agent_command ;;
+    "setup archdots_completions") archdots_setup_archdots_completions_command ;;
+    "setup themes") archdots_setup_themes_command ;;
+    "setup rclone") archdots_setup_rclone_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
     "sync") archdots_sync_command ;;

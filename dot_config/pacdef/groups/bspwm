@@ -1,7 +1,13 @@
 [arch]
+xorg-xwininfo
+ttf-firacode-nerd
+ttf-nerd-fonts-symbols
+colorpicker
+xdo
+xqp
 bspwm
 sxhkd
-picom
+picom-ftlabs-git
 xorg-xmodmap
 
 pulseaudio
@@ -41,3 +47,6 @@ rofi-file-browser-extended-git
 
 [python]
 bspcpy
+zmq
+python-xlib
+pdm

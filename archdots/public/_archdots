@@ -1,0 +1,24 @@
+#compdef archdots
+
+function _archdots {
+    local line
+    local commands=($(basename -a ~/.local/share/chezmoi/archdots/src/*.sh|sed 's/\(\w\)_.\+/\1/'|uniq))
+
+    _arguments \
+        "1:my message:(${commands})" \
+        "*::arg:->args"
+        # "2:my message:(boo foo)" \
+
+    case $line[1] in
+        edit)
+            _archdots_edit
+        ;;
+    esac
+}
+
+function _archdots_edit {
+    local pacdef_groups=($(pacdef group list))
+    _arguments \
+        "1:arg:(${pacdef_groups})"
+}
+

@@ -1,4 +1,7 @@
 [arch]
+fd
+docker-compose
+noto-fonts-emoji
 tree
 xdotool
 libnotify
@@ -20,6 +23,7 @@ git-delta
 curl
 xclip
 wget
+unzip
 
 # basic cli tools
 ripgrep
@@ -63,7 +67,6 @@ lightdm-gtk-greeter
 # theme
 lxappearance
 neofetch
-qogir-gtk-theme-git
 tela-circle-icon
 
 

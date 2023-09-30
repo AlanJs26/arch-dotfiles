@@ -114,7 +114,7 @@ super + shift + question
 
 # Power Menu
 super + shift + e
-	rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate"
+	rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate --no-symbols"
 
 # Clipboard Menu
 super + shift + v
