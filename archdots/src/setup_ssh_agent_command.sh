@@ -11,7 +11,7 @@ if [[ ! -f "$HOME/.config/systemd/user/ssh-agent.service" ]]; then
 	echo "Setting up ssh-agent systemd service"
 
 	mkdir -p "$HOME/.config/systemd/user"
-	cat "$(dirname $0)/public/ssh-agent.service" > "$HOME/.config/systemd/user/ssh-agent.service"
+	cat "$HOME/.local/share/chezmoi/archdots/public/ssh-agent.service" > "$HOME/.config/systemd/user/ssh-agent.service"
 
 	mkdir -p "$HOME/.config/environment.d"
 	echo "SSH_AUTH_SOCK=\"${XDG_RUNTIME_DIR}/ssh-agent.socket\"" >> "$HOME/.config/environment.d/ssh_auth_socket.conf"

@@ -9,7 +9,7 @@ if [ "$1" = "check" ]; then
 fi
 
 if [ ! -f "$(which evrouter)" ]; then
-	(cd "$(dirname $0)/public/evrouter" && makepkg --install)
+	(cd "$HOME/.local/share/chezmoi/archdots/public/evrouter" && makepkg --install)
 else
 	echo Alredy configured
 fi

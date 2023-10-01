@@ -91,6 +91,9 @@ archdots_setup_usage() {
   printf "  %s   \n" "themes              "
   printf "  %s   \n" "rclone              "
   printf "  %s   \n" "cron                "
+  printf "  %s   \n" "audiorelay          "
+  printf "  %s   \n" "amd                 "
+  printf "  %s   \n" "amdgpupro           "
   echo
 
   # :command.long_usage
@@ -479,6 +482,93 @@ archdots_setup_cron_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup cron\n"
   printf "  archdots setup cron --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_audiorelay_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup audiorelay\n"
+    echo
+
+  else
+    printf "archdots setup audiorelay\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup audiorelay\n"
+  printf "  archdots setup audiorelay --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_amd_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup amd\n"
+    echo
+
+  else
+    printf "archdots setup amd\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup amd\n"
+  printf "  archdots setup amd --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_amdgpupro_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup amdgpupro\n"
+    echo
+
+  else
+    printf "archdots setup amdgpupro\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup amdgpupro\n"
+  printf "  archdots setup amdgpupro --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1061,13 +1151,13 @@ archdots_setup_all_command() {
   # src/setup_all_command.sh
   #!/usr/bin/env bash
 
-  commands=$(ls $(dirname $0)/src/setup_* -1|xargs -i basename {}|rg -o 'setup_(.+)_' -r '$1'|rg -v all)
+  commands=$(ls $HOME/.local/share/chezmoi/archdots/src/setup_* -1|xargs -i basename {}|rg -o 'setup_(.+)_' -r '$1'|rg -v all)
 
   if [[ ${args[--status]} -eq 1 ]]; then
 
   	for item in ${commands[@]}; do
 
-  		if [[ "$($(dirname $0)/src/setup_${item}_command.sh check)" = "notok" ]]; then
+  		if [[ "$($HOME/.local/share/chezmoi/archdots/src/setup_${item}_command.sh check)" = "notok" ]]; then
   			gum style --foreground 1 $item
   		else
   			gum style --foreground 2 $item
@@ -1080,10 +1170,10 @@ archdots_setup_all_command() {
 
   for item in ${commands[@]}; do
 
-  	if [[ "$($(dirname $0)/src/setup_${item}_command.sh check)" = "notok" ]] || [[ ${args[--force]} -eq 1 ]]; then
+  	if [[ "$($HOME/.local/share/chezmoi/archdots/src/setup_${item}_command.sh check)" = "notok" ]] || [[ ${args[--force]} -eq 1 ]]; then
 
   		gum style --foreground 212 --padding "1 4" --border rounded "Setup $item"
-  		source $(dirname $0)/src/setup_${item}_command.sh
+  		source $HOME/.local/share/chezmoi/archdots/src/setup_${item}_command.sh
   	fi
   done
 
@@ -1128,7 +1218,7 @@ archdots_setup_git_delta_command() {
 
   if [[ -z "$(cat ~/.gitconfig|grep 'pager = delta')" ]]; then
   	echo Appending git delta configuration to $HOME/.gitconfig
-  	cat "$(dirname $0)/public/gitdelta_snippet.txt" >> $HOME/.gitconfig
+  	cat "$HOME/.local/share/chezmoi/archdots/public/gitdelta_snippet.txt" >> $HOME/.gitconfig
 
   else
   	echo Alredy configured
@@ -1170,7 +1260,7 @@ archdots_setup_evrouter_command() {
   fi
 
   if [ ! -f "$(which evrouter)" ]; then
-  	(cd "$(dirname $0)/public/evrouter" && makepkg --install)
+  	(cd "$HOME/.local/share/chezmoi/archdots/public/evrouter" && makepkg --install)
   else
   	echo Alredy configured
   fi
@@ -1229,7 +1319,7 @@ archdots_setup_pip_command() {
   if [[ -z "$(cat ~/.config/pip/pip.conf|grep 'break-system-packages')" ]]; then
   	echo "Appending 'break-system-packages = true' to pip config in ~/.config/pip/pip.conf"
   	mkdir -p $HOME/.config/pip
-  	cat "$(dirname $0)/public/pipconf_snippet.txt" >> $HOME/.config/pip/pip.conf
+  	cat "$HOME/.local/share/chezmoi/archdots/public/pipconf_snippet.txt" >> $HOME/.config/pip/pip.conf
 
   else
   	echo Alredy configured
@@ -1278,7 +1368,7 @@ archdots_setup_ssh_agent_command() {
   	echo "Setting up ssh-agent systemd service"
 
   	mkdir -p "$HOME/.config/systemd/user"
-  	cat "$(dirname $0)/public/ssh-agent.service" > "$HOME/.config/systemd/user/ssh-agent.service"
+  	cat "$HOME/.local/share/chezmoi/archdots/public/ssh-agent.service" > "$HOME/.config/systemd/user/ssh-agent.service"
 
   	mkdir -p "$HOME/.config/environment.d"
   	echo "SSH_AUTH_SOCK=\"${XDG_RUNTIME_DIR}/ssh-agent.socket\"" >> "$HOME/.config/environment.d/ssh_auth_socket.conf"
@@ -1305,7 +1395,7 @@ archdots_setup_archdots_completions_command() {
   if [[ ! -f $HOME/.oh-my-zsh/completions/_archdots ]]; then
   	echo Adding archdots completions to zsh
   	mkdir -p $HOME/.oh-my-zsh/completions
-  	cp "$(dirname $0)/public/_archdots" "$HOME/.oh-my-zsh/completions/"
+  	cp "$HOME/.local/share/chezmoi/archdots/public/_archdots" "$HOME/.oh-my-zsh/completions/"
   else
   	echo Alredy configured
   fi
@@ -1372,9 +1462,77 @@ archdots_setup_cron_command() {
   fi
 
   echo Adding cron entries
-  crontab "$(dirname $0)/public/cron_rclone.txt"
+  crontab "$HOME/.local/share/chezmoi/archdots/public/cron_rclone.txt"
   echo Enabling cronie service
   sudo systemctl enable cronie
+
+}
+
+# :command.function
+archdots_setup_audiorelay_command() {
+  # src/setup_audiorelay_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! $(cat /etc/pulse/default.pa|rg 'Virtual-Mic') ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [[ ! $(cat /etc/pulse/default.pa|rg 'Virtual-Mic') ]]; then
+  	sudo cat "$HOME/.local/share/chezmoi/archdots/public/audiorelay-devices.txt" >> /etc/pulse/default.pa
+
+  else
+  	echo Already configured
+  fi
+
+}
+
+# :command.function
+archdots_setup_amd_command() {
+  # src/setup_amd_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! -f /etc/modprobe.d/amdgpu.conf ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  if [[ ! -f /etc/modprobe.d/amdgpu.conf ]]; then
+  	echo Adding amd radeon configuration to /etc/modprobe.d/
+  	cat "$HOME/.local/share/chezmoi/archdots/public/amdgpu.conf" | sudo dd of=/etc/modprobe.d/amdgpu.conf
+
+  	cat "$HOME/.local/share/chezmoi/archdots/public/radeon.conf" | sudo dd of=/etc/modprobe.d/radeon.conf
+
+  	cat "$HOME/.local/share/chezmoi/archdots/public/20-amdgpu.conf" | sudo dd of=/etc/X11/xorg.conf.d/20-amdgpu.conf
+
+  	cat "$HOME/.local/share/chezmoi/archdots/public/mkinitcpio_amdgpu.conf" | sudo dd of=/etc/mkinitcpio.conf.d/mkinitcpio_amdgpu.conf
+
+  	cat /etc/mkinitcpio.conf|rg --passthrough '^MODULES=.+' -r 'MODULES=(amdgpu radeon)'| sudo dd of=/etc/mkinitcpio.conf
+
+  	sudo mkinitcpio -P
+  else
+  	echo Alredy configured
+  fi
+
+}
+
+# :command.function
+archdots_setup_amdgpupro_command() {
+  # src/setup_amdgpupro_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! -d "$HOME/.local/share/chezmoi/archdots/public/amdgpu-pro-installer/pkga" ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  (cd "$HOME/.local/share/chezmoi/archdots/public/amdgpu-pro-installer" && makepkg -s)
 
 }
 
@@ -1419,10 +1577,10 @@ archdots_sync_all_command() {
   # inspect_args
 
   [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Apps"
-  source $(dirname $0)/src/sync_apps_command.sh
+  source $HOME/.local/share/chezmoi/archdots/src/sync_apps_command.sh
 
   [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Dots"
-  source $(dirname $0)/src/sync_dots_command.sh
+  source $HOME/.local/share/chezmoi/archdots/src/sync_dots_command.sh
 
 }
 
@@ -1532,7 +1690,7 @@ archdots_status_command() {
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
-  "$(dirname $0)/archdots" git status
+  "$HOME/.local/share/chezmoi/archdots/archdots" git status
 
 }
 
@@ -1840,6 +1998,27 @@ archdots_setup_parse_requirements() {
       action="cron"
       shift
       archdots_setup_cron_parse_requirements "$@"
+      shift $#
+      ;;
+
+    audiorelay)
+      action="audiorelay"
+      shift
+      archdots_setup_audiorelay_parse_requirements "$@"
+      shift $#
+      ;;
+
+    amd)
+      action="amd"
+      shift
+      archdots_setup_amd_parse_requirements "$@"
+      shift $#
+      ;;
+
+    amdgpupro)
+      action="amdgpupro"
+      shift
+      archdots_setup_amdgpupro_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2442,6 +2621,138 @@ archdots_setup_cron_parse_requirements() {
 
   # :command.command_filter
   action="setup cron"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_audiorelay_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_audiorelay_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup audiorelay"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_amd_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_amd_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup amd"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_amdgpupro_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_amdgpupro_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup amdgpupro"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -3327,6 +3638,9 @@ run() {
     "setup themes") archdots_setup_themes_command ;;
     "setup rclone") archdots_setup_rclone_command ;;
     "setup cron") archdots_setup_cron_command ;;
+    "setup audiorelay") archdots_setup_audiorelay_command ;;
+    "setup amd") archdots_setup_amd_command ;;
+    "setup amdgpupro") archdots_setup_amdgpupro_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
     "sync") archdots_sync_command ;;

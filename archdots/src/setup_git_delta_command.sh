@@ -11,7 +11,7 @@ fi
 
 if [[ -z "$(cat ~/.gitconfig|grep 'pager = delta')" ]]; then
 	echo Appending git delta configuration to $HOME/.gitconfig
-	cat "$(dirname $0)/public/gitdelta_snippet.txt" >> $HOME/.gitconfig 
+	cat "$HOME/.local/share/chezmoi/archdots/public/gitdelta_snippet.txt" >> $HOME/.gitconfig 
 else
 	echo Alredy configured
 fi

@@ -5,7 +5,7 @@
 
 
 [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Apps"
-source $(dirname $0)/src/sync_apps_command.sh
+source $HOME/.local/share/chezmoi/archdots/src/sync_apps_command.sh
 
 [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Dots"
-source $(dirname $0)/src/sync_dots_command.sh
+source $HOME/.local/share/chezmoi/archdots/src/sync_dots_command.sh

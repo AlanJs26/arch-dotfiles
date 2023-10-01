@@ -3,4 +3,4 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
-"$(dirname $0)/archdots" git status
+"$HOME/.local/share/chezmoi/archdots/archdots" git status

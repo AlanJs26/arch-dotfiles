@@ -9,6 +9,6 @@ fi
 
 
 echo Adding cron entries
-crontab "$(dirname $0)/public/cron_rclone.txt"
+crontab "$HOME/.local/share/chezmoi/archdots/public/cron_rclone.txt"
 echo Enabling cronie service
 sudo systemctl enable cronie

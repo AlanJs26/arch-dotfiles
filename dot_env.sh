@@ -25,3 +25,8 @@ export VISUAL=nvim;
 export EDITOR=nvim;
 export FZF_DEFAULT_OPTS='--height 60% --border --exact' 
 
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+export GLFW_IM_MODULE=ibus

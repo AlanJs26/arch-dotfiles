@@ -27,6 +27,9 @@ commands:
   - name: themes
   - name: rclone
   - name: cron
+  - name: audiorelay
+  - name: amd
+  - name: amdgpupro
 
     # args:
     # - name: source
