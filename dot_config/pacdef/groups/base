@@ -1,4 +1,5 @@
 [arch]
+amdgpu_top
 amdgpu-pro-oglp
 jre
 mesa-utils

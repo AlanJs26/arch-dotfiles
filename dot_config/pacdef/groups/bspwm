@@ -46,6 +46,7 @@ rofi-power-menu
 rofi-file-browser-extended-git
 
 [python]
+Markdown
 bspcpy
 zmq
 python-xlib
