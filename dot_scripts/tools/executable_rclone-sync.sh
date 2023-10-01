@@ -1,17 +1,27 @@
 #!/usr/bin/bash
 
-if [[ $SHLVL -lt 4 ]]; then
-	exec > >(tee -a /home/alan/.rclone.log) 2>&1
+pathlinks=(
+"/mnt/DiscoExterno/_Arquivos/PDFs;drive:RClone/PDFs"
+"/mnt/DiscoExterno/_Arquivos/Office;drive:RClone/Office"
+"/mnt/DiscoExterno/_Codes/Markdown/USP;drive:RClone/USP"
+)
 
-	rclone bisync /mnt/DiscoExterno/Users/Alan/Documents/_Arquivos/PDFs gdrive:RClone/PDFs --verbose --check-access
-	rclone bisync /mnt/DiscoExterno/Users/Alan/Documents/_Arquivos/Office gdrive:RClone/Office --verbose --check-access
+exec > >(tee -a $HOME/.rclone.log) 2>&1
 
-	rclone bisync /mnt/DiscoExterno/Users/Alan/Documents/_Codes/Markdown/USP gdrive:RClone/USP --verbose --check-access
-else
-	rclone bisync /mnt/DiscoExterno/Users/Alan/Documents/_Arquivos/PDFs gdrive:RClone/PDFs --verbose --check-access >> /home/alan/.rclone.log 2>&1
-	rclone bisync /mnt/DiscoExterno/Users/Alan/Documents/_Arquivos/Office gdrive:RClone/Office --verbose --check-access >> /home/alan/.rclone.log 2>&1
+for item in ${pathlinks[@]}; do
+	item_split=($(echo $item|rg ';' -r ' '))
+	echo ${item_split[1]}
 
-	rclone bisync /mnt/DiscoExterno/Users/Alan/Documents/_Codes/Markdown/USP gdrive:RClone/USP --verbose --check-access >> /home/alan/.rclone.log 2>&1
-fi
+	if [[ $1 = "--resync" ]]; then
+		rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access --resync
+	else
 
+		if [[ $SHLVL -lt 4 ]]; then
+			rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access
+		else
+			rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access >> $HOME/.rclone.log 2>&1
+		fi
+	fi
+
+done
 

@@ -6,8 +6,8 @@
   "pdf_viewer": "sioyek",
   "music_player": "spotify",
   "monitors": {
-    "primary": "DP-1-1",
-    "secundary": "DP-2",
-    "tv": "HDMI-1-1"
+    "primary": "DisplayPort-1-0",
+    "secundary": "DisplayPort-1",
+    "tv": "HDMI-A-1"
   }
 }

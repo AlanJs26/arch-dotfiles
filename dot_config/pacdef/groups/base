@@ -1,4 +1,9 @@
 [arch]
+amdgpu-pro-oglp
+jre
+mesa-utils
+noto-fonts
+xf86-video-amdgpu
 fd
 docker-compose
 noto-fonts-emoji
