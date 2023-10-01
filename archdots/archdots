@@ -90,6 +90,7 @@ archdots_setup_usage() {
   printf "  %s   \n" "archdots_completions"
   printf "  %s   \n" "themes              "
   printf "  %s   \n" "rclone              "
+  printf "  %s   \n" "cron                "
   echo
 
   # :command.long_usage
@@ -449,6 +450,35 @@ archdots_setup_rclone_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup rclone\n"
   printf "  archdots setup rclone --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_cron_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup cron\n"
+    echo
+
+  else
+    printf "archdots setup cron\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup cron\n"
+  printf "  archdots setup cron --help | -h\n"
   echo
 
   # :command.long_usage
@@ -911,7 +941,12 @@ archdots_list_dots_usage() {
     # :command.usage_flags
     # :flag.usage
     printf "  %s\n" "--unmanaged"
-    printf "    only show unmanaged packages\n"
+    printf "    only show unmanaged dotfiles\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--pending"
+    printf "    only show pending dotfiles\n"
     echo
 
     # :flag.usage
@@ -1320,6 +1355,27 @@ archdots_setup_rclone_command() {
 
   rclone config
 
+  echo -e "\nProbably you need to modify ~/.scripts/tools/rclone-sync.sh with the correct paths"
+
+}
+
+# :command.function
+archdots_setup_cron_command() {
+  # src/setup_cron_command.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! $(crontab -l|rg rclone-sync) ]] || [[ ! $(ls /usr/lib/systemd/system|rg cronie) ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  echo Adding cron entries
+  crontab "$(dirname $0)/public/cron_rclone.txt"
+  echo Enabling cronie service
+  sudo systemctl enable cronie
+
 }
 
 # :command.function
@@ -1498,12 +1554,23 @@ archdots_list_dots_command() {
   # src/list_dots_command.sh
 
   if [[ ${args[--unmanaged]} -eq 1 ]]; then
+
   	if [[ ${args[--tree]} -eq 1 ]]; then
   		tree --fromfile <(chezmoi unmanaged)
   	else
   		chezmoi unmanaged
   	fi
+
+  elif [[ ${args[--pending]} -eq 1 ]]; then
+
+  	if [[ ${args[--tree]} -eq 1 ]]; then
+  		tree --fromfile <(archdots git diff --cached --numstat|awk '{print $3}')
+  	else
+  		archdots git diff --cached --numstat|awk '{print $3}'
+  	fi
+
   else
+
   	if [[ ${args[--tree]} -eq 1 ]]; then
   		tree --fromfile <(chezmoi managed)
   	else
@@ -1766,6 +1833,13 @@ archdots_setup_parse_requirements() {
       action="rclone"
       shift
       archdots_setup_rclone_parse_requirements "$@"
+      shift $#
+      ;;
+
+    cron)
+      action="cron"
+      shift
+      archdots_setup_cron_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2324,6 +2398,50 @@ archdots_setup_rclone_parse_requirements() {
 
   # :command.command_filter
   action="setup rclone"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_cron_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_cron_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup cron"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -3085,6 +3203,14 @@ archdots_list_dots_parse_requirements() {
         ;;
 
       # :flag.case
+      --pending)
+
+        # :flag.case_no_arg
+        args['--pending']=1
+        shift
+        ;;
+
+      # :flag.case
       --tree)
 
         # :flag.case_no_arg
@@ -3200,6 +3326,7 @@ run() {
     "setup archdots_completions") archdots_setup_archdots_completions_command ;;
     "setup themes") archdots_setup_themes_command ;;
     "setup rclone") archdots_setup_rclone_command ;;
+    "setup cron") archdots_setup_cron_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
     "sync") archdots_sync_command ;;

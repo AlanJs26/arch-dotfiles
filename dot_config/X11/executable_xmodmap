@@ -1,0 +1,6 @@
+! pointer = 1 2 3 4 5 6 7 8 9 10
+! disables mouse thumb keys to later be assigned to ctrl+c and ctrl+v using evrouter
+pointer = 1 2 3 4 5 6 7 0 0 10
+
+! disables numpad period key to be later assigned to period
+keycode 91=

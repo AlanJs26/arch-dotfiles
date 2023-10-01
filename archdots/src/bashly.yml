@@ -26,6 +26,7 @@ commands:
   - name: archdots_completions
   - name: themes
   - name: rclone
+  - name: cron
 
     # args:
     # - name: source
@@ -99,7 +100,9 @@ commands:
   - name: dots
     flags:
     - long: --unmanaged
-      help: only show unmanaged packages
+      help: only show unmanaged dotfiles
+    - long: --pending
+      help: only show pending dotfiles
     - long: --tree
       help: display as a tree
 
