@@ -34,15 +34,15 @@ archdots_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   Run a setup script\n" "setup "
-  printf "  %s   edit packages file\n" "edit  "
-  printf "  %s   show diff since last dotfiles sync\n" "diff  "
-  printf "  %s   Sync apps and dotfiles\n" "sync  "
-  printf "  %s   go to chezmoi repo or pacdef groups folder location\n" "cd    "
-  printf "  %s   review unmanaged packages\n" "review"
-  printf "  %s   an alias for archdots git status\n" "status"
-  printf "  %s   run git commands from chezmoi repo\n" "git   "
-  printf "  %s   list packages (default) or tracked dotfiles\n" "list  "
+  printf "  %s   Run a setup script\n" "$(green "setup") "
+  printf "  %s   edit packages file\n" "$(green "edit")  "
+  printf "  %s   show diff since last dotfiles sync\n" "$(green "diff")  "
+  printf "  %s   Sync apps and dotfiles\n" "$(green "sync")  "
+  printf "  %s   go to chezmoi repo or pacdef groups folder location\n" "$(green "cd")    "
+  printf "  %s   review unmanaged packages\n" "$(green "review")"
+  printf "  %s   an alias for archdots git status\n" "$(green "status")"
+  printf "  %s   run git commands from chezmoi repo\n" "$(green "git")   "
+  printf "  %s   list packages (default) or tracked dotfiles\n" "$(green "list")  "
   echo
 
   # :command.long_usage
@@ -78,22 +78,22 @@ archdots_setup_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   \n" "all                 "
-  printf "  %s   \n" "git_credentials     "
-  printf "  %s   \n" "git_delta           "
-  printf "  %s   \n" "nvim                "
-  printf "  %s   \n" "evrouter            "
-  printf "  %s   \n" "monitors            "
-  printf "  %s   \n" "pip                 "
-  printf "  %s   \n" "docker              "
-  printf "  %s   \n" "ssh_agent           "
-  printf "  %s   \n" "archdots_completions"
-  printf "  %s   \n" "themes              "
-  printf "  %s   \n" "rclone              "
-  printf "  %s   \n" "cron                "
-  printf "  %s   \n" "audiorelay          "
-  printf "  %s   \n" "amd                 "
-  printf "  %s   \n" "amdgpupro           "
+  printf "  %s   \n" "$(green "all")                 "
+  printf "  %s   \n" "$(green "git_credentials")     "
+  printf "  %s   \n" "$(green "git_delta")           "
+  printf "  %s   \n" "$(green "nvim")                "
+  printf "  %s   \n" "$(green "evrouter")            "
+  printf "  %s   \n" "$(green "monitors")            "
+  printf "  %s   \n" "$(green "pip")                 "
+  printf "  %s   \n" "$(green "docker")              "
+  printf "  %s   \n" "$(green "ssh_agent")           "
+  printf "  %s   \n" "$(green "archdots_completions")"
+  printf "  %s   \n" "$(green "themes")              "
+  printf "  %s   \n" "$(green "rclone")              "
+  printf "  %s   \n" "$(green "cron")                "
+  printf "  %s   \n" "$(green "audiorelay")          "
+  printf "  %s   \n" "$(green "amd")                 "
+  printf "  %s   \n" "$(green "amdgpupro")           "
   echo
 
   # :command.long_usage
@@ -673,9 +673,9 @@ archdots_sync_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   run all setup scripts (default)\n" "all "
-  printf "  %s   \n" "apps"
-  printf "  %s   \n" "dots"
+  printf "  %s   run all setup scripts (default)\n" "$(green "all") "
+  printf "  %s   \n" "$(green "apps")"
+  printf "  %s   \n" "$(green "dots")"
   echo
 
   # :command.long_usage
@@ -801,8 +801,8 @@ archdots_cd_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   \n" "dots"
-  printf "  %s   \n" "apps"
+  printf "  %s   \n" "$(green "dots")"
+  printf "  %s   \n" "$(green "apps")"
   echo
 
   # :command.long_usage
@@ -980,8 +980,8 @@ archdots_list_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   \n" "dots"
-  printf "  %s    (default)\n" "apps"
+  printf "  %s   \n" "$(green "dots")"
+  printf "  %s    (default)\n" "$(green "apps")"
   echo
 
   # :command.long_usage
@@ -1144,20 +1144,53 @@ inspect_args() {
 
 }
 
+# :command.user_lib
+# src/lib/colors.sh
+print_in_color() {
+  local color="$1"
+  shift
+  if [[ -z ${NO_COLOR+x} ]]; then
+    printf "$color%b\e[0m\n" "$*"
+  else
+    printf "%b\n" "$*"
+  fi
+}
+
+red() { print_in_color "\e[31m" "$*"; }
+green() { print_in_color "\e[32m" "$*"; }
+yellow() { print_in_color "\e[33m" "$*"; }
+blue() { print_in_color "\e[34m" "$*"; }
+magenta() { print_in_color "\e[35m" "$*"; }
+cyan() { print_in_color "\e[36m" "$*"; }
+bold() { print_in_color "\e[1m" "$*"; }
+underlined() { print_in_color "\e[4m" "$*"; }
+red_bold() { print_in_color "\e[1;31m" "$*"; }
+green_bold() { print_in_color "\e[1;32m" "$*"; }
+yellow_bold() { print_in_color "\e[1;33m" "$*"; }
+blue_bold() { print_in_color "\e[1;34m" "$*"; }
+magenta_bold() { print_in_color "\e[1;35m" "$*"; }
+cyan_bold() { print_in_color "\e[1;36m" "$*"; }
+red_underlined() { print_in_color "\e[4;31m" "$*"; }
+green_underlined() { print_in_color "\e[4;32m" "$*"; }
+yellow_underlined() { print_in_color "\e[4;33m" "$*"; }
+blue_underlined() { print_in_color "\e[4;34m" "$*"; }
+magenta_underlined() { print_in_color "\e[4;35m" "$*"; }
+cyan_underlined() { print_in_color "\e[4;36m" "$*"; }
+
 # :command.command_functions
 
 # :command.function
 archdots_setup_all_command() {
-  # src/setup_all_command.sh
+  # src/commands/setup/all.sh
   #!/usr/bin/env bash
 
-  commands=$(ls $HOME/.local/share/chezmoi/archdots/src/setup_* -1|xargs -i basename {}|rg -o 'setup_(.+)_' -r '$1'|rg -v all)
+  commands=$(dir $HOME/.local/share/chezmoi/archdots/src/commands/setup/* -1|xargs -i basename {} .sh|rg -v '^all')
 
   if [[ ${args[--status]} -eq 1 ]]; then
 
   	for item in ${commands[@]}; do
 
-  		if [[ "$($HOME/.local/share/chezmoi/archdots/src/setup_${item}_command.sh check)" = "notok" ]]; then
+  		if [[ "$($HOME/.local/share/chezmoi/archdots/src/commands/setup/${item}.sh check)" = "notok" ]]; then
   			gum style --foreground 1 $item
   		else
   			gum style --foreground 2 $item
@@ -1170,10 +1203,10 @@ archdots_setup_all_command() {
 
   for item in ${commands[@]}; do
 
-  	if [[ "$($HOME/.local/share/chezmoi/archdots/src/setup_${item}_command.sh check)" = "notok" ]] || [[ ${args[--force]} -eq 1 ]]; then
+  	if [[ "$($HOME/.local/share/chezmoi/archdots/src/commands/setup/${item}.sh check)" = "notok" ]] || [[ ${args[--force]} -eq 1 ]]; then
 
   		gum style --foreground 212 --padding "1 4" --border rounded "Setup $item"
-  		source $HOME/.local/share/chezmoi/archdots/src/setup_${item}_command.sh
+  		source $HOME/.local/share/chezmoi/archdots/src/commands/setup/${item}.sh
   	fi
   done
 
@@ -1181,7 +1214,7 @@ archdots_setup_all_command() {
 
 # :command.function
 archdots_setup_git_credentials_command() {
-  # src/setup_git_credentials_command.sh
+  # src/commands/setup/git_credentials.sh
   #!/usr/bin/env bash
 
   useremail="$(git config --global --get user.email||echo '')"
@@ -1206,7 +1239,7 @@ archdots_setup_git_credentials_command() {
 
 # :command.function
 archdots_setup_git_delta_command() {
-  # src/setup_git_delta_command.sh
+  # src/commands/setup/git_delta.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1228,7 +1261,7 @@ archdots_setup_git_delta_command() {
 
 # :command.function
 archdots_setup_nvim_command() {
-  # src/setup_nvim_command.sh
+  # src/commands/setup/nvim.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1249,7 +1282,7 @@ archdots_setup_nvim_command() {
 
 # :command.function
 archdots_setup_evrouter_command() {
-  # src/setup_evrouter_command.sh
+  # src/commands/setup/evrouter.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1269,7 +1302,7 @@ archdots_setup_evrouter_command() {
 
 # :command.function
 archdots_setup_monitors_command() {
-  # src/setup_monitors_command.sh
+  # src/commands/setup/monitors.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1306,7 +1339,7 @@ archdots_setup_monitors_command() {
 
 # :command.function
 archdots_setup_pip_command() {
-  # src/setup_pip_command.sh
+  # src/commands/setup/pip.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1329,7 +1362,7 @@ archdots_setup_pip_command() {
 
 # :command.function
 archdots_setup_docker_command() {
-  # src/setup_docker_command.sh
+  # src/commands/setup/docker.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1354,7 +1387,7 @@ archdots_setup_docker_command() {
 
 # :command.function
 archdots_setup_ssh_agent_command() {
-  # src/setup_ssh_agent_command.sh
+  # src/commands/setup/ssh_agent.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1382,7 +1415,7 @@ archdots_setup_ssh_agent_command() {
 
 # :command.function
 archdots_setup_archdots_completions_command() {
-  # src/setup_archdots_completions_command.sh
+  # src/commands/setup/archdots_completions.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1392,19 +1425,15 @@ archdots_setup_archdots_completions_command() {
   	exit
   fi
 
-  if [[ ! -f $HOME/.oh-my-zsh/completions/_archdots ]]; then
-  	echo Adding archdots completions to zsh
-  	mkdir -p $HOME/.oh-my-zsh/completions
-  	cp "$HOME/.local/share/chezmoi/archdots/public/_archdots" "$HOME/.oh-my-zsh/completions/"
-  else
-  	echo Alredy configured
-  fi
+  echo Adding archdots completions to zsh
+  mkdir -p $HOME/.oh-my-zsh/completions
+  cp "$HOME/.local/share/chezmoi/archdots/public/_archdots" "$HOME/.oh-my-zsh/completions/"
 
 }
 
 # :command.function
 archdots_setup_themes_command() {
-  # src/setup_themes_command.sh
+  # src/commands/setup/themes.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1433,7 +1462,7 @@ archdots_setup_themes_command() {
 
 # :command.function
 archdots_setup_rclone_command() {
-  # src/setup_rclone_command.sh
+  # src/commands/setup/rclone.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1451,7 +1480,7 @@ archdots_setup_rclone_command() {
 
 # :command.function
 archdots_setup_cron_command() {
-  # src/setup_cron_command.sh
+  # src/commands/setup/cron.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1470,7 +1499,7 @@ archdots_setup_cron_command() {
 
 # :command.function
 archdots_setup_audiorelay_command() {
-  # src/setup_audiorelay_command.sh
+  # src/commands/setup/audiorelay.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1491,7 +1520,7 @@ archdots_setup_audiorelay_command() {
 
 # :command.function
 archdots_setup_amd_command() {
-  # src/setup_amd_command.sh
+  # src/commands/setup/amd.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
@@ -1522,11 +1551,11 @@ archdots_setup_amd_command() {
 
 # :command.function
 archdots_setup_amdgpupro_command() {
-  # src/setup_amdgpupro_command.sh
+  # src/commands/setup/amdgpupro.sh
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [[ ! -d "$HOME/.local/share/chezmoi/archdots/public/amdgpu-pro-installer/pkga" ]]; then
+  	if [[ ! -d "$HOME/.local/share/chezmoi/archdots/public/amdgpu-pro-installer/pkg" ]]; then
   		echo notok
   	fi
   	exit
@@ -1538,7 +1567,7 @@ archdots_setup_amdgpupro_command() {
 
 # :command.function
 archdots_edit_command() {
-  # src/edit_command.sh
+  # src/commands/edit.sh
 
   group="${args[group]}"
 
@@ -1563,30 +1592,30 @@ archdots_edit_command() {
 
 # :command.function
 archdots_diff_command() {
-  # src/diff_command.sh
+  # src/commands/diff.sh
   chezmoi diff --pager 'bat'
 
 }
 
 # :command.function
 archdots_sync_all_command() {
-  # src/sync_all_command.sh
+  # src/commands/sync/all.sh
   # echo "# this file is located in 'src/sync_all_command.sh'"
   # echo "# code for 'archdots sync all' goes here"
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
   [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Apps"
-  source $HOME/.local/share/chezmoi/archdots/src/sync_apps_command.sh
+  source "$HOME/.local/share/chezmoi/archdots/src/commands/sync/apps.sh"
 
   [ -f "$(which gum)" ]&&gum style --foreground 212 --padding "1 4" --border rounded "Syncing Dots"
-  source $HOME/.local/share/chezmoi/archdots/src/sync_dots_command.sh
+  source "$HOME/.local/share/chezmoi/archdots/src/commands/sync/dots.sh"
 
 }
 
 # :command.function
 archdots_sync_apps_command() {
-  # src/sync_apps_command.sh
+  # src/commands/sync/apps.sh
   pacdef package sync 2> /dev/null
 
   unmanaged=$(echo "$(pacdef package unmanaged 2> /dev/null)"|rg -vU '^(WARNING|\[|#|\n)'|wc -l)
@@ -1605,7 +1634,7 @@ archdots_sync_apps_command() {
 
 # :command.function
 archdots_sync_dots_command() {
-  # src/sync_dots_command.sh
+  # src/commands/sync/dots.sh
 
   cd ~/.local/share/chezmoi
 
@@ -1638,7 +1667,7 @@ archdots_sync_dots_command() {
 
 # :command.function
 archdots_cd_dots_command() {
-  # src/cd_dots_command.sh
+  # src/commands/cd/dots.sh
   #!/usr/bin/env sh
 
   if [[ -n $CHEZMOI_NESTED ]]; then
@@ -1655,7 +1684,7 @@ archdots_cd_dots_command() {
 
 # :command.function
 archdots_cd_apps_command() {
-  # src/cd_apps_command.sh
+  # src/commands/cd/apps.sh
   #!/usr/bin/env sh
 
   if [[ -n $PACDEF_NESTED ]]; then
@@ -1672,7 +1701,7 @@ archdots_cd_apps_command() {
 
 # :command.function
 archdots_review_command() {
-  # src/review_command.sh
+  # src/commands/review.sh
   # echo "# this file is located in 'src/review_command.sh'"
   # echo "# code for 'archdots review' goes here"
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
@@ -1684,7 +1713,7 @@ archdots_review_command() {
 
 # :command.function
 archdots_status_command() {
-  # src/status_command.sh
+  # src/commands/status.sh
   # echo "# this file is located in 'src/status_command.sh'"
   # echo "# code for 'archdots status' goes here"
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
@@ -1696,7 +1725,7 @@ archdots_status_command() {
 
 # :command.function
 archdots_git_command() {
-  # src/git_command.sh
+  # src/commands/git.sh
   # echo "# this file is located in 'src/git_command.sh'"
   # echo "# code for 'archdots git' goes here"
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
@@ -1709,7 +1738,7 @@ archdots_git_command() {
 
 # :command.function
 archdots_list_dots_command() {
-  # src/list_dots_command.sh
+  # src/commands/list/dots.sh
 
   if [[ ${args[--unmanaged]} -eq 1 ]]; then
 
@@ -1740,7 +1769,7 @@ archdots_list_dots_command() {
 
 # :command.function
 archdots_list_apps_command() {
-  # src/list_apps_command.sh
+  # src/commands/list/apps.sh
 
   if [[ ${args[--unmanaged]} -eq 1 ]]; then
   	pacdef package unmanaged 2> /dev/null

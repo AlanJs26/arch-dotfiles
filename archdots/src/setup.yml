@@ -1,0 +1,38 @@
+name: setup
+help: Run a setup script
+
+commands:
+- name: all
+  flags:
+  - long: --force
+    help: run even if setup is marked as ok
+  - long: --status
+    help: show status of each script
+
+- name: git_credentials
+- name: git_delta
+- name: nvim
+- name: evrouter
+- name: monitors
+- name: pip
+- name: docker
+- name: ssh_agent
+- name: archdots_completions
+- name: themes
+- name: rclone
+- name: cron
+- name: audiorelay
+- name: amd
+- name: amdgpupro
+
+  # args:
+  # - name: source
+  #   required: true
+  #   help: URL to download from
+  # - name: target
+  #   help: "Target filename (default: same as source)"
+  #
+  # flags:
+  # - long: --force
+  #   short: -f
+  #   help: Overwrite existing files

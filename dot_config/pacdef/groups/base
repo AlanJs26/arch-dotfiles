@@ -124,3 +124,14 @@ xorg-fonts-misc
 xorg-server
 xorg-xrandr
 
+texlive-basic
+texlive-binextra
+texlive-fontsextra
+texlive-fontsrecommended
+texlive-latex
+texlive-latexextra
+texlive-latexrecommended
+texlive-mathscience
+texlive-pictures
+texlive-xetex
+

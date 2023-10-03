@@ -51,3 +51,10 @@ bspcpy
 zmq
 python-xlib
 pdm
+fqdn
+isoduration
+jsonpointer
+jupyterlab
+lcapy
+uri-template
+webcolors

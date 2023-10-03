@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=JupyterLab
 Comment=Run JupyterLab
-Exec=jupyter-lab %f
+Exec=jupyterlab-launch %f
 Terminal=true
 Type=Application
 Icon=jupyterlab

@@ -1,0 +1,1 @@
+chezmoi diff --pager 'bat'

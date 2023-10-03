@@ -2,7 +2,7 @@
 
 function _archdots {
     local line
-    local commands=($(basename -a ~/.local/share/chezmoi/archdots/src/*.sh|sed 's/\(\w\)_.\+/\1/'|uniq))
+    local commands=($(basename -s .sh -a ~/.local/share/chezmoi/archdots/src/commands/*|uniq))
 
     _arguments \
         "1:my message:(${commands})" \
