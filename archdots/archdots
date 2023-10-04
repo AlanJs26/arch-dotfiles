@@ -94,6 +94,7 @@ archdots_setup_usage() {
   printf "  %s   \n" "$(green "audiorelay")          "
   printf "  %s   \n" "$(green "amd")                 "
   printf "  %s   \n" "$(green "amdgpupro")           "
+  printf "  %s   \n" "$(green "cups")                "
   echo
 
   # :command.long_usage
@@ -569,6 +570,35 @@ archdots_setup_amdgpupro_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup amdgpupro\n"
   printf "  archdots setup amdgpupro --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_cups_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup cups\n"
+    echo
+
+  else
+    printf "archdots setup cups\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup cups\n"
+  printf "  archdots setup cups --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1294,6 +1324,8 @@ archdots_setup_evrouter_command() {
 
   if [ ! -f "$(which evrouter)" ]; then
   	(cd "$HOME/.local/share/chezmoi/archdots/public/evrouter" && makepkg --install)
+  	gpasswd -a $USER input
+  	sudo usermod -aG input $USER
   else
   	echo Alredy configured
   fi
@@ -1562,6 +1594,25 @@ archdots_setup_amdgpupro_command() {
   fi
 
   (cd "$HOME/.local/share/chezmoi/archdots/public/amdgpu-pro-installer" && makepkg -s)
+
+}
+
+# :command.function
+archdots_setup_cups_command() {
+  # src/commands/setup/cups.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [[ ! $(systemctl status cups|rg '\(running\)') ]]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  echo Enabling cups service
+  sudo systemctl enable --now cups
+  echo Running HP setup
+  system-config-printer
 
 }
 
@@ -2048,6 +2099,13 @@ archdots_setup_parse_requirements() {
       action="amdgpupro"
       shift
       archdots_setup_amdgpupro_parse_requirements "$@"
+      shift $#
+      ;;
+
+    cups)
+      action="cups"
+      shift
+      archdots_setup_cups_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2782,6 +2840,50 @@ archdots_setup_amdgpupro_parse_requirements() {
 
   # :command.command_filter
   action="setup amdgpupro"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_cups_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_cups_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup cups"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -3670,6 +3772,7 @@ run() {
     "setup audiorelay") archdots_setup_audiorelay_command ;;
     "setup amd") archdots_setup_amd_command ;;
     "setup amdgpupro") archdots_setup_amdgpupro_command ;;
+    "setup cups") archdots_setup_cups_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
     "sync") archdots_sync_command ;;

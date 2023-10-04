@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=JupyterLab
 Comment=Run JupyterLab
-Exec=jupyterlab-launch %f
-Terminal=true
+Exec=jupyterlab-launch.sh %f
+Terminal=false
 Type=Application
 Icon=jupyterlab
 StartupNotify=true

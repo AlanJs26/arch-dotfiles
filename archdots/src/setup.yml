@@ -24,6 +24,7 @@ commands:
 - name: audiorelay
 - name: amd
 - name: amdgpupro
+- name: cups
 
   # args:
   # - name: source

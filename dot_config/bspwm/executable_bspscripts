@@ -17,7 +17,7 @@ myprograms=(
     "dunst"
     "nm-applet"
     "picom"
-    "evrouter /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd"
+    "evrouter --config $HOME/.config/evrouter/.evrouterrc /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd"
     "greenclip daemon"
     "bspdragwin.py --daemon"
     "eww daemon --restart"
