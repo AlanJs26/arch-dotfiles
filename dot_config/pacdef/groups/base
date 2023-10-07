@@ -1,25 +1,25 @@
 [arch]
+# Printer
+hplip
+system-config-printer
+
 amdgpu_top
 amdgpu-pro-oglp
-jre
 mesa-utils
-noto-fonts
 xf86-video-amdgpu
-fd
-docker-compose
-noto-fonts-emoji
-tree
-xdotool
-libnotify
-betterlockscreen
+
+tk
+jre
 
 moreutils
 udisks2
 
 docker
+docker-compose
 
 # fonts
-
+noto-fonts
+noto-fonts-emoji
 ttf-jetbrains-mono-nerd
 
 # cli minimal
@@ -43,6 +43,8 @@ gum
 zoxide
 starship
 ncdu
+fd
+tree
 
 
 # compilers and repls
@@ -66,9 +68,10 @@ chezmoi
 pacdef
 
 # X11
-i3-wm
 lightdm
 lightdm-gtk-greeter
+xdotool
+libnotify
 
 # theme
 lxappearance

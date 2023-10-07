@@ -43,7 +43,7 @@ super + Print
 
 # Screenshot screen (file)
 super + shift + Print
-  flameshot screen --path "$HOME/Imagens"
+  flameshot full --path "$HOME/Imagens"
 
 # Color Picker (fn + F10)
 XF86HomePage
@@ -143,6 +143,10 @@ super + shift + a
 # Youtube Music or MPV
 super + ctrl + z
 	scratchpad.py "(YouTube Music)|mpv|Spotify" --behaviour nomark
+
+# Audio Relay
+super + shift + s
+	scratchpad.py --class "com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
 
 # Pdf Viewer
 super + shift + backslash

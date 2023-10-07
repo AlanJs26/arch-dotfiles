@@ -3,4 +3,4 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
-pacdef package review
+pacdef package review 2> /dev/null

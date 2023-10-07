@@ -35,6 +35,9 @@ if [ $(bspc query -N -n .leaf.hidden|wc -l) -gt 0 ]; then
             __float__|__float_center__)
                 icon="󰅩"
                 ;;
+            com-azefsw-audioconnect-desktop-app-MainKt)
+                icon=""
+                ;;
             __pluto__)
                 icon=""
                 ;;

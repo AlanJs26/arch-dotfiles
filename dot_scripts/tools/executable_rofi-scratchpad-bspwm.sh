@@ -4,7 +4,7 @@ n=$(for w in $win; do
 	name=$(xprop -id "$w" WM_CLASS 2>/dev/null | sed -r 's/.+ "(.+)"$/\1/')
 	title=$(xprop -id "$w" WM_NAME 2>/dev/null | sed -r 's/.+ "(.+)"$/\1/')
 	[ "$name" = "WM_CLASS" ] && echo "node $w" || echo "$name  \"$title\""
-done | rofi -dmenu -theme "/etc/regolith/styles/dracula/rofi.rasi" -format  i -p 'Unhide: ')
+done | rofi -dmenu -format  i -p 'Unhide: ')
 if [ -n "$n" ]; then
 	id=$(echo "$win" | sed -n "$((n+1))p")
 	bspc node "$id" --flag hidden=off --focus

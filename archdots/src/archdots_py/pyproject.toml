@@ -1,0 +1,14 @@
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "AlanJS26", email = "alanjoses.29@gmail.com"},
+]
+dependencies = [
+    "rich>=13.6.0",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+

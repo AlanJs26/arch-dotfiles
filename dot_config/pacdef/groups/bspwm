@@ -10,6 +10,8 @@ sxhkd
 picom-ftlabs-git
 xorg-xmodmap
 
+betterlockscreen
+
 pulseaudio
 pulseaudio-alsa
 playerctl

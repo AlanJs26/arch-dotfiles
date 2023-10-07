@@ -1644,7 +1644,10 @@ archdots_edit_command() {
 # :command.function
 archdots_diff_command() {
   # src/commands/diff.sh
-  chezmoi diff --pager 'bat'
+  if [ ! $(chezmoi diff --pager 'bat') ]; then
+  	(cd ~/.local/share/chezmoi &&\
+  	git diff --cached)
+  fi
 
 }
 
@@ -1758,7 +1761,7 @@ archdots_review_command() {
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
-  pacdef package review
+  pacdef package review 2> /dev/null
 
 }
 
