@@ -1,4 +1,8 @@
 [arch]
+yt-dlp
+nodejs
+npm
+
 # Printer
 hplip
 system-config-printer

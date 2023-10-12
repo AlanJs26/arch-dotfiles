@@ -1,4 +1,7 @@
 [arch]
+qt5-styleplugins
+xorg-xev
+
 xorg-xwininfo
 ttf-firacode-nerd
 ttf-nerd-fonts-symbols

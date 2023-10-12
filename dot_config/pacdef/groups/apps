@@ -1,4 +1,8 @@
 [arch]
+zoom
+gthumb
+visual-studio-code-bin
+
 fcitx5
 fcitx5-configtool
 fcitx5-gtk
