@@ -1,4 +1,5 @@
 import subprocess
+from threading import Thread
 import tty, termios, sys
 import re
 from typing import Literal
@@ -8,6 +9,9 @@ from rich.table import Table
 from rich.console import Console
 import yaml
 import os
+
+TOptions_history = list[tuple[str,Literal['d', 's']|int]]
+TPackages_by_domain = dict[str,set[str]]
 
 pacdef_config_path = os.path.expanduser('~/.config/pacdef/pacdef.yaml')
 aur_helper = 'yay'
@@ -25,7 +29,7 @@ def getchar():
     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     # Exit on ctrl-c, ctrl-d, ctrl-z, or ESC
     if ord(ch) in [3, 4, 26, 27]:
-        sys.exit()
+        return ''
     return ch
 
 def gum_choose(elements:list[str]|None=None, command=''):
@@ -42,7 +46,10 @@ def gum_choose(elements:list[str]|None=None, command=''):
     raise Exception('invalid elements')
 
 def get_arch_packages():
-    return subprocess.check_output("yay -Qe|awk '{ print $1 }'",shell=True).decode().strip().split('\n')
+    return subprocess.check_output(f"{aur_helper} -Qe|awk '{{ print $1 }}'",shell=True).decode().strip().split('\n')
+
+def get_python_packages():
+    return subprocess.check_output("echo -e \"$(pip list --not-required --user)\"|tail -n+3|awk '{ print $1 }'",shell=True).decode().strip().split('\n')
 
 def get_file_packages(path: str):
     with open(path) as file:
@@ -56,21 +63,56 @@ def get_file_packages(path: str):
 
     return group_dict
 
-
 def filter_truthy(items):
     return list(filter(lambda _:_, items))
 
-installed_packages:dict[str,set[str]] = {
+def zip_packages(pacdef_packages: TPackages_by_domain, installed_packages: TPackages_by_domain) -> list[tuple[str,str]]:
+
+    intersect_packages = {k:v.difference(pacdef_packages[k]) for k,v in installed_packages.items()}
+
+    zipped_packages = [(group, package) for (group, packages) in intersect_packages.items() for package in packages]
+
+    return zipped_packages
+
+def make_option(name:str, color='green'):
+    return f'([{color}]{name[0]}[white]){name[1:]}'
+
+def print_options_history(history: dict[str, TOptions_history]):
+    option_map = {
+        'd': '[red]deleted',
+        's': '[yellow]skipped',
+    }
+    table = Table(show_header=False)
+    console = Console()
+    
+    for domain in history:
+        for package, option in history[domain]:
+            if option in option_map:
+                table.add_row(package, option_map[option])
+            elif isinstance(option, int):
+                table.add_row(package, '[green]'+pacdef_groups[option])
+            elif not option:
+                table.add_row(package, '')
+            else:
+                table.add_row(package, f'unknown option: {option}')
+        if len(history) > 1:
+            table.add_section()
+
+    console.print(table)
+
+installed_packages:TPackages_by_domain = {
     'arch': set(get_arch_packages()),
     'python': set(),
 }
-pacdef_packages:dict[str,set[str]] = {}
 
-pacdef_path = os.path.expanduser('~/.config/pacdef/groups')
-pacdef_groups = os.listdir(pacdef_path) 
+# Get packages on pacdef group files
+pacdef_packages:TPackages_by_domain = {}
+
+pacdef_groups_path = os.path.expanduser('~/.config/pacdef/groups')
+pacdef_groups = os.listdir(pacdef_groups_path) 
 
 for group in pacdef_groups:
-    packages = get_file_packages(f'{pacdef_path}/{group}')
+    packages = get_file_packages(f'{pacdef_groups_path}/{group}')
     for domain in packages:
         if domain not in pacdef_packages:
             pacdef_packages[domain] = set()
@@ -78,49 +120,38 @@ for group in pacdef_groups:
         pacdef_packages[domain].update(packages[domain])
 
 
+zipped_packages = zip_packages(pacdef_packages, installed_packages)
 
-intersect_packages = {k:v.difference(pacdef_packages[k]) for k,v in installed_packages.items()}
+# Get python packages assynchronously
+def thread_python_packages():
+    global installed_packages
+    global zipped_packages
+    installed_packages['python'] = set(get_python_packages())
+    zipped_packages = zip_packages(pacdef_packages, installed_packages)
 
-def make_option(name:str, color='green'):
-    return f'([{color}]{name[0]}[white]){name[1:]}'
 
-TOptions_history = list[tuple[str,Literal['d', 's']|int]]
+thread = Thread(target=thread_python_packages)
+thread.start()
 
-def print_options_history(history: TOptions_history):
-    option_map = {
-        'd': '[red]deleted',
-        's': '[yellow]skipped',
-    }
-    table = Table(show_header=False)
-    console = Console()
-    for package, option in history:
-        if option in option_map:
-            table.add_row(package, option_map[option])
-        elif isinstance(option, int):
-            table.add_row(package, '[green]'+pacdef_groups[option])
-        elif not option:
-            table.add_row(package, '')
-        else:
-            table.add_row(package, f'unknown option: {option}')
-    console.print(table)
+if(len(installed_packages['arch']) == 0):
+    thread.join()
+
 
 history:dict[str, TOptions_history] = {}
-
-zipped_packages = [(group, package) for (group, packages) in intersect_packages.items() for package in packages]
 
 prev_group = ''
 i = 0
 
 while i < len(zipped_packages):
 
-    group, package = zipped_packages[i]
+    domain, package = zipped_packages[i]
 
-    if prev_group and prev_group != group:
-        print(Panel.fit(f'[white]{group}', style='green'))
-        prev_group = group
+    if not prev_group or prev_group != domain:
+        print(Panel.fit(f'[white]{domain}', style='green'))
+        prev_group = domain
 
-    if group not in history:
-        history[group] = []
+    if domain not in history:
+        history[domain] = []
 
     print(f'[white]assign [blue]{package}[white] to {make_option("group")}, {make_option("delete")}, {make_option("skip")}, {make_option("peek")}, {make_option("undo")}, {make_option("quit")}?')
     option = getchar()
@@ -130,24 +161,24 @@ while i < len(zipped_packages):
         option = getchar()
         if option.isdigit() and int(option) >= 1 and int(option) <= len(pacdef_groups):
             print(f'{package} -> [green]{pacdef_groups[int(option)-1]}')
-            history[group].append((package, int(option)-1))
+            history[domain].append((package, int(option)-1))
         else:
             print('invalid option')
             continue
 
     elif option == 'd':
         print(f'[red]deleted')
-        history[group].append((package, 'd'))
+        history[domain].append((package, 'd'))
     elif option == 's':
         print('[yellow]skipped')
-        history[group].append((package, 's'))
+        history[domain].append((package, 's'))
     elif option == 'p':
-        print_options_history(history[group])
+        print_options_history(history)
         continue
     elif option == 'u':
         if i > 0:
             i -= 1
-            del history[group][i]
+            del history[domain][i]
         continue
 
     elif option == 'q':
@@ -158,12 +189,15 @@ while i < len(zipped_packages):
 
     i+=1
 
+    if i >= len(zipped_packages) and len(installed_packages['python']) == 0:
+        thread.join()
+
 
 print()
 
-for group, options_history in history.items():
-    print(f'[green]{group}')
-    print_options_history(options_history)
+for domain, options_history in history.items():
+    print(f'[green]{domain}')
+print_options_history(history)
 
 while True:
     print(f'Keep changes? {make_option("yes")}/{make_option("no")}')
@@ -173,7 +207,7 @@ while True:
         if 'arch' in history:
             deleted_packages = list(map(lambda item: item[0], filter(lambda item: item[1] == 'd', history['arch']))) 
             if deleted_packages:
-                os.system(f'yay -R {" ".join(deleted_packages)}')
+                os.system(f'{aur_helper} -R {" ".join(deleted_packages)}')
 
         history_groups:dict[str, dict[str, list[str]]] = {}
         for domain, options_history in history.items():
@@ -188,17 +222,19 @@ while True:
                     history_groups[pacdef_groups[i]][domain].append(package)
 
         for group, packages_by_domain in history_groups.items():
-            with open(f'{pacdef_path}/{group}', 'r') as file:
+            with open(f'{pacdef_groups_path}/{group}', 'r') as file:
                 content = file.read()
 
-            with open(f'{pacdef_path}/{group}', 'w') as file:
+            with open(f'{pacdef_groups_path}/{group}', 'w') as file:
                 for domain, packages in packages_by_domain.items():
                     replacement = '[{}]\n{}\n'.format(domain, "\n".join(packages))
                     file.write(re.sub(fr'\[{domain}\]', replacement, content))
 
+        print('\n[green]Updating pacdef managed packages')
 
         break
     elif option == 'n':
+        print('\n[yellow]Exiting...')
         break
     else:
         print('invalid option')

@@ -1,3 +1,4 @@
 archdots
 README.md
 .git/objects/*
+.urserver/*.log*
