@@ -96,6 +96,10 @@ super + shift + n
 super + @space
 	rofi -show drun
 
+# Windows
+super + shift + @space
+	rofi -show window
+
 # ssh
 super + ctrl + Return
 	$TOOLS/rofi-ssh-aliases.sh

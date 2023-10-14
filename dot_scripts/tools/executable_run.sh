@@ -12,6 +12,8 @@ mime="$(file -b "$arg")"
 
 if [[ $mime =~ "image" ]]; then
     feh "$arg" --class "__float__" --scale-down
+elif [[ $mime =~ "PowerPoint" ]]; then
+    zaread "$arg"
 elif [[ $mime =~ "ASCII" ]]; then
     kitty nvim "$arg"
 elif [ -n "$(echo "$mime"|grep -i "document")" ]; then

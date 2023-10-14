@@ -1,4 +1,8 @@
 [arch]
+nemo-preview
+nemo-fileroller
+nemo-image-converter
+
 yt-dlp
 nodejs
 npm

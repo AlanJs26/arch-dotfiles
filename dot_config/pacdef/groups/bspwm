@@ -51,6 +51,17 @@ rofi-power-menu
 rofi-file-browser-extended-git
 
 [python]
+dash-html-components
+dash-core-components
+dash-table
+tzdata
+plotly
+Flask
+pytz
+importlib-metadata
+ansi2html
+retrying
+
 Markdown
 bspcpy
 zmq

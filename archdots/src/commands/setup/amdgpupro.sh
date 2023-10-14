@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "check" ]; then
-	if [[ ! -d "$HOME/.local/share/chezmoi/archdots/public/amdgpu-pro-installer/pkg" ]]; then
+	if [[ ! $(yay -Qs amdgpu-pro-oglp) ]]; then
 		echo notok
 	fi
 	exit

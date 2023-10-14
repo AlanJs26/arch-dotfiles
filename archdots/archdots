@@ -106,6 +106,12 @@ archdots_setup_usage() {
     printf "    Show this help\n"
     echo
 
+    # :command.usage_examples
+    printf "%s\n" "Examples:"
+    printf "  archdots setup all          (this will run all scripts)\n"
+    printf "  archdots setup all --status (check the status of each script)\n"
+    echo
+
   fi
 }
 
@@ -1587,7 +1593,7 @@ archdots_setup_amdgpupro_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [[ ! -d "$HOME/.local/share/chezmoi/archdots/public/amdgpu-pro-installer/pkg" ]]; then
+  	if [[ ! $(yay -Qs amdgpu-pro-oglp) ]]; then
   		echo notok
   	fi
   	exit

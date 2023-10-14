@@ -1,5 +1,8 @@
 name: setup
 help: Run a setup script
+examples:
+- archdots setup all          (this will run all scripts)
+- archdots setup all --status (check the status of each script)
 
 commands:
 - name: all

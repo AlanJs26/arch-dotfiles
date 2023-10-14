@@ -60,6 +60,7 @@ floating_windows=(
   "com-st-microxplorer-maingui-STM32CubeMX"
   "__float__:*:*"
   "org.gnome.clocks"
+  "File-roller"
 )
 
 pseudo_tiled_windows=(
