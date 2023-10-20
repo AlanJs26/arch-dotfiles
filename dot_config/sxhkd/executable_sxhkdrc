@@ -100,7 +100,7 @@ super + @space
 super + shift + @space
 	rofi -show window
 
-# ssh
+# Ssh
 super + ctrl + Return
 	$TOOLS/rofi-ssh-aliases.sh
 
@@ -160,11 +160,11 @@ super + shift + backslash
 super + ctrl + backslash
 	scratchpad.py --class "qalculate-gtk" -r "qalculate-gtk" --behaviour nomark
 
-# floating kitty
+# Floating kitty
 super + shift + z
 	scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
 
-# floating kitty neovim
+# Floating kitty neovim
 super + alt + Return
 	scratchpad.py "floatkittynvim$" --class "__float__|__float_center__" -r "kitty --title floatkittynvim --class __float_center__ nvim" --behaviour i3
 
@@ -174,19 +174,19 @@ super + alt + Return
 #######################################################################
 
 
-# quit/restart bspwm
+# Quit/restart bspwm
 super + alt + r
 	bspc wm -r
 
-# restart scripts
+# Restart scripts
 super + shift + r
 	bash $BSPDIR/bspscripts restart scripts && notify-send -a bspwm 'Bspwm' 'Restarted all scripts' -u low;
 
-# restart programs
+# Restart programs
 super + shift + alt + r
 	bash $BSPDIR/bspscripts restart programs && notify-send -a bspwm 'Bspwm' 'Restarted all autostart programs' -u low;
 
-# close and kill
+# Close and kill
 super + {shift + ,alt + }q
 	[ "$(bspc query -T -n focused|jq .client.className -r)" = "tabbed" ]\
 	&& (id="$(bsptab list|head -n1)"; bsptab remove $id && sleep 0.1 && bspc node $id -{c,k})\
@@ -209,7 +209,7 @@ super + {equal, minus}
 super + {_,shift + }w
 	bsptab {add,remove}
 
-# alternate between the tiled and monocle layout
+# Alternate between the tiled and monocle layout
 super + {m,a}
 	bspc desktop -l next;\
 	polybar-msg action bspwm-monocle hook 0
@@ -233,7 +233,7 @@ super + f
 super + ctrl + {o,s,p}
 	bspc node -g {locked,sticky,private}
 
-# mark node or move marked node to preselection
+# Mark node or move marked node to preselection
 super + ctrl + a
 	if [ -n "$(bspc query -N -n .marked.\!floating.\!focused.window)" ];then;\
 		bspc node newest.marked -n newest.\!automatic;\
@@ -248,7 +248,7 @@ super + ctrl + a
 #######################################################################
 
 # Focus next tabbed window
-# alt + Tab
+# Alt + Tab
 # 	tabc 
 
 # Focus Window
@@ -263,7 +263,7 @@ super + {Left,Down,Up,Right}
 super + u
   bspc monitor -f last
 
-# focus the next/previous window in the current desktop
+# Focus the next/previous window in the current desktop
 super + {_,shift + }x
 	if [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
 		bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
@@ -271,7 +271,7 @@ super + {_,shift + }x
 		bspc node -f {next,prev}.local.\!hidden.window;\
 	fi
 
-# focus the next/previous tab of monocle window
+# Focus the next/previous tab of monocle window
 alt + {_,shift + }~Tab
 	if   [ "$(bspc query -T -n focused|jq .client.className -r)" != "tabbed" ]\
 		&& [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
@@ -279,7 +279,7 @@ alt + {_,shift + }~Tab
 	fi
 	# bspc node -f @{parent,brother}
 
-# focus the next/previous desktop in the current monitor
+# Focus the next/previous desktop in the current monitor
 super + {shift + ,_}Tab
 	DIR="{prev,next}";\
 	if ! [ $(bspc query -N -n .\!hidden.local.leaf) ]; then;\
@@ -287,7 +287,7 @@ super + {shift + ,_}Tab
 	fi;\
 	bspc desktop -f $DIR.local.occupied
 
-# focus the older or newer node in the focus history
+# Focus the older or newer node in the focus history
 super + {o,i}
 	bspc wm -h off; \
 	bspc node {older,newer} -f; \
@@ -298,16 +298,16 @@ super + {o,i}
 #                            Move Windows                             #
 #######################################################################
 
-# swap the current node and the biggest window
+# Swap the current node and the biggest window
 super + d
 	bspc node -s biggest.window.local || \
 	bspc node -s last.local
 
-# transplant into window in chosen direction
+# Transplant into window in chosen direction
 super + shift + {Left,Down,Up,Right}
   euclid_mover {west,south,north,east}
 
-# move a floating window
+# Move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
@@ -321,33 +321,37 @@ super + shift + {h,j,k,l}
 	fi
 	# windowgrabber {west,south,north,east}
 
-# Move desktop to monitor
+# Swap desktop with next/prev monitor
 super + shift + ctrl + {h,l}
-  bspc desktop --to-monitor {prev,next} --follow
+	focused_desktop="$(bspc query -D -d focused)";\
+  last_desktop="$(bspc query -D -m {prev,next} -d .active)";\
+  bspc desktop "$last_desktop" --to-monitor focused && bspc desktop -f "$last_desktop";\
+  bspc desktop "$focused_desktop" --to-monitor {prev,next} && bspc desktop -f "$focused_desktop"
+  # bspc desktop --to-monitor {prev,next} --follow
 
-# send a window to the next occupied workspace and focus it
+# Send a window to the next occupied workspace and focus it
 super + {_,shift + } alt + Tab
 	bspc node -d {next,prev}.local.occupied -f
 
-# focus next free desktop or send a window there
+# Focus next free desktop or send a window there
 super + {_,shift + }apostrophe
 	bspc {desktop -f, node -d} any.local.\!occupied
 
-# send a window to the next free workspace and focus it
+# Send a window to the next free workspace and focus it
 super + alt + apostrophe
 	bspc node -d any.local.\!occupied -f
 
-# focus or send to the given desktop
+# Focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '{1-9,10}'
 	# bspc {desktop -f,node -d} '^{1-9,10}'
 
-# send and focus to the given desktop
+# Send and focus to the given desktop
 super + alt + {1-9,0}
 	bspc node -d '{1-9,10}' -f
 
 
-# super + {_,shift + }{1-9,0}
+# Super + {_,shift + }{1-9,0}
     # d='{1-9,10}'; \
     # bspc {desktop -f,node -d} "$d.local" || bspc desktop -s "$d"
 
@@ -356,21 +360,21 @@ super + alt + {1-9,0}
 #                              Preselect                              #
 #######################################################################
 
-# preselect the direction
+# Preselect the direction
 super + ctrl + {h,j,k,l}
 	bspc node -p {west,south,north,east}
 
-# preselect the ratio
+# Preselect the ratio
 super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
 # # cancel the preselection for the focused node
-# super + ctrl + space
+# Super + ctrl + space
 # 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 	# bspc node -p cancel
 
-# cancel the preselection for the focused desktop
-# super + ctrl + shift + space
+# Cancel the preselection for the focused desktop
+# Super + ctrl + shift + space
 	# bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 
@@ -378,7 +382,7 @@ super + ctrl + {1-9}
 #                     Advanced Layout Management                      #
 #######################################################################
 
-# flip all nodes in current desktop
+# Flip all nodes in current desktop
 super + {comma,period}
 	bspc node @/ -F {horizontal,vertical}
 
@@ -390,7 +394,7 @@ super + {_,shift + } ccedilla
 super + alt + {_,shift + } ccedilla
     bspc node @/ -R {90,270}
 
-# expand a window by moving one of its side outward
+# Expand a window by moving one of its side outward
 super + alt + {h,j,k,l}
   sh ~/.config/sxhkd/resize {x -, y +, y -, x +}
 

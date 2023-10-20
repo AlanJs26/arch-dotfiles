@@ -51,6 +51,8 @@ rofi-power-menu
 rofi-file-browser-extended-git
 
 [python]
+goyabu-cli
+
 dash-html-components
 dash-core-components
 dash-table

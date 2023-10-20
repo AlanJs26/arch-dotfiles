@@ -16,6 +16,12 @@ Atualizar todos os pacotes atuais
 
 `yay -Syuu`
 
+## Direnv
+
+O direnv permite adicionar variáveis de ambiente especificas dependendo da pasta em questão.
+
+Um tutorial de como usar esta presente [nesta pagina](https://github.com/direnv/direnv/wiki)
+
 ## Eww
 
 Na época que eu escrevi esse README o pacote [eww-git](https://aur.archlinux.org/packages/eww-x11) não funciona se as seguintes chaves gpg não forem instaladas explicitamente. O comando para instalar é o seguinte

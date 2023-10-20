@@ -6,8 +6,31 @@ version: 0.1.0
 commands:
 - import: src/setup.yml
 
+- name: completions
+  help: run `eval "\$(archdots completions)"` to add completions to your shell
+
+- name: add
+  help: Add an existing file, directory, or symlink to the source state
+  args:
+  - name: file
+    repeatable: true
+  completions:
+  - <file>
+  - <directory>
+
+- name: forget
+  help: Remove a target from the source state
+  args:
+  - name: file
+    repeatable: true
+  completions:
+  - <file>
+  - <directory>
+
 - name: edit
   help: edit packages file
+  completions:
+  - $(pacdef group list)
 
   args:
   - name: group

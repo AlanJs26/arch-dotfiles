@@ -70,7 +70,7 @@ def zip_packages(pacdef_packages: TPackages_by_domain, installed_packages: TPack
 
     intersect_packages = {k:v.difference(pacdef_packages[k]) for k,v in installed_packages.items()}
 
-    zipped_packages = [(group, package) for (group, packages) in intersect_packages.items() for package in packages]
+    zipped_packages = [(domain, package) for (domain, packages) in intersect_packages.items() for package in packages]
 
     return zipped_packages
 
@@ -133,7 +133,7 @@ def thread_python_packages():
 thread = Thread(target=thread_python_packages)
 thread.start()
 
-if(len(installed_packages['arch']) == 0):
+if(next(filter(lambda item: item[0] == 'arch', zipped_packages), None) == None):
     thread.join()
 
 

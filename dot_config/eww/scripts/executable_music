@@ -131,17 +131,29 @@ get_cover() {
 
 }
 
+cover_daemon_python() {
+	eww_scripts="$HOME/.config/eww/scripts"
+	while true; do
+		$eww_scripts/cover_daemon_py/.venv/bin/python $eww_scripts/cover_daemon_py/main.py
+	done
+}
+
 cover_daemon() {
 	get_cover
 	while true; do
-		inotifywait -q -e modify "$YTMUSIC_DIR/config.json"
+		if [[ $(pgrep youtube-music) ]]; then
+			inotifywait -q -e modify "$YTMUSIC_DIR/config.json"
+		else
+			sleep 1
+		fi
 		get_cover
 	done
-
 }
 
 ## Execute accordingly
-if [[ "$1" == "--song" ]]; then
+if [[ "$1" == "--parse_cover" ]]; then
+	ffmpeg_cover $2
+elif [[ "$1" == "--song" ]]; then
 	get_song
 elif [[ "$1" == "--artist" ]]; then
 	get_artist
@@ -155,6 +167,8 @@ elif [[ "$1" == "--ttime" ]]; then
 	to_time $(get_ttime)
 elif [[ "$1" == "--cover_daemon" ]]; then
 	cover_daemon
+elif [[ "$1" == "--cover_daemon_python" ]]; then
+	cover_daemon_python
 elif [[ "$1" == "--cover" ]]; then
 	get_cover
 elif [[ "$1" == "--toggle" ]]; then

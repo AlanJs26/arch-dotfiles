@@ -6,7 +6,7 @@ if [ $unmanaged -gt 0 ]; then
 	echo "you have $unmanaged unmanaged packages"
 
 	if $(gum confirm "Review now?"); then
-		pacdef package review
+		$HOME/.local/share/chezmoi/archdots/archdots review
 	else
 		echo "Run 'archdots list --unmanaged' to view them or 'archdots review' to decide what to do with each one"
 	fi

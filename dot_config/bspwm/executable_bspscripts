@@ -10,6 +10,7 @@ myscripts=(
     "$BSPDIR/color-border-mode.sh"
     "$BSPDIR/fix-polybar-fullscreen.sh"
     "lockscreen.sh disable"
+    "$HOME/.config/eww/scripts/music --cover_daemon_python"
 )
 
 myprograms=(
