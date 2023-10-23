@@ -1,4 +1,6 @@
 [arch]
+inotify-tools
+
 qt5-styleplugins
 xorg-xev
 

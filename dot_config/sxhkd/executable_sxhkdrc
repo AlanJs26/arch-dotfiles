@@ -125,7 +125,7 @@ super + shift + v
 	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # Scratchpad Menu
-super + ctrl + i
+{super + ctrl + i, super + ctrl + shift + a}
 	bash rofi-scratchpad-bspwm.sh
 
 #######################################################################
@@ -160,7 +160,7 @@ super + shift + backslash
 super + ctrl + backslash
 	scratchpad.py --class "qalculate-gtk" -r "qalculate-gtk" --behaviour nomark
 
-# Floating kitty
+# Floating terminal kitty
 super + shift + z
 	scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
 
@@ -272,12 +272,17 @@ super + {_,shift + }x
 	fi
 
 # Focus the next/previous tab of monocle window
-alt + {_,shift + }~Tab
-	if   [ "$(bspc query -T -n focused|jq .client.className -r)" != "tabbed" ]\
-		&& [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
-			bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
-	fi
-	# bspc node -f @{parent,brother}
+# alt + {_,shift + }~Tab
+# 	if   [ "$(bspc query -T -n focused|jq .client.className -r)" != "tabbed" ]\
+# 		&& [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
+# 			bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
+# 	fi
+# 	# bspc node -f @{parent,brother}
+
+# Switch window on alt release
+alt + Tab
+	alttab.sh
+	# rofi -kb-accept-entry '!Alt-Tab' -kb-row-down Alt-Tab -show windowcd
 
 # Focus the next/previous desktop in the current monitor
 super + {shift + ,_}Tab

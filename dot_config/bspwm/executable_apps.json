@@ -5,9 +5,63 @@
   "sound_manager": "pavucontrol",
   "pdf_viewer": "sioyek",
   "music_player": "spotify",
+
   "monitors": {
     "primary": "DisplayPort-1-0",
     "secundary": "DisplayPort-1",
     "tv": "HDMI-A-1"
-  }
+  },
+
+  "monitor_setup": [
+    {
+      "alias": "primary",
+      "name": "DisplayPort-1-0",
+      "width": 1360,
+      "height": 768
+    },
+    {
+      "alias": "secundary",
+      "name": "DisplayPort-1",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "alias": "tv",
+      "name": "HDMI-A-1",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+
+  "monitor_layouts": [
+    {
+      "name": "SmallBig_TV",
+      "layout": [
+        {
+          "monitor_alias": "primary",
+          "primary": true,
+          "enabled": true,
+          "x": "0",
+          "y": "312",
+          "bspwm_desktops": "1 2 3 4"
+        },
+        {
+          "monitor_alias": "secundary",
+          "primary": false,
+          "enabled": true,
+          "x": "1360",
+          "y": "0",
+          "bspwm_desktops": "5 6 7 8"
+        },
+        {
+          "monitor_alias": "tv",
+          "primary": true,
+          "enabled": true,
+          "mirror": "primary",
+          "x": "3280",
+          "y": "0"
+        }
+      ]
+    }
+  ]
 }

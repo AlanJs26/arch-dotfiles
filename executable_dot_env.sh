@@ -3,6 +3,7 @@
 topath=(
 "$HOME/.local/share/gem/ruby/3.0.0/bin"
 "$HOME/.scripts/tools"
+"$HOME/.config/bspwm"
 "$HOME/.scripts/tools/bspwm-scripts"
 "$HOME/.local/share/chezmoi/archdots"
 "$HOME/.local/bin"

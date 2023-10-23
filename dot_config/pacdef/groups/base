@@ -1,4 +1,8 @@
 [arch]
+httpie
+
+direnv
+
 otf-latin-modern
 
 nemo-preview
