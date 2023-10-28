@@ -10,7 +10,7 @@ instalar pacotes relacionados ao keyring e chaves PGP
 
 `sudo pacman-key --init && sudo pacman-key --populate`
 
-`pacman-keys --refresh-keys`
+`sudo pacman-key --refresh-keys`
 
 Atualizar todos os pacotes atuais
 
