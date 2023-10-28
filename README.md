@@ -2,6 +2,10 @@
 
 Instalar o [yay](https://github.com/Jguer/yay)
 
+Certificar se o horario está correto para não ocorrer erros com os certificados SSL
+
+`sudo timedatectl set-ntp true`
+
 instalar pacotes relacionados ao keyring e chaves PGP
 
 `yay -Sy archlinux-keyring`
