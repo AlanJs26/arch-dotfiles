@@ -137,7 +137,7 @@ Já o comando `pacdef package review` vai pegar todos os pacotes que não estão
 
 # Python
 
-Que estaram listadas algumas dicas e soluções sobre como configurar o python da primeira vez
+Aqui estão listadas algumas dicas e soluções sobre como configurar o python da primeira vez
 
 ## pip não existe
 
