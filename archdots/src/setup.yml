@@ -21,7 +21,7 @@ commands:
 - name: docker
 - name: ssh_agent
 - name: archdots_completions
-- name: themes
+# - name: themes
 - name: rclone
 - name: cron
 - name: audiorelay

@@ -1,3 +1,8 @@
+if [ $(pgrep chezmoi) ]; then
+    printf "󰑓 "
+    exit
+fi
+
 
 find_difference() {
     local list1=("$@")
@@ -14,6 +19,7 @@ find_difference() {
 
     echo "${list1[@]}"
 }
+
 chezmoi git add . 2> /dev/null
 
 dots_pending=$(archdots list dots --pending|wc -l)

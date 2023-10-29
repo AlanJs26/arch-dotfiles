@@ -12,58 +12,16 @@ else
     echo "$mode" > /tmp/active-monitor-mode
 fi
 
-small_monitor="$(jq -r '.monitors.secundary' $BSPDIR/apps.json)"
-big_monitor="$(jq -r '.monitors.primary' $BSPDIR/apps.json)"
-tv_monitor="$(jq -r '.monitors.tv' $BSPDIR/apps.json)"
-
+small_monitor="$(bspmonitors query --monitor secundary)"
+big_monitor="$(bspmonitors query --monitor primary)"
+tv_monitor="$(bspmonitors query --monitor tv)"
 
 case "$mode" in
     "--list")
-        echo "SmallBig
-SmallBig_TV
-SmallBigTV
-BigTV
-Big
-Small
-TV"
-        ;;
-    SmallBig)
-        xrandr --output $small_monitor  --primary --mode 1360x768 --pos 0x312 --output $big_monitor           --mode 1920x1080 --pos 1360x0 --output $tv_monitor --off
-        # xrandr --output $small_monitor            --mode 1360x768 --pos 0x312 --output $big_monitor --primary --mode 1920x1080 --pos 1360x0 --output $tv_monitor --off
-        bspc monitor $big_monitor -d 1 2 3 4
-        bspc monitor $small_monitor -d 5 6 7 8
-        ;;
-    SmallBig_TV)
-        xrandr --output $small_monitor --primary --mode 1360x768 --pos 0x312 --output $big_monitor           --mode 1920x1080 --pos 1360x0 --output $tv_monitor                  --pos 3280x0 --same-as $big_monitor
-        xrandr --output $small_monitor            --mode 1360x768 --pos 0x312 --output $big_monitor --primary --mode 1920x1080 --pos 1360x0 --output $tv_monitor --mode 1920x1080 --pos 3280x0 --same-as $big_monitor
-        bspc monitor $big_monitor -d 1 2 3 4
-        bspc monitor $small_monitor -d 5 6 7 8
-        ;;
-    SmallBigTV)
-        xrandr --output $small_monitor --primary --mode 1360x768 --pos 0x312 --output $big_monitor --mode 1920x1080 --output $tv_monitor --mode 1280x720 --right-of $big_monitor 
-        bspc monitor $small_monitor -d 1 2 3 4
-        bspc monitor $tv_monitor -d 5 6 7 8
-        bspc monitor $tv_monitor -d 9 10 11 12
-        ;;
-    BigTV)
-        xrandr --output $small_monitor --same-as $big_monitor --output $big_monitor --mode 1920x1080 --output $tv_monitor --mode 1280x720 --right-of $big_monitor 
-        bspc monitor $small_monitor -d 1 2 3 4
-        bspc monitor $tv_monitor -d 5 6 7 8
-        ;;
-    Big)
-        xrandr --output $small_monitor --same-as $big_monitor --primary --output $big_monitor --mode 1920x1080 --pos 1360x0 --output $tv_monitor --off
-        bspc monitor $small_monitor -d 1 2 3 4 5 6 7 8
-        ;;
-    Small)
-        xrandr --output $small_monitor  --primary --mode 1360x768 --pos 0x312 --output $big_monitor --off --output $tv_monitor --off
-        bspc monitor $big_monitor -d 1 2 3 4 5 6 7 8
-        ;;
-    TV)
-        xrandr --output $small_monitor --same-as $tv_monitor --output $big_monitor --off --output $tv_monitor --mode 1280x720
-        bspc monitor $tv_monitor -d 1 2 3 4 5 6 7 8
+        bspmonitors --list_layouts
         ;;
     *)
-        echo "unknown argument"
+        bspmonitors layout $mode
 esac
 
 

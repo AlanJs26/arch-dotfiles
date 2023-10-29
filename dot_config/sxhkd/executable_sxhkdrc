@@ -280,8 +280,13 @@ super + {_,shift + }x
 # 	# bspc node -f @{parent,brother}
 
 # Switch window on alt release
-alt + Tab
-	alttab.sh
+alt + {shift + ,_}Tab
+	if [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
+		bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
+	else;\
+		bspwm-alttab.sh;\
+	fi
+
 	# rofi -kb-accept-entry '!Alt-Tab' -kb-row-down Alt-Tab -show windowcd
 
 # Focus the next/previous desktop in the current monitor
@@ -328,10 +333,14 @@ super + shift + {h,j,k,l}
 
 # Swap desktop with next/prev monitor
 super + shift + ctrl + {h,l}
+	focused_desktop_name="$(bspc query -D -d focused --names)";\
+  last_desktop_name="$(bspc query -D -m {prev,next} -d .active --names)";\
 	focused_desktop="$(bspc query -D -d focused)";\
   last_desktop="$(bspc query -D -m {prev,next} -d .active)";\
-  bspc desktop "$last_desktop" --to-monitor focused && bspc desktop -f "$last_desktop";\
-  bspc desktop "$focused_desktop" --to-monitor {prev,next} && bspc desktop -f "$focused_desktop"
+	bspc config pointer_follows_focus true;\
+  bspc desktop "$last_desktop" --to-monitor focused && bspc desktop -f "$last_desktop" -n "$last_desktop_name";\
+  bspc desktop "$focused_desktop" --to-monitor {prev,next} && bspc desktop -f "$focused_desktop" -n "$focused_desktop_name";\
+	bspc config pointer_follows_focus false
   # bspc desktop --to-monitor {prev,next} --follow
 
 # Send a window to the next occupied workspace and focus it

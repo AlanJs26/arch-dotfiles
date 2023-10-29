@@ -1,4 +1,8 @@
 [arch]
+gnome-themes-extra
+
+bibata-cursor-theme
+
 inotify-tools
 
 qt5-styleplugins
@@ -53,6 +57,20 @@ rofi-power-menu
 rofi-file-browser-extended-git
 
 [python]
+mistune
+defusedxml
+python-json-logger
+rfc3986-validator
+bleach
+argon2-cffi-bindings
+sniffio
+tinycss2
+pandocfilters
+nbclient
+rfc3339-validator
+terminado
+PyYAML
+
 goyabu-cli
 
 dash-html-components
@@ -74,7 +92,6 @@ pdm
 fqdn
 isoduration
 jsonpointer
-jupyterlab
 lcapy
 uri-template
 webcolors

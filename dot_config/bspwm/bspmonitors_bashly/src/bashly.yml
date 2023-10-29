@@ -1,0 +1,41 @@
+name: bspmonitors
+help: manage monitor layouts from terminal
+version: 0.1.0
+
+flags:
+- long: --list_monitors
+  help: list all configured monitors
+- long: --list_layouts
+  help: list all configured layouts
+
+commands:
+- name: list
+  default: force
+  private: true
+
+  flags:
+  - long: --list_monitors
+    help: list all configured monitors
+  - long: --list_layouts
+    help: list all configured layouts
+
+- name: layout
+  help: switch to a given layout
+
+  args:
+  - name: name
+    required: true
+    help: layout name
+
+- name: query
+  help: get assigned name of an layout/monitor alias
+
+  flags:
+  - long: --monitor
+    help: query monitor
+    arg: query
+  - long: --layout
+    help: query layout
+    arg: query
+
+

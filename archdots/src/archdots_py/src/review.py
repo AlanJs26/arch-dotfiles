@@ -15,6 +15,7 @@ TPackages_by_domain = dict[str,set[str]]
 
 pacdef_config_path = os.path.expanduser('~/.config/pacdef/pacdef.yaml')
 aur_helper = 'yay'
+
 if os.path.isfile(pacdef_config_path):
     with open(pacdef_config_path) as file:
         config = yaml.safe_load(file)
@@ -178,7 +179,9 @@ while i < len(zipped_packages):
     elif option == 'u':
         if i > 0:
             i -= 1
-            del history[domain][i]
+            next_domain = zipped_packages[i][0] if i > 0 else domain
+            print(next_domain)
+            del history[next_domain][i - sum(len(history[_domain]) for _domain in history if next_domain!=_domain)]
         continue
 
     elif option == 'q':
@@ -204,10 +207,14 @@ while True:
     option = getchar()
 
     if option == 'y':
-        if 'arch' in history:
-            deleted_packages = list(map(lambda item: item[0], filter(lambda item: item[1] == 'd', history['arch']))) 
-            if deleted_packages:
-                os.system(f'{aur_helper} -R {" ".join(deleted_packages)}')
+        for domain in ['arch', 'python']:
+            if domain in history:
+                deleted_packages = list(map(lambda item: item[0], filter(lambda item: item[1] == 'd', history[domain]))) 
+                if deleted_packages:
+                    if domain == 'arch':
+                        os.system(f'{aur_helper} -R {" ".join(deleted_packages)}')
+                    elif domain == 'python':
+                        os.system(f'pip uninstall --yes {" ".join(deleted_packages)}')
 
         history_groups:dict[str, dict[str, list[str]]] = {}
         for domain, options_history in history.items():
