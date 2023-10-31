@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
     if [ -e /tmp/active-monitor-mode ]; then
         mode="$(cat /tmp/active-monitor-mode)"
     else
-        mode="SmallBig_TV"
+        mode="SmallBig"
     fi
 else
     mode="$1"

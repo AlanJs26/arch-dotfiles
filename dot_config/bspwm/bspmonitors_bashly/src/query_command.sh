@@ -1,6 +1,6 @@
 
 if [ -z "${args[--monitor]}" ] && [ -z "${args[--layout]}" ]; then
-    $BSPDIR/bspmonitors_bashly/bspmonitors query --help
+    bspmonitors query --help
     exit
 fi
 

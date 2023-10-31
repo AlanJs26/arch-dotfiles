@@ -253,11 +253,11 @@ super + ctrl + a
 
 # Focus Window
 super + {h,j,k,l}
-	focusmover {west,south,north,east}
+	focusmover.sh {west,south,north,east}
 
 # Focus Window (Arrow Keys)
 super + {Left,Down,Up,Right}
-	focusmover {west,south,north,east}
+	focusmover.sh {west,south,north,east}
 
 # Go go next monitor
 super + u
@@ -315,7 +315,7 @@ super + d
 
 # Transplant into window in chosen direction
 super + shift + {Left,Down,Up,Right}
-  euclid_mover {west,south,north,east}
+  euclid_mover.sh {west,south,north,east}
 
 # Move a floating window
 super + {Left,Down,Up,Right}
@@ -333,14 +333,7 @@ super + shift + {h,j,k,l}
 
 # Swap desktop with next/prev monitor
 super + shift + ctrl + {h,l}
-	focused_desktop_name="$(bspc query -D -d focused --names)";\
-  last_desktop_name="$(bspc query -D -m {prev,next} -d .active --names)";\
-	focused_desktop="$(bspc query -D -d focused)";\
-  last_desktop="$(bspc query -D -m {prev,next} -d .active)";\
-	bspc config pointer_follows_focus true;\
-  bspc desktop "$last_desktop" --to-monitor focused && bspc desktop -f "$last_desktop" -n "$last_desktop_name";\
-  bspc desktop "$focused_desktop" --to-monitor {prev,next} && bspc desktop -f "$focused_desktop" -n "$focused_desktop_name";\
-	bspc config pointer_follows_focus false
+	swap-desktops.sh {prev,next}
   # bspc desktop --to-monitor {prev,next} --follow
 
 # Send a window to the next occupied workspace and focus it

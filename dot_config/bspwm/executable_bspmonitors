@@ -239,7 +239,7 @@ bspmonitors_list_command() {
   # src/list_command.sh
 
   if [ -z "${args[--list_monitors]}" ] && [ -z "${args[--list_layouts]}" ]; then
-      $BSPDIR/bspmonitors_bashly/bspmonitors --help
+      bspmonitors --help
       exit
   fi
 
@@ -326,7 +326,7 @@ bspmonitors_query_command() {
   # src/query_command.sh
 
   if [ -z "${args[--monitor]}" ] && [ -z "${args[--layout]}" ]; then
-      $BSPDIR/bspmonitors_bashly/bspmonitors query --help
+      bspmonitors query --help
       exit
   fi
 

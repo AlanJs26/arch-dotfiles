@@ -1,7 +1,7 @@
 
 
 if [ -z "${args[--list_monitors]}" ] && [ -z "${args[--list_layouts]}" ]; then
-    $BSPDIR/bspmonitors_bashly/bspmonitors --help
+    bspmonitors --help
     exit
 fi
 
