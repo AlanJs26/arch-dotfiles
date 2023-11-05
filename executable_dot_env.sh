@@ -19,6 +19,7 @@ SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 export ROFISTYLE="$HOME/.config/rofi/tokyonight"
 export TOOLS="$HOME/.scripts/tools"
 export BSPDIR="$HOME/.config/bspwm"
+export BSPSETTINGS="$HOME/.config/bspwm/settings.json"
 
 export SHELL="$(which zsh)";
 export VISUAL=nvim;

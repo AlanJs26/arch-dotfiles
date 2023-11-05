@@ -244,9 +244,9 @@ bspmonitors_list_command() {
   fi
 
   if [ "${args[--list_monitors]}" = "1" ]; then
-      jq -r '.monitor_setup|map(.alias).[]' $BSPDIR/settings.json
+      jq -r '.monitor_setup|map(.alias).[]' $BSPSETTINGS
   elif [ "${args[--list_layouts]}" = "1" ]; then
-      jq -r '.monitor_layouts|map(.name).[]' $BSPDIR/settings.json
+      jq -r '.monitor_layouts|map(.name).[]' $BSPSETTINGS
   fi
 
 }
@@ -259,8 +259,8 @@ bspmonitors_layout_command() {
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
-  layout="$(jq -r ".monitor_layouts|map(select(.name == \"${args[name]}\"))[0]" $BSPDIR/settings.json)"
-  monitor_setup="$(jq -r ".monitor_setup" $BSPDIR/settings.json)"
+  layout="$(jq -r ".monitor_layouts|map(select(.name == \"${args[name]}\"))[0]" $BSPSETTINGS)"
+  monitor_setup="$(jq -r ".monitor_setup" $BSPSETTINGS)"
   n_layout=$(echo "$layout"|jq -r '.layout|length')
 
   json ()
@@ -331,12 +331,12 @@ bspmonitors_query_command() {
   fi
 
   if [ -n "${args[--monitor]}" ]; then
-      found="$(jq -r '.monitor_setup|map(.alias).[]' $BSPDIR/settings.json|grep "${args[--monitor]}"|tail -n1)"
-      jq -r ".monitor_setup|map(select(.alias == \"$found\"))[0].name" $BSPDIR/settings.json
+      found="$(jq -r '.monitor_setup|map(.alias).[]' $BSPSETTINGS|grep "${args[--monitor]}"|tail -n1)"
+      jq -r ".monitor_setup|map(select(.alias == \"$found\"))[0].name" $BSPSETTINGS
 
   elif [ -n "${args[--layout]}" ]; then
-      found="$(jq -r '.monitor_layouts|map(.name).[]' $BSPDIR/settings.json|grep "${args[--layout]}"|tail -n1)"
-      jq -r ".monitor_layouts|map(select(.name == \"$found\"))" $BSPDIR/settings.json
+      found="$(jq -r '.monitor_layouts|map(.name).[]' $BSPSETTINGS|grep "${args[--layout]}"|tail -n1)"
+      jq -r ".monitor_layouts|map(select(.name == \"$found\"))" $BSPSETTINGS
 
   fi
 

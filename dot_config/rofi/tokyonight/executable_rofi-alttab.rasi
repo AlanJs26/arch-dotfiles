@@ -1,0 +1,26 @@
+/*
+ *
+ * Author  : Aditya Shakya
+ * Mail    : adi1090x@gmail.com
+ * Github  : @adi1090x
+ * Twitter : @adi1090x
+ *
+ */
+
+
+@import "colors.rasi"
+@import "rofi.rasi"
+
+inputbar {
+    enabled: false;
+}
+
+listview {
+    columns:                        2;
+    lines:                          10;
+    cycle:                          true;
+    dynamic:                        true;
+    layout:                         vertical;
+    fixed-height: false;
+}
+

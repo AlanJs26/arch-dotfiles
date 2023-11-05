@@ -91,7 +91,6 @@ archdots_setup_usage() {
   printf "  %s   \n" "$(green "docker")              "
   printf "  %s   \n" "$(green "ssh_agent")           "
   printf "  %s   \n" "$(green "archdots_completions")"
-  printf "  %s   \n" "$(green "themes")              "
   printf "  %s   \n" "$(green "rclone")              "
   printf "  %s   \n" "$(green "cron")                "
   printf "  %s   \n" "$(green "audiorelay")          "
@@ -405,35 +404,6 @@ archdots_setup_archdots_completions_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup archdots_completions\n"
   printf "  archdots setup archdots_completions --help | -h\n"
-  echo
-
-  # :command.long_usage
-  if [[ -n $long_usage ]]; then
-    printf "%s\n" "Options:"
-
-    # :command.usage_fixed_flags
-    printf "  %s\n" "--help, -h"
-    printf "    Show this help\n"
-    echo
-
-  fi
-}
-
-# :command.usage
-archdots_setup_themes_usage() {
-  if [[ -n $long_usage ]]; then
-    printf "archdots setup themes\n"
-    echo
-
-  else
-    printf "archdots setup themes\n"
-    echo
-
-  fi
-
-  printf "%s\n" "Usage:"
-  printf "  archdots setup themes\n"
-  printf "  archdots setup themes --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1162,7 +1132,7 @@ archdots_list_dots_usage() {
   fi
 
   printf "%s\n" "Usage:"
-  printf "  archdots list dots [OPTIONS]\n"
+  printf "  archdots list dots [FOLDER...] [OPTIONS]\n"
   printf "  archdots list dots --help | -h\n"
   echo
 
@@ -1171,6 +1141,11 @@ archdots_list_dots_usage() {
     printf "%s\n" "Options:"
 
     # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--managed"
+    printf "    only show managed dotfiles\n"
+    echo
+
     # :flag.usage
     printf "  %s\n" "--unmanaged"
     printf "    only show unmanaged dotfiles\n"
@@ -1183,12 +1158,25 @@ archdots_list_dots_usage() {
 
     # :flag.usage
     printf "  %s\n" "--tree"
-    printf "    display as a tree\n"
+    printf "    display folders as a tree\n"
+    echo
+
+    # :flag.usage
+    printf "  %s\n" "--level LEVEL"
+    printf "    sets tree view level\n"
     echo
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "FOLDER..."
+    printf "\n"
     echo
 
   fi
@@ -1387,10 +1375,6 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'setup themes\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
-  echo $'      ;;'
-  echo $''
   echo $'    \'setup rclone\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -1412,7 +1396,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'list\'*\'dots\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --pending --tree --unmanaged -h")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --level --managed --pending --tree --unmanaged -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'list\'*\'apps\'*)'
@@ -1464,7 +1448,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'setup\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro archdots_completions audiorelay cron cups docker evrouter git_credentials git_delta monitors nvim pip rclone ssh_agent themes")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro archdots_completions audiorelay cron cups docker evrouter git_credentials git_delta monitors nvim pip rclone ssh_agent")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'edit\'*)'
@@ -1759,35 +1743,6 @@ archdots_setup_archdots_completions_command() {
   echo Adding archdots completions to zsh
   mkdir -p $HOME/.oh-my-zsh/completions
   cp "$HOME/.local/share/chezmoi/archdots/public/_archdots" "$HOME/.oh-my-zsh/completions/"
-
-}
-
-# :command.function
-archdots_setup_themes_command() {
-  # src/commands/setup/themes.sh
-  #!/usr/bin/env bash
-
-  if [ "$1" = "check" ]; then
-  	if [[ ! -d "$HOME/.themes/TokyoNight" ]]; then
-  		echo notok
-  	fi
-  	exit
-  fi
-
-  echo "Downloading Tokyonight GTK Theme"
-  [[ ! -f /tmp/master.tar.gz ]] && (cd /tmp&&wget "https://github.com/stronk-dev/Tokyo-Night-Linux/archive/refs/heads/master.tar.gz")
-  [[ -d /tmp/Tokyo-Night-Linux-master ]] && rm -r /tmp/Tokyo-Night-Linux-master
-
-  (cd /tmp&&tar xvf master.tar.gz)
-
-  mkdir -p $HOME/.themes
-  mkdir -p $HOME/.icons
-  # mkdir -p "$HOME/.config/gtk-4.0"
-  rsync -a -v /tmp/Tokyo-Night-Linux-master/usr/share/themes/TokyoNight $HOME/.themes
-
-  # rsync -a -v "$HOME/.themes/Tokyonight-Dark-B/gtk-4.0/assets" "$HOME/.config/gtk-4.0"
-  # rsync -a -v "$HOME/.themes/Tokyonight-Dark-B/gtk-4.0/gtk.css" "$HOME/.config/gtk-4.0"
-  # rsync -a -v "$HOME/.themes/Tokyonight-Dark-B/gtk-4.0/gtk-dark.css" "$HOME/.config/gtk-4.0"
 
 }
 
@@ -2133,15 +2088,40 @@ archdots_git_command() {
 archdots_list_dots_command() {
   # src/commands/list/dots.sh
 
-  if [[ ${args[--unmanaged]} -eq 1 ]]; then
+  function trailing_slash(){
+  	cat < /dev/stdin|xargs -i sh -c '[ "$(file --brief "$HOME/{}")" = "directory" ]&&echo "{}/"||echo {}'
+  }
+
+  get_level() {
+  	if [[ -n "${args[--level]}" ]]; then
+  		echo "${args[--level]}"
+  		exit
+  	fi
+  	echo -e "99"
+  }
+
+  show_managed () {
+  	eval "data=(${args[folder]})"
 
   	if [[ ${args[--tree]} -eq 1 ]]; then
-  		tree --fromfile <(chezmoi unmanaged)
+  		tree -L $(get_level) --fromfile <(chezmoi managed $data|trailing_slash)
   	else
-  		chezmoi unmanaged
+  		chezmoi managed $data
   	fi
+  }
 
-  elif [[ ${args[--pending]} -eq 1 ]]; then
+  show_unmanaged () {
+  	eval "data=(${args[folder]})"
+  	data=$(echo $data|sed "s:$HOME/::")
+
+  	if [[ ${args[--tree]} -eq 1 ]]; then
+  		tree -L $(get_level) --fromfile <(chezmoi unmanaged $data|trailing_slash)
+  	else
+  		chezmoi unmanaged $data
+  	fi
+  }
+
+  show_pending () {
   	from_git="$(archdots git diff --cached --numstat|awk '{print $3}'|rg 'dot_' -r '.' --passthrough|sed 's/private_|executable_//g')"
 
   	from_chezmoi="$(chezmoi diff|rg 'diff --git'|rg 'a/(.+) b/' -o -r '$1')"
@@ -2149,18 +2129,20 @@ archdots_list_dots_command() {
   	pending="$(echo -e "$from_git\n$from_chezmoi"|sort -u)"
 
   	if [[ ${args[--tree]} -eq 1 ]]; then
-  		tree --fromfile <(echo "$pending")
+  		tree -L $(get_level) --fromfile <(echo "$pending")
   	else
   		echo "$pending"
   	fi
+  }
 
+  if [[ ${args[--managed]} -eq 1 ]]; then
+  	show_managed
+  elif [[ ${args[--unmanaged]} -eq 1 ]]; then
+  	show_unmanaged
+  elif [[ ${args[--pending]} -eq 1 ]]; then
+  	show_pending
   else
-
-  	if [[ ${args[--tree]} -eq 1 ]]; then
-  		tree --fromfile <(chezmoi managed)
-  	else
-  		chezmoi managed
-  	fi
+  	show_managed
   fi
 
 }
@@ -2425,13 +2407,6 @@ archdots_setup_parse_requirements() {
       action="archdots_completions"
       shift
       archdots_setup_archdots_completions_parse_requirements "$@"
-      shift $#
-      ;;
-
-    themes)
-      action="themes"
-      shift
-      archdots_setup_themes_parse_requirements "$@"
       shift $#
       ;;
 
@@ -2944,50 +2919,6 @@ archdots_setup_archdots_completions_parse_requirements() {
 
   # :command.command_filter
   action="setup archdots_completions"
-
-  # :command.parse_requirements_while
-  while [[ $# -gt 0 ]]; do
-    key="$1"
-    case "$key" in
-
-      -?*)
-        printf "invalid option: %s\n" "$key" >&2
-        exit 1
-        ;;
-
-      *)
-        # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
-
-        ;;
-
-    esac
-  done
-
-}
-
-# :command.parse_requirements
-archdots_setup_themes_parse_requirements() {
-  # :command.fixed_flags_filter
-  while [[ $# -gt 0 ]]; do
-    case "${1:-}" in
-      --help | -h)
-        long_usage=yes
-        archdots_setup_themes_usage
-        exit
-        ;;
-
-      *)
-        break
-        ;;
-
-    esac
-  done
-
-  # :command.command_filter
-  action="setup themes"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -4149,6 +4080,14 @@ archdots_list_dots_parse_requirements() {
     key="$1"
     case "$key" in
       # :flag.case
+      --managed)
+
+        # :flag.case_no_arg
+        args['--managed']=1
+        shift
+        ;;
+
+      # :flag.case
       --unmanaged)
 
         # :flag.case_no_arg
@@ -4172,6 +4111,21 @@ archdots_list_dots_parse_requirements() {
         shift
         ;;
 
+      # :flag.case
+      --level)
+
+        # :flag.case_arg
+        if [[ -n ${2+x} ]]; then
+
+          args['--level']="$2"
+          shift
+          shift
+        else
+          printf "%s\n" "--level requires an argument: --level LEVEL" >&2
+          exit 1
+        fi
+        ;;
+
       -?*)
         printf "invalid option: %s\n" "$key" >&2
         exit 1
@@ -4179,9 +4133,15 @@ archdots_list_dots_parse_requirements() {
 
       *)
         # :command.parse_requirements_case
-        # :command.parse_requirements_case_simple
-        printf "invalid argument: %s\n" "$key" >&2
-        exit 1
+        # :command.parse_requirements_case_repeatable
+
+        if [[ -z ${args['folder']+x} ]]; then
+          args['folder']="\"$1\""
+          shift
+        else
+          args['folder']="${args[folder]} \"$1\""
+          shift
+        fi
 
         ;;
 
@@ -4278,7 +4238,6 @@ run() {
     "setup docker") archdots_setup_docker_command ;;
     "setup ssh_agent") archdots_setup_ssh_agent_command ;;
     "setup archdots_completions") archdots_setup_archdots_completions_command ;;
-    "setup themes") archdots_setup_themes_command ;;
     "setup rclone") archdots_setup_rclone_command ;;
     "setup cron") archdots_setup_cron_command ;;
     "setup audiorelay") archdots_setup_audiorelay_command ;;

@@ -1,4 +1,10 @@
 #!/usr/bin/env zsh
+
+to_ignore=(
+  "bspscripts"
+  "Unified Remote"
+)
+
 function _set_vars() {
   typeset -gx DUNST_CACHE_DIR="$HOME/.cache/dunst"
   typeset -gx DUNST_LOG="$DUNST_CACHE_DIR/notifications.txt"
@@ -32,7 +38,23 @@ function create_cache() {
   local glyph
   case "$urgency" in
     "LOW") glyph="󰋽";;
-    "NORMAL") glyph="󱝁";;
+    "NORMAL")
+      glyph="󱝁"
+
+      local has_match="0"
+
+      for item in "${to_ignore[@]}"; do
+        if [[ $(echo "$DUNST_APP_NAME $DUNST_SUMMARY $DUNST_BODY"|grep "$item") ]]; then
+          has_match="1"
+          break
+        fi
+      done
+
+      if [ "$has_match" = "0" ]; then
+        add_pending
+      fi
+
+      ;;
     "CRITICAL") glyph="󰋽";;
     *) glyph="󰓏";;
   esac
@@ -102,10 +124,6 @@ function critical_count() {
 }
 
 function normal_count() { 
-  local to_ignore=(
-    "bspscripts"
-    "Unified Remote"
-  )
   local new_log=$(cat $DUNST_LOG | grep NORMAL)
 
   for item in "${to_ignore[@]}"; do
@@ -132,14 +150,40 @@ function subscribe() {
   done | while read -r _ do; make_literal done
 }
 
+function add_pending () {
+  if [[ -f /tmp/pending-notifications.txt ]]; then
+    echo "$(($(cat /tmp/pending-notifications.txt)+1))" > /tmp/pending-notifications.txt
+  else
+    echo "1" > /tmp/pending-notifications.txt
+  fi
+}
+
+function clear_pending () {
+  echo "0" > /tmp/pending-notifications.txt
+}
+
+function drop_pending () {
+  if [[ -f /tmp/pending-notifications.txt ]] && [[ "$(cat /tmp/pending-notifications.txt)" -gt 0 ]]; then
+    echo "$(($(cat /tmp/pending-notifications.txt)-1))" > /tmp/pending-notifications.txt
+  fi
+}
+
+function get_pending () {
+  cat /tmp/pending-notifications.txt 2> /dev/null|| echo 0
+}
+
 case "$1" in
-  "pop") pop;;
-  "drop") drop;;
-  "clear") clear_logs;;
+  "pop") pop; drop_pending;;
+  "drop") drop; drop_pending;;
+  "clear") clear_logs; clear_pending;;
   "subscribe") subscribe;;
   "rm_id") remove_line $2;;
   "crits") critical_count;;
   "normal") normal_count;;
+  "add_pending") add_pending;;
+  "drop_pending") drop_pending;;
+  "clear_pending") clear_pending;;
+  "pending") get_pending;;
   *) create_cache;;
 esac
 

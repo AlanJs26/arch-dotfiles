@@ -77,7 +77,7 @@ done
 
 
 # specific rules
-bspc rule -a Qalculate-gtk state=floating rectangle="400x500+300+400"
+bspc rule -a Qalculate-gtk    state=floating rectangle="400x500+300+400"
 bspc rule -a "*:*:smallkitty" state=floating center=on rectangle="400x100+300+800"
 
 bspc rule -a "__float_center__:*:*" state=floating center=on rectangle="960x660+200+800"
@@ -85,8 +85,8 @@ bspc rule -a "__float_center__:*:*" state=floating center=on rectangle="960x660+
 bspc rule -a "Typstudio" state=tiled
 
 bspc rule -a "__jupyter__:*:*" hidden=on
-bspc rule -a "__matlab__:*:*" hidden=on
-bspc rule -a "__pluto__:*:*" hidden=on
+bspc rule -a "__matlab__:*:*"  hidden=on
+bspc rule -a "__pluto__:*:*"   hidden=on
 
 bspc rule -a peek manage=off
 bspc rule -a fcitx manage=off

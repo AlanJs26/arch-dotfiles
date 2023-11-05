@@ -3,29 +3,14 @@ if [ $(pgrep chezmoi) ]; then
     exit
 fi
 
-
-find_difference() {
-    local list1=("$@")
-    local list2=("${list1[@]}")
-
-    for item in "${list1[@]}"; do
-        for elem in "${list2[@]}"; do
-            if [[ "$item" == "$elem" ]]; then
-                list1=("${list1[@]/$item}")
-                break
-            fi
-        done
-    done
-
-    echo "${list1[@]}"
-}
+alias count="grep -c -v '^\\s*$'"
 
 chezmoi git add . 2> /dev/null
 
-dots_pending=$(archdots list dots --pending|wc -l)
+dots_pending=$(archdots list dots --pending|count)
 
-apps_unmanaged=$(archdots list apps --unmanaged|rg -vU '^(WARNING|\[|#|\n)'|wc -l)
-apps_pending=$(archdots list apps --pending|rg -N .|wc -l)
+apps_unmanaged=$(archdots list apps --unmanaged|rg -vU '^(WARNING|\[|#|\n)'|count)
+apps_pending=$(archdots list apps --pending|rg -N .|count)
 
 [ $dots_pending -ne 0 ]&&printf "󰈙 $dots_pending "
 

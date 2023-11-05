@@ -86,13 +86,22 @@ commands:
 
   commands:
   - name: dots
+    args:
+    - name: folder
+      required: false
+      repeatable: true
     flags:
+    - long: --managed
+      help: only show managed dotfiles
     - long: --unmanaged
       help: only show unmanaged dotfiles
     - long: --pending
       help: only show pending dotfiles
     - long: --tree
-      help: display as a tree
+      help: display folders as a tree
+    - long: --level
+      help: sets tree view level
+      arg: level
 
   - name: apps
     default: force

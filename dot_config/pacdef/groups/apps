@@ -1,4 +1,7 @@
 [arch]
+typstudio
+jupyterlab-desktop-bin
+
 inkscape
 
 octave

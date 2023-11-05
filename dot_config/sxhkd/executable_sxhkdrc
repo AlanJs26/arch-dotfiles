@@ -11,13 +11,19 @@ super + Escape
 ~button3
 	  xqp 0 $(xdo id -N Bspwm -n root) && jgmenu_run
 
-# Dunst history
+# Dunst history (eww notifications)
 super + n
 	eww open disclose --toggle;\
+	$HOME/.config/eww/scripts/notification_logger.zsh clear_pending;\
 	eww close mainframe
   # dunst-history.sh
 
-# Dunst close all
+# Eww menu
+super + m
+	eww open mainframe --toggle;\
+	eww close disclose
+
+# Dunst close all (notifications)
 super + ctrl + n
 	$HOME/.config/eww/scripts/notification_logger.zsh clear;\
 	eww close disclose mainframe;\
@@ -210,7 +216,7 @@ super + {_,shift + }w
 	bsptab {add,remove}
 
 # Alternate between the tiled and monocle layout
-super + {m,a}
+super + a
 	bspc desktop -l next;\
 	polybar-msg action bspwm-monocle hook 0
 
