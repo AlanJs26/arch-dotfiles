@@ -65,8 +65,8 @@ super + button2
 super + @button2
 	bspdragwin.py release
 
-# ~Escape
-# 	eww close-all
+~Escape
+	eww close-all
 
 
 
@@ -142,13 +142,17 @@ super + shift + v
 super + ctrl + m
 	bspc node --flag hidden=on
 
+# Toggle all floating windows
+super + alt + {s,o}
+	scratchpad.py --behaviour toggleall
+
 # Add window to scratchpad
 super + alt + a
 	bspc node --flag hidden=on -t floating
 
 # Cicle all scratchpad windows
 super + shift + a
-	scratchpad.py ".*" -b i3 --not_class "$(bash bsplaunch pdf_viewer -r)|qalculate-gtk" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
+	scratchpad.py ".*" --behaviour i3 --not_class "$(bash bsplaunch pdf_viewer -r)|qalculate-gtk" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
 
 # Youtube Music or MPV
 super + ctrl + z
@@ -330,10 +334,11 @@ super + {Left,Down,Up,Right}
 # Swap Windows
 super + shift + {h,j,k,l}
 	dir="{west,south,north,east}";\
-	if [ -z "$(bspc query -N "$dir.local")" ]; then;\
+	node_state="$(bspc query -T -n focused|jq '.client.state' -r)";\
+	if [ "$node_state" = "floating" ] || [ -z "$(bspc query -N -n "$dir.local.!floating")" ]; then;\
 		bspc node -m $dir --follow;\
 	else;\
-		bspc node -s $dir.local;\
+		bspc node -s "$dir.local.!floating";\
 	fi
 	# windowgrabber {west,south,north,east}
 

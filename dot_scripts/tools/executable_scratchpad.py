@@ -66,7 +66,7 @@ def config() -> ArgumentParser:
     argparser.add_argument(
         "-b",
         "--behaviour",
-        choices=['i3', 'swap', 'nomark'],
+        choices=['i3', 'swap', 'nomark', 'toggleall'],
         default='i3',
         help="""<i3> (default)
 behaves just like the i3 scratchpad
@@ -76,7 +76,10 @@ hide the current window and show the next in only one command
 
 <nomark>
 avoids the use of bspwm marks, with the disadvantage that windows
-that are forcibly hidden, their stack positions will be reset""",
+that are forcibly hidden, their stack positions will be reset
+
+<toggleall>
+toggle all visible floating nodes""",
     )
 
     return argparser
@@ -101,7 +104,25 @@ matched_marked = bspc.query.nodes('.floating.marked') & matched
 
 matched_focused = (bspc.query.nodes('.focused') & matched_visible).pop() 
 
-if args.behaviour in ['i3', 'swap']:
+if args.behaviour == 'toggleall':
+
+    if matched_visible:
+        for node in floating_nodes:
+            if node.hidden:
+                node.marked = False
+            else:
+                node.marked = True
+                node.hidden = True
+    else:
+        matched_marked_hidden = matched_marked & matched_hidden
+        for node in matched_marked_hidden:
+            node.hidden = False
+        node = matched_marked_hidden.first()
+        if node:
+            node.focus()
+
+
+elif args.behaviour in ['i3', 'swap']:
     if matched_visible & bspc.query.nodes(desktop_selector='.focused'):
         next_node = matched_hidden.next(matched_focused)
         for node in matched_visible:

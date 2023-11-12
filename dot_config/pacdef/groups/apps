@@ -31,3 +31,14 @@ kitty
 obsidian
 obs-studio
 
+# pdfarranger
+poppler-glib
+python-pip
+python-gobject
+gtk3
+python-cairo
+libhandy
+
+[python]
+pdfarranger
+
