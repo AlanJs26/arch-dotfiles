@@ -20,8 +20,6 @@ commands:
 - name: pip
 - name: docker
 - name: ssh_agent
-- name: archdots_completions
-# - name: themes
 - name: rclone
 - name: cron
 - name: audiorelay

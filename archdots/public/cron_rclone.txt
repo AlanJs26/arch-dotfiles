@@ -1,1 +1,1 @@
-0 */2 * * * /home/alan/.scripts/tools/rclone-sync.sh
+0 * * * * /home/alan/.scripts/tools/rclone-sync.sh
