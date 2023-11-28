@@ -62,7 +62,8 @@ elif [ "$layout" = "monocle" ] || [ -z "$node_dir" ] && [ $(echo "$DIR"|rg "sout
             ;;
     esac
 
-elif [ "$layout" = "tiled" ] || ([ "$layout" = "monocle" ] && [ "$child" = "null" ]); then
+else
+# elif [ "$layout" = "tiled" ] || ([ "$layout" = "monocle" ] && [ "$child" = "null" ]); then
     if [ -z "$node_dir" ] || ! bspc node $node_dir --focus; then 
         bspc monitor -f $DIR
     else

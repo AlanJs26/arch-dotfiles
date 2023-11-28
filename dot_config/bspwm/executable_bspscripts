@@ -15,6 +15,7 @@ myscripts=(
 
 myprograms=(
     "fcitx5 -d"
+    "syncthing serve --no-browser --logfile=default"
     "dunst"
     "nm-applet"
     "picom"

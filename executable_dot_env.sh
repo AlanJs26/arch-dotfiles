@@ -26,6 +26,12 @@ export VISUAL=nvim;
 export EDITOR=nvim;
 export FZF_DEFAULT_OPTS='--height 60% --border --exact' 
 
+# Flutter and Android SDK
+export ANDROID_HOME=$HOME/android-sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+
+
 if [ -f ~/.config/environment.d/profile.conf ]; then
 	eval "$(cat ~/.config/environment.d/profile.conf|xargs -i echo export {})"
 fi

@@ -43,8 +43,10 @@ zinit light-mode for \
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
-# zinit light spaceship-prompt/spaceship-prompt
 zinit light hlissner/zsh-autopair 
+
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 
 source ~/.env.sh
 

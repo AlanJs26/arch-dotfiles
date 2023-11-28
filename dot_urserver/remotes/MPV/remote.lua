@@ -1,3 +1,38 @@
+function string:startswith(start)
+    return self:sub(1, #start) == start
+end
+
+function table:find_by_key(query)
+    for k,v in pairs(self) do
+        if k == query then
+            return v
+        end
+    end
+    return nil
+end
+
+function split_by_type(list)
+		type_table = {}
+
+		if type(list) == 'table' then
+			if list == nil or #list == 0 then
+				return nil
+			end
+		else
+			type_table[type(list)] = {list}
+			return type_table
+		end
+    
+    for _,value in ipairs(list) do
+        if table.find_by_key(type_table, type(value)) == nil then
+            type_table[type(value)] = {value}
+        else
+            table.insert(type_table[type(value)], value)
+        end
+    end
+    
+    return type_table
+end
 
 function string:split( inSplitPattern, outResults )
   if not outResults then
@@ -13,6 +48,26 @@ function string:split( inSplitPattern, outResults )
   table.insert( outResults, string.sub( self, theStart ) )
   return outResults
 end
+
+function shell(command)
+	libs.script.shell(command)
+end
+function seticon(id, icon)
+	libs.server.update({id = id, icon = icon})
+end
+function settext(id, text)
+	libs.server.update({id = id, text = text})
+end
+function toggleicon(id, boolean, icon_a, icon_b)
+	iconname = icon_b
+	if boolean == true then
+		iconname = icon_a
+	end
+
+	seticon(id, iconname)
+end
+
+
 
 local keyboard = libs.keyboard;
 local tid = -1
@@ -32,104 +87,11 @@ function refreshpos()
 	tid = libs.timer.timeout(refreshpos, 500)
 end
 
-actions.closempv = function()
-	keyboard.stroke("shift", "q")
-end
-
-actions.volume_up_mpv = function()
-	keyboard.stroke("up")
-end
-
-actions.volume_down_mpv = function()
-	keyboard.stroke("down")
-end
 
 actions.seek = function(pos)
 	local cmd = "echo '{ \"command\": [\"set_property\", \"percent-pos\", ".. pos .."] }' | socat - /tmp/mpv-socket"
 
-	libs.script.shell(cmd)
-end
-
-
---@help Lower volume
-actions.volume_down = function()
-	keyboard.stroke("volumedown");
-end
-
---@help Raise volume
-actions.volume_up = function()
-	keyboard.stroke("volumeup");
-end
-
---@help Skip to the next silent segment
-actions.skip_segment = function()
-	keyboard.stroke("tab");
-end
-
---@help MPV Lower volume
-actions.mpvvolume_down = function()
-	keyboard.stroke("down");
-end
-
---@help MPV Raise volume
-actions.mpvvolume_up = function()
-	keyboard.stroke("up");
-end
-
---@help Mute volume
-actions.volume_mute = function()
-	keyboard.stroke("M");
-end
-
---@help Forward 10 seconds
-actions.right = function()
-	keyboard.stroke("right");
-end
-
---@help Forward 1 second
-actions.rightBit = function()
-	keyboard.stroke("shift", "right");
-end
-
---@help Toggle play pause state
-actions.play_pause = function()
-	-- keyboard.stroke("mediaplaypause");
-	keyboard.stroke("space");
-end
-
---@help Rewind 10 seconds
-actions.left = function()
-	keyboard.stroke("left");
-end
-
---@help Rewind 1 second
-actions.leftBit = function()
-	keyboard.stroke("shift", "left");
-end
-
---@help Toggle fullscreen
-actions.fullscreen = function()
-	keyboard.stroke("F");
-end
-
---@help Previous
-actions.prevEp = function()
-	keyboard.stroke("mediaprevious");
-end
-
---@help Next
-actions.nextEp = function()
-	keyboard.stroke("medianext");
-end
-
---@help Go to scratchpad
-actions.hide = function()
-	keyboard.stroke("win", "ctrl", "m");
-end
-
---@help Go out scratchpad
-actions.show = function()
-	keyboard.stroke("win", "ctrl", "a");
+	shell(cmd)
 end
 
 
@@ -173,144 +135,280 @@ end
 actions.listitem = function(index)
 	local cmd = "echo '{ \"command\": [\"set_property\", \"playlist-pos\", ".. index .."] }' | socat - /tmp/mpv-socket"
 
-	libs.script.shell(cmd)
+	shell(cmd)
 	actions.refreshlist()
 end
 
--- true = focus window
--- false = move window
-local isholdingwindow = false
-
--- true = focus and move windows
--- false = arrow keys
-local iswindowsfocusmode = false
 
  -- ---------------------
-actions.sendtoavailableworkspace = function()
-	if iswindowsfocusmode then
-		keyboard.stroke("win", "r");
-	else
-		if isholdingwindow then
-			libs.script.shell('i3-msg "move container to workspace next_on_output; workspace next_on_output"');
-		else
-			libs.script.shell("/usr/bin/i3-next-workspace --move-window");
+
+actions_table = {
+	--@help show shutdown menu
+	showpowermenu = {'win', 'shift', 'e'},
+
+
+	sendtoavailableworkspace = {
+		not_iswindowsfocusmode = {function()
+				shell("bspc desktop -f any.local.!occupied");
+		end},
+		iswindowsfocusmode = {
+			isholdingwindow = {function() 
+				shell("bspc node -d any.local.!occupied");
+			end},
+			not_isholdingwindow = {function() 
+				shell("bspc node -d any.local.!occupied --follow");
+			end},
+		},
+
+	},
+
+	focusnextscreen = {
+		iswindowsfocusmode = {"win", "u"},
+		not_iswindowsfocusmode = {"win", "ctrl", "shift", "l"},
+	},
+
+	windowmodetogglebutton = {
+		toggle_state = 'iswindowsfocusmode',
+		function(state_table)
+			iswindowsfocusmode = table.find_by_key(state_table, 'iswindowsfocusmode')
+
+			toggleicon("windowmodetogglebutton", iswindowsfocusmode, 'off', 'on')
+		end,
+
+
+		iswindowsfocusmode = {function()
+			settext("windowtogglebutton", 'Enter')
+			seticon("focusnextscreen", 'fullscreen')
+			seticon("sendtoavailableworkspace", 'docswitch')
+		end},
+		not_iswindowsfocusmode = {function(state_table)
+			isholdingwindow = table.find_by_key(state_table, 'isholdingwindow')
+
+			toggleicon("windowtogglebutton", isholdingwindow, 'lock', 'unlock')
+			seticon("focusnextscreen", 'shuffle')
+			seticon("sendtoavailableworkspace", 'eject')
+		end},
+
+	},
+
+	--@help toggles global state for holding (to move windows) or focusing windows
+	windowtogglebutton = {
+		iswindowsfocusmode = {'enter'},
+
+		not_iswindowsfocusmode = {
+			toggle_state = 'isholdingwindow',
+			function(state_table)
+				isholdingwindow = table.find_by_key(state_table, 'isholdingwindow')
+
+				toggleicon("windowtogglebutton", isholdingwindow, 'unlock', 'lock')
+			end,
+		}
+	},
+
+	--@help focus window on up,left,right or down
+	focuswintop = {
+		iswindowsfocusmode = {'up'},
+		not_iswindowsfocusmode = {
+			isholdingwindow = {'win', 'shift', 'k'},
+			not_isholdingwindow = {'win', 'k'},
+		}
+	},
+	focuswinleft = {
+		iswindowsfocusmode = {'left'},
+		not_iswindowsfocusmode = {
+			isholdingwindow = {'win', 'shift', 'h'},
+			not_isholdingwindow = {'win', 'h'},
+		}
+	},
+	focuswinright = {
+		iswindowsfocusmode = {'right'},
+		not_iswindowsfocusmode = {
+			isholdingwindow = {'win', 'shift', 'l'},
+			not_isholdingwindow = {'win', 'l'},
+		}
+	},
+	focuswindown = {
+		iswindowsfocusmode = {'down'},
+		not_iswindowsfocusmode = {
+			isholdingwindow = {'win', 'shift', 'j'},
+			not_isholdingwindow = {'win', 'j'},
+		}
+	},
+
+	--@help focus next workspace
+	focusprevworkspace = {"win", "shift", "tab"},
+
+	--@help focus previous workspace
+	focusnextworkspace = {"win", "tab"},
+
+	--@help close mpv natively
+	closempv = {"shift", "q"},
+
+	--@help raise volume in app
+	volume_up_mpv = "up",
+
+	--@help lower volume in app
+	volume_down_mpv = "down",
+
+	--@help show applications menu
+	showrunmenu = {"win", "space"},
+
+	--@help close focused windows
+	closewin = {"win", "shift", "q"},
+
+	--@help press escape
+	esc = "esc",
+	
+	--@help Lower volume
+	volume_down = "volumedown",
+
+	--@help Raise volume
+	volume_up = "volumeup",
+
+	--@help Skip to the next silent segment
+	skip_segment = "tab",
+
+	--@help MPV Lower volume
+	mpvvolume_down = "down",
+
+	--@help MPV Raise volume
+	mpvvolume_up = "up",
+
+	--@help Mute volume
+	volume_mute = "M",
+
+	--@help Forward 10 seconds
+	right = "right",
+
+	--@help Forward 1 second
+	rightBit = {"shift", "right"},
+
+	--@help Toggle play pause state
+	play_pause = "space",
+	-- "play_pause" = "mediaplaypause",
+
+	--@help Rewind 10 seconds
+	left = "left",
+
+	--@help Rewind 1 second
+	leftBit = {"shift", "left"},
+
+	--@help Toggle fullscreen
+	fullscreen = "F",
+
+	--@help Previous
+	prevEp = "mediaprevious",
+
+	--@help Next
+	nextEp = "medianext",
+
+	--@help Go to scratchpad
+	hide = {"win", "alt", "a"},
+
+	--@help Go out scratchpad
+	show = {"win", "shift", "a"},
+
+}
+
+
+
+-- rule: {
+-- *string,
+-- [state] = rule,
+-- not_[state] = rule,
+-- set_state = string|{*string}, 
+-- unset_state = string|{*string},  
+-- toggle_state = string|{*string},  
+-- }
+--
+-- state: {
+-- 	[key] = boolean
+-- }
+
+
+function perform_rule(rule, state_table)
+        
+		keys_by_type = split_by_type(rule)
+
+		if keys_by_type ~= nil then
+			if table.find_by_key(keys_by_type, 'string') ~= nil then
+				keyboard.stroke(unpack(keys_by_type['string']))
+			end
+			if table.find_by_key(keys_by_type, 'function') ~= nil then
+				for _, f in ipairs(keys_by_type['function']) do
+					new_state_table = f(state_table)
+
+					if new_state_table ~= nil then
+						state_table = new_state_table
+					end
+				end
+			end
+		end
+
+    processed_states = {}
+
+    for state, state_rule in pairs(rule) do
+        value = state_rule
+
+				if type(state) == 'number' then
+				elseif state == 'set_state' or state == 'unset_state' then
+						new_state = (state == 'set_state')
+
+						if type(value) == 'string' then
+								state_table[value] = new_state
+						elseif type(value) == 'table' then
+								for _,v in ipairs(value) do
+										state_table[v] = new_state
+								end
+						end
+				elseif state == 'toggle_state' then
+						if table.find_by_key(state_table, value) == nil then
+								state_table[value] = true
+						else
+								state_table[value] = not state_table[value]
+						end
+				elseif table.find_by_key(processed_states, state) == nil 
+					 and (state:startswith('not_') == false and table.find_by_key(state_table, state) == true
+						or  state:startswith('not_') == true  and table.find_by_key(state_table, state:sub(5, #state)) ~= true) then
+						state_table = perform_rule(state_rule, state_table)
+						table.insert(processed_states, state)                
+				end
+
+
+
+    end
+
+    return state_table
+end
+
+
+ -- -----------------------
+state_table = {}
+
+for action_name, action_rule in pairs(actions_table) do
+
+	if type(action_rule) == 'string' then
+		actions[action_name] = function()
+			keyboard.stroke(action_rule)
+		end
+	elseif type(action_rule) == 'function' then
+		actions[action_name] = function()
+			new_state_table = action_rule(state_table)
+
+			if new_state_table ~= nil then
+				state_table = new_state_table
+			end
+		end
+	elseif type(action_rule) == 'table' then
+		actions[action_name] = function()
+			perform_rule(action_rule, state_table)
 		end
 	end
-end
-actions.focusnextscreen = function()
-	if iswindowsfocusmode then
-		keyboard.stroke("win", "f");
-	else
-		keyboard.stroke("win", "ctrl", "l");
-	end
+
 end
 
-actions.focusnextworkspace = function()
-	keyboard.stroke("win", "shift", "tab");
-end
-actions.focusprevworkspace = function()
-	keyboard.stroke("win", "tab");
-end
-actions.windowmodetogglebutton = function()
-	iswindowsfocusmode = not iswindowsfocusmode
 
-	local iconname = (iswindowsfocusmode and 'on') or 'off'
-
-	libs.server.update({id = "windowmodetogglebutton", icon = iconname})
-
-	if iswindowsfocusmode then
-		libs.server.update({id = "windowtogglebutton", text = 'Enter'})
-		libs.server.update({id = "focusnextscreen", icon = 'fullscreen'})
-		libs.server.update({id = "sendtoavailableworkspace", icon = 'docswitch'})
-	else
-		libs.server.update({id = "windowtogglebutton", icon = (isholdingwindow and 'lock') or 'unlock'})
-		libs.server.update({id = "focusnextscreen", icon = 'shuffle'})
-		libs.server.update({id = "sendtoavailableworkspace", icon = 'eject'})
-	end
-
-	
-end
-actions.windowtogglebutton = function()
-
-	if iswindowsfocusmode then
-		keyboard.stroke("enter");
-
-		return
-	end
-
-
-	isholdingwindow = not isholdingwindow
-
-	local iconname = (isholdingwindow and 'lock') or 'unlock'
-
-	libs.server.update({id = "windowtogglebutton", icon = iconname})
-end
-actions.focuswinup = function()
-	if iswindowsfocusmode then
-		keyboard.stroke("up");
-		return
-	end
-
-	if isholdingwindow then
-		keyboard.stroke("win", "shift", "up");
-	else
-		keyboard.stroke("win", "up");
-	end
-end
-actions.focuswinleft = function()
-	if iswindowsfocusmode then
-		keyboard.stroke("left");
-		return
-	end
-
-	if isholdingwindow then
-		keyboard.stroke("win", "shift", "left");
-	else
-		keyboard.stroke("win", "left");
-	end
-end
-actions.focuswinright = function()
-	if iswindowsfocusmode then
-		keyboard.stroke("right");
-		return
-	end
-
-	if isholdingwindow then
-		keyboard.stroke("win", "shift", "right");
-	else
-		keyboard.stroke("win", "right");
-	end
-end
-actions.focuswindown = function()
-	if iswindowsfocusmode then
-		keyboard.stroke("down");
-		return
-	end
-
-	if isholdingwindow then
-		keyboard.stroke("win", "shift", "down");
-	else
-		keyboard.stroke("win", "down");
-	end
-end
-actions.showrunmenu = function()
-	keyboard.stroke("win", "space");
-end
-actions.closewin = function()
-	keyboard.stroke("win", "shift", "q");
-end
-actions.showpowermenu = function()
-	keyboard.stroke("win", "shift", "e");
-end
-actions.esc = function()
-	keyboard.stroke("esc");
-end
- -- -----------------------
-
-
-
-
---@help Launch Crunchroll
+--@help Launch daemon
 actions.launch = function()
 	-- actions.refreshtitle()
 	-- actions.refreshlist()

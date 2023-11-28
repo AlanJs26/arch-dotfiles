@@ -8,6 +8,7 @@ shortcuts
 applications
 screensaver
 window_class
+window_name
 zoxide'|rofi -dmenu -p 'rofi')"
 
 case "$mode" in
@@ -41,6 +42,11 @@ case "$mode" in
         wmname=$(xprop|rg "^WM_CLASS.+\"(.+?)\"" -r '$1')
         printf "%s" "$wmname"|xclip -sel copy
         notify-send "WM_CLASS" "$wmname"
+        ;;
+    window_name)
+        wmname=$(xprop|rg "^WM_NAME.+\"(.+?)\"" -r '$1')
+        printf "%s" "$wmname"|xclip -sel copy
+        notify-send "WM_NAME" "$wmname"
         ;;
     *)
         echo "unknown argument"

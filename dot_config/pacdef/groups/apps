@@ -1,4 +1,9 @@
 [arch]
+scrcpy
+
+syncthing
+syncthing-gtk
+
 typstudio
 jupyterlab-desktop-bin
 
@@ -16,7 +21,6 @@ fcitx5-gtk
 fcitx5-mozc
 fcitx5-skin-fluentdark-git
 discord
-youtube-music-bin
 feh
 flameshot
 sioyek

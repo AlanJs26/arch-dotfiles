@@ -23,6 +23,17 @@ def config() -> ArgumentParser:
     )
 
     argparser.add_argument(
+        "-T",
+        "--not_title_query",
+        "--not_title",
+        default='',
+        action='store',
+        metavar="not_title_query",
+        type=str,
+        help="negative regex for window titles",
+    )
+
+    argparser.add_argument(
         "-c",
         "--class_query",
         "--class",
@@ -45,14 +56,25 @@ def config() -> ArgumentParser:
     )
 
     argparser.add_argument(
-        "-T",
-        "--not_title_query",
-        "--not_title",
+        "-i",
+        "--instance_query",
+        "--instance",
         default='',
         action='store',
-        metavar="not_title_query",
+        metavar="instance_query",
         type=str,
-        help="negative regex for window titles",
+        help="regex for window instances",
+    )
+
+    argparser.add_argument(
+        "-I",
+        "--not_instance_query",
+        "--not_instance",
+        default='',
+        action='store',
+        metavar="not_instance_query",
+        type=str,
+        help="negative regex for window instances",
     )
 
     argparser.add_argument(
@@ -87,9 +109,12 @@ toggle all visible floating nodes""",
 args = config().parse_args()
 
 def match_name(node: Node):
+    
     if args.title_query and not re.search(args.title_query, node.name, flags=re.I) or args.not_title_query and re.search(args.not_title_query, node.name, flags=re.I):
         return False
     elif args.class_query and not re.search(args.class_query, node.className, flags=re.I) or args.not_class_query and re.search(args.not_class_query, node.className, flags=re.I):
+        return False
+    elif node.client and ( args.instance_query and not re.search(args.instance_query, node.client['instanceName'], flags=re.I) or args.not_instance_query and re.search(args.not_instance_query, node.client['instanceName'], flags=re.I) ):
         return False
     return True
 

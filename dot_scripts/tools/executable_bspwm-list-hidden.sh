@@ -9,6 +9,9 @@ get_win_class() {
 get_win_name() {
     xprop -id $1|rg "^WM_NAME.+\"(.+?)\"" -r '$1'
 }
+get_win_instancename() {
+    xprop -id $1|rg "^WM_CLASS.+?\"(.+?)\".*" -r '$1'
+}
 
 count=0
 if [ $(bspc query -N -n .leaf.hidden|wc -l) -gt 0 ]; then
@@ -17,6 +20,7 @@ if [ $(bspc query -N -n .leaf.hidden|wc -l) -gt 0 ]; then
 
     for value in "${nodes[@]}"; do
         node_name="$(get_win_name $value)"
+        node_instancename="$(get_win_instancename $value)"
         node_class="$(get_win_class $value)"
 
         if [ -f /tmp/swallowids ] && [ -n "$(rg "$value" /tmp/swallowids)" ]; then
@@ -52,9 +56,12 @@ if [ $(bspc query -N -n .leaf.hidden|wc -l) -gt 0 ]; then
                 ;;
         esac
 
-        case "$icon-$node_name" in
-            -floatkittynvim)
+        case "$icon-$node_name-$node_instancename" in
+            -floatkittynvim*)
                 icon="󰅩"
+                ;;
+            -*-nemo)
+                icon=""
                 ;;
         esac
 

@@ -143,7 +143,7 @@ super + ctrl + m
 	bspc node --flag hidden=on
 
 # Toggle all floating windows
-super + alt + {s,o}
+super + p
 	scratchpad.py --behaviour toggleall
 
 # Add window to scratchpad
@@ -158,6 +158,10 @@ super + shift + a
 super + ctrl + z
 	scratchpad.py "(YouTube Music)|mpv|Spotify" --behaviour nomark
 
+# Floating nemo
+super + ctrl + x
+	scratchpad.py --instance "nemo" --behaviour nomark --run "nemo --class '__float_center__'"
+
 # Audio Relay
 super + shift + s
 	scratchpad.py --class "com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
@@ -168,7 +172,7 @@ super + shift + backslash
 
 # Qalculate
 super + ctrl + backslash
-	scratchpad.py --class "qalculate-gtk" -r "qalculate-gtk" --behaviour nomark
+	scratchpad.py --class "qalculate-gtk" --run "qalculate-gtk" --behaviour nomark
 
 # Floating terminal kitty
 super + shift + z
