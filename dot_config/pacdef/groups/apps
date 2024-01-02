@@ -1,4 +1,10 @@
 [arch]
+youtube-music-bin
+
+
+write_stylus
+textext
+
 scrcpy
 
 syncthing
@@ -10,7 +16,7 @@ jupyterlab-desktop-bin
 inkscape
 
 octave
-krita
+speedcrunch
 
 gthumb
 visual-studio-code-bin

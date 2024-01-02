@@ -13,6 +13,7 @@ commands:
     help: show status of each script
 
 - name: git_credentials
+- name: defaults
 - name: git_delta
 - name: nvim
 - name: evrouter

@@ -57,6 +57,9 @@ rofi-power-menu
 rofi-file-browser-extended-git
 
 [python]
+absl-py
+skia-pathops
+
 mistune
 defusedxml
 python-json-logger

@@ -29,8 +29,6 @@ xf86-video-amdgpu
 moreutils
 udisks2
 
-docker
-docker-compose
 
 # fonts
 noto-fonts
