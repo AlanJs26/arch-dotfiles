@@ -18,11 +18,11 @@ version_command() {
 # :command.usage
 bspmonitors_usage() {
   if [[ -n $long_usage ]]; then
-    printf "bspmonitors - manage monitor layouts from terminal\n"
+    printf "bspmonitors - use pre-configured monitor layouts in ~/.config/bspwm/settings.json and provide a nice cli to manage them\n"
     echo
 
   else
-    printf "bspmonitors - manage monitor layouts from terminal\n"
+    printf "bspmonitors - use pre-configured monitor layouts in ~/.config/bspwm/settings.json and provide a nice cli to manage them\n"
     echo
 
   fi
@@ -34,6 +34,8 @@ bspmonitors_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
+  printf "  %s   puts all monitors side to side\n" "auto  "
+  printf "  %s   check if all monitors in a given layout are available. Prints available in success if not prints nothing\n" "check "
   printf "  %s   switch to a given layout\n" "layout"
   printf "  %s   get assigned name of an layout/monitor alias\n" "query "
   echo
@@ -99,6 +101,72 @@ bspmonitors_list_usage() {
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
     printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+bspmonitors_auto_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "bspmonitors auto - puts all monitors side to side\n"
+    echo
+
+  else
+    printf "bspmonitors auto - puts all monitors side to side\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  bspmonitors auto\n"
+  printf "  bspmonitors auto --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+bspmonitors_check_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "bspmonitors check - check if all monitors in a given layout are available. Prints available in success if not prints nothing\n"
+    echo
+
+  else
+    printf "bspmonitors check - check if all monitors in a given layout are available. Prints available in success if not prints nothing\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  bspmonitors check NAME\n"
+  printf "  bspmonitors check --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "NAME"
+    printf "    layout name\n"
     echo
 
   fi
@@ -252,6 +320,56 @@ bspmonitors_list_command() {
 }
 
 # :command.function
+bspmonitors_auto_command() {
+  # src/auto_command.sh
+
+  all_monitors="$(xrandr -q|grep '\bconnected'|awk '{ print $1 }')"
+  readarray -t all_monitors <<< $all_monitors
+  prev_item="${all_monitors[0]}"
+
+  xrandr_command="xrandr --output $prev_item --auto --primary"
+  bspc_command="bspc monitor $prev_item -d 1 2 3 4 5"
+  id=5
+
+  for item in ${all_monitors[@]}; do
+      if [[ "$item" != "$prev_item" ]]; then
+          xrandr_command="$xrandr_command --output $item --auto --right-of $prev_item"
+
+          bspc_command="$bspc_command;bspc monitor $item -d $((id+1)) $((id+2)) $((id+3)) $((id+4)) $((id+5))"
+          id=$((id+5))
+
+          prev_item="$item"
+      fi
+  done
+
+  eval $xrandr_command
+  eval $bspc_command
+
+}
+
+# :command.function
+bspmonitors_check_command() {
+  # src/check_command.sh
+  # echo "# this file is located in 'src/check_command.sh'"
+  # echo "# code for 'bspmonitors check' goes here"
+  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
+  # inspect_args
+
+  layout="${args[name]}"
+  layout_monitors="$(bspmonitors query --layout $layout|jq '.[0].layout[]|select(.enabled==true).monitor_alias' -r 2> /dev/null|xargs -i bspmonitors query --monitor {})"
+  all_monitors="$(xrandr -q|grep '\bconnected'|awk '{ print $1 }')"
+
+  for item in ${layout_monitors[@]}; do
+      if [ -z "$(echo -n "$all_monitors"|grep "^$item$")" ]; then
+          return
+      fi
+  done
+
+  echo "available"
+
+}
+
+# :command.function
 bspmonitors_layout_command() {
   # src/layout_command.sh
   # echo "# this file is located in 'src/layout_command.sh'"
@@ -331,11 +449,11 @@ bspmonitors_query_command() {
   fi
 
   if [ -n "${args[--monitor]}" ]; then
-      found="$(jq -r '.monitor_setup|map(.alias).[]' $BSPSETTINGS|grep "${args[--monitor]}"|tail -n1)"
+      found="$(jq -r '.monitor_setup|map(.alias).[]' $BSPSETTINGS|grep "^${args[--monitor]}$"|tail -n1)"
       jq -r ".monitor_setup|map(select(.alias == \"$found\"))[0].name" $BSPSETTINGS
 
   elif [ -n "${args[--layout]}" ]; then
-      found="$(jq -r '.monitor_layouts|map(.name).[]' $BSPSETTINGS|grep "${args[--layout]}"|tail -n1)"
+      found="$(jq -r '.monitor_layouts|map(.name).[]' $BSPSETTINGS|grep "^${args[--layout]}$"|tail -n1)"
       jq -r ".monitor_layouts|map(select(.name == \"$found\"))" $BSPSETTINGS
 
   fi
@@ -391,6 +509,20 @@ parse_requirements() {
       action="list"
       shift
       bspmonitors_list_parse_requirements "$@"
+      shift $#
+      ;;
+
+    auto)
+      action="auto"
+      shift
+      bspmonitors_auto_parse_requirements "$@"
+      shift $#
+      ;;
+
+    check)
+      action="check"
+      shift
+      bspmonitors_check_parse_requirements "$@"
       shift $#
       ;;
 
@@ -496,6 +628,106 @@ bspmonitors_list_parse_requirements() {
 
     esac
   done
+
+}
+
+# :command.parse_requirements
+bspmonitors_auto_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        bspmonitors_auto_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="auto"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+bspmonitors_check_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        bspmonitors_check_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="check"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['name']+x} ]]; then
+
+          args['name']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+  # :command.required_args_filter
+  if [[ -z ${args['name']+x} ]]; then
+    printf "missing required argument: NAME\nusage: bspmonitors check NAME\n" >&2
+    exit 1
+  fi
 
 }
 
@@ -647,6 +879,8 @@ run() {
 
   case "$action" in
     "list") bspmonitors_list_command ;;
+    "auto") bspmonitors_auto_command ;;
+    "check") bspmonitors_check_command ;;
     "layout") bspmonitors_layout_command ;;
     "query") bspmonitors_query_command ;;
   esac

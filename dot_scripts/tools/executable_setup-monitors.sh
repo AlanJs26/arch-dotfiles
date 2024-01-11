@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+small_monitor="$(bspmonitors query --monitor secundary)"
+big_monitor="$(bspmonitors query --monitor primary)"
+tv_monitor="$(bspmonitors query --monitor tv)"
 
 if [ -z "$1" ]; then
     if [ -e /tmp/active-monitor-mode ]; then
@@ -9,19 +12,27 @@ if [ -z "$1" ]; then
     fi
 else
     mode="$1"
-    echo "$mode" > /tmp/active-monitor-mode
 fi
 
-small_monitor="$(bspmonitors query --monitor secundary)"
-big_monitor="$(bspmonitors query --monitor primary)"
-tv_monitor="$(bspmonitors query --monitor tv)"
 
 case "$mode" in
     "--list")
         bspmonitors --list_layouts
         ;;
     *)
-        bspmonitors layout $mode
+        if [ "$(bspmonitors check $mode)" = "available" ]; then
+            bspmonitors layout $mode
+            echo "$mode" > /tmp/active-monitor-mode
+        else
+            if [ -e /tmp/active-monitor-mode ]; then
+                old_mode="$(cat /tmp/active-monitor-mode)"
+                echo "\"$mode\" is unavailable. Going back to \"$old_mode\" layout"
+                bspmonitors layout $old_mode
+            else
+                echo "\"$mode\" is unavailable. Using automatic config"
+                bspmonitors auto
+            fi
+        fi
 esac
 
 

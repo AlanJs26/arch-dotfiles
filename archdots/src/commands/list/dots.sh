@@ -16,9 +16,17 @@ show_managed () {
 	eval "data=(${args[folder]})"
 	
 	if [[ ${args[--tree]} -eq 1 ]]; then
-		tree -L $(get_level) --fromfile <(chezmoi managed $data|trailing_slash)
+		if [ -z "$data" ] || [[ "$(readlink -f "$data")" = "$HOME" ]]; then
+			tree -L $(get_level) --fromfile <(chezmoi managed|awk -F/ '{ print $1 }'|sort -u|trailing_slash)
+		else
+			tree -L $(get_level) --fromfile <(chezmoi managed $data|trailing_slash)
+		fi
 	else
-		chezmoi managed $data
+		if [ -z "$data" ] || [[ "$(readlink -f "$data")" = "$HOME" ]]; then
+			chezmoi managed|awk -F/ '{ print $1 }'|sort -u
+		else
+			chezmoi managed $data
+		fi
 	fi
 }
 

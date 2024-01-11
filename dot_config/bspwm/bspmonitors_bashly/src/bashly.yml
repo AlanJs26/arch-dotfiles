@@ -1,5 +1,5 @@
 name: bspmonitors
-help: manage monitor layouts from terminal
+help: use pre-configured monitor layouts in ~/.config/bspwm/settings.json and provide a nice cli to manage them
 version: 0.1.0
 
 flags:
@@ -18,6 +18,17 @@ commands:
     help: list all configured monitors
   - long: --list_layouts
     help: list all configured layouts
+
+- name: auto
+  help: puts all monitors side to side
+
+- name: check
+  help: check if all monitors in a given layout are available. Prints available in success if not prints nothing
+
+  args:
+  - name: name
+    required: true
+    help: layout name
 
 - name: layout
   help: switch to a given layout
