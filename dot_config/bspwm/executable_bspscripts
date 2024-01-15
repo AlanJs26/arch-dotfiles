@@ -6,6 +6,8 @@
 # [restart]            kill and launch 
 # [scripts|programs]   only afect selected type
 
+source ~/.env.sh
+
 myscripts=(
     "$BSPDIR/color-border-mode.sh"
     "$BSPDIR/fix-polybar-fullscreen.sh"
@@ -44,6 +46,10 @@ if [ -n "$1" ] && [ "$1" != "restart" ]; then
 fi
 
 if [ -z "$2" ] || [ "$2" = "scripts" ]; then
+    if [ "$1" = "restart" ];then
+        notify-send bspscripts "restarting scripts"
+    fi
+
     for script in "${myscripts[@]}"; do
         unset script_arguments
 
@@ -70,6 +76,10 @@ if [ -z "$2" ] || [ "$2" = "scripts" ]; then
 fi
 
 if [ -z "$2" ] || [ "$2" = "programs" ]; then
+    if [ "$1" = "restart" ];then
+        notify-send bspscripts "restarting programs"
+    fi
+
     for program in "${myprograms[@]}"; do
         unset program_arguments
 

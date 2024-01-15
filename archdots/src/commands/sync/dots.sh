@@ -8,7 +8,7 @@ if [ -f "$(which gum)" ]; then
 	fi
 fi
 
-gum spin --title="Updating..." -- chezmoi update||echo Failed to update
+gum spin --title="Updating..." -- chezmoi update --force||echo Failed to update
 
 git diff --cached --stat
 

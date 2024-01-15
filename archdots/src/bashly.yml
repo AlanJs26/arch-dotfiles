@@ -44,6 +44,58 @@ commands:
 - name: diff
   help: show diff since last dotfiles sync
 
+- name: settings
+  help: print the settings based on active alternate_config
+
+  args:
+  - name: jqquery
+    help: optional jq query parse settings 
+  flags:
+  - short: -r
+    long: --raw
+    help: print only the contents of the jq output
+
+
+- name: alternate_config
+  help: set alternate config used for wm specific configurations. Use auto for automatic detection
+
+  args:
+  - name: config
+    help: alternate config name
+  flags:
+  - long: --current
+    help: get current alternate config
+
+- name: launch
+  help: launch apps defined in ~/.scripts/settings.json
+  args:
+  - name: app
+    help: app name
+  flags:
+  - long: --list
+    help: list all app aliases
+
+- name: autostart
+  help: run a list of commands defined in ~/.scripts/settings.json
+
+  commands:
+  - name: all
+    help: run all defined scripts and programs that are not running
+    default: force
+    flags:
+    - long: --restart
+      help: force all defined scripts and programs to restart
+  - name: scripts
+    help: run all defined scripts that are not running
+    flags:
+    - long: --restart
+      help: force all defined scripts to restart
+  - name: programs
+    help: run all defined programs that are not running
+    flags:
+    - long: --restart
+      help: force all defined programs to restart
+
 - name: sync
   help: Sync apps and dotfiles
 
@@ -99,6 +151,8 @@ commands:
       help: only show pending dotfiles
     - long: --tree
       help: display folders as a tree
+    - long: --fast
+      help: do not distinguish folders from files in tree view
     - long: --level
       help: sets tree view level
       arg: level

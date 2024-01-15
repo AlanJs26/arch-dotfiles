@@ -6,7 +6,7 @@ if [ -z "${args[--list_monitors]}" ] && [ -z "${args[--list_layouts]}" ]; then
 fi
 
 if [ "${args[--list_monitors]}" = "1" ]; then
-    jq -r '.monitor_setup|map(.alias).[]' $BSPSETTINGS
+    archdots settings '.monitor.setup|map(.alias).[]'
 elif [ "${args[--list_layouts]}" = "1" ]; then
-    jq -r '.monitor_layouts|map(.name).[]' $BSPSETTINGS
+    archdots settings '.monitor.layouts|map(.name).[]'
 fi

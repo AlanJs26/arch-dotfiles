@@ -2,11 +2,11 @@
 
 
 if [ -z "$1" ] || [ "$1" = "--list" ]; then
-	jq .apps "$BSPSETTINGS"
+	archdots settings '.apps'
 	exit
 elif [ "$1" = "--query" ] && [ -n "$2" ]; then
-	key="$(jq -r '.apps|keys.[]' $BSPSETTINGS|rg "$2")"
-	jq -r ".apps.$key" "$BSPSETTINGS" 2> /dev/null
+	key="$(archdots settings '.apps|keys.[]'|rg "$2")"
+	archdots settings ".apps.$key" 2> /dev/null
 
 elif [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
 	cat << EOF
@@ -17,7 +17,7 @@ Usage:
   bsplaunch [APP]
   bsplaunch -h | --help
 
-APP             $(jq -r '.apps|keys.[]' $BSPSETTINGS|rg -U '\n(\w)' -r '|$1')
+APP             $(archdots settings '.apps|keys.[]'|rg -U '\n(\w)' -r '|$1')
 
 Flags:
   --list        show all available apps
@@ -27,7 +27,7 @@ EOF
 exit
 fi
 
-app_name=$(jq -r ".apps.$1" "$BSPSETTINGS" 2> /dev/null)
+app_name=$(archdots settings ".apps.$1" 2> /dev/null)
 
 if [ "$2" = "-r" ]; then
 	printf "%s" "$app_name"

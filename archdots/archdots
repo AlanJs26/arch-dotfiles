@@ -34,18 +34,22 @@ archdots_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   Run a setup script\n" "$(green "setup")      "
-  printf "  %s   run \`eval \"\$(archdots completions)\"\` to add completions to your shell\n" "$(green "completions")"
-  printf "  %s   Add an existing file, directory, or symlink to the source state\n" "$(green "add")        "
-  printf "  %s   Remove a target from the source state\n" "$(green "forget")     "
-  printf "  %s   edit packages file\n" "$(green "edit")       "
-  printf "  %s   show diff since last dotfiles sync\n" "$(green "diff")       "
-  printf "  %s   Sync apps and dotfiles\n" "$(green "sync")       "
-  printf "  %s   go to chezmoi repo or pacdef groups folder location\n" "$(green "cd")         "
-  printf "  %s   review unmanaged packages\n" "$(green "review")     "
-  printf "  %s   an alias for archdots git status\n" "$(green "status")     "
-  printf "  %s   run git commands from chezmoi repo\n" "$(green "git")        "
-  printf "  %s   list packages (default) or tracked dotfiles\n" "$(green "list")       "
+  printf "  %s   Run a setup script\n" "$(green "setup")           "
+  printf "  %s   run \`eval \"\$(archdots completions)\"\` to add completions to your shell\n" "$(green "completions")     "
+  printf "  %s   Add an existing file, directory, or symlink to the source state\n" "$(green "add")             "
+  printf "  %s   Remove a target from the source state\n" "$(green "forget")          "
+  printf "  %s   edit packages file\n" "$(green "edit")            "
+  printf "  %s   show diff since last dotfiles sync\n" "$(green "diff")            "
+  printf "  %s   print the settings based on active alternate_config\n" "$(green "settings")        "
+  printf "  %s   set alternate config used for wm specific configurations. Use auto for automatic detection\n" "$(green "alternate_config")"
+  printf "  %s   launch apps defined in ~/.scripts/settings.json\n" "$(green "launch")          "
+  printf "  %s   run a list of commands defined in ~/.scripts/settings.json\n" "$(green "autostart")       "
+  printf "  %s   Sync apps and dotfiles\n" "$(green "sync")            "
+  printf "  %s   go to chezmoi repo or pacdef groups folder location\n" "$(green "cd")              "
+  printf "  %s   review unmanaged packages\n" "$(green "review")          "
+  printf "  %s   an alias for archdots git status\n" "$(green "status")          "
+  printf "  %s   run git commands from chezmoi repo\n" "$(green "git")             "
+  printf "  %s   list packages (default) or tracked dotfiles\n" "$(green "list")            "
   echo
 
   # :command.long_usage
@@ -768,6 +772,275 @@ archdots_diff_usage() {
 }
 
 # :command.usage
+archdots_settings_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots settings - print the settings based on active alternate_config\n"
+    echo
+
+  else
+    printf "archdots settings - print the settings based on active alternate_config\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots settings [JQQUERY] [OPTIONS]\n"
+  printf "  archdots settings --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--raw, -r"
+    printf "    print only the contents of the jq output\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "JQQUERY"
+    printf "    optional jq query parse settings\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_alternate_config_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots alternate_config - set alternate config used for wm specific configurations. Use auto for automatic detection\n"
+    echo
+
+  else
+    printf "archdots alternate_config - set alternate config used for wm specific configurations. Use auto for automatic detection\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots alternate_config [CONFIG] [OPTIONS]\n"
+  printf "  archdots alternate_config --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--current"
+    printf "    get current alternate config\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "CONFIG"
+    printf "    alternate config name\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_launch_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots launch - launch apps defined in ~/.scripts/settings.json\n"
+    echo
+
+  else
+    printf "archdots launch - launch apps defined in ~/.scripts/settings.json\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots launch [APP] [OPTIONS]\n"
+  printf "  archdots launch --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--list"
+    printf "    list all app aliases\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+    # :command.usage_args
+    printf "%s\n" "Arguments:"
+
+    # :argument.usage
+    printf "  %s\n" "APP"
+    printf "    app name\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_autostart_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots autostart - run a list of commands defined in ~/.scripts/settings.json\n"
+    echo
+
+  else
+    printf "archdots autostart - run a list of commands defined in ~/.scripts/settings.json\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots autostart COMMAND\n"
+  printf "  archdots autostart [COMMAND] --help | -h\n"
+  echo
+  # :command.usage_commands
+  printf "%s\n" "Commands:"
+  printf "  %s   run all defined scripts and programs that are not running (default)\n" "$(green "all")     "
+  printf "  %s   run all defined scripts that are not running\n" "$(green "scripts") "
+  printf "  %s   run all defined programs that are not running\n" "$(green "programs")"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_autostart_all_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots autostart all - run all defined scripts and programs that are not running\n"
+    echo
+
+  else
+    printf "archdots autostart all - run all defined scripts and programs that are not running\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots autostart all [OPTIONS]\n"
+  printf "  archdots autostart all --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--restart"
+    printf "    force all defined scripts and programs to restart\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_autostart_scripts_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots autostart scripts - run all defined scripts that are not running\n"
+    echo
+
+  else
+    printf "archdots autostart scripts - run all defined scripts that are not running\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots autostart scripts [OPTIONS]\n"
+  printf "  archdots autostart scripts --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--restart"
+    printf "    force all defined scripts to restart\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_autostart_programs_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots autostart programs - run all defined programs that are not running\n"
+    echo
+
+  else
+    printf "archdots autostart programs - run all defined programs that are not running\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots autostart programs [OPTIONS]\n"
+  printf "  archdots autostart programs --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--restart"
+    printf "    force all defined programs to restart\n"
+    echo
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
 archdots_sync_usage() {
   if [[ -n $long_usage ]]; then
     printf "archdots sync - Sync apps and dotfiles\n"
@@ -1162,6 +1435,11 @@ archdots_list_dots_usage() {
     echo
 
     # :flag.usage
+    printf "  %s\n" "--fast"
+    printf "    do not distinguish folders from files in tree view\n"
+    echo
+
+    # :flag.usage
     printf "  %s\n" "--level LEVEL"
     printf "    sets tree view level\n"
     echo
@@ -1343,8 +1621,20 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'autostart programs\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'autostart scripts\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'setup audiorelay\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'alternate_config\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--current --help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'setup git_delta\'*)'
@@ -1369,6 +1659,10 @@ send_completions() {
   echo $''
   echo $'    \'setup monitors\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'autostart all\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'setup docker\'*)'
@@ -1396,7 +1690,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'list\'*\'dots\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --level --managed --pending --tree --unmanaged -h")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--fast --help --level --managed --pending --tree --unmanaged -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'list\'*\'apps\'*)'
@@ -1415,12 +1709,20 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'autostart\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all programs scripts")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'sync apps\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --remote -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'sync dots\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'settings\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --raw -h -r")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'sync all\'*)'
@@ -1437,6 +1739,10 @@ send_completions() {
   echo $''
   echo $'    \'forget\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -A directory -A file -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'launch\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --list -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'review\'*)'
@@ -1480,7 +1786,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    *)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --version -h -v add cd completions diff edit forget git list review setup status sync")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --version -h -v add alternate_config autostart cd completions diff edit forget git launch list review settings setup status sync")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'  esac'
@@ -1939,6 +2245,194 @@ archdots_diff_command() {
 }
 
 # :command.function
+archdots_settings_command() {
+  # src/commands/settings.sh
+  # echo "# this file is located in 'src/commands/settings.sh'"
+  # echo "# code for 'archdots settings' goes here"
+  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
+  # inspect_args
+
+  current_config="$(archdots alternate_config --current)"
+
+  if [ -n "$current_config" ]; then
+  	merged_settings="$(jq -s '.[0] * .[1]' $BSPSETTINGS "$SCRIPTS/$current_config.json")"
+  else
+  	merged_settings="$(cat $BSPSETTINGS)"
+  fi
+
+  if [ -z "${args[jqquery]}" ]; then
+  	cat <<< $merged_settings| jq .
+  elif [ -n "${args[--raw]}" ]; then
+  	cat <<< $merged_settings | jq "${args[jqquery]}" -r
+
+  else
+  	cat <<< $merged_settings | jq "${args[jqquery]}"
+
+  fi
+
+  #ala
+
+}
+
+# :command.function
+archdots_alternate_config_command() {
+  # src/commands/alternate_config.sh
+
+  if [ -z "${args[config]}" ] && [ -z "${args[--current]}" ]; then
+  	archdots alternate_config --help
+  	exit
+  fi
+
+  if [ -n "${args[--current]}" ]; then
+  	cat /tmp/current_alternate_config 2> /dev/null||echo
+
+  	exit
+  fi
+
+  check_alternate_config_exists () {
+  	archdots settings ".alternate_configs|map(.name == \"$1\")|any"
+
+  }
+
+  if [ "$(check_alternate_config_exists "${args[config]}")" = "true" ]; then
+  	echo ${args[config]} > /tmp/current_alternate_config
+  elif [ "${args[config]}" = "auto" ]; then
+
+  	all_scripts="$(archdots settings '.alternate_configs[].detect_script'  -r)"
+  	readarray -t all_scripts <<< $all_scripts
+
+  	i=-1
+  	for script in "${all_scripts[@]}"; do
+  		i=$((i+1))
+
+  		if [ -n "$($script)" ]; then
+  			detected_config="$(archdots settings ".alternate_configs[$i].name" -r)"
+  			echo $detected_config
+  			echo $detected_config > /tmp/current_alternate_config
+  			exit
+  		fi
+  	done
+
+  	echo "Could not detect any of the registered alternate configs"
+  else
+  	echo "This config \"${args[config]}\" does not exist"
+  fi
+
+}
+
+# :command.function
+archdots_launch_command() {
+  # src/commands/launch.sh
+  source ~/.env.sh
+
+  if [ -z "${args[app]}" ] && [ -z "${args[--list]}" ]; then
+  	archdots launch --help
+  	exit
+  fi
+
+  if [ -z "${args[app]}" ] || [ -n "${args[--list]}" ]; then
+  	archdots settings .apps
+  	exit
+  fi
+
+  app_name=$(archdots settings ".apps.${args[app]}" -r 2> /dev/null)
+
+  if [ "$app_name" != "null" ]; then
+  	$app_name
+  else
+  	echo "Could not find any app named \"${args[app]}\" in \"$BSPSETTINGS\""
+  fi
+
+}
+
+# :command.function
+archdots_autostart_all_command() {
+  # src/commands/autostart/all.sh
+  # echo "# this file is located in 'src/commands/autostart/all.sh'"
+  # echo "# code for 'archdots autostart all' goes here"
+  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
+  # inspect_args
+
+  archdots autostart scripts ${args[--restart]}
+  archdots autostart programs ${args[--restart]}
+
+}
+
+# :command.function
+archdots_autostart_scripts_command() {
+  # src/commands/autostart/scripts.sh
+  # echo "# this file is located in 'src/commands/autostart/scripts.sh'"
+  # echo "# code for 'archdots autostart scripts' goes here"
+  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
+  # inspect_args
+
+  all_scripts="$(archdots settings '.autostart.scripts[]' -r)"
+  readarray -t all_scripts <<< $all_scripts
+
+  for script in "${all_scripts[@]}"; do
+  		unset script_arguments
+
+  		script_arguments=(${script[@]})
+
+  		script_path="${script_arguments[0]}"
+  		script_basename="$(basename "$script_path")"
+
+  		script_arguments=$(echo "${script_arguments[@]:1}")
+
+  		if [ -n "$script_arguments" ];then
+  				script_command="$script_path $script_arguments"
+  		else
+  				script_command="$script_path"
+  		fi
+
+  		if [ -n "${args[--restart]}" ];then
+  				echo "$script_command"
+  				pgrep -f "$script_basename"|xargs -i kill {};sleep 1 && bash "$(eval "echo $script_command")" &
+  		else
+  				pgrep -f "$script_basename" > /dev/null || bash "$(eval "echo $script_command")" &
+  		fi
+  done
+
+}
+
+# :command.function
+archdots_autostart_programs_command() {
+  # src/commands/autostart/programs.sh
+  # echo "# this file is located in 'src/commands/autostart/scripts.sh'"
+  # echo "# code for 'archdots autostart scripts' goes here"
+  # echo "# you can edit it freely and regenerate (it will not be overwritten)"
+  # inspect_args
+
+  all_programs="$(archdots settings '.autostart.programs[]' -r)"
+  readarray -t all_programs <<< $all_programs
+
+  for program in "${all_programs[@]}"; do
+  		unset program_arguments
+
+  		program_arguments=(${program[@]})
+
+  		program_path="${program_arguments[0]}"
+  		program_basename="$(basename "$program_path")"
+
+  		program_arguments=$(echo "${program_arguments[@]:1}")
+
+  		if [ -n "$program_arguments" ];then
+  				program_command="$program_path $program_arguments"
+  		else
+  				program_command="$program_path"
+  		fi
+
+  		if [ -n "${args[--restart]}" ];then
+  				echo "$program_command"
+  				pgrep -x "$program_basename"|xargs -i kill {};sleep 1 && $(eval "echo $program_command") &
+  		else
+  				pgrep -x "$program_basename" > /dev/null || $(eval "echo $program_command") &
+  		fi
+  done
+
+}
+
+# :command.function
 archdots_sync_all_command() {
   # src/commands/sync/all.sh
   # echo "# this file is located in 'src/sync_all_command.sh'"
@@ -1986,7 +2480,7 @@ archdots_sync_dots_command() {
   	fi
   fi
 
-  gum spin --title="Updating..." -- chezmoi update||echo Failed to update
+  gum spin --title="Updating..." -- chezmoi update --force||echo Failed to update
 
   git diff --cached --stat
 
@@ -2084,7 +2578,11 @@ archdots_list_dots_command() {
   # src/commands/list/dots.sh
 
   function trailing_slash(){
-  	cat < /dev/stdin|xargs -i sh -c '[ "$(file --brief "$HOME/{}")" = "directory" ]&&echo "{}/"||echo {}'
+  	if [[ -z "${args[--fast]}" ]]; then
+  		cat < /dev/stdin|xargs -i sh -c '[ "$(file --brief "$HOME/{}")" = "directory" ]&&echo "{}/"||echo {}'
+  	else
+  		cat < /dev/stdin
+  	fi
   }
 
   get_level() {
@@ -2100,13 +2598,13 @@ archdots_list_dots_command() {
 
   	if [[ ${args[--tree]} -eq 1 ]]; then
   		if [ -z "$data" ] || [[ "$(readlink -f "$data")" = "$HOME" ]]; then
-  			tree -L $(get_level) --fromfile <(chezmoi managed|awk -F/ '{ print $1 }'|sort -u|trailing_slash)
+  			tree -L $(get_level) --fromfile <(chezmoi managed|trailing_slash )
   		else
   			tree -L $(get_level) --fromfile <(chezmoi managed $data|trailing_slash)
   		fi
   	else
   		if [ -z "$data" ] || [[ "$(readlink -f "$data")" = "$HOME" ]]; then
-  			chezmoi managed|awk -F/ '{ print $1 }'|sort -u
+  			chezmoi managed
   		else
   			chezmoi managed $data
   		fi
@@ -2159,7 +2657,25 @@ archdots_list_apps_command() {
   elif [[ ${args[--pending]} -eq 1 ]]; then
   	# Isso não funciona para pacotes que não sejam arch
 
-  	all_apps="$(cat ~/.config/pacdef/groups/*|rg -U --multiline-dotall --pcre2 '\[arch\].+?(?=\[|\Z)'|rg -v '^(WARNING|\[|#)'|sort -u)"
+  	# === filter all groups that are not related with the current config
+
+  	pacdef_groups="$(dir -1 ~/.config/pacdef/groups/*|xargs -i basename {})"
+
+  	current_config="$(archdots alternate_config --current)"
+
+  	alternate_configs="$(archdots settings '.alternate_configs[].name' -r)"
+  	# remove the current config from the list containing all the alternate configs
+  	alternate_configs="$(cat <<< $alternate_configs|rg -v "^$current_config\$")"
+
+  	# turn a multiline string into an array
+  	readarray -t alternate_configs <<< $alternate_configs
+
+  	# remove all groups whose names does not match the current config
+  	for config in ${alternate_configs[@]}; do
+  		pacdef_groups="$(cat <<< $pacdef_groups|rg -v "^$config\$")"
+  	done
+
+  	all_apps="$(cat <<< $pacdef_groups|rg -U --multiline-dotall --pcre2 '\[arch\].+?(?=\[|\Z)'|rg -v '^(WARNING|\[|#)'|sort -u)"
   	installed_apps="$(yay -Q|awk '{ print $1 }'|sort -u)"
 
   	result=($(comm -13 <(echo "${installed_apps[@]}") <(echo "${all_apps[@]}")))
@@ -2238,6 +2754,34 @@ parse_requirements() {
       action="diff"
       shift
       archdots_diff_parse_requirements "$@"
+      shift $#
+      ;;
+
+    settings)
+      action="settings"
+      shift
+      archdots_settings_parse_requirements "$@"
+      shift $#
+      ;;
+
+    alternate_config)
+      action="alternate_config"
+      shift
+      archdots_alternate_config_parse_requirements "$@"
+      shift $#
+      ;;
+
+    launch)
+      action="launch"
+      shift
+      archdots_launch_parse_requirements "$@"
+      shift $#
+      ;;
+
+    autostart)
+      action="autostart"
+      shift
+      archdots_autostart_parse_requirements "$@"
       shift $#
       ;;
 
@@ -3456,6 +4000,407 @@ archdots_diff_parse_requirements() {
 }
 
 # :command.parse_requirements
+archdots_settings_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_settings_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="settings"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --raw | -r)
+
+        # :flag.case_no_arg
+        args['--raw']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['jqquery']+x} ]]; then
+
+          args['jqquery']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_alternate_config_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_alternate_config_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="alternate_config"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --current)
+
+        # :flag.case_no_arg
+        args['--current']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['config']+x} ]]; then
+
+          args['config']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_launch_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_launch_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="launch"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --list)
+
+        # :flag.case_no_arg
+        args['--list']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        if [[ -z ${args['app']+x} ]]; then
+
+          args['app']=$1
+          shift
+        else
+          printf "invalid argument: %s\n" "$key" >&2
+          exit 1
+        fi
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_autostart_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_autostart_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action=${1:-}
+
+  case $action in
+    -*) ;;
+
+    all)
+      action="all"
+      shift
+      archdots_autostart_all_parse_requirements "$@"
+      shift $#
+      ;;
+
+    scripts)
+      action="scripts"
+      shift
+      archdots_autostart_scripts_parse_requirements "$@"
+      shift $#
+      ;;
+
+    programs)
+      action="programs"
+      shift
+      archdots_autostart_programs_parse_requirements "$@"
+      shift $#
+      ;;
+
+    # :command.command_fallback
+    *)
+      action="all"
+      archdots_autostart_all_parse_requirements "$@"
+      shift $#
+      ;;
+
+  esac
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_autostart_all_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_autostart_all_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="autostart all"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --restart)
+
+        # :flag.case_no_arg
+        args['--restart']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_autostart_scripts_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_autostart_scripts_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="autostart scripts"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --restart)
+
+        # :flag.case_no_arg
+        args['--restart']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_autostart_programs_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_autostart_programs_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="autostart programs"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+      # :flag.case
+      --restart)
+
+        # :flag.case_no_arg
+        args['--restart']=1
+        shift
+        ;;
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
 archdots_sync_parse_requirements() {
   # :command.fixed_flags_filter
   while [[ $# -gt 0 ]]; do
@@ -4115,6 +5060,14 @@ archdots_list_dots_parse_requirements() {
         ;;
 
       # :flag.case
+      --fast)
+
+        # :flag.case_no_arg
+        args['--fast']=1
+        shift
+        ;;
+
+      # :flag.case
       --level)
 
         # :flag.case_arg
@@ -4252,6 +5205,13 @@ run() {
     "forget") archdots_forget_command ;;
     "edit") archdots_edit_command ;;
     "diff") archdots_diff_command ;;
+    "settings") archdots_settings_command ;;
+    "alternate_config") archdots_alternate_config_command ;;
+    "launch") archdots_launch_command ;;
+    "autostart") archdots_autostart_command ;;
+    "autostart all") archdots_autostart_all_command ;;
+    "autostart scripts") archdots_autostart_scripts_command ;;
+    "autostart programs") archdots_autostart_programs_command ;;
     "sync") archdots_sync_command ;;
     "sync all") archdots_sync_all_command ;;
     "sync apps") archdots_sync_apps_command ;;

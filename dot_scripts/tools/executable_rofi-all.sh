@@ -1,4 +1,5 @@
 
+source ~/.env.sh
 
 mode="$(echo 'monitors
 scratchpad

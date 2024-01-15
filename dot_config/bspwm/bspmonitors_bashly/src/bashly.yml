@@ -1,5 +1,5 @@
 name: bspmonitors
-help: use pre-configured monitor layouts in ~/.config/bspwm/settings.json and provide a nice cli to manage them
+help: use pre-configured monitor layouts in ~/.scripts/settings.json and provide a nice cli to manage them
 version: 0.1.0
 
 flags:

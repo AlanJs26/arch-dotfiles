@@ -5,9 +5,9 @@ if [ -z "${args[--monitor]}" ] && [ -z "${args[--layout]}" ]; then
 fi
 
 if [ -n "${args[--monitor]}" ]; then
-    found="$(jq -r '.monitor_setup|map(.alias).[]' $BSPSETTINGS|grep "^${args[--monitor]}$"|tail -n1)"
-    jq -r ".monitor_setup|map(select(.alias == \"$found\"))[0].name" $BSPSETTINGS 
+    found="$(archdots settings '.monitor.setup|map(.alias).[]' |grep "^${args[--monitor]}$"|tail -n1)"
+    archdots settings ".monitor.setup|map(select(.alias == \"$found\"))[0].name" 
 elif [ -n "${args[--layout]}" ]; then
-    found="$(jq -r '.monitor_layouts|map(.name).[]' $BSPSETTINGS|grep "^${args[--layout]}$"|tail -n1)"
-    jq -r ".monitor_layouts|map(select(.name == \"$found\"))" $BSPSETTINGS 
+    found="$(archdots settings '.monitor.layouts|map(.name).[]' |grep "^${args[--layout]}$"|tail -n1)"
+    archdots settings ".monitor.layouts|map(select(.name == \"$found\"))"  
 fi

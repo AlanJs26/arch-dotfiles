@@ -1,0 +1,23 @@
+device_name = "USB GAMING MOUSE "
+
+[[remap]]
+input = [ "BTN_SIDE"]
+output = ["KEY_LEFTCTRL", "KEY_C"]
+
+[[remap]]
+input = [ "BTN_EXTRA"]
+output = ["KEY_LEFTCTRL", "KEY_V"]
+
+[[remap]]
+input = [ "KEY_LEFTSHIFT", "BTN_SIDE"]
+output = ["KEY_LEFTCTRL", "KEY_LEFTSHIFT", "KEY_C"]
+
+[[remap]]
+input = [ "KEY_LEFTSHIFT", "BTN_EXTRA"]
+output = ["KEY_LEFTCTRL", "KEY_LEFTSHIFT", "KEY_V"]
+
+device_name = "SONiX USB DEVICE"
+
+[[remap]]
+input = [ "KEY_KPDOT" ]
+output = [ "KEY_DOT" ]

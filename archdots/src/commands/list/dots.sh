@@ -1,7 +1,11 @@
 
 
 function trailing_slash(){
-	cat < /dev/stdin|xargs -i sh -c '[ "$(file --brief "$HOME/{}")" = "directory" ]&&echo "{}/"||echo {}'
+	if [[ -z "${args[--fast]}" ]]; then
+		cat < /dev/stdin|xargs -i sh -c '[ "$(file --brief "$HOME/{}")" = "directory" ]&&echo "{}/"||echo {}'
+	else
+		cat < /dev/stdin
+	fi
 }
 
 get_level() {
@@ -17,13 +21,13 @@ show_managed () {
 	
 	if [[ ${args[--tree]} -eq 1 ]]; then
 		if [ -z "$data" ] || [[ "$(readlink -f "$data")" = "$HOME" ]]; then
-			tree -L $(get_level) --fromfile <(chezmoi managed|awk -F/ '{ print $1 }'|sort -u|trailing_slash)
+			tree -L $(get_level) --fromfile <(chezmoi managed|trailing_slash )
 		else
 			tree -L $(get_level) --fromfile <(chezmoi managed $data|trailing_slash)
 		fi
 	else
 		if [ -z "$data" ] || [[ "$(readlink -f "$data")" = "$HOME" ]]; then
-			chezmoi managed|awk -F/ '{ print $1 }'|sort -u
+			chezmoi managed
 		else
 			chezmoi managed $data
 		fi

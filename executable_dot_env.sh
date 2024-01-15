@@ -19,7 +19,8 @@ SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 export ROFISTYLE="$HOME/.config/rofi/tokyonight"
 export TOOLS="$HOME/.scripts/tools"
 export BSPDIR="$HOME/.config/bspwm"
-export BSPSETTINGS="$HOME/.config/bspwm/settings.json"
+export BSPSETTINGS="$HOME/.scripts/settings.json"
+export SCRIPTS="$HOME/.scripts"
 
 export SHELL="$(which zsh)";
 export VISUAL=nvim;
@@ -36,3 +37,4 @@ if [ -f ~/.config/environment.d/profile.conf ]; then
 	eval "$(cat ~/.config/environment.d/profile.conf|xargs -i echo export {})"
 fi
 
+exec $@

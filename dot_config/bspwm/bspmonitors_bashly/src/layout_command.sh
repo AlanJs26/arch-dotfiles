@@ -3,8 +3,8 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
-layout="$(jq -r ".monitor_layouts|map(select(.name == \"${args[name]}\"))[0]" $BSPSETTINGS)"
-monitor_setup="$(jq -r ".monitor_setup" $BSPSETTINGS)"
+layout="$(archdots settings ".monitor.layouts|map(select(.name == \"${args[name]}\"))[0]"
+monitor_setup="$(archdots settings ".monitor.setup")"
 n_layout=$(echo "$layout"|jq -r '.layout|length')
 
 json ()
