@@ -1,4 +1,11 @@
 [arch]
+xdg-desktop-portal-hyprland
+ristretto
+grim
+slurp
+
+qt6-wayland
+
 waybar
 wl-clipboard
 rofi-lbonn-wayland

@@ -1,6 +1,8 @@
+
+/* ==== defaults ====  */
 *{
-    font-family: "icomoon-feather";
-    font-weight: bold;
+    font-family: "Iosevka Nerd Font";
+    /* font-weight: bold; */
     min-height: 0;
     font-size: 13px;
     padding: 0;
@@ -18,45 +20,13 @@ window#waybar.hidden {
 
 tooltip {
     background: #24283b;
-    border-radius: 10px;
     border-width: 2px;
     border-style: solid;
     border-color: #191d30;
 }
-/*-----module groups----*/
+
 .modules-left, .modules-center, .modules-right {
     background-color: #171926;
-    border-radius: 10px;
-}
-#workspaces button {
-    padding: 2px;
-    color: #6E6A86;
-}
-
-#workspaces button.active {
-    color: #8fb7ff;
-}
-
-#workspaces button.focused {
-    color: #d8dee9;
-}
-
-#workspaces button.urgent {
-    color: #11111b;
-    border-radius: 10px;
-}
-
-#workspaces button:hover {
-    color: #648cd4;
-    background: rgba(0,0,0,0);
-    border: 0px solid rgba(0,0,0,0);
-    box-shadow: none;
-    text-shadow: none;
-    border-radius: 15px;
-}
-
-#custom-music {
-    background: #151724;
 }
 
 #clock,
@@ -74,7 +44,65 @@ tooltip {
 #idle_inhibitor {
     color: #c0caf5;
     padding: 0px 10px;
-    border-radius:10px;
+}
+
+
+/* workspaces */
+
+#workspaces button {
+    padding: 2px;
+    color: #6E6A86;
+}
+
+#workspaces button.active {
+    color: #8fb7ff;
+}
+
+#workspaces button.focused {
+    color: #d8dee9;
+}
+
+#workspaces button.urgent {
+    color: #11111b;
+}
+
+#workspaces button:hover {
+    color: #648cd4;
+    background: rgba(0,0,0,0);
+    border: 0px solid rgba(0,0,0,0);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+/* center */
+#custom-music {
+    background: #151724;
+}
+
+/* center - left and right */
+#cpu, #memory {
+    background: #1d2030;
+}
+
+#clock, #custom-notifications {
+    background: #151724;
+}
+#custom-notifications {
+    padding-left: 12px;
+    min-width: 20px;
+}
+
+
+
+#pulseaudio {
+    background: #1d2030;
+}
+
+#custom-archdots, #tray {
+    background: rgba(36, 40, 59, 0.8);
+    background-color: rgba(36, 40, 59, 0.8);
+    margin: 0;
+    padding: 0 10px;
 }
 
 

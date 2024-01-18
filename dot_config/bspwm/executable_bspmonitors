@@ -312,9 +312,9 @@ bspmonitors_list_command() {
   fi
 
   if [ "${args[--list_monitors]}" = "1" ]; then
-      archdots settings '.monitor.setup|map(.alias).[]'
+      archdots settings '.monitor.setup|map(.alias).[]' -r
   elif [ "${args[--list_layouts]}" = "1" ]; then
-      archdots settings '.monitor.layouts|map(.name).[]'
+      archdots settings '.monitor.layouts|map(.name).[]' -r
   fi
 
 }
@@ -377,8 +377,8 @@ bspmonitors_layout_command() {
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
-  layout="$(archdots settings ".monitor.layouts|map(select(.name == \"${args[name]}\"))[0]"
-  monitor_setup="$(archdots settings ".monitor.setup")"
+  layout="$(archdots settings ".monitor.layouts|map(select(.name == \"${args[name]}\"))[0]" -r)"
+  monitor_setup="$(archdots settings ".monitor.setup" -r)"
   n_layout=$(echo "$layout"|jq -r '.layout|length')
 
   json ()
@@ -449,13 +449,12 @@ bspmonitors_query_command() {
   fi
 
   if [ -n "${args[--monitor]}" ]; then
-      found="$(archdots settings '.monitor.setup|map(.alias).[]' |grep "^${args[--monitor]}$"|tail -n1)"
-      archdots settings ".monitor.setup|map(select(.alias == \"$found\"))[0].name"
+      found="$(archdots settings '.monitor.setup|map(.alias).[]' -r|grep "^${args[--monitor]}$"|tail -n1)"
+      archdots settings ".monitor.setup|map(select(.alias == \"$found\"))[0].name" -r
 
   elif [ -n "${args[--layout]}" ]; then
-      found="$(archdots settings '.monitor.layouts|map(.name).[]' |grep "^${args[--layout]}$"|tail -n1)"
-      archdots settings ".monitor.layouts|map(select(.name == \"$found\"))"
-
+      found="$(archdots settings '.monitor.layouts|map(.name).[]' -r|grep "^${args[--layout]}$"|tail -n1)"
+      archdots settings ".monitor.layouts|map(select(.name == \"$found\"))" -r
   fi
 
 }

@@ -27,6 +27,8 @@ commands:
 - name: amd
 - name: amdgpupro
 - name: cups
+- name: desktop_entries
+- name: display_manager
 
   # args:
   # - name: source

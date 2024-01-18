@@ -84,19 +84,19 @@ XF86Mail
 
 # Sound Manager (fn + F12)
 XF86Search 
-	bsplaunch sound_manager
+	archdots launch sound_manager
 
 # Terminal Emulator
 super + Return
-	bsplaunch terminal
+	archdots launch terminal
 
 # Web Browser
 super + shift + Return
-	bsplaunch browser
+	archdots launch browser
 
 # File-explorer
 super + shift + n
-	bsplaunch file_explorer
+	archdots launch file_explorer
 
 # Launch Programs
 super + @space
@@ -152,7 +152,7 @@ super + alt + a
 
 # Cicle all scratchpad windows
 super + shift + a
-	scratchpad.py ".*" --behaviour i3 --not_class "$(bash bsplaunch pdf_viewer -r)|qalculate-gtk" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
+	scratchpad.py ".*" --behaviour i3 --not_class "$(archdots settings '.apps.pdf_viewer' -r)|qalculate-gtk" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
 
 # Youtube Music or MPV
 super + ctrl + z
@@ -168,7 +168,7 @@ super + shift + s
 
 # Pdf Viewer
 super + shift + backslash
-	scratchpad.py --class "$(bash bsplaunch pdf_viewer -r)" --behaviour swap
+	scratchpad.py --class "$(archdots settings '.apps.pdf_viewer' -r)" --behaviour swap
 
 # Qalculate
 super + ctrl + backslash
@@ -194,11 +194,11 @@ super + alt + r
 
 # Restart scripts
 super + shift + r
-	bash $BSPDIR/bspscripts restart scripts && notify-send -a bspwm 'Bspwm' 'Restarted all scripts' -u low;
+	archdots autostart --restart scripts && notify-send -a bspwm 'Bspwm' 'Restarted all scripts' -u low;
 
 # Restart programs
 super + shift + alt + r
-	bash $BSPDIR/bspscripts restart programs && notify-send -a bspwm 'Bspwm' 'Restarted all autostart programs' -u low;
+	archdots autostart --restart programs && notify-send -a bspwm 'Bspwm' 'Restarted all autostart programs' -u low;
 
 # Close and kill
 super + {shift + ,alt + }q

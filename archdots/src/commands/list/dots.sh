@@ -52,9 +52,9 @@ show_pending () {
 	pending="$(echo -e "$from_git\n$from_chezmoi"|sort -u)"
 
 	if [[ ${args[--tree]} -eq 1 ]]; then
-		tree -L $(get_level) --fromfile <(echo "$pending")
+		tree -L $(get_level) --fromfile <(cat <<< "$pending")
 	else
-		echo "$pending"
+		cat <<< "$pending"
 	fi
 }
 

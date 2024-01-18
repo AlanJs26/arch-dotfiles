@@ -36,5 +36,3 @@ export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 if [ -f ~/.config/environment.d/profile.conf ]; then
 	eval "$(cat ~/.config/environment.d/profile.conf|xargs -i echo export {})"
 fi
-
-exec $@

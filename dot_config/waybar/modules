@@ -1,5 +1,4 @@
 {
-
   "custom/music": {
    "interval": 0,
    "escape": true,
@@ -7,7 +6,13 @@
    "exec": "~/.config/waybar/scripts/scroll_spotify_status.sh",
    "on-click": "playerctl play-pause",
    "on-click-right": "playerctl next"
-
+  },
+  "custom/notifications": {
+    "format": "{}",
+    "exec": "$HOME/.config/polybar/tokyonight/scripts/notifications-count.sh",
+    "interval": 2,
+    "on-click": "eww open disclose --toggle&&eww close mainframe; $HOME/.config/eww/scripts/notification_logger.zsh clear_pending ",
+    "on-click-right": "dunstctl set-paused toggle"
   },
   "custom/archdots": {
     "interval": 60,
@@ -61,9 +66,10 @@
     "on-scroll-down": "hyprctl dispatch workspace e-1",
   },
 
+
   "clock": {
     //"format": "{:%I:%M %p}",
-    "format": " {:%H:%M  %d/%m/%Y} ",
+    "format": " {:%H:%M  %a, %d/%m/%Y} ",
     //"format-alt": " {:%I:%M %p   %Y, %d %B, %A}",
     "format-alt": " {:%H:%M   %d/%m/%Y, %A}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
@@ -110,7 +116,7 @@
   },
 
   "pulseaudio": {
-    "format": "{icon} {volume} %",
+    "format": "{icon} {volume}%",
     "format-bluetooth": " {icon} {volume} %",
     "format-muted": " mute",
     "format-icons": {

@@ -8,8 +8,8 @@
 	"spacing": 3,
 	"fixed-center": true,
 	"ipc": true,
-	"margin-left": 10,
-	"margin-right": 10,
+	"margin-left": 0,
+	"margin-right": 0,
 
 	"modules-left": [
 		"hyprland/workspaces" 
@@ -27,6 +27,7 @@
 		"tray", 
 		"pulseaudio",
 		//"pulseaudio#microphone", 
+		"custom/notifications",
 		"clock"
 	],
 }

@@ -1,4 +1,8 @@
 [arch]
+lightdm-gtk-greeter
+lightdm
+
+
 
 
 socat
@@ -77,8 +81,8 @@ chezmoi
 pacdef
 
 # X11
-lightdm
-lightdm-gtk-greeter
+sddm
+sddm-theme-deepin-git
 xdotool
 libnotify
 

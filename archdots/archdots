@@ -101,6 +101,8 @@ archdots_setup_usage() {
   printf "  %s   \n" "$(green "amd")            "
   printf "  %s   \n" "$(green "amdgpupro")      "
   printf "  %s   \n" "$(green "cups")           "
+  printf "  %s   \n" "$(green "desktop_entries")"
+  printf "  %s   \n" "$(green "display_manager")"
   echo
 
   # :command.long_usage
@@ -582,6 +584,64 @@ archdots_setup_cups_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup cups\n"
   printf "  archdots setup cups --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_desktop_entries_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup desktop_entries\n"
+    echo
+
+  else
+    printf "archdots setup desktop_entries\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup desktop_entries\n"
+  printf "  archdots setup desktop_entries --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_display_manager_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup display_manager\n"
+    echo
+
+  else
+    printf "archdots setup display_manager\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup display_manager\n"
+  printf "  archdots setup display_manager --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1621,6 +1681,14 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'setup desktop_entries\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'setup display_manager\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'autostart programs\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h")" -- "$cur" )'
   echo $'      ;;'
@@ -1754,7 +1822,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'setup\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro audiorelay cron cups defaults docker evrouter git_credentials git_delta monitors nvim pip rclone ssh_agent")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro audiorelay cron cups defaults desktop_entries display_manager docker evrouter git_credentials git_delta monitors nvim pip rclone ssh_agent")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'edit\'*)'
@@ -1906,6 +1974,8 @@ archdots_setup_nvim_command() {
   if [[ ! -d "$HOME/.config/nvim" ]]; then
   	echo cloning nvim repo
   	git clone "git@github.com:AlanJs26/nvim_config.git"
+  	echo syslinkinkg user neovim config to root
+  	sudo ln -s $HOME/.config/nvim /root/.config/nvim
   else
   	echo Alredy configured
   fi
@@ -2172,6 +2242,47 @@ archdots_setup_cups_command() {
 }
 
 # :command.function
+archdots_setup_desktop_entries_command() {
+  # src/commands/setup/desktop_entries.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [ ! -f "/usr/share/xsessions/bspwm.desktop" ] || [ ! -f "/usr/share/wayland-sessions/hyprland.desktop" ]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  sudo mkdir -p /usr/share/wayland-sessions
+  sudo mkdir -p /usr/share/xsessions
+  sudo cp $HOME/.local/share/chezmoi/archdots/public/hyprland.desktop /usr/share/wayland-sessions
+  sudo cp $HOME/.local/share/chezmoi/archdots/public/bspwm.desktop /usr/share/xsessions
+
+}
+
+# :command.function
+archdots_setup_display_manager_command() {
+  # src/commands/setup/display_manager.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [ ! -f "/usr/share/pixmaps/lightdm_background.png" ]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  sudo mkdir -p /usr/share/pixmaps/
+  sudo mkdir -p /etc/lightdm
+  sudo cp $HOME/.local/share/chezmoi/archdots/public/lightdm_background.png /usr/share/pixmaps/
+  sudo cp $HOME/.local/share/chezmoi/archdots/public/lightdm_profile.png /usr/share/pixmaps/
+
+  sudo cp $HOME/.local/share/chezmoi/archdots/public/lightdm.conf /etc/lightdm
+  sudo cp $HOME/.local/share/chezmoi/archdots/public/lightdm-gtk-greeter.conf /etc/lightdm
+
+}
+
+# :command.function
 archdots_completions_command() {
   # src/commands/completions.sh
   # echo "# this file is located in 'src/commands/completions.sh'"
@@ -2352,6 +2463,13 @@ archdots_autostart_all_command() {
   # echo "# code for 'archdots autostart all' goes here"
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
+
+  all_alwayss="$(archdots settings '.autostart.always[]' -r)"
+  readarray -t all_alwayss <<< $all_alwayss
+
+  for always_command in "${all_alwayss[@]}"; do
+  		$(eval "echo $always_command")
+  done
 
   archdots autostart scripts ${args[--restart]}
   archdots autostart programs ${args[--restart]}
@@ -2630,9 +2748,9 @@ archdots_list_dots_command() {
   	pending="$(echo -e "$from_git\n$from_chezmoi"|sort -u)"
 
   	if [[ ${args[--tree]} -eq 1 ]]; then
-  		tree -L $(get_level) --fromfile <(echo "$pending")
+  		tree -L $(get_level) --fromfile <(cat <<< "$pending")
   	else
-  		echo "$pending"
+  		cat <<< "$pending"
   	fi
   }
 
@@ -2996,6 +3114,20 @@ archdots_setup_parse_requirements() {
       action="cups"
       shift
       archdots_setup_cups_parse_requirements "$@"
+      shift $#
+      ;;
+
+    desktop_entries)
+      action="desktop_entries"
+      shift
+      archdots_setup_desktop_entries_parse_requirements "$@"
+      shift $#
+      ;;
+
+    display_manager)
+      action="display_manager"
+      shift
+      archdots_setup_display_manager_parse_requirements "$@"
       shift $#
       ;;
 
@@ -3730,6 +3862,94 @@ archdots_setup_cups_parse_requirements() {
 
   # :command.command_filter
   action="setup cups"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_desktop_entries_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_desktop_entries_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup desktop_entries"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_display_manager_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_display_manager_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup display_manager"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -5200,6 +5420,8 @@ run() {
     "setup amd") archdots_setup_amd_command ;;
     "setup amdgpupro") archdots_setup_amdgpupro_command ;;
     "setup cups") archdots_setup_cups_command ;;
+    "setup desktop_entries") archdots_setup_desktop_entries_command ;;
+    "setup display_manager") archdots_setup_display_manager_command ;;
     "completions") archdots_completions_command ;;
     "add") archdots_add_command ;;
     "forget") archdots_forget_command ;;
