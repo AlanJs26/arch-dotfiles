@@ -11,7 +11,8 @@ ZSH_THEME=""
 
 ZSHZ_TRAILING_SLASH=true
 
-plugins=(git fzf)
+# plugins=(git fzf)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -44,6 +45,7 @@ zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light hlissner/zsh-autopair 
+zinit light atuinsh/atuin 
 
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
@@ -115,3 +117,4 @@ export JINA_DEFAULT_WORKSPACE_BASE="${HOME}/.jina/executor-workspace"
 
 # JINA_CLI_END
 
+eval "$(atuin init zsh)"

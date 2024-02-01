@@ -1,0 +1,40 @@
+
+
+new_tab main
+layout fat
+cd /mnt/DiscoExterno/_Codes/ThundeRatz/Namira-LogAnalyzer
+title …/_Codes/ThundeRatz/Namira-LogAnalyzer
+launch --env KITTY_WINDOW_ID=1 /usr/bin/zsh
+focus
+
+
+new_tab GUI
+layout fat
+cd /home/alan/Downloads
+title kitty @ ls > kitty-dump.json
+launch --env KITTY_WINDOW_ID=12 kitten @ ls
+focus
+
+
+new_tab sswindow2
+layout fat
+cd /mnt/DiscoExterno/_Codes/ThundeRatz/ThunderLeague
+title /tmp - fish
+launch --env KITTY_WINDOW_ID=2 docker exec -it thunderleague_container fish
+focus
+
+
+new_tab rcssserver
+layout fat
+cd /home/alan
+title /usr/app - fish
+launch --env KITTY_WINDOW_ID=3 docker exec -it thunderleague_container fish
+focus
+
+
+new_tab rcssclient
+layout fat
+cd /home/alan
+title /usr/app - fish
+launch --env KITTY_WINDOW_ID=4 docker exec -it thunderleague_container fish
+focus

@@ -2303,7 +2303,7 @@ archdots_add_command() {
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
-  bash -c "chezmoi add ${args[file]}"
+  bash -c "gum spin --title='Adding ${args[file]}...' -- chezmoi add ${args[file]}"
 
 }
 
@@ -2464,11 +2464,14 @@ archdots_autostart_all_command() {
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
 
-  all_alwayss="$(archdots settings '.autostart.always[]' -r)"
-  readarray -t all_alwayss <<< $all_alwayss
+  set -e
 
-  for always_command in "${all_alwayss[@]}"; do
-  		$(eval "echo $always_command")
+  PREVENT_ALWAYS=1
+  all_always="$(archdots settings '.autostart.always[]' -r)"
+  readarray -t all_always <<< $all_always
+
+  for always_command in "${all_always[@]}"; do
+  	(echo "$always_command"|bash)||notify-send autostart "an error has ocurred with \"$always_command\""
   done
 
   archdots autostart scripts ${args[--restart]}
@@ -2483,6 +2486,15 @@ archdots_autostart_scripts_command() {
   # echo "# code for 'archdots autostart scripts' goes here"
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
+
+  if [ -z ${PREVENT_ALWAYS+x} ]; then
+  	all_always="$(archdots settings '.autostart.always[]' -r)"
+  	readarray -t all_always <<< $all_always
+
+  	for always_command in "${all_always[@]}"; do
+  		(echo "$always_command"|bash)||notify-send autostart "an error has ocurred with \"$always_command\""
+  	done
+  fi
 
   all_scripts="$(archdots settings '.autostart.scripts[]' -r)"
   readarray -t all_scripts <<< $all_scripts
@@ -2520,6 +2532,15 @@ archdots_autostart_programs_command() {
   # echo "# code for 'archdots autostart scripts' goes here"
   # echo "# you can edit it freely and regenerate (it will not be overwritten)"
   # inspect_args
+
+  if [ -z ${PREVENT_ALWAYS+x} ]; then
+  	all_always="$(archdots settings '.autostart.always[]' -r)"
+  	readarray -t all_always <<< $all_always
+
+  	for always_command in "${all_always[@]}"; do
+  		(echo "$always_command"|bash)||notify-send autostart "an error has ocurred with \"$always_command\""
+  	done
+  fi
 
   all_programs="$(archdots settings '.autostart.programs[]' -r)"
   readarray -t all_programs <<< $all_programs
@@ -2748,7 +2769,7 @@ archdots_list_dots_command() {
   	pending="$(echo -e "$from_git\n$from_chezmoi"|sort -u)"
 
   	if [[ ${args[--tree]} -eq 1 ]]; then
-  		tree -L $(get_level) --fromfile <(cat <<< "$pending")
+  		tree -L $(get_level) --fromfile <(cat <<< "$pending"|trailing_slash)
   	else
   		cat <<< "$pending"
   	fi

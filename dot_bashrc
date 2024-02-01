@@ -39,3 +39,6 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export JINA_DEFAULT_WORKSPACE_BASE="${HOME}/.jina/executor-workspace"
 
 # JINA_CLI_END
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+eval "$(atuin init bash)"

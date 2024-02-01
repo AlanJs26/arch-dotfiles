@@ -3,12 +3,14 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
+set -e
 
-all_alwayss="$(archdots settings '.autostart.always[]' -r)"
-readarray -t all_alwayss <<< $all_alwayss
+PREVENT_ALWAYS=1
+all_always="$(archdots settings '.autostart.always[]' -r)"
+readarray -t all_always <<< $all_always
 
-for always_command in "${all_alwayss[@]}"; do
-		$(eval "echo $always_command")
+for always_command in "${all_always[@]}"; do
+	(echo "$always_command"|bash)||notify-send autostart "an error has ocurred with \"$always_command\""
 done
 
 

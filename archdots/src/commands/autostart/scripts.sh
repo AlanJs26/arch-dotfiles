@@ -3,6 +3,15 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
+if [ -z ${PREVENT_ALWAYS+x} ]; then
+	all_always="$(archdots settings '.autostart.always[]' -r)"
+	readarray -t all_always <<< $all_always
+
+	for always_command in "${all_always[@]}"; do
+		(echo "$always_command"|bash)||notify-send autostart "an error has ocurred with \"$always_command\""
+	done
+fi
+
 all_scripts="$(archdots settings '.autostart.scripts[]' -r)"
 readarray -t all_scripts <<< $all_scripts
 

@@ -66,6 +66,9 @@ function create_cache() {
   if [ -n "$(echo $DUNST_BODY|rg "^\\\$wa")" ]; then
     return
   fi
+  if [ -n "$(echo $DUNST_BODY|rg "Sincronizando mensagens em")" ]; then
+    return
+  fi
 
   case "$DUNST_APP_NAME" in
     "Spotify" | "mpd") return;; # don't show music notifications

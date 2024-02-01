@@ -3,4 +3,4 @@
 # echo "# you can edit it freely and regenerate (it will not be overwritten)"
 # inspect_args
 
-bash -c "chezmoi add ${args[file]}"
+bash -c "gum spin --title='Adding ${args[file]}...' -- chezmoi add ${args[file]}"
