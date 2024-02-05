@@ -1,4 +1,0 @@
-#!/usr/bin/sh
-
-cd $HOME
-kitty --class __pluto__ pkexec julia -e "import Pluto; Pluto.run()" &

@@ -29,6 +29,7 @@ commands:
 - name: cups
 - name: desktop_entries
 - name: display_manager
+- name: terminal_history
 
   # args:
   # - name: source

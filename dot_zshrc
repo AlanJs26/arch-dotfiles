@@ -1,15 +1,9 @@
-
 # Path to your oh-my-zsh installation.
 export ZSH="/home/alan/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# ZSH_THEME="spaceship"
 ZSH_THEME=""
-
 ZSHZ_TRAILING_SLASH=true
+export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # plugins=(git fzf)
 plugins=(git)
@@ -40,17 +34,19 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
-
+### Zinit Plugins
 zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light hlissner/zsh-autopair 
-zinit light atuinsh/atuin 
 
-export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+### End of Zinit Plugins
+#
 
-
+# Load envirounment variables
 source ~/.env.sh
+
+### LF Config
 
 # keep working directory on lf exit
 LFCD="$HOME/.config/lf/lfcd.sh"
@@ -58,6 +54,10 @@ if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi
 alias lf=lfcd
+
+### End of LF Config
+
+### Aliases
 
 alias "docker compose"="docker-compose"
 
@@ -73,48 +73,24 @@ function zz(){
 }
 
 alias cat="bat"
-
 alias gits="git status"
-
 alias copy="xclip -sel copy"
 
+### End of Aliases
+
+### Terminal Behaviour Scripts
 eval "$(starship init zsh)" 
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
 eval "$(thefuck --alias)"
+### End of Terminal Behaviour Scripts
 
-
-
-
-
-# JINA_CLI_BEGIN
-
-## autocomplete
-if [[ ! -o interactive ]]; then
-    return
-fi
-
-compctl -K _jina jina
-
-_jina() {
-  local words completions
-  read -cA words
-
-  if [ "${#words}" -eq 2 ]; then
-    completions="$(jina commands)"
-  else
-    completions="$(jina completions ${words[2,-2]})"
-  fi
-
-  reply=(${(ps:\n:)completions})
-}
-
-# session-wise fix
-ulimit -n 4096
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-# default workspace for Executors
-export JINA_DEFAULT_WORKSPACE_BASE="${HOME}/.jina/executor-workspace"
-
-# JINA_CLI_END
-
+### Atuin Setup
+export ATUIN_NOBIND="true"
 eval "$(atuin init zsh)"
+
+bindkey '^r' _atuin_search_widget
+### End of Atuin Setup
+
+
+

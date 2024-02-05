@@ -1,4 +1,6 @@
 [arch]
+atuin
+
 lightdm-gtk-greeter
 lightdm
 
