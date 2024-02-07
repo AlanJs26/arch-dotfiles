@@ -46,16 +46,17 @@ zinit light hlissner/zsh-autopair
 # Load envirounment variables
 source ~/.env.sh
 
-### LF Config
-
-# keep working directory on lf exit
-LFCD="$HOME/.config/lf/lfcd.sh"
-if [ -f "$LFCD" ]; then
-    source "$LFCD"
-fi
-alias lf=lfcd
-
-### End of LF Config
+### Yazi Config
+function ya() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+alias lf=ya
+### End of Yazi Config
 
 ### Aliases
 
@@ -70,6 +71,10 @@ function zz(){
 
     echo $result
     ls $result
+}
+
+function rm(){
+    chezmoi remove --force $@ 2> /dev/null || /bin/rm $@
 }
 
 alias cat="bat"

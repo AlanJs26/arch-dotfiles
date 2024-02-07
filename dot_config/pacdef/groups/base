@@ -1,4 +1,6 @@
 [arch]
+yazi
+
 atuin
 
 lightdm-gtk-greeter
@@ -55,7 +57,6 @@ unzip
 ripgrep
 bat
 fzf
-lf
 ctpv
 eza
 btop

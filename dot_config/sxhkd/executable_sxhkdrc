@@ -100,7 +100,7 @@ super + shift + n
 
 # Launch Programs
 super + @space
-	rofi -show drun
+	rofi -show drun|bspc rule -a "*" --one-shot desktop="$(bspc query -D -d focused)"
 
 # Windows
 super + shift + @space
