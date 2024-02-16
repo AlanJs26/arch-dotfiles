@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
-rclone-sync.sh &
+rclone-sync.sh --log &
 obsidian $@

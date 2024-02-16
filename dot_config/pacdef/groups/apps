@@ -1,4 +1,7 @@
 [arch]
+vivaldi-snapshot-ffmpeg-codecs
+vivaldi-snapshot
+
 youtube-music-bin
 
 
@@ -35,7 +38,6 @@ unified-remote-server
 mpv
 qalculate-gtk
 audiorelay
-vivaldi
 nemo
 kitty
 obsidian
