@@ -10,6 +10,8 @@ fi
 
 mime="$(file -b "$arg")"
 
+zoxide add "$(dirname "$arg")"
+
 if [[ $mime =~ "image" ]]; then
     feh "$arg" --class "__float__" --scale-down
 elif [[ $mime =~ "PowerPoint" ]]; then

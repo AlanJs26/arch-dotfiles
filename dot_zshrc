@@ -66,6 +66,12 @@ alias ls="eza"
 alias ll="eza --long"
 alias l="eza --long"
 
+alias cat="bat"
+alias gits="git status"
+alias gitb="git branch -a"
+alias lg="lazygit"
+alias copy="xclip -sel copy"
+
 function zz(){
     result="$(zoxide query $@|head -n1)"
 
@@ -76,10 +82,6 @@ function zz(){
 function rm(){
     chezmoi remove --force $@ 2> /dev/null || /bin/rm $@
 }
-
-alias cat="bat"
-alias gits="git status"
-alias copy="xclip -sel copy"
 
 ### End of Aliases
 
@@ -97,5 +99,6 @@ eval "$(atuin init zsh)"
 bindkey '^r' _atuin_search_widget
 ### End of Atuin Setup
 
-
-
+### NVM setup
+source /usr/share/nvm/init-nvm.sh
+### End of NVM setup

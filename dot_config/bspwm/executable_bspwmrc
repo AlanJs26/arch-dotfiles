@@ -61,6 +61,7 @@ floating_windows=(
   "__float__:*:*"
   "org.gnome.clocks"
   "File-roller"
+  "Syncthing GTK"
 )
 
 pseudo_tiled_windows=(

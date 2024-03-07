@@ -19,24 +19,30 @@ case "$mode" in
     "--list")
         bspmonitors --list_layouts
         ;;
+    "auto")
+        bspmonitors auto
+        echo "$mode" > /tmp/active-monitor-mode
+        ;;
     *)
-        if [ "$(bspmonitors check $mode)" = "available" ]; then
-            bspmonitors layout $mode
+        if [ "$(bspmonitors check $mode)" = "available" ] && bspmonitors layout $mode; then
             echo "$mode" > /tmp/active-monitor-mode
         else
-            if [ -e /tmp/active-monitor-mode ]; then
-                old_mode="$(cat /tmp/active-monitor-mode)"
+            old_mode="$(cat /tmp/active-monitor-mode)"
+            if [ -e /tmp/active-monitor-mode ] && [ "$old_mode" != "$mode" ]; then
                 echo "\"$mode\" is unavailable. Going back to \"$old_mode\" layout"
+                notify-send bspmonitors "\"$mode\" is unavailable. Going back to \"$old_mode\" layout"
                 bspmonitors layout $old_mode
             else
                 echo "\"$mode\" is unavailable. Using automatic config"
+                notify-send bspmonitors "\"$mode\" is unavailable. Using automatic config"
                 bspmonitors auto
+                echo "auto" > /tmp/active-monitor-mode
             fi
         fi
 esac
 
 
-if [ -z "$1" ] && ! [ -e /tmp/active-monitor-mode ]; then
+if ! [ -e /tmp/active-monitor-mode ]; then
     bspc config pointer_follows_monitor true
     bspc monitor -f $big_monitor
     bspc config pointer_follows_monitor false

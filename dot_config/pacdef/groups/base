@@ -1,4 +1,6 @@
 [arch]
+networkmanager-openconnect
+
 icu
 xdg-desktop-portal-gtk
 icu73-bin

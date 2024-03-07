@@ -1,4 +1,7 @@
 [arch]
+lazygit
+nvm
+
 thefuck
 
 docker-buildx

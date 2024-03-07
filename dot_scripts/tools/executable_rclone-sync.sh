@@ -26,20 +26,28 @@ pathlinks=(
 
 exec > >(tee -a $HOME/.rclone.log) 2>&1
 
+should_report_error=0
+
 for item in ${pathlinks[@]}; do
 	item_split=($(echo $item|rg ';' -r ' '))
 	echo ${item_split[1]}
 
 	if [[ $1 = "--resync" ]]; then
-		rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access --resync
+		rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access --resync || should_report_error=1
 	else
 
 		if [[ $SHLVL -lt 4 ]] && [ "$1" != "--log" ]; then
-			rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access
+			rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access || should_report_error=1
 		else
-			rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access >> $HOME/.rclone.log 2>&1
+			rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access >> $HOME/.rclone.log 2>&1 || should_report_error=1
 		fi
 	fi
 
 done
 
+
+if [[ $should_report_error -eq 1 ]]; then
+	echo "error" > $HOME/.rclone_status.txt
+else
+	echo "ok" > $HOME/.rclone_status.txt
+fi
