@@ -10,16 +10,6 @@ spotify() { state=floating; }
 
 
 case $instance.$class in
-
-    Scilab.Scilab)
-        title=$(xprop -id "$wid" WM_NAME 2>/dev/null | sed -r 's/.+ "(.+)"$/\1/')
-
-        if echo $title|rg "Janela|Solicitação de múltiplos valores do Scilab|Mensagem|Xcos|SciNotes"; then
-            state=floating;
-            center=yes;
-        fi
-        break
-    ;;
     .)
         case $(exec ps -p "$(exec xdo pid "$id")" -o comm= 2>/dev/null) in
             spotify) spotify ;;

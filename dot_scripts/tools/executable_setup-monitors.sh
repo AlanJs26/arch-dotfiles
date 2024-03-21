@@ -43,6 +43,7 @@ esac
 
 
 if ! [ -e /tmp/active-monitor-mode ]; then
+    sleep 4
     bspc config pointer_follows_monitor true
     bspc monitor -f $big_monitor
     bspc config pointer_follows_monitor false

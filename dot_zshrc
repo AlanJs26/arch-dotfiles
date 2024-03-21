@@ -102,3 +102,5 @@ bindkey '^r' _atuin_search_widget
 ### NVM setup
 source /usr/share/nvm/init-nvm.sh
 ### End of NVM setup
+
+export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"

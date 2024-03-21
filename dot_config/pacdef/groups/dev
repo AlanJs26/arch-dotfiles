@@ -1,4 +1,6 @@
 [arch]
+clangd
+
 lazygit
 nvm
 
