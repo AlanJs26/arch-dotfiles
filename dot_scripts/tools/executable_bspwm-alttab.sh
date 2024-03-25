@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# win=$(bspc query -N -n .window)
 win=$(bspc wm -d|jq '.focusHistory| map(select(.nodeId != 0)) | [.[].nodeId].[]'| tac | awk '!a[$0]++')
 
 if [ $(echo "$win"|wc -l) -le 2 ]; then
@@ -9,11 +8,12 @@ if [ $(echo "$win"|wc -l) -le 2 ]; then
 	exit
 fi
 
-xdotool search --sync --syncsleep 50 --limit 1 --class Rofi keyup --delay 0 Tab key --delay 0 Tab&
+# xdotool search --sync --syncsleep 50 --limit 1 --class Rofi keyup --delay 0 Tab key --delay 0 Tab&
+# xdotool search --sync --limit 1 --onlyvisible --class Rofi keyup --delay 0 Tab key --delay 0 Tab&
 
-small_monitor="$(bspmonitors query --monitor secundary)"
-big_monitor="$(bspmonitors query --monitor primary)"
-tv_monitor="$(bspmonitors query --monitor tv)"
+small_monitor="DisplayPort-1"
+big_monitor="DisplayPort-1-0"
+# tv_monitor="$(bspmonitors query --monitor tv)"
 
 focused_monitor="$(bspc query -M --names -m focused)"
 
@@ -39,6 +39,9 @@ function parse_name() {
 		Qalculate!)
 			echo qalculate
 			;;
+		"YouTube Music")
+			echo "youtube-music"
+			;;
 		*)
 			echo "$name"
 			;;
@@ -61,9 +64,11 @@ done | rofi -dmenu -format  i -p 'Windows: '\
     -kb-accept-entry "!Alt-Tab,!Alt-Alt_L,!Alt_L,Return"\
     -kb-row-down "Alt+Tab,Alt+Down" \
     -kb-row-up "Alt+ISO_Left_Tab,Alt+Up"\
+		-auto-select\
 		-selected-row 1
 # xdotool keyup Tab&&\
-# xdotool keydown Tab
+# xdotool keydown Tab&&\
+# xdotool keyup Tab
 )
 
 # wait "$n"

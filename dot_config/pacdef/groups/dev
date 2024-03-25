@@ -21,15 +21,10 @@ android-sdk
 
 
 python-virtualenv
-python-findpython
 
 python-pdm
 python-dotenv
 
-python-pdm
-python-dotenv
-python-findpython
-python-virtualenv
 
 tk
 jre

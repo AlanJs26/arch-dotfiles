@@ -1,4 +1,9 @@
 [arch]
+yay-debug
+python-findpython
+
+llvm16
+
 networkmanager-openconnect
 
 icu

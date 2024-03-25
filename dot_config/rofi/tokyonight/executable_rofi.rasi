@@ -37,7 +37,7 @@ window {
 
 prompt {
 	enabled: true;
-	padding: 0.30% 1% 0% -0.5%;
+	padding: 0.30% 1% 0% 0%;
 	background-color: @al;
 	text-color: #7aa2f7;
 }
