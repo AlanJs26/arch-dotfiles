@@ -92,6 +92,7 @@ archdots_setup_usage() {
   printf "  %s   \n" "$(green "git_delta")       "
   printf "  %s   \n" "$(green "nvim")            "
   printf "  %s   \n" "$(green "evrouter")        "
+  printf "  %s   \n" "$(green "downgrade")       "
   printf "  %s   \n" "$(green "monitors")        "
   printf "  %s   \n" "$(green "pip")             "
   printf "  %s   \n" "$(green "docker")          "
@@ -105,6 +106,7 @@ archdots_setup_usage() {
   printf "  %s   \n" "$(green "desktop_entries") "
   printf "  %s   \n" "$(green "display_manager") "
   printf "  %s   \n" "$(green "terminal_history")"
+  printf "  %s   \n" "$(green "tabbed")          "
   echo
 
   # :command.long_usage
@@ -325,6 +327,35 @@ archdots_setup_evrouter_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup evrouter\n"
   printf "  archdots setup evrouter --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_downgrade_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup downgrade\n"
+    echo
+
+  else
+    printf "archdots setup downgrade\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup downgrade\n"
+  printf "  archdots setup downgrade --help | -h\n"
   echo
 
   # :command.long_usage
@@ -702,6 +733,35 @@ archdots_setup_terminal_history_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup terminal_history\n"
   printf "  archdots setup terminal_history --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_tabbed_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup tabbed\n"
+    echo
+
+  else
+    printf "archdots setup tabbed\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup tabbed\n"
+  printf "  archdots setup tabbed --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1773,6 +1833,10 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
+  echo $'    \'setup downgrade\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'setup ssh_agent\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -1802,6 +1866,10 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'setup rclone\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
+  echo $'    \'setup tabbed\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1890,7 +1958,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'setup\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro audiorelay cron cups defaults desktop_entries display_manager docker evrouter git_credentials git_delta monitors nvim pip rclone ssh_agent terminal_history yay")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro audiorelay cron cups defaults desktop_entries display_manager docker downgrade evrouter git_credentials git_delta monitors nvim pip rclone ssh_agent tabbed terminal_history yay")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'edit\'*)'
@@ -2085,6 +2153,27 @@ archdots_setup_evrouter_command() {
   else
   	echo Alredy configured
   fi
+
+}
+
+# :command.function
+archdots_setup_downgrade_command() {
+  # src/commands/setup/downgrade.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [ ! -f "$(which downgrade)" ]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  mkdir -p $HOME/.local/share
+  mkdir -p $HOME/.local/bin
+
+  git clone https://github.com/archlinux-downgrade/downgrade $HOME/.local/share/downgrade
+  chmod +x $HOME/.local/share/downgrade/bin/*
+  ln -s $HOME/.local/share/downgrade/bin/downgrade $HOME/.local/bin/downgrade
 
 }
 
@@ -2385,6 +2474,22 @@ archdots_setup_terminal_history_command() {
   fi
   atuin import auto
   atuin sync
+
+}
+
+# :command.function
+archdots_setup_tabbed_command() {
+  # src/commands/setup/tabbed.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+  	if [ ! -f "$(which tabbed)" ]; then
+  		echo notok
+  	fi
+  	exit
+  fi
+
+  (cd "$HOME/.local/share/chezmoi/archdots/public/tabbed" && make clean install)
 
 }
 
@@ -3181,6 +3286,13 @@ archdots_setup_parse_requirements() {
       shift $#
       ;;
 
+    downgrade)
+      action="downgrade"
+      shift
+      archdots_setup_downgrade_parse_requirements "$@"
+      shift $#
+      ;;
+
     monitors)
       action="monitors"
       shift
@@ -3269,6 +3381,13 @@ archdots_setup_parse_requirements() {
       action="terminal_history"
       shift
       archdots_setup_terminal_history_parse_requirements "$@"
+      shift $#
+      ;;
+
+    tabbed)
+      action="tabbed"
+      shift
+      archdots_setup_tabbed_parse_requirements "$@"
       shift $#
       ;;
 
@@ -3607,6 +3726,50 @@ archdots_setup_evrouter_parse_requirements() {
 
   # :command.command_filter
   action="setup evrouter"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_downgrade_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_downgrade_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup downgrade"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -4179,6 +4342,50 @@ archdots_setup_terminal_history_parse_requirements() {
 
   # :command.command_filter
   action="setup terminal_history"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_tabbed_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_tabbed_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup tabbed"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -5640,6 +5847,7 @@ run() {
     "setup git_delta") archdots_setup_git_delta_command ;;
     "setup nvim") archdots_setup_nvim_command ;;
     "setup evrouter") archdots_setup_evrouter_command ;;
+    "setup downgrade") archdots_setup_downgrade_command ;;
     "setup monitors") archdots_setup_monitors_command ;;
     "setup pip") archdots_setup_pip_command ;;
     "setup docker") archdots_setup_docker_command ;;
@@ -5653,6 +5861,7 @@ run() {
     "setup desktop_entries") archdots_setup_desktop_entries_command ;;
     "setup display_manager") archdots_setup_display_manager_command ;;
     "setup terminal_history") archdots_setup_terminal_history_command ;;
+    "setup tabbed") archdots_setup_tabbed_command ;;
     "completions") archdots_completions_command ;;
     "add") archdots_add_command ;;
     "forget") archdots_forget_command ;;

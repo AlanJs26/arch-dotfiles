@@ -3,6 +3,7 @@
 to_ignore=(
   "bspscripts"
   "Unified Remote"
+  "in Folder"
 )
 
 function _set_vars() {

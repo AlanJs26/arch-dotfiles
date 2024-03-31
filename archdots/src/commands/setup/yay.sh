@@ -2,7 +2,7 @@
 
 
 if [ "$1" = "check" ]; then
-	if [ ! -f "$(which yay)" ]; then
+	if [ ! -f "$(which yay 2> /dev/null)" ]; then
 		echo notok
 	fi
 	exit

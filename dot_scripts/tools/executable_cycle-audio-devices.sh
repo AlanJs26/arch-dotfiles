@@ -1,44 +1,86 @@
 #!/bin/bash
 
-declare -i sinks=(`pacmd list-sinks | sed -n -e 's/\**[[:space:]]index:[[:space:]]\([[:digit:]]\)/\1/p'`)
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    cat <<EOF
+Enable next audio device or port
+
+Usage:
+    cycle-audio-device.sh [--active-device|--active-port|--port|--device]
+
+    --active-device (optional) 
+            print active audio device
+    --active-port (optional) 
+            print active port
+    --port (optional) 
+            cycles against active device's ports 
+    --device (default) 
+            cycles against detected audio devices 
+EOF
+    exit 0
+fi
+
+get_sink_by_index () {
+    pacmd list-sinks| rg --multiline-dotall -U --pcre2 -o "index: $1.+?(?=index:|\Z)"   
+}
+
+declare -i sinks=(`pacmd list-sinks | rg 'index: (\d+)' -o -r '$1'`)
 declare -i sinks_count=${#sinks[*]}
-declare -i active_sink_index=`pacmd list-sinks | sed -n -e 's/\*[[:space:]]index:[[:space:]]\([[:digit:]]\)/\1/p'`
+declare -i active_sink_index=`pacmd list-sinks | rg '\* index: (\d+)' -o -r '$1' -m 1`
 declare -i next_sink_index=${sinks[0]}
 
-#find the next sink (not always the next index number)
-declare -i ord=0
-while [ $ord -lt $sinks_count ];
-do
-if [ ${sinks[$ord]} -gt $active_sink_index ] ; then
-    next_sink_index=${sinks[$ord]}
-    break
-fi
-let ord++
+for sink_index in ${sinks[@]}; do
+    status="$(get_sink_by_index 0|rg 'state: (.+)' -or '$1')"
+    if [ "$status" = "RUNNING" ]; then
+        active_sink_index=$sink_index
+        break
+    fi
 done
 
-if [ "$1" != "get_default" ]; then
-    #change the default sink
-    pacmd "set-default-sink ${next_sink_index}"
-
-    #move all inputs to the new sink
-    for app in $(pacmd list-sink-inputs | sed -n -e 's/index:[[:space:]]\([[:digit:]]\)/\1/p');
-    do
-    pacmd "move-sink-input $app $next_sink_index"
-    done
+#find the next sink (not always the next index number)
+if [ $((active_sink_index+1)) -eq $sinks_count ]; then
+    next_sink_index=0
+else
+    next_sink_index=$((active_sink_index+1))
 fi
 
-#display notification
-declare -i ndx=0
-pacmd list-sinks | sed -n -e 's/device.description[[:space:]]=[[:space:]]"\(.*\)"/\1/p' | while read line; do
-    if [ $(( $ord % $sinks_count )) -eq $ndx ] ; then
 
-        if [ "$1" != "get_default" ]; then
-            notify-send -a bspwm -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Sound output switched to" "$line" -u low
+active_port="$(get_sink_by_index $active_sink_index|rg 'active port: <(.+)>' -o -r '$1')"
+
+case "$1" in
+    --active-device)
+        get_sink_by_index $active_sink_index|rg 'device\.description = "(.+)"' -o -r '$1'
+    ;;
+    --active-port)
+        echo $active_port
+    ;;
+    --port)
+        ports="$(get_sink_by_index $active_sink_index|rg -o '^\s*(.+-output.+?):' -r '$1')"
+
+        next_ports="$(cat <<< "$ports"| rg --multiline-dotall -U --pcre2 -o "(?<=$active_port).+"|awk 'NR > 0')"
+
+        if (cat <<< "$next_ports"|rg -q '\S'); then
+            next_port="$(echo "$next_ports"|head -n 1)"
         else
-            # echo "- $line" > /tmp/active-sink
-            echo "- $line"
+            next_port="$(echo "$ports"|head -n 1)"
         fi
-        exit
-    fi
-    let ndx++
-done;
+
+        pacmd set-sink-port $active_sink_index "$next_port"
+        notify-send -a bspwm -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Port switched to" "$next_port" -u low
+    ;;
+    --device|*)
+
+        #change the default sink
+        pacmd set-default-sink ${next_sink_index}
+
+        #move all inputs to the new sink
+        sink_inputs=$(pacmd list-sink-inputs | rg -o 'index: (\d+)' -r '$1')
+
+        for index in ${sink_inputs[@]}; do
+            pacmd move-sink-input $index $next_sink_index
+        done
+
+        sink_name="$(get_sink_by_index $next_sink_index|rg 'device\.description = "(.+)"' -o -r '$1')"
+
+        notify-send -a bspwm -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Sound output switched to" "$sink_name" -u low
+    ;;
+esac

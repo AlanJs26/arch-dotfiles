@@ -18,9 +18,9 @@ big_monitor="DisplayPort-1-0"
 focused_monitor="$(bspc query -M --names -m focused)"
 
 if [ "$focused_monitor" = "$big_monitor" ]; then
-	xdotool mousemove $((1360+(1920)/2)) $((1080/2)) sleep 0.1 mousemove restore&
+	xdotool mousemove $((1360+(1920)/2)) $((1080/2)) sleep 0.25 mousemove restore&
 elif [ "$focused_monitor" = "$small_monitor" ]; then
-	xdotool mousemove $((1360/2)) $((312+(768/2))) sleep 0.1 mousemove restore&
+	xdotool mousemove $((1360/2)) $((312+(768/2))) sleep 0.25 mousemove restore&
 fi
 
 function parse_name() {

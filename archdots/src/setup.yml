@@ -18,6 +18,7 @@ commands:
 - name: git_delta
 - name: nvim
 - name: evrouter
+- name: downgrade
 - name: monitors
 - name: pip
 - name: docker
@@ -31,6 +32,7 @@ commands:
 - name: desktop_entries
 - name: display_manager
 - name: terminal_history
+- name: tabbed
 
   # args:
   # - name: source

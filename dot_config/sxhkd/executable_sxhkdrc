@@ -59,6 +59,10 @@ XF86HomePage
 XF86Calculator
 	cycle-audio-devices.sh
 
+# Change Audio device port (shift + fn + F11)
+shift + XF86Calculator
+	cycle-audio-devices.sh --port
+
 super + button2
 	bspdragwin.py hold
 
@@ -275,7 +279,9 @@ super + {Left,Down,Up,Right}
 
 # Go go next monitor
 super + u
-  bspc monitor -f last
+	bspc config pointer_follows_monitor true;\
+  bspc monitor -f last;\
+	bspc config pointer_follows_monitor false
 
 # Focus the next/previous window in the current desktop
 super + {_,shift + }x
@@ -294,11 +300,13 @@ super + {_,shift + }x
 # 	# bspc node -f @{parent,brother}
 
 # Switch window on alt release
-alt + {shift + ,_}Tab
-	if [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
-		bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
-	else;\
-		bspwm-alttab.sh;\
+alt + {shift + ,_}~Tab
+	if ! bspc query -T -n focused|jq .client.className -r|rg 'tabbed'; then;\
+		if [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
+			bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
+		else;\
+			bspwm-alttab.sh;\
+		fi;\
 	fi
 
 	# rofi -kb-accept-entry '!Alt-Tab' -kb-row-down Alt-Tab -show windowcd
