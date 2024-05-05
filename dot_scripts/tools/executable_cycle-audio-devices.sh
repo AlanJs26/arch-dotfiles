@@ -5,7 +5,7 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 Enable next audio device or port
 
 Usage:
-    cycle-audio-device.sh [--active-device|--active-port|--port|--device]
+    cycle-audio-device.sh [--active-device|--active-port|--port|--device] [--id]
 
     --active-device (optional) 
             print active audio device
@@ -15,6 +15,9 @@ Usage:
             cycles against active device's ports 
     --device (default) 
             cycles against detected audio devices 
+
+    --id (optional) 
+            print active port or audio device id instead of name 
 EOF
     exit 0
 fi
@@ -29,7 +32,7 @@ declare -i active_sink_index=`pacmd list-sinks | rg '\* index: (\d+)' -o -r '$1'
 declare -i next_sink_index=${sinks[0]}
 
 for sink_index in ${sinks[@]}; do
-    status="$(get_sink_by_index 0|rg 'state: (.+)' -or '$1')"
+    status="$(get_sink_by_index $sink_index|rg 'state: (.+)' -or '$1')"
     if [ "$status" = "RUNNING" ]; then
         active_sink_index=$sink_index
         break
@@ -48,7 +51,11 @@ active_port="$(get_sink_by_index $active_sink_index|rg 'active port: <(.+)>' -o 
 
 case "$1" in
     --active-device)
-        get_sink_by_index $active_sink_index|rg 'device\.description = "(.+)"' -o -r '$1'
+        if [ "$2" = "--id" ]; then
+            echo $active_sink_index
+        else
+            get_sink_by_index $active_sink_index|rg 'device\.description = "(.+)"' -o -r '$1'
+        fi
     ;;
     --active-port)
         echo $active_port
@@ -65,6 +72,7 @@ case "$1" in
         fi
 
         pacmd set-sink-port $active_sink_index "$next_port"
+
         notify-send -a bspwm -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Port switched to" "$next_port" -u low
     ;;
     --device|*)

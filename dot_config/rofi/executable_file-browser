@@ -1,6 +1,7 @@
 cmd        "/home/alan/Documentos/tools/run.sh"
 oc-cmd     "xdg-open;icon:html"
-oc-cmd     "nemo;icon:html"
+oc-cmd     "nemo;icon:nemo"
+oc-cmd     "kitty;icon:kitty"
 depth      1
 
 open-parent-as-self

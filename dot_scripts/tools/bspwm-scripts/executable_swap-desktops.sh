@@ -1,3 +1,17 @@
+#!/bin/bash
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ] || ! (echo "$1"|grep -q 'next\|prev'); then
+    cat <<EOF
+Swaps current desktop with the next/previous monitor
+
+Usage:
+    swap-desktops.sh next|prev [--no-follow] 
+
+    --no-follow (optional) 
+          do not move mouse
+EOF
+    exit 0
+fi
 
 next_right=$1
 
@@ -21,7 +35,9 @@ desktop_nodes () {
 focused_nodes_number="$(desktop_nodes $focused_desktop|wc -l)"
 next_nodes_number="$(desktop_nodes $next_desktop|wc -l)"
 
-bspc config pointer_follows_focus true
+if [ "$2" != "--no-follow" ]; then
+  bspc config pointer_follows_focus true
+fi
 if [ "$focused_nodes_number" = "1" ] && [ "$next_nodes_number" = "1" ]; then
   bspc node $(desktop_nodes $focused_desktop) --swap "$(desktop_nodes $next_desktop)"
   [ -n "$direction_desktop" ] && bspc node $(desktop_nodes $next_desktop) --focus
@@ -34,4 +50,6 @@ else
     bspc desktop "$next_desktop" --rename "$focused_desktop_name"
   fi
 fi
-bspc config pointer_follows_focus false
+if [ "$2" != "--no-follow" ]; then
+  bspc config pointer_follows_focus false
+fi

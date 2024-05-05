@@ -2066,7 +2066,7 @@ archdots_setup_yay_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [ ! -f "$(which yay)" ]; then
+  	if [ ! -f "$(which yay 2> /dev/null)" ]; then
   		echo notok
   	fi
   	exit
@@ -2140,13 +2140,13 @@ archdots_setup_evrouter_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [ ! -f "$(which evrouter)" ]; then
+  	if [ ! -f "$(which evrouter 2> /dev/null)" ]; then
   		echo notok
   	fi
   	exit
   fi
 
-  if [ ! -f "$(which evrouter)" ]; then
+  if [ ! -f "$(which evrouter 2> /dev/null)" ]; then
   	(cd "$HOME/.local/share/chezmoi/archdots/public/evrouter" && makepkg --install)
   	gpasswd -a $USER input
   	sudo usermod -aG input $USER
@@ -2162,7 +2162,7 @@ archdots_setup_downgrade_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [ ! -f "$(which downgrade)" ]; then
+  	if [ ! -f "$(which downgrade 2> /dev/null)" ]; then
   		echo notok
   	fi
   	exit
@@ -2409,7 +2409,7 @@ archdots_setup_cups_command() {
 
   echo Enabling cups service
   sudo systemctl enable --now cups
-  echo Running HP setup
+  echo Running printer configuration app
   system-config-printer
 
 }
@@ -2483,7 +2483,7 @@ archdots_setup_tabbed_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [ ! -f "$(which tabbed)" ]; then
+  	if [ ! -f "$(which tabbed 2> /dev/null)" ]; then
   		echo notok
   	fi
   	exit
@@ -2963,7 +2963,7 @@ archdots_list_dots_command() {
 
   show_unmanaged () {
   	eval "data=(${args[folder]})"
-  	data=$(echo $data|sed "s:$HOME/::")
+  	# data=$(echo $data|sed "s:$HOME/::")
 
   	if [[ ${args[--tree]} -eq 1 ]]; then
   		tree -L $(get_level) --fromfile <(chezmoi unmanaged $data|trailing_slash)
@@ -3025,11 +3025,12 @@ archdots_list_apps_command() {
   		pacdef_groups="$(cat <<< $pacdef_groups|rg -v "^$config\$")"
   	done
 
-  	all_apps="$(cat <<< $pacdef_groups|rg -U --multiline-dotall --pcre2 '\[arch\].+?(?=\[|\Z)'|rg -v '^(WARNING|\[|#)'|sort -u)"
+  	pacdef_group_paths="$(cat <<< $pacdef_groups|awk -v HOME=$HOME '{print HOME "/.config/pacdef/groups/" $1}')"
+
+  	all_apps="$(cat $pacdef_group_paths|rg -U --multiline-dotall --pcre2 '\[arch\].+?(?=\[|\Z)'|rg -v '^(WARNING|\[|#)'|sort -u)"
   	installed_apps="$(yay -Q|awk '{ print $1 }'|sort -u)"
 
-  	result=($(comm -13 <(echo "${installed_apps[@]}") <(echo "${all_apps[@]}")))
-  	echo $result
+  	comm -13 <(echo "${installed_apps[@]}") <(echo "${all_apps[@]}")|awk 'NF'
   else
   	pacdef package search '' 2> /dev/null
   fi

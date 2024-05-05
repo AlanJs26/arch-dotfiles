@@ -1,5 +1,9 @@
 [arch]
-canon-pixma-g6000-complete
+openvpn
+cups
+
+firewalld
+
 
 yay-debug
 python-findpython
@@ -40,7 +44,7 @@ nemo-image-converter
 yt-dlp
 
 # Printer
-hplip
+canon-pixma-g6000-complete
 system-config-printer
 
 amdgpu_top

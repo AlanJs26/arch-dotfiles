@@ -22,3 +22,8 @@ layout_pdm() {
     export PDM_ACTIVE=1
     export VIRTUAL_ENV
 }
+
+
+layout_gitpull() {
+    git pull
+}

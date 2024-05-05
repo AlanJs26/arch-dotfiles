@@ -8,6 +8,13 @@ id=${1?}
 
 spotify() { state=floating; }
 
+get_win_name() {
+    xprop -id $1|rg "^WM_NAME.+\"(.+?)\"" -r '$1'
+}
+
+if [ "$class" = "__main__.py" ] && grep -q "TexText" <<< "$(get_win_name $1)"; then
+    state=floating; 
+fi
 
 case $instance.$class in
     .)

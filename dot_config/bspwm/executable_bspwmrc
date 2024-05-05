@@ -85,6 +85,8 @@ bspc rule -a "__float_center__:*:*" state=floating center=on rectangle="960x660+
 
 bspc rule -a "Typstudio" state=tiled
 
+bspc rule -a "Stremio" state=fullscreen
+
 bspc rule -a "__jupyter__:*:*" hidden=on
 bspc rule -a "__matlab__:*:*"  hidden=on
 bspc rule -a "__pluto__:*:*"   hidden=on

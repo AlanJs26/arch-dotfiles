@@ -10,5 +10,5 @@ fi
 
 echo Enabling cups service
 sudo systemctl enable --now cups
-echo Running HP setup
+echo Running printer configuration app
 system-config-printer

@@ -146,7 +146,7 @@ super + shift + v
 super + ctrl + m
 	bspc node --flag hidden=on
 
-# Toggle all floating windows
+# Toggle all floating windows (scratchpad)
 super + p
 	scratchpad.py --behaviour toggleall
 
@@ -158,31 +158,32 @@ super + alt + a
 super + shift + a
 	scratchpad.py ".*" --behaviour i3 --not_class "$(archdots settings '.apps.pdf_viewer' -r)|qalculate-gtk" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
 
-# Youtube Music or MPV
+# Youtube Music or MPV (scratchpad)
 super + ctrl + z
 	scratchpad.py "(YouTube Music)|mpv|Spotify" --behaviour nomark
 
-# Floating nemo
+# Floating nemo (scratchpad)
 super + ctrl + x
 	scratchpad.py --instance "nemo" --behaviour nomark --run "nemo --class '__float_center__'"
 
-# Audio Relay
+# Audio Relay (scratchpad)
 super + shift + s
 	scratchpad.py --class "com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
 
-# Pdf Viewer
+# Pdf Viewer (scratchpad)
 super + shift + backslash
 	scratchpad.py --class "$(archdots settings '.apps.pdf_viewer' -r)" --behaviour swap
 
-# Qalculate
+# Qalculate (scratchpad)
 super + ctrl + backslash
 	scratchpad.py --class "qalculate-gtk" --run "qalculate-gtk" --behaviour nomark
 
-# Floating terminal kitty
+# Floating terminal kitty (scratchpad)
 super + shift + z
-	scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
+	scratchpad.py "kitty" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
+	# scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
 
-# Floating kitty neovim
+# Floating kitty neovim (scratchpad)
 super + alt + Return
 	scratchpad.py "floatkittynvim$" --class "__float__|__float_center__" -r "kitty --title floatkittynvim --class __float_center__ nvim" --behaviour i3
 
@@ -443,11 +444,12 @@ super + bracketright
 
 # Increase Volume
 XF86AudioRaiseVolume
-	amixer -q -D pulse sset Master 5%+
+	pamixer --sink $(cycle-audio-devices.sh --active-device --id) --increase 5 || amixer -q -D pulse sset Master 5%+
+
 
 # Decrease Volume
 XF86AudioLowerVolume
-	amixer -q -D pulse sset Master 5%-
+	pamixer --sink $(cycle-audio-devices.sh --active-device --id) --decrease 5 || amixer -q -D pulse sset Master 5%-
 
 # Play Pause
 XF86AudioPlay

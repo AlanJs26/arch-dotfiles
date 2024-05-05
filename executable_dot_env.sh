@@ -31,6 +31,7 @@ export FZF_DEFAULT_OPTS='--height 60% --border --exact'
 export ANDROID_HOME=$HOME/android-sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+export _JAVA_AWT_WM_NONREPARENTING=1
 
 
 if [ -f ~/.config/environment.d/profile.conf ]; then

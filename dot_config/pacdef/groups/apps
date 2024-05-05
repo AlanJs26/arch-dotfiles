@@ -1,4 +1,10 @@
 [arch]
+inkscapemadeeasy-git
+networkmanager-openvpn
+gnome-disk-utility-git
+
+stremio
+
 qbittorrent
 
 vivaldi-snapshot-ffmpeg-codecs
@@ -20,7 +26,6 @@ jupyterlab-desktop-bin
 
 inkscape
 
-octave
 speedcrunch
 
 gthumb
@@ -35,7 +40,6 @@ discord
 feh
 flameshot
 sioyek
-libreoffice-fresh
 unified-remote-server
 mpv
 qalculate-gtk

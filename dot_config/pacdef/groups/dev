@@ -1,4 +1,12 @@
 [arch]
+f2-bin
+just
+
+transcrypt
+mupdf-tools
+
+pandoc-cli
+
 tldr
 
 clangd
@@ -14,7 +22,7 @@ docker-compose
 
 android-studio
 
-flutter
+#flutter
 android-platform
 android-sdk-platform-tools
 android-sdk-build-tools

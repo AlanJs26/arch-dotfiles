@@ -22,12 +22,12 @@ elif [[ ${args[--pending]} -eq 1 ]]; then
 		pacdef_groups="$(cat <<< $pacdef_groups|rg -v "^$config\$")"
 	done
 
+	pacdef_group_paths="$(cat <<< $pacdef_groups|awk -v HOME=$HOME '{print HOME "/.config/pacdef/groups/" $1}')"
 
-	all_apps="$(cat <<< $pacdef_groups|rg -U --multiline-dotall --pcre2 '\[arch\].+?(?=\[|\Z)'|rg -v '^(WARNING|\[|#)'|sort -u)"
+	all_apps="$(cat $pacdef_group_paths|rg -U --multiline-dotall --pcre2 '\[arch\].+?(?=\[|\Z)'|rg -v '^(WARNING|\[|#)'|sort -u)"
 	installed_apps="$(yay -Q|awk '{ print $1 }'|sort -u)"
 
-	result=($(comm -13 <(echo "${installed_apps[@]}") <(echo "${all_apps[@]}")))
-	echo $result
+	comm -13 <(echo "${installed_apps[@]}") <(echo "${all_apps[@]}")|awk 'NF'
 else
 	pacdef package search '' 2> /dev/null
 fi

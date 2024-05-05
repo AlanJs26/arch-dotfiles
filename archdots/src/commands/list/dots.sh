@@ -36,7 +36,7 @@ show_managed () {
 
 show_unmanaged () {
 	eval "data=(${args[folder]})"
-	data=$(echo $data|sed "s:$HOME/::")
+	# data=$(echo $data|sed "s:$HOME/::")
 
 	if [[ ${args[--tree]} -eq 1 ]]; then
 		tree -L $(get_level) --fromfile <(chezmoi unmanaged $data|trailing_slash)
