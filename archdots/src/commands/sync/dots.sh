@@ -1,12 +1,25 @@
+#!/usr/bin/bash
 
 cd ~/.local/share/chezmoi
+
+chezmoi_re_add ()
+{
+	gum spin --title="Re-adding" -- chezmoi re-add
+
+	# gum spin --title="Re-adding from ~/.scripts/settings.json" -- bash -c "archdots settings '.chezmoi[]' -r|xargs chezmoi add"
+
+	return 0
+}
 
 if [ -f "$(which gum)" ]; then
 	chezmoi git add .
 	if [[ ${args[--remote]} -ne 1 ]]; then
-		gum spin --title="Re-adding..." -- chezmoi re-add
+		chezmoi_re_add
 	fi
+	chezmoi git add .
 fi
+
+
 
 gum spin --title="Updating..." -- chezmoi update --force||echo Failed to update
 
@@ -25,3 +38,5 @@ if [[ $(git diff --cached --numstat|wc -l) -gt 0 ]]; then
 	fi
 
 fi
+
+gum style --foreground 2 "Synced dots"

@@ -1,0 +1,293 @@
+{
+  "chezmoi": [
+    "~/.local/share/applications",
+    "~/.scripts",
+
+    "~/.config/autostart",
+    "~/.config/bspwm",
+    "~/.config/btop",
+    "~/.config/ctpv",
+    "~/.config/direnv",
+    "~/.config/dunst",
+    "~/.config/environment.d",
+    "~/.config/evremap",
+    "~/.config/evrouter",
+    "~/.config/eww",
+    "~/.config/feh",
+    "~/.config/gtk-2.0",
+    "~/.config/gtk-3.0",
+    "~/.config/hypr",
+    "~/.config/jgmenu",
+    "~/.config/kitty",
+    "~/.config/mpv",
+    "~/.config/nemo",
+    "~/.config/pacdef",
+    "~/.config/picom",
+    "~/.config/polybar",
+    "~/.config/rofi",
+    "~/.config/sioyek",
+    "~/.config/sxhkd",
+    "~/.config/thefuck",
+    "~/.config/waybar",
+    "~/.config/X11",
+    "~/.config/yay",
+
+    "~/.zshrc",
+    "~/.Xresources",
+    "~/.env.sh",
+    "~/.bashrc",
+
+    "~/.urserver"
+  ],
+  "apps": {
+    "browser": "vivaldi-snapshot",
+    "file_explorer": "nemo",
+    "terminal": "kitty",
+    "sound_manager": "pavucontrol",
+    "pdf_viewer": "sioyek",
+    "music_player": "spotify"
+  },
+  "alternate_configs": [
+    {
+      "name": "bspwm",
+      "detect_script": "pgrep bspwm"
+    },
+    {
+      "name": "hyprland",
+      "detect_script": "pgrep Hyprland"
+    }
+  ],
+  "autostart": {
+    "programs": [
+      "fcitx5 -d",
+      "syncthing serve --no-browser --logfile=default",
+      "dunst",
+      "nm-applet",
+      "picom",
+      "evrouter --config $HOME/.config/evrouter/.evrouterrc /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd",
+      "greenclip daemon",
+      "bspdragwin.py --daemon",
+      "eww daemon --restart",
+      "jgmenu --hide-on-startup",
+      "bspswallow",
+      "unclutter --timeout 10 --exclude-root",
+      "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+    ],
+    "scripts": [
+      "$BSPDIR/color-border-mode.sh",
+      "$BSPDIR/fix-polybar-fullscreen.sh",
+      "lockscreen.sh disable",
+      "$HOME/.config/eww/scripts/music --cover_daemon_python"
+    ],
+    "always": [
+      "xmodmap $HOME/.config/X11/xmodmap",
+      "bash $TOOLS/setup-monitors.sh"
+    ]
+  },
+  "monitor": {
+    "setup": [
+      {
+        "alias": "primary",
+        "name": "DisplayPort-1-0",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "alias": "secundary",
+        "name": "DisplayPort-1",
+        "width": 1360,
+        "height": 768
+      },
+      {
+        "alias": "tv",
+        "name": "HDMI-A-1",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "layouts": [
+      {
+        "name": "SmallBig",
+        "layout": [
+          {
+            "monitor_alias": "primary",
+            "primary": false,
+            "enabled": true,
+            "x": "1360",
+            "y": "0",
+            "bspwm_desktops": "1 2 3 4"
+          },
+          {
+            "monitor_alias": "secundary",
+            "primary": true,
+            "enabled": true,
+            "x": "0",
+            "y": "312",
+            "bspwm_desktops": "5 6 7 8"
+          },
+          {
+            "monitor_alias": "tv",
+            "enabled": false
+          }
+        ]
+      },
+      {
+        "name": "SmallBig_TV",
+        "layout": [
+          {
+            "monitor_alias": "primary",
+            "primary": true,
+            "enabled": true,
+            "x": "1360",
+            "y": "0",
+            "bspwm_desktops": "1 2 3 4"
+          },
+          {
+            "monitor_alias": "secundary",
+            "primary": false,
+            "enabled": true,
+            "x": "0",
+            "y": "312",
+            "bspwm_desktops": "5 6 7 8"
+          },
+          {
+            "monitor_alias": "tv",
+            "primary": false,
+            "enabled": true,
+            "mirror": "primary",
+            "x": "3280",
+            "y": "0"
+          }
+        ]
+      },
+      {
+        "name": "SmallBigTV",
+        "layout": [
+          {
+            "monitor_alias": "primary",
+            "enabled": true,
+            "x": "1360",
+            "y": "0",
+            "bspwm_desktops": "1 2 3 4"
+          },
+          {
+            "monitor_alias": "secundary",
+            "primary": true,
+            "enabled": true,
+            "x": "0",
+            "y": "312",
+            "bspwm_desktops": "5 6 7 8"
+          },
+          {
+            "monitor_alias": "tv",
+            "enabled": true,
+            "x": "3280",
+            "y": "0",
+            "width": "1280",
+            "height": "720"
+          }
+        ]
+      },
+      {
+        "name": "BigTV",
+        "layout": [
+          {
+            "monitor_alias": "primary",
+            "primary": false,
+            "enabled": true,
+            "x": "1360",
+            "y": "0",
+            "bspwm_desktops": "1 2 3 4"
+          },
+          {
+            "monitor_alias": "secundary",
+            "primary": true,
+            "enabled": true,
+            "mirror": "primary",
+            "x": "0",
+            "y": "312",
+            "bspwm_desktops": "5 6 7 8"
+          },
+          {
+            "monitor_alias": "tv",
+            "enabled": true,
+            "x": "3280",
+            "y": "0",
+            "width": "1280",
+            "height": "720"
+          }
+        ]
+      },
+      {
+        "name": "Big",
+        "layout": [
+          {
+            "monitor_alias": "primary",
+            "enabled": true,
+            "x": "1360",
+            "y": "0",
+            "bspwm_desktops": "1 2 3 4"
+          },
+          {
+            "monitor_alias": "secundary",
+            "primary": true,
+            "enabled": true,
+            "mirror": "primary",
+            "x": "0",
+            "y": "312",
+            "bspwm_desktops": "5 6 7 8"
+          },
+          {
+            "monitor_alias": "tv",
+            "enabled": false
+          }
+        ]
+      },
+      {
+        "name": "Small",
+        "layout": [
+          {
+            "monitor_alias": "primary",
+            "enabled": false
+          },
+          {
+            "monitor_alias": "secundary",
+            "primary": true,
+            "enabled": true,
+            "x": "0",
+            "y": "312",
+            "bspwm_desktops": "5 6 7 8"
+          },
+          {
+            "monitor_alias": "tv",
+            "enabled": false
+          }
+        ]
+      },
+      {
+        "name": "TV",
+        "layout": [
+          {
+            "monitor_alias": "primary",
+            "enabled": false
+          },
+          {
+            "monitor_alias": "secundary",
+            "primary": true,
+            "enabled": true,
+            "mirror": "tv",
+            "x": "0",
+            "y": "312",
+            "bspwm_desktops": "5 6 7 8"
+          },
+          {
+            "monitor_alias": "tv",
+            "enabled": true,
+            "width": "1280",
+            "height": "720"
+          }
+        ]
+      }
+    ]
+  }
+}

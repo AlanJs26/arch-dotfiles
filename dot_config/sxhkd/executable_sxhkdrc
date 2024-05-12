@@ -36,7 +36,7 @@ super + shift + y
 
 # Hide polybar
 super + y
-	$TOOLS/polybar-hide-monitor.sh $(bspc query -M -m .focused --names)
+	polybar-hide-monitor.sh $(bspc query -M -m .focused --names)
   
 
 # Screenshot region
@@ -80,11 +80,11 @@ super + @button2
 
 # Show all available rofi menus
 {@Menu, super + c}
-	rofi-all.sh
+	$SCRIPTS/rofi-scripts/rofi-all.sh
 
 # Change Monitors (fn + F09)
 XF86Mail
-	rofi-monitors.sh
+	$SCRIPTS/rofi-scripts/rofi-monitors.sh
 
 # Sound Manager (fn + F12)
 XF86Search 
@@ -112,11 +112,11 @@ super + shift + @space
 
 # Ssh
 super + ctrl + Return
-	$TOOLS/rofi-ssh-aliases.sh
+	$SCRIPTS/rofi-scripts/rofi-ssh-aliases.sh
 
 # Zoxide
 super + ctrl + @space
-	rofi-zoxide.sh
+	$SCRIPTS/rofi-scripts/rofi-zoxide.sh
 
 # File Browser
 super + alt + @space
@@ -128,7 +128,7 @@ super + shift + question
 
 # Power Menu
 super + shift + e
-	rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate --no-symbols"
+	rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate"
 
 # Clipboard Menu
 super + shift + v
@@ -136,7 +136,7 @@ super + shift + v
 
 # Scratchpad Menu
 {super + ctrl + i, super + ctrl + shift + a}
-	bash rofi-scratchpad-bspwm.sh
+	$SCRIPTS/rofi-scripts/rofi-scratchpad-bspwm.sh
 
 #######################################################################
 #                             Scratchpad                              #
@@ -427,7 +427,7 @@ super + alt + {_,shift + } ccedilla
 
 # Expand a window by moving one of its side outward
 super + alt + {h,j,k,l}
-  sh ~/.config/sxhkd/resize {x -, y +, y -, x +}
+  bspwm-resize.sh {x -, y +, y -, x +}
 
 # Rotate tree layout (relative)
 super + {_,shift + } bracketleft

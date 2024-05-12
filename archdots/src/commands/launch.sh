@@ -13,7 +13,7 @@ fi
 app_name=$(archdots settings ".apps.${args[app]}" -r 2> /dev/null)
 
 if [ "$app_name" != "null" ]; then
-	$HOME/.scripts/tools/bspwm-run-in-active-desktop.sh $app_name
+	$HOME/.scripts/bspwm-scripts/bspwm-run-in-active-desktop.sh $app_name
 else
 	echo "Could not find any app named \"${args[app]}\" in \"$BSPSETTINGS\""
 fi

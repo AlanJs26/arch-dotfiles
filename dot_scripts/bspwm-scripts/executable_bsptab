@@ -1,0 +1,177 @@
+#!/bin/sh
+
+# Usage:
+# tabc.sh <command>
+# Commands:
+#    add <window-id>[] 
+#    			Add all listed windows to focused tabbed window
+#    			creates a tabbed window if focused window is not one
+#    			if it is not passed any window-ids, click in the desired window to tab into
+#    remove <window-id>[] 
+#    		  Remove all listed windows or only the focused window from tabbed
+#    list <tabbed-id> 
+#    			List all clients of tabbed
+
+#
+# Functions
+#
+
+# Get wid of root window
+function get_root_wid {
+	xwininfo -root | awk '/Window id:/{print $4}'
+}
+
+# Get children of tabbed
+function get_clients {
+	id=$1
+	clients="$(xwininfo -id $id -children | sed -n '/[0-9]\+ \(child\|children\):/,$s/ \+\(0x[0-9a-z]\+\).*/\1/p')"
+	IFS=$'\n' read -d '' -a clients <<< $clients
+	echo ${clients[@]}
+}
+
+# Get class of a wid
+function get_class {
+	id=$1
+  if [ -z $id ]; then
+    echo ""
+  else
+	  xprop -id $id | sed -n '/WM_CLASS/s/.*, "\(.*\)"/\1/p'
+  fi
+}
+
+function get_pointing_id {
+	pid="$(xprop|rg 'NET_WM_PID.+ ([0-9]+)' -o -r '$1')"
+	if [ -z "$pid" ]; then
+		bspc query -N -n pointed|head -n1
+		exit
+	fi
+	wid="$(xdotool search --pid $pid|head -n1)"
+	echo "$(bspc query -N -n $wid)"
+}
+
+function get_pid {
+	id=$1
+
+  if [ -z $id ]; then
+    echo ""
+  else
+		pid="$(xprop -id "$id"|rg 'NET_WM_PID.+ ([0-9]+)' -o -r '$1')"
+	  echo $pid
+  fi
+}
+
+#
+# Main Program
+#
+
+cmd=$1
+focused_id="$(bspc query -N -n focused)"
+tabbedid="$(bspc query -N -n focused)"
+
+is_tabbed=1
+if [ "$(bspc query -T -n focused|jq .client.className -r)" != "tabbed" ]; then
+	is_tabbed=0
+fi
+
+case $cmd in
+	add)
+
+		win_to_reparent=(${@:2})
+
+		if [ $is_tabbed = 0 ]; then
+
+			is_first_tabbed=0
+
+			if [ ${#win_to_reparent[@]} -eq 0 ]; then
+				first_id="$(get_pointing_id)"
+
+				echo "$(bspc query -T -n "$first_id"|jq .client.className -r)"
+				if [ "$(bspc query -T -n "$first_id"|jq .client.className -r)" = "tabbed" ]; then
+					is_first_tabbed=1
+				elif [ "$first_id" != "$focused_id" ]; then
+					win_to_reparent+=("$first_id")
+					first_id="$focused_id"
+				else
+					echo "You must select a different window"
+					exit 1
+				fi
+
+			elif [ ${#win_to_reparent[@]} -eq 1 ]; then
+				first_id="$focused_id"
+			else
+				first_id="${win_to_reparent[0]}"
+			fi
+
+			if [ $is_first_tabbed = 0 ]; then
+				tabbed &
+				sleep 0.1
+				tabbedid=$(xdotool search --class tabbed | tail -n1)
+			else
+				tabbedid="$first_id"
+				first_id="$focused_id"
+			fi
+
+			xdotool windowreparent $first_id $tabbedid
+
+		else
+			if [ ${#win_to_reparent[@]} -eq 0 ]; then
+				pointing_id="$(get_pointing_id)"
+
+				if [ "$pointing_id" != "$focused_id" ]; then
+					win_to_reparent+=("$pointing_id")
+				fi
+			fi
+		fi
+
+		for id in "${win_to_reparent[@]}"; do
+			if [ "$id" != "$first_id" ]; then
+				xdotool windowreparent $id $tabbedid
+			fi
+		done
+
+
+		;;
+	remove)
+
+		win_to_remove=(${@:2})
+
+		clients=($(get_clients $tabbedid))
+		n_clients=${#clients[@]}
+
+		if [ $n_clients -eq 0 ]; then
+			echo "It is not a tabbed window"
+			exit 1
+		elif [ $n_clients -le 2 ]; then
+			win_to_remove+=(${clients[@]})
+		else
+			win_to_remove+=("${clients[0]}")
+		fi
+
+		for id in "${win_to_remove[@]}"; do
+
+			if [ $n_clients -eq 1 ]; then
+				bspc node -p east
+			fi
+
+			xdotool windowreparent $id $(get_root_wid)
+			((n_clients-=1))
+		done
+
+		if [ $n_clients -le 0 ]; then
+
+			bspc node $tabbedid -c 
+		fi
+
+		;;
+	list)
+		if [ -n "$2" ]; then
+			tabbedid=$2
+		fi
+
+		clients=($(get_clients $tabbedid))
+
+		for id in "${clients[@]}"; do
+			echo "$id"
+		done
+		;;
+esac

@@ -3,7 +3,7 @@
 to_ignore=(
   "bspscripts"
   "Unified Remote"
-  "in Folder"
+  "reflect remote changes"
 )
 
 function _set_vars() {
@@ -45,9 +45,9 @@ function create_cache() {
       local has_match="0"
 
       for item in "${to_ignore[@]}"; do
-        if [[ $(echo "$DUNST_APP_NAME $DUNST_SUMMARY $DUNST_BODY"|grep "$item") ]]; then
+        if (echo "$DUNST_APP_NAME $DUNST_SUMMARY $DUNST_BODY"|grep "$item"); then
           has_match="1"
-          break
+          return
         fi
       done
 
@@ -99,6 +99,7 @@ function create_cache() {
   print '(card :width 400 :class "control-center-card control-center-card-'$urgency' control-center-card-'$DUNST_APP_NAME'" :glyph_class "control-center-'$urgency' control-center-'$DUNST_APP_NAME'" :SL "'$DUNST_ID'" :body `'$body'` :summary `'$summary'` :glyph "'$glyph'" :date "'$(date +"%d/%m/%y %H:%M %p")'")' \
     | cat - "$DUNST_LOG" \
     | sponge "$DUNST_LOG"
+  cat $DUNST_LOG|head -n100|sponge $DUNST_LOG
 }
 
 function compile_caches() { tr '\n' ' ' < "$DUNST_LOG" }

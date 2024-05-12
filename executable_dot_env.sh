@@ -1,10 +1,19 @@
 #!/usr/bin/env sh
 
+export ROFISTYLE="$HOME/.config/rofi/tokyonight"
+export TOOLS="$HOME/.scripts/tools"
+export BSPDIR="$HOME/.config/bspwm"
+export BSPSETTINGS="$HOME/.scripts/settings.json"
+export SCRIPTS="$HOME/.scripts"
+
+
 topath=(
 "$HOME/.local/share/gem/ruby/3.0.0/bin"
-"$HOME/.scripts/tools"
+"$SCRIPTS/bin"
+"$SCRIPTS/bspwm-scripts"
+"$TOOLS"
+"$TOOLS/launch"
 "$HOME/.config/bspwm"
-"$HOME/.scripts/tools/bspwm-scripts"
 "$HOME/.local/share/chezmoi/archdots"
 "$HOME/.local/bin"
 "/opt/urserver"
@@ -16,11 +25,6 @@ done
 
 SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
-export ROFISTYLE="$HOME/.config/rofi/tokyonight"
-export TOOLS="$HOME/.scripts/tools"
-export BSPDIR="$HOME/.config/bspwm"
-export BSPSETTINGS="$HOME/.scripts/settings.json"
-export SCRIPTS="$HOME/.scripts"
 
 export SHELL="$(which zsh)";
 export VISUAL=nvim;

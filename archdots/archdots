@@ -1093,7 +1093,7 @@ archdots_autostart_usage() {
   fi
 
   printf "%s\n" "Usage:"
-  printf "  archdots autostart COMMAND\n"
+  printf "  archdots autostart [OPTIONS] COMMAND\n"
   printf "  archdots autostart [COMMAND] --help | -h\n"
   echo
   # :command.usage_commands
@@ -1106,6 +1106,12 @@ archdots_autostart_usage() {
   # :command.long_usage
   if [[ -n $long_usage ]]; then
     printf "%s\n" "Options:"
+
+    # :command.usage_flags
+    # :flag.usage
+    printf "  %s\n" "--restart"
+    printf "    force all defined scripts and programs to restart\n"
+    echo
 
     # :command.usage_fixed_flags
     printf "  %s\n" "--help, -h"
@@ -1813,11 +1819,11 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'autostart programs\'*)'
+  echo $'    \'autostart\'*\'programs\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'autostart scripts\'*)'
+  echo $'    \'autostart\'*\'scripts\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1857,7 +1863,7 @@ send_completions() {
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
-  echo $'    \'autostart all\'*)'
+  echo $'    \'autostart\'*\'all\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h")" -- "$cur" )'
   echo $'      ;;'
   echo $''
@@ -1914,7 +1920,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'autostart\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all programs scripts")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help --restart -h all programs scripts")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'sync apps\'*)'
@@ -2660,7 +2666,7 @@ archdots_launch_command() {
   app_name=$(archdots settings ".apps.${args[app]}" -r 2> /dev/null)
 
   if [ "$app_name" != "null" ]; then
-  	$HOME/.scripts/tools/bspwm-run-in-active-desktop.sh $app_name
+  	$HOME/.scripts/bspwm-scripts/bspwm-run-in-active-desktop.sh $app_name
   else
   	echo "Could not find any app named \"${args[app]}\" in \"$BSPSETTINGS\""
   fi
@@ -2820,14 +2826,25 @@ archdots_sync_apps_command() {
 # :command.function
 archdots_sync_dots_command() {
   # src/commands/sync/dots.sh
+  #!/usr/bin/bash
 
   cd ~/.local/share/chezmoi
+
+  chezmoi_re_add ()
+  {
+  	gum spin --title="Re-adding" -- chezmoi re-add
+
+  	# gum spin --title="Re-adding from ~/.scripts/settings.json" -- bash -c "archdots settings '.chezmoi[]' -r|xargs chezmoi add"
+
+  	return 0
+  }
 
   if [ -f "$(which gum)" ]; then
   	chezmoi git add .
   	if [[ ${args[--remote]} -ne 1 ]]; then
-  		gum spin --title="Re-adding..." -- chezmoi re-add
+  		chezmoi_re_add
   	fi
+  	chezmoi git add .
   fi
 
   gum spin --title="Updating..." -- chezmoi update --force||echo Failed to update
@@ -2847,6 +2864,8 @@ archdots_sync_dots_command() {
   	fi
 
   fi
+
+  gum style --foreground 2 "Synced dots"
 
 }
 
@@ -4836,6 +4855,14 @@ archdots_autostart_parse_requirements() {
         long_usage=yes
         archdots_autostart_usage
         exit
+        ;;
+
+      # :flag.case
+      --restart)
+
+        # :flag.case_no_arg
+        args['--restart']=1
+        shift
         ;;
 
       *)

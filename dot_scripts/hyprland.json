@@ -1,0 +1,19 @@
+{
+  "autostart": {
+    "programs": [
+      "fcitx5 -d",
+      "syncthing serve --no-browser --logfile=default",
+      "evremap remap ~/.config/evremap/evremap.toml",
+      "dunst",
+      "nm-applet",
+      "greenclip daemon",
+      "eww daemon --restart",
+      "jgmenu --hide-on-startup",
+      "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+    ],
+    "scripts": [
+      "$HOME/.config/eww/scripts/music --cover_daemon_python"
+    ],
+    "always": []
+  }
+}
