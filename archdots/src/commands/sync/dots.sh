@@ -16,7 +16,6 @@ if [ -f "$(which gum)" ]; then
 	if [[ ${args[--remote]} -ne 1 ]]; then
 		chezmoi_re_add
 	fi
-	chezmoi git add .
 fi
 
 
