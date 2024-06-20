@@ -89,7 +89,7 @@ function rm(){
 eval "$(starship init zsh)" 
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
-eval "$(thefuck --alias)"
+# eval "$(thefuck --alias)"
 ### End of Terminal Behaviour Scripts
 
 ### Atuin Setup
@@ -100,7 +100,9 @@ bindkey '^r' _atuin_search_widget
 ### End of Atuin Setup
 
 ### NVM setup
-source /usr/share/nvm/init-nvm.sh
+# source /usr/share/nvm/init-nvm.sh
 ### End of NVM setup
 
 export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
+
+eval $(thefuck --alias)

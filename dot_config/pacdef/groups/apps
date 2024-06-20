@@ -1,4 +1,7 @@
 [arch]
+seafile-client
+gtkwave
+
 inkscapemadeeasy-git
 networkmanager-openvpn
 gnome-disk-utility-git
@@ -21,7 +24,6 @@ scrcpy
 syncthing
 syncthing-gtk
 
-typstudio
 jupyterlab-desktop-bin
 
 inkscape

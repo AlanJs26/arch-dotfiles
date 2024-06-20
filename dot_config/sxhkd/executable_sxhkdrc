@@ -45,7 +45,7 @@ Print
 
 # Screenshot screen (clipboard)
 super + Print
-  flameshot screen -c
+  maim -u -s|xclip -selection clipboard -t image/png -i
 
 # Screenshot screen (file)
 super + shift + Print

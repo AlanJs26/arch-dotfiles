@@ -1,8 +1,8 @@
-Terminal,kitty,/home/alan/.config/jgmenu/MenuIcons/terminal.png
-Web Browser,bsplaunch browser,/home/alan/.config/jgmenu/MenuIcons/web-browser.png
-File manager,bsplaunch file_explorer,/home/alan/.config/jgmenu/MenuIcons/file-manager.png
+Terminal,archdots launch terminal,/home/alan/.config/jgmenu/MenuIcons/terminal.png
+Web Browser,archdots launch browser,/home/alan/.config/jgmenu/MenuIcons/web-browser.png
+File manager,archdots launch file_explorer,/home/alan/.config/jgmenu/MenuIcons/file-manager.png
 Text Editor,nvim,/home/alan/.config/jgmenu/MenuIcons/edit-note.png
-Music Player,bsplaunch spotify,/home/alan/.config/jgmenu/MenuIcons/music.png
+Music Player,archdots launch spotify,/home/alan/.config/jgmenu/MenuIcons/music.png
 
 ^sep()
 Applications,^checkout(lx-apps),/home/alan/.config/jgmenu/MenuIcons/applications.png

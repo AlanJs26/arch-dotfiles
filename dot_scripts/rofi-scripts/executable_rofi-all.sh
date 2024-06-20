@@ -5,6 +5,7 @@ mode="$(echo 'monitors
 scratchpad
 ssh
 colorpicker
+ocr
 shortcuts
 applications
 screensaver
@@ -28,6 +29,9 @@ case "$mode" in
         ;;
     colorpicker)
         colorpicker-selection.sh
+        ;;
+    ocr)
+        ocr-selection.sh
         ;;
     shortcuts)
         $HOME/.config/sxhkd/sxhkd-help

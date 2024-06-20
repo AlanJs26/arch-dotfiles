@@ -4,3 +4,4 @@ README.md
 .git/objects/*
 .urserver/*.log*
 __pycache__
+./**/__pycache__
