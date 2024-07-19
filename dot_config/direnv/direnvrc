@@ -7,7 +7,7 @@ layout_pdm() {
         pdm init --non-interactive --python "$(python3 --version 2>/dev/null | cut -d' ' -f2 | cut -d. -f1-2)"
     fi
 
-    VIRTUAL_ENV=$(pdm venv list| grep "^*"| sed 's/.*: *//')
+    VIRTUAL_ENV=$(pdm venv list| grep "^*"| sed 's/.*: *//'|head -n1)
 
 
     if [ -z "$VIRTUAL_ENV" ] || [ ! -d "$VIRTUAL_ENV" ]; then
@@ -15,10 +15,10 @@ layout_pdm() {
         pdm venv create
         VIRTUAL_ENV=$(pdm venv list| grep "^*"| sed 's/.*: *//')
     fi
-    PYPACKAGES=$(pdm info| grep '__pypackages__'|xargs)
+    # PYPACKAGES=$(pdm info| grep '__pypackages__'|xargs)
 
+    # PATH_add "$PYPACKAGES/bin"
     PATH_add "$VIRTUAL_ENV/bin"
-    PATH_add "$PYPACKAGES/bin"
     export PDM_ACTIVE=1
     export VIRTUAL_ENV
 }

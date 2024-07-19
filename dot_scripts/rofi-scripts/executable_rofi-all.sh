@@ -6,6 +6,7 @@ scratchpad
 ssh
 colorpicker
 ocr
+ocrlatex
 shortcuts
 applications
 screensaver
@@ -32,6 +33,9 @@ case "$mode" in
         ;;
     ocr)
         ocr-selection.sh
+        ;;
+    ocrlatex)
+        ocrlatex-selection.sh
         ;;
     shortcuts)
         $HOME/.config/sxhkd/sxhkd-help

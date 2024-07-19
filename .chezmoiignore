@@ -5,3 +5,5 @@ README.md
 .urserver/*.log*
 __pycache__
 ./**/__pycache__
+.urserver/urserver.pid
+.urserver/urserver.config

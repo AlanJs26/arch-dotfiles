@@ -43,10 +43,12 @@ esac
 
 
 if ! [ -e /tmp/active-monitor-mode ]; then
-    sleep 4
-    bspc config pointer_follows_monitor true
-    bspc monitor -f $big_monitor
-    bspc config pointer_follows_monitor false
+    while [ "$(bspc query -M -m focused --names)" != "$big_monitor" ]; do
+        sleep 4
+        bspc config pointer_follows_monitor true
+        bspc monitor -f $big_monitor
+        bspc config pointer_follows_monitor false
+    done
 fi
 
 # xrandr --output DisplayPort-0 --primary --mode 1920x1080 --output HDMI-A-0 --mode 1920x1080 --same-as DisplayPort-0

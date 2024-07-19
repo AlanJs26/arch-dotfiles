@@ -19,10 +19,10 @@ exit
 fi
 
 pathlinks=(
-"/mnt/DiscoExterno/_Arquivos/PDFs;drive:RClone/PDFs"
-"/mnt/DiscoExterno/_Arquivos/Office;drive:RClone/Office"
-"/mnt/DiscoExterno/_Codes/Markdown/USP;drive:RClone/USP"
+"/mnt/DiscoExterno/_Arquivos/PDFs;drive-usp:PDFs"
+"/mnt/DiscoExterno/_Codes/Markdown/USP;drive-usp:Obsidian/USP"
 )
+# "/mnt/DiscoExterno/_Arquivos/Office;drive-usp:Shared/Office"
 
 exec > >(tee -a $HOME/.rclone.log) 2>&1
 
