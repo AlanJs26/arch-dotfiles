@@ -1,3 +1,5 @@
 archdots/public/amdgpu-pro-installer/*
 !archdots/public/amdgpu-pro-installer/PKGBUILD
 dot_urserver/*.log*
+dot_git
+*dot_git*

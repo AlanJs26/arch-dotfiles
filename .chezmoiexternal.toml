@@ -1,0 +1,4 @@
+[".config/mpv"]
+    type = "git-repo"
+    url = "git@github.com:AlanJs26/mpv.git"
+    refreshPeriod = "168h"

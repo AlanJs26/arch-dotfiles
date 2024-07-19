@@ -1,7 +1,9 @@
 archdots
 README.md
 .venv
-.git/objects/*
+.git
+*.git
+./**/.git
 .urserver/*.log*
 __pycache__
 ./**/__pycache__
