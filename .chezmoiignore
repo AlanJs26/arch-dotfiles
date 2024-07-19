@@ -6,6 +6,9 @@ README.md
 ./**/.git
 .urserver/*.log*
 __pycache__
+*__pycache__*
 ./**/__pycache__
 .urserver/urserver.pid
 .urserver/urserver.config
+.scripts/tools/tabbed
+.config/mpv
