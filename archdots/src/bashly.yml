@@ -28,7 +28,7 @@ commands:
   - <directory>
 
 - name: edit
-  help: edit packages file
+  help: edit apps defined in ~/.config/pacdef/groups
   completions:
   - $(pacdef group list)
 
