@@ -1,4 +1,18 @@
 [arch]
+p7zip
+
+uusi
+vivid
+nushell
+haskell-scotty
+carapace
+
+direnv
+httpie
+
+tree-sitter
+tree-sitter-cli
+
 juliaup
 act
 
@@ -25,7 +39,6 @@ docker-compose
 
 android-studio
 
-#flutter
 android-platform
 android-sdk-platform-tools
 android-sdk-build-tools
@@ -75,3 +88,18 @@ component/stable/rust-std
 component/stable/rustc
 component/stable/rustfmt
 
+toolchain/1.76
+component/1.76/cargo
+component/1.76/clippy
+component/1.76/rust-analyzer
+component/1.76/rust-docs
+component/1.76/rust-src
+component/1.76/rust-std
+component/1.76/rustc
+component/1.76/rustfmt
+toolchain/1.80
+component/1.80/cargo
+component/1.80/clippy
+component/1.80/rust-std
+component/1.80/rustc
+component/1.80/rustfmt

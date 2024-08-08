@@ -78,13 +78,31 @@ def zip_packages(pacdef_packages: TPackages_by_domain, installed_packages: TPack
 def make_option(name:str, color='green'):
     return f'([{color}]{name[0]}[white]){name[1:]}'
 
-def print_options_history(history: dict[str, TOptions_history]):
+def print_options_history(history: dict[str, TOptions_history], all_packages: list[tuple[str,str]]):
+
+    def history_contains(history: dict[str, TOptions_history], zipped_package: tuple[str,str]):
+        domain, package = zipped_package
+
+        if domain not in history:
+            return False
+        
+        options_history = [item[0] for item in history[domain]]
+
+        return package in options_history
+
+    unreviewed_packages = list(map(lambda item: item[1], filter(
+        lambda package: not history_contains(history, package),
+        all_packages
+    )))
+
     option_map = {
         'd': '[red]deleted',
         's': '[yellow]skipped',
     }
     table = Table(show_header=False)
+
     console = Console()
+
     
     for domain in history:
         for package, option in history[domain]:
@@ -98,6 +116,9 @@ def print_options_history(history: dict[str, TOptions_history]):
                 table.add_row(package, f'unknown option: {option}')
         if len(history) > 1:
             table.add_section()
+
+    for package in unreviewed_packages:
+        table.add_row(package, '[grey50]unreviewed')
 
     console.print(table)
 
@@ -140,6 +161,8 @@ if(next(filter(lambda item: item[0] == 'arch', zipped_packages), None) == None):
 
 history:dict[str, TOptions_history] = {}
 
+print_options_history(history, zipped_packages)
+
 prev_group = ''
 i = 0
 
@@ -174,7 +197,7 @@ while i < len(zipped_packages):
         print('[yellow]skipped')
         history[domain].append((package, 's'))
     elif option == 'p':
-        print_options_history(history)
+        print_options_history(history, zipped_packages)
         continue
     elif option == 'u':
         if i > 0:
@@ -200,7 +223,7 @@ print()
 
 for domain, options_history in history.items():
     print(f'[green]{domain}')
-print_options_history(history)
+print_options_history(history, zipped_packages)
 
 while True:
     print(f'Keep changes? {make_option("yes")}/{make_option("no")}')

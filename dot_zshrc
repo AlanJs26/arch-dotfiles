@@ -106,3 +106,5 @@ bindkey '^r' _atuin_search_widget
 export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
 
 eval $(thefuck --alias)
+
+# LS_COLORS="$(vivid generate tokyonight-storm)"

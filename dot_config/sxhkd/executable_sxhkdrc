@@ -399,14 +399,14 @@ super + ctrl + {h,j,k,l}
 super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
-# # cancel the preselection for the focused node
+#   cancel the preselection for the focused node
 # Super + ctrl + space
 # 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
-	# bspc node -p cancel
+#  bspc node -p cancel
 
 # Cancel the preselection for the focused desktop
 # Super + ctrl + shift + space
-	# bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+#  bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 
 #######################################################################
@@ -435,7 +435,15 @@ super + {_,shift + } bracketleft
 
 # Toggle automatic balancing of windows (relative)
 super + bracketright
-  bspc node @parent -E 
+	node_state="$(bspc query -T -n focused|jq '.client.state' -r)";\
+	if [ "$node_state" = "floating" ]; then;\
+		center_floating_window.sh;\
+	else;\
+		bspc query -N -d | xargs -I % bspc node % -E;\
+	fi
+# bspc node @parent -E;\
+
+
 
 
 #######################################################################

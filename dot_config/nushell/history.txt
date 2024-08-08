@@ -1,0 +1,843 @@
+exit
+ls
+ls | where modified > today
+ls | where modified > 1week
+ls | get name
+ls -h
+ls | where type == file
+ls | where get type
+ls | get type
+ls -a
+ls -a | where type == file
+date now
+echo (date now - 1day)
+echo ((date now) - 1day)
+echo (date now) - 1day
+(date now) - 1day
+ls -a | where modified > ((date now) - 1month)
+ls -a | where modified > ((date now) - 30day)
+(http get https://api.chucknorris.io/jokes/random).value
+(http get https://api.chucknorris.io/jokes/random)
+echo $env
+$env.PATH | split
+$env.PATH | split row
+$env.PATH | split row (char esep)
+esep
+char esep
+$env.PATH | split row :
+$env.PATH | split column :
+$env.PATH | split row :
+$env.PATH | split row : | append alan
+$env.PATH
+$env.PATH[0]
+$env.PATH | get 0
+$env.PATH | get 1
+$env.PATH | rg opt
+ls
+ls -h
+ls 
+ls | each {|| echo $in.name alan }
+ls | each {|| echo $in.name }
+ls | each {|| echo $in.name 'alan' }
+ls | each {|| (echo $in.name) }
+ls | each {|| (echo $in.name alan) }
+ls | each {|| (echo $in.name alan) }| flatten
+ls | each {|| (echo $in.name alan | flatten) }
+ls | each {|| $in.name alan }
+ls | each {|| $in.name }
+ls | each {|| $in.name + 'alan' }
+ls | each {|| $in.name + ' alan' }
+ls | each {|| $in.name + ' alan'}
+ls | each {|| $in.name + ' alan'}|flatten
+ls | each {|| $in.name + ' alan'}|join
+ls | each {|| $in.name + ' alan'}
+env
+let alan = jose
+let -h
+let alan = "jose"
+alan
+echo $alan
+$env
+echo $env
+echo $nu
+ls
+ls | where name =~ Downl
+ls | where name =~ D*
+ls | where name =~ D.*
+ls | where name =~ ^D
+ls | where name =~ ^[DI]
+$nu
+nvim $nu.loginshell-path
+nvim $nu.config-path
+nvim
+ls
+nvim $nu.config-path
+z nvim
+zoxide nu
+cd ~/.config/nvim
+ls
+ls after
+put
+help http
+df -h
+| split column ' '
+| split column
+| split column .
+| detect columns
+df -h| detect columns
+df -h| split column 
+df -h| split column ' '
+df -h| split column "\t"
+df -h| split column \s*
+df -h| detect columns
+ls | tac
+df -h
+df -h|tail
+df -h|tail 1
+df -h|tail -n1
+df -h|tail -n-1
+df -h|awk '{NR>1}'
+df -h|awk 'NR>1{}'
+df -h|awk 'NR>1{print}'
+df -h|awk 'NR>1'
+df -h|awk 'NR>1'| detect columns
+help from
+df -h| from ssv
+df -h| from ssv --minimum-spaces 1
+df -h|str replace "Sist. Arq." "Filesystem"|detect columns
+df -h
+df -h|str replace "Sist. Arq." "Filesystem" "Montado em" "Montado"|detect columns
+["alan", "jose"]
+["alan", "jose"]| each {|| echo $in}
+df -h|lines
+cargo search shells --limit 10
+cargo search shells --limit 10| lines|parse "{crate_name} = {version} #{description}"
+cargo search shells --limit 10| lines|parse "{crate_name} = {version} #{description}"|str trim
+echo alan | echo $in
+echo alan | echo $in jose
+echo alan | echo $in +"jose"
+echo alan | echo $in + "jose"
+echo alan | str join
+echo alan | str join Alan
+echo alan | append alan
+echo alan | append jose | str join
+echo alan | append jose | str join " "
+[alan jose]
+[alan jose]|each {|c| echo $c}
+[alan jose]|each {|c| echo $c jose}
+[alan jose]|each {|c| echo $c + jose}
+[alan jose]|each {|c| echo $c + "jose"}
+[alan jose]|each {|c| echo ($c + jose)}
+[alan jose]|each {|c| echo ($c jose)}
+[alan jose]|each {|c| echo ($c + jose)}
+[alan jose]|each {|c| echo ($c + ' jose')}
+[alan jose]|describe
+[alan jose]|each {|c| echo ($c ++ ' jose')}
+[alan jose]|each {|c| echo ($c ++ jose)}
+[alan jose]|each {|c| echo $c ++ jose}
+[alan jose]|each {|c| $c ++ jose}
+[alan jose]|each {|c| $c + jose}
+[alan jose]|group
+[alan jose]|group 2
+[alan jose]|group 1
+[alan jose]|group 1|describe
+[alan jose]|group 1| each {|| str join}
+[alan jose]|group 2| each {|| str join}
+[alan jose dos santos]|group 2| each {|| str join}
+[alan jose dos santos]|group 2| each {|| str join ' '}
+[alan jose dos santos]|group 2| each {|| str join ':'}
+[alan jose dos santos]|group 2| each {|| str join :}
+[alan jose dos santos]|group 2| each {|| str join \ }
+[alan jose dos santos]|group 2| each {|| str join \}
+[alan jose dos santos]|group 2| each {|| str join :}
+[alan jose dos santos]|group 2| each {|| str join :}|split column :
+[alan jose dos santos]|group 2| each {|| str join :}|split column : primeiro segundo
+[alan jose dos santos]|group 2| each {|| str join :}|split column : primeiro segundo| get primeiro
+help get
+[alan jose dos santos]|group 2| each {|| str join :}|split column :|get column1
+seq 1 3
+seq 1 10
+seq 1 10| reduce {|it, acc| it+acc}
+seq 1 10| reduce {|it, acc| (it+acc)}
+seq 1 10| reduce {|it, acc| (+ it acc)}
+seq 1 10| reduce {|it, acc| (math:sum it acc)}
+seq 1 10| reduce {|it, acc| (math sum it acc)}
+seq 1 10| reduce {|it, acc| ($it + $acc)}
+seq 1 10| reduce {|it, acc| $it + $acc}
+math sum 1 2
+[1 2] |math sum 
+[1 2 3] |math sum 
+seq 1 10|math sum
+seq 1 10|math product 
+nvim
+ls
+cd ~/.config/nushell/
+ls
+nvim config.nu
+nvim 
+nvim config.nu
+nvim 
+nvim config.nu
+nvim 
+nvim config.nu
+nvim 
+nvim config.nu
+nvim
+nvim config.nu
+nvim
+ls
+z
+z downl
+ls
+z thunder 
+ls
+fd
+fd --extension py
+ls
+z codes
+ls
+lf
+yazi
+cd Tampermonkey/
+ls
+fd **/*.js
+ls **/*.js
+ls **/*.js| where size > 3KiB
+bspc -Q 
+bspc query -T -m focused
+bspc query -T -m focused| from json
+bspc query -T -m focused| from json| get desktops
+bspc query -T -m focused| from json
+bspc query -T -m focused| jq
+bspc query -T -m focused| from json| get root
+bspc query -T -m focused| from json
+bspc query -T -m focused| from json| get desktops.root
+bspc query -T -m focused| from json| get desktops.root[0]
+bspc query -T -m focused| from json| get desktops.root.0
+bspc query -T -m focused| from json| get desktops.root.1
+bspc query -T -m focused| from json| get desktops.root.3
+bspc query -T -m focused| from json| get desktops.root
+bspc query -T -m focused| from json| get desktops.root|to json
+bspc query -T -m focused| from json| get desktops.root|to json|jq
+bspc query -T -m focused| from json| get desktops.root
+bspc query -T -m focused| from json| get desktops.root| where != 'null'
+bspc query -T -m focused| from json| get desktops.root| where root != 'null'
+bspc query -T -m focused| from json| get desktops.root| where root != null
+bspc query -T -m focused| from json| get desktops.root| columns
+bspc query -T -m focused| from json| get desktops.root| rows
+bspc query -T -m focused| from json| get desktops.root| lines
+bspc query -T -m focused| from json| get desktops.root
+bspc query -T -m focused| from json| get desktops.root.0
+bspc query -T -m focused| from json| get desktops.root.0.rectangle
+archdots 
+archdots settings
+archdots settings| from json
+archdots settings| from json|get apps
+archdots settings| from json|get apps.browser
+archdots settings apps.browser
+archdots settings 'apps.browser'
+archdots settings 'apps\.browser'
+archdots settings .apps
+archdots settings .apps.browser
+archdots settings .apps.browser -r
+archdots settings .apps.browser -h
+archdots settings .apps.browser -r
+archdots settings |from json
+archdots settings .monitor|from json
+archdots settings .monitor.layouts|from json
+archdots settings .monitor.layouts|from json|where layout.enabled
+archdots settings .monitor.layouts|from json|where layout
+archdots settings .monitor.layouts|from json|where name =~ Big
+[1 2 3] | each { $in * 2 }
+[1 2 3] | each {$in * 2}
+[1 1 2 2 3 3]|sort
+[1 1 2 2 3 3]|sort -u
+[1 1 2 2 3 3]|uniq
+archdots settings .monitor.layouts|from json
+archdots settings .monitor.layouts|from json|where layout.enabled == true
+archdots settings .monitor.layouts|from json|compact
+archdots settings .monitor.layouts|from json|get layout
+archdots settings .monitor.layouts|from json|get layout.enabled
+archdots settings .monitor.layouts|from json|get layout|each {$in.enabled}
+archdots settings .monitor.layouts|from json|get layout|each {$in.enabled}|flatten
+archdots settings .monitor.layouts|from json|get layout|each {$in.enabled}
+archdots settings .monitor.layouts|from json|get layout
+ls
+z 
+ls
+ls -1
+ls -a
+alias alan=jose
+exit
+ll
+ls
+exit
+ls
+exa
+eza
+cd Downloads/
+ls
+cat exp08_tb.txt
+exit
+cd Downloads/
+cat exp08_tb.txt
+nvim config.nu
+nvim .zshrc
+exit
+archdots list apps --pending
+archdots list apps --unmanged
+archdots list apps --unmanaged
+archdots list apps --unmanaged|from toml
+archdots list apps --unmanaged|lines
+archdots list apps --unmanaged|lines|drop
+archdots list apps --unmanaged|lines|skip
+yay -Sy carapace
+z $nu.config-path
+cd $nu.config-path
+ls
+exit
+ls
+cat ~/.env.sh
+echo $env.HOME
+cat ~/.env.sh
+cat ~/.env.sh|rg topath
+cat ~/.env.sh|rg 'topath=\('
+cat ~/.env.sh|rg 'topath=\(' --dotall
+cat ~/.env.sh|rg 'topath=\(' --dot
+cat ~/.env.sh|rg 'topath=\(' -D
+cat ~/.env.sh|rg 'topath=\(' -h
+cat ~/.env.sh|rg 'topath=\(' -h|rg dot
+cat ~/.env.sh|rg 'topath=\(' --multiline-dotall
+cat ~/.env.sh|rg 'topath=\(.+\)' --multiline-dotall
+cat ~/.env.sh|rg 'topath=\(.+\)' --multiline-dotall -U
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{a}"'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{}"'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|format pattern '"{}"'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|[1]
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { {[HOME]|each {|v| $in|str replace $v A}} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { [HOME]|each {|v| $in|str replace $v A} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { [HOME]|each {|v| ($in|str replace $v A)} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)}|join }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)}|str join }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)}|join ' ' }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)}|flatten }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)}|get 0 }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)}|get 1 }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)} }|flatten
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| ($a|str replace $v A)} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| [HOME]|each {|v| $a|str replace $v A} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| $a }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| $a|str replace HOME a }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| ($a|str replace HOME a) }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| {$a|str replace HOME a} }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| echo $a|str replace HOME a }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { |a| str replace HOME a }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { str replace HOME a }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { $in }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { $in + "a" }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { $in ++ "a" }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|each { $in.paths ++ "a" }
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| $path}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| $path|replace HOME alan}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| $path|str replace HOME alan}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v ('env.'+$v)}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v 'env.'+$v}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v 'env.' $v}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v ('env.' + $v)}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v ('env.'++$v)}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v ('env.' + $v)}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v ('env.' + $v)}|join}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME]|each {|v| $path|str replace $v ('env.' + $v)}|get 0}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME SCRIPTS TOOLS]|each {|v| $path|str replace $v ('env.' + $v)}|get 0}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME,SCRIPTS,TOOLS]|each {|v| $path|str replace $v ('env.' + $v)}|get 0}
+[1 2 3]|each {"123"|str replace $in A}
+[1 2 3]|each {|in| "123"|str replace $in A}
+[1 2 3]|each {echo "123"|str replace $in A}
+[1 2 3]|each {"123"|str replace $in A}
+"123"|str replace 1 A
+[1 2 3]|each {$in}
+[1 2 3]|each {"alan"}
+[1 2 3]|each {"123"}
+[1 2 3]|each {"123"|str replace 1 A}
+[1 2 3]|each {"123"|str replace $in A}
+[1 2 3]|each {"123"|str replace in A}
+[1 2 3]|each {$in|describe}
+['1' '2' '3']|each {"123"|str replace $in A}
+['1' '2' '3']|each {"123"|str replace ($in) A}
+['1' '2' '3']|each {|v| "123"|collect { str replace $v A}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME,SCRIPTS,TOOLS]|each {|v| $path|collect {str replace $v ('env.' + $v)}}|get 0}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|path| [HOME SCRIPTS TOOLS]|each {|v| $path|collect {str replace $v ('env.' + $v)}}|get 0}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|v|<\n>}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|each {|v| $v}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|str replace --regex '(HOME|SCRIPTS)' 'env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|lines|skip|drop|parse '"{paths}"'|get paths|str replace --regex '(HOME|SCRIPTS|TOOLS)' 'env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '$(\w+)' -r '$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '$(\w+)' -r '$env.\1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '$(\w+)' -r '\$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '\$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '\\$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '\$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r 'a.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r 'env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$$env.$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$$env.$1' --passthrough
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$$env.$1' --passthrough|rg '^"'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$$env.$1' --passthrough|rg '"(.+)"'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$$env.$1' --passthrough|rg '"(.+)"' -r '$1'
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|rg '\$(\w+)' -r '$$env.$1' --passthrough|rg '"(.+)"' -r '$1'|lines
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|str replace --all --regex '\$(\w+)' -r '$$env.$1' --passthrough|rg '"(.+)"' -r '$1'|lines
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|str replace --all --regex '\$(\w+)' '$$env.$1' --passthrough|rg '"(.+)"' -r '$1'|lines
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|str replace --all --regex '\$(\w+)' '$$env.$1'|rg '"(.+)"' -r '$1'|lines
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [[HOME alan]]|each {|a,b| $v|str replace --all --regex $a $b}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [[HOME alan]]|each {|a| $v|str replace --all --regex $a.0 $a.1}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [[HOME alan] [SCRIPTS jose]]|each {|a| $v|str replace --all --regex $a.0 $a.1}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [[HOME alan] [SCRIPTS jose]]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] [SCRIPTS jose]]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+n
+exit
+ls
+n
+ls
+p
+enter Downloads/
+p
+n
+shells
+dexit
+shells
+dexit
+shells
+enter .
+z thunder
+n
+p
+shells
+sys
+sys|explore
+ls | explore
+ls
+dexit
+cd Downloads/
+ls
+ls | where name =~ pdf$
+ls | where type == folder
+ls | where type == dir
+ls 
+ls *.txt
+ls *.txt|each { open } |explore --index
+ls *.txt|each { || open } |explore --index
+bspc query -T -m focused| from json| explore 
+bspc query -T -m focused| from json| grid
+bspc query -T -m focused| from json| table
+bspc query -T -m focused| from json
+bspc query -T -m focused| from json| explore --peek
+2|bits and 2
+2|bits and 3
+2|bits and 4
+2|bits rol 2
+2|bits rol 1
+ls| where name ends-with .pdf
+ls
+exa
+exa|lines
+eza
+cat bla.csv
+cat bla.csv| from csv
+cat bla.csv| from csv --noheaders 
+cat bla.csv| from csv --noheaders |trim
+cat bla.csv| from csv --noheaders |str trim
+cat bla.csv| from csv --noheaders|rename al lj
+cat bla.csv| from csv --noheaders|rename x y
+cat bla.csv| from csv --noheaders|rename x y|each {|x,y| $x}
+cat bla.csv| from csv --noheaders|rename x y|each {|x,y| $y}
+cat bla.csv| from csv --noheaders|rename x y|each {|row| [1 2]}
+cat bla.csv| from csv --noheaders|rename x y|values
+cat bla.csv| from csv --noheaders|rename x y
+cat bla.csv| from csv --noheaders|rename x y|get x|each {|x| x * 2}
+cat bla.csv| from csv --noheaders|rename x y|get x|each {|x| $x * 2}
+cat bla.csv| from csv --noheaders|rename x y|get x|each {|x| ($x * 2)}
+cat bla.csv| from csv --noheaders|rename x y|into int
+cat bla.csv| from csv --noheaders|rename x y|each { into int }
+cat bla.csv| from csv --noheaders|rename x y|each { each {into int} }
+cat bla.csv| from csv --noheaders|rename x y|each { each {$in} }
+cat bla.csv| from csv --noheaders|rename x y|each { each {$in + "a"} }
+cat bla.csv| from csv --noheaders|rename x y|each { items {$in} }
+cat bla.csv| from csv --noheaders|rename x y|each { items {$in.0} }
+cat bla.csv| from csv --noheaders|rename x y|each { items {$in.1} }
+cat bla.csv| from csv --noheaders|rename x y|each { items {$in.1.0} }
+cat bla.csv| from csv --noheaders|rename x y|each { $in }
+cat bla.csv| from csv --noheaders|rename x y|each { $in.x }
+cat bla.csv| from csv --noheaders|rename x y|upsert y {|row| $row * 2}
+cat bla.csv| from csv --noheaders|rename x y|upsert y {|row| $row.y * 2}
+cat bla.csv| from csv --noheaders|rename x y|upsert y {|row| $row.x * 2}
+cat bla.csv| from csv --noheaders|rename x y|upsert y {|row| ($row.x|into int) * 2}
+cat bla.csv| from csv --noheaders|rename x y|upsert x {|row| ($row.x|into int) * 2}
+cat bla.csv| from csv --noheaders|rename x y|update cells {into int}
+cat bla.csv| from csv --noheaders|rename x y|update cells {into int}|describe
+cat bla.csv| from csv --noheaders|rename x y|describe
+cat bla.csv| from csv --noheaders|rename x y|update y {|row| $row.y * 2}
+1..5
+1..5|update 1 {$in * 2}
+1..5|wrap
+1..5|group
+1..5|group 5
+1..5|update cells {$in * 2}
+1..5|each {$in * 2}
+cat bla.csv| from csv --noheaders|rename x y
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9.x
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9.y
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9|str join ','
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9|str join
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9|into str
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9|update cells {into string}
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9|update cells {into string}|values
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9|update cells {into string}|values|str join 
+cat bla.csv| from csv --noheaders|rename x y|update x {($in|into int) * 2}|get 9|update cells {into string}
+z bspwm
+ls
+exa
+sl
+ls
+ls -h
+ls
+lf
+nvim $nu.config-path
+exit
+z bspwm
+lf
+z archdots
+ls
+lf
+nvim $nu.config-path
+history
+ls
+exa
+^ls
+^exa
+sl
+cat ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+open ~/.env.sh
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+open ~/.env.sh|grep 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+open ~/.env.sh|grep 'topath=\(.+?\)' -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+grep -h|rg dotall
+grep -h|rg all
+grep --help|rg all
+grep --help|rg dot
+grep --help
+open ~/.env.sh|grep 'topath=\(.+?\)' -Uz|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+open ~/.env.sh|grep 'topath=\(.+?\)' -z|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v| [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc| $acc|str replace --all --regex $it.0 $it.1}}|lines|skip|drop
+use std "path add"
+path add -h
+[1 2 3]|each {echo $in}
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $in<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $in ++ "alan"<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $in alan<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $"$in alan"<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $"{in} alan"<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $"{$in} alan"<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $"${in} alan"<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $"$(in) alan"<\n>}<\n>
+open ~/.env.sh|rg 'topath=\(.+?\)' --multiline-dotall -U|collect {|v|<\n>    [['HOME|SCRIPTS|TOOLS' 'env.$0'] ['"(.+)"' '$1']]|reduce -f $v {|it,acc|<\n>        $acc|str replace --all --regex $it.0 $it.1<\n>    }<\n>}|lines|skip|drop|each { <\n>    echo $"($in) alan"<\n>}<\n>
+open ~/.env.sh
+open ~/.env.sh|rg export
+open ~/.env.sh|rg export|parse 'export {name}={value}'
+open ~/.env.sh|rg export|lines|parse 'export {name}={value}'
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {echo alan}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {echo $in}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace '"?(.+)"?;?' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '"?(.+)"?;?' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '"?(.+?)"?;?' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '"?(.+?)[";]{,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '"?(.+?)([";]{1,2})' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '"?(.+?)([";]{0,2})' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '"?(.+?)[";]{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '"?(.+?)[";1]{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '[;"''](.+?)[";1]{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '[;"](.+?)[";1]{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["]*(.+?)[";1]{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";1]{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["]*(.+?)[";'']{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|each {$"($in.name)($in.value)"}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}
+^echo $(which zsh)
+^echo "$(which zsh)"
+exit
+bash -c "$(which zsh)"
+ls
+bash -c "echo oi"
+env -h
+env --help
+env
+ls
+env|where name == APPDATA
+use std "env"
+load-env
+load-env -h
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|transpose
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|into record
+echo $env.EDITOR
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|transpose|into record
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|into record
+insert -h
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}
+open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|collect {|v| insert v ala}
+{}|collect {|v| open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|each {$v|insert $in.name $in.value}}
+{}|collect {|v| open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|each {|k| $v|insert $k.name $k.value}}
+{}|into record|collect {|v| open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|each {|k| $v|insert $k.name $k.value}}
+{a: 1}|collect {|v| open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|each {|k| $v|insert $k.name $k.value}}
+{}|collect {|v| open ~/.env.sh|rg '^export'|lines|parse 'export {name}={value}'|update value {str replace --regex '["'']*(.+?)[";'']{1,2}' '$1'}|each {|k| insert $k.name $k.value}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {$in}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {$v|$in.a}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {$v|insert $in.a $in.b}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}}|into record
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}|into record}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}}|transpose
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}}|transpose
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}}|transpose|into record
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|insert $g.a $g.b}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| $v|merge {$g.a: $g.b}}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|merge {$g.a: $g.b}}}
+{}|collect {|v| [[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a: $g.b}}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a: $g.b}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| insert $g.a $g.b}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|wrap
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|wrap alan
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+help into record
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|get alan
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|describe
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|collect {$in.alan}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|collect {$in}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|collect {$in.0}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|collect {$in.1}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|flatten
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|transpose
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+{a: 1, b:2}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|rename alan 0
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|rename alan 2
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|rename alan d
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|rename alan
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|rename 
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|rename 0 1
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|columns
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|lines
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|headers
+[[a,b]; ["alan" 1] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|columns
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|columns
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|flatten
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|flatten|transpose
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|flatten|transpose|into record
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|flatten
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|collect {$in.0}
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|collect {$in.alan}
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|collect {$in}
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|collect {$in.1}
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|collect {$in.1.jose}
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|columns
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|get 0
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|get 1
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|get alan
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|get 0.alan
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|describe
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|into record|get 0
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|transpose
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|transpose|into record
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}
+nvim $nu.config-path
+ls
+cd VHDL/
+ls
+cd `Laboratorio Digital A/`
+ls
+gits
+git pull
+gits
+git restore .
+gits
+rm `Experiencia 8/multisteps/CONCATENADO.vhd`
+gits
+git pull
+ls
+lf
+ls
+exa
+mkdir 'Projeto Final'
+cd `Projeto Final/`
+ls
+mkdir Computador
+cd Computador/
+ls
+pdm init
+yay -Sy pdm
+asdf
+pdm self update
+pdm self update --user
+sudo pdm self update 
+pdm update
+pdm self update
+pdm self update -h
+pdm self update --pip-args "--user"
+pdm self update --pip-args user
+pdm self update --pip-args "\-\-user"
+pdm self update --pip-args '--user'
+yay -Sy python-pdm
+which pdm
+pdm 
+yay -R python-pdm
+pdm
+yay -Sy python-pdm
+pdm
+python -v
+python -m pip install pdm
+python -m pip install pdm --user
+pdm
+pdm info
+pdm venv
+pdm venv list
+ls ~/.local/share/atuin/
+atuin init nu | save -f ~/.local/share/atuin/init.nu<\n>
+nvim $nu.config-path
+exit
+z compu
+nvim ~/.local/share/atuin/init.nu 
+$env
+set ATUIN_NOBIND=false
+set ATUIN_NOBIND false
+$env.ATUIN_NOBIND = false
+nvim $nu.config-path
+exit
+echo $env.ATUIN_NOBIND
+atuin init nu | save -f ~/.local/share/atuin/init.nu<\n>
+exit
+echo $env.ATUIN_NOBIND
+exit
+atuin init nu | save -f ~/.local/share/atuin/init.nu<\n>
+exit
+nvim $nu.config-path
+z compu
+ls
+exit
+yay -Qu|parse '{package} {old} -> {new}'
+yay -Qu|lines|parse '{package} {old} -> {new}'
+exit
+ls
+exit
+echo $PATH
+$env.PATH
+eixt
+exit
+ls
+[[a,b]; ["alan" 5] ["jose" 2]]|each {|g| {}|insert $g.a $g.b}|transpose|into record
+config nu --default
+config nu --default|rg shell_inte
+config nu --default|rg shell_inte --lines
+config nu --default|rg shell_inte --number
+config nu --default|rg shell_inte --nl
+config nu --default|rg shell_inte --help
+config nu --default|rg shell_inte -n
+config nu --default|rg -n
+config nu --default|rg . -n
+config nu --default|nvim
+nvim config.nu
+nvim $nu.config-path
+exit
+nvim $nu.config-path
+exit
+ls
+ls| where type="dir"
+ls| where type=="dir"
+ls| where type==dir
+ls| get type
+ls| where type == "dir"
+ls| where type == "dir" | each |f| {ls}
+ls| where type == "dir" | each {|| ls}
+ls| where type == "dir" | each {|| ls $in}
+ls| where type == "dir" | each {|| ls $in.name}
+ls| where type == "dir" | each {|| $in.name}
+ls| where type == "dir" | each {|| ls "$in.name"}
+ls| where type == "dir" | each {|| ls $in.name}
+echo $0
+echo env.0
+echo env
+$env.0
+echo $env.0
+env 0
+shell
+$env.shell
+$env
+exit
+ls
+ls| select name
+nvim ~/.config/starship.toml 
+ls
+ls where type = "dir"
+ls | where type == dir
+ls | where type == dir| each {|| $"$in"}
+ls | where type == dir| each {|| "$in"}
+ls | where type == dir| select name
+ls | where type == dir| each {|| $in}
+ls | where type == dir| each {|| $in.name}
+ls | where type == dir| each {|| $"$in.name"}
+ls | where type == dir| each {|| $"($in.name)"}
+ls | where type == dir| each {|| $"($in.name\)"}
+ls | where type == dir| each {|| $"($in.name)"}
+ls | where type == dir| each {|| path join Mesa}
+ls | where type == dir| each {path join Mesa}
+ls | where type == dir| each {|| $in|path join Mesa}
+ls | where type == dir| each {|| $in.name|path join Mesa}
+ls | where type == dir| get name|each {|name| [Mesa, Jose]|each {|f| $name|path join $f}}
+ls | where type == dir| get name|each {|name| [Mesa, Jose]|each {|f| $name|path join $f}}|flatten
+ls
+ls `../5 Semestre/Conversão Eletromecânica/`
+ls `../5 Semestre/Conversão Eletromecânica/`| where type = dir
+ls `../5 Semestre/Conversão Eletromecânica/`| where type == dir
+yay -Sy vivid
+$env.LS_COLORS = (vivid generate tokyonight-storm | str trim)
+ls `../5 Semestre/Conversão Eletromecânica/`| where type == dir
+$env.LS_COLORS = (vivid generate tokyonight-storm | str trim)
+nvim $nu.config-path
+ls `../5 Semestre/Conversão Eletromecânica/`| where type == dir
+ls | where type == dir| get name|each {|name| [Material, Rascunhos]|each {|f| $name|path join $f}}|flatten
+ls | where type == dir| get name|each {|name| [Material, Rascunhos]|each {|f| $name|path join $f}}|flatten|mkdir
+ls | where type == dir| get name|each {|name| [Material, Rascunhos]|each {|f| $name|path join $f}}|flatten|collect
+ls | where type == dir| get name|each {|name| [Material, Rascunhos]|each {|f| $name|path join $f}}|flatten|each {|| mkdir $in}
+ls
+eza --tree
+exit
+exit
+ls
+exit

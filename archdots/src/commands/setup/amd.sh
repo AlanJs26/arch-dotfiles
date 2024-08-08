@@ -8,6 +8,10 @@ if [ "$1" = "check" ]; then
 fi
 
 if [[ ! -f /etc/modprobe.d/amdgpu.conf ]]; then
+
+	user="$(id -nu 1000)"
+	HOME="/home/$user"
+
 	echo Adding amd radeon configuration to /etc/modprobe.d/
 	cat "$HOME/.local/share/chezmoi/archdots/public/amdgpu.conf" | sudo dd of=/etc/modprobe.d/amdgpu.conf 
 	cat "$HOME/.local/share/chezmoi/archdots/public/radeon.conf" | sudo dd of=/etc/modprobe.d/radeon.conf 

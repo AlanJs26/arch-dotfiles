@@ -33,8 +33,8 @@ function create_cache() {
 
   local summary
   local body
-  [ "$DUNST_SUMMARY" = "" ] && summary="Summary unavailable." || summary="$(print "$DUNST_SUMMARY"|$HOME/.config/eww/scripts/parse_html.sh)"
-  [ "$DUNST_BODY" = "" ] && body="Body unavailable." || body="$(print "$DUNST_BODY" | $HOME/.config/eww/scripts/parse_html.sh)"
+  [ "$DUNST_SUMMARY" = "" ] && summary="Summary unavailable." || summary="$(cat <<< "$DUNST_SUMMARY"|$HOME/.config/eww/scripts/parse_html.sh)"
+  [ "$DUNST_BODY" = "" ] && body="Body unavailable." || body="$(cat <<< "$DUNST_BODY" | $HOME/.config/eww/scripts/parse_html.sh)"
 
   local glyph
   case "$urgency" in

@@ -1,65 +1,92 @@
 [arch]
-maim
-
-seafile-client
-gtkwave
-
-inkscapemadeeasy-git
-networkmanager-openvpn
-gnome-disk-utility-git
-
-stremio
-
-qbittorrent
-
-vivaldi-snapshot-ffmpeg-codecs
-vivaldi-snapshot
-
-youtube-music-bin
-
-
-write_stylus
-textext
-
-scrcpy
-
-syncthing
-syncthing-gtk
-
-jupyterlab-desktop-bin
-
-inkscape
-
-speedcrunch
-
-gthumb
-visual-studio-code-bin
-
-fcitx5
-fcitx5-configtool
-fcitx5-gtk
-fcitx5-mozc
-fcitx5-skin-fluentdark-git
-discord
-feh
-flameshot
-sioyek
-unified-remote-server
-mpv
-qalculate-gtk
-audiorelay
-nemo
-kitty
-obsidian
-obs-studio
-
-# pdfarranger
+# PDF tools
+pdfarranger
 poppler-glib
 python-pip
 python-gobject
 gtk3
 python-cairo
 libhandy
+
+# Screenshot tools
+maim
+flameshot
+
+# File synchronization
+seafile-client
+syncthing
+syncthing-gtk
+
+# Waveform viewer
+gtkwave
+
+# Inkscape extensions
+inkscapemadeeasy-git
+textext
+
+# VPN
+networkmanager-openvpn
+
+# Disk utility
+gnome-disk-utility-git
+
+# Streaming and media
+stremio
+qbittorrent
+vivaldi-snapshot-ffmpeg-codecs
+vivaldi-snapshot
+youtube-music-bin
+mpv
+
+# Stylus input
+write_stylus
+
+# Mobile device display and control
+scrcpy
+
+# Development and coding
+jupyterlab-desktop-bin
+visual-studio-code-bin
+
+# Graphics and design
+inkscape
+speedcrunch
+gthumb
+
+# Input methods
+fcitx5
+fcitx5-configtool
+fcitx5-gtk
+fcitx5-mozc
+fcitx5-skin-fluentdark-git
+
+# Communication
+discord
+
+# Image viewer
+feh
+sioyek
+
+# Remote control
+unified-remote-server
+
+# Calculator
+qalculate-gtk
+
+# Audio relay
+audiorelay
+
+# File manager
+nemo
+
+# Terminal emulator
+kitty
+
+# Note-taking and productivity
+obsidian
+
+# Screen recording and streaming
+obs-studio
 
 [python]
 pdfarranger

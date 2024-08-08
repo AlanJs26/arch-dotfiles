@@ -2863,7 +2863,7 @@ archdots_sync_dots_command() {
   if [ -f "$(which gum)" ]; then
   	chezmoi git add .
   	if [[ ${args[--remote]} -ne 1 ]]; then
-  		# add_settings_folders
+  		add_settings_folders
   		chezmoi_re_add
   	fi
   fi
