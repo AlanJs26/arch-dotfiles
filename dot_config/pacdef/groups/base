@@ -34,9 +34,6 @@ cups
 system-config-printer
 canon-pixma-g6000-complete
 
-# Firewall
-firewalld
-
 # Debugging tools
 yay-debug
 
@@ -107,7 +104,6 @@ pacdef
 
 # Theming and appearance
 lxappearance
-neofetch
 tela-circle-icon
 mcmojave-cursors
 

@@ -12,29 +12,28 @@ numlockx on
 
 xrdb -merge "$HOME/.Xresources"
 
-killall sxhkd; sxhkd&
+killall sxhkd
+sxhkd &
 
-
-# autostart scripts and programs 
+# autostart scripts and programs
 archdots autostart
 
 # restart urserver
-/opt/urserver/urserver-stop;/opt/urserver/urserver-start --no-manager --no-notify &
-
-
+/opt/urserver/urserver-stop
+/opt/urserver/urserver-start --no-manager --no-notify &
 
 # bspc configurations
 bspc config focused_border_color "#414f6e"
 
-bspc config border_width         2
-bspc config window_gap          12
+bspc config border_width 2
+bspc config window_gap 12
 bspc config focus_follows_pointer true
 bspc config pointer_follows_focus false
 
-bspc config split_ratio        0.52
+bspc config split_ratio 0.52
 bspc config borderless_monocle true
-bspc config single_monocle     true
-bspc config gapless_monocle    true
+bspc config single_monocle true
+bspc config gapless_monocle true
 bspc config removal_adjustment true
 
 bspc config remove_disabled_monitors true
@@ -62,6 +61,7 @@ floating_windows=(
   "org.gnome.clocks"
   "File-roller"
   "Syncthing GTK"
+  "fcitx5-config-qt"
 )
 
 pseudo_tiled_windows=(
@@ -76,9 +76,8 @@ for win in "${pseudo_tiled_windows[@]}"; do
   bspc rule -a "$win" state=pseudo_tiled
 done
 
-
 # specific rules
-bspc rule -a Qalculate-gtk    state=floating rectangle="400x500+300+400"
+bspc rule -a Qalculate-gtk state=floating rectangle="400x500+300+400"
 bspc rule -a "*:*:smallkitty" state=floating center=on rectangle="400x100+300+800"
 bspc rule -a "__zoxide__" state=floating rectangle="1300x300+0+0" center=on
 
@@ -89,8 +88,8 @@ bspc rule -a "Typstudio" state=tiled
 bspc rule -a "Stremio" state=fullscreen
 
 bspc rule -a "__jupyter__:*:*" hidden=on
-bspc rule -a "__matlab__:*:*"  hidden=on
-bspc rule -a "__pluto__:*:*"   hidden=on
+bspc rule -a "__matlab__:*:*" hidden=on
+bspc rule -a "__pluto__:*:*" hidden=on
 
 bspc rule -a peek manage=off
 bspc rule -a fcitx manage=off
@@ -98,10 +97,8 @@ bspc rule -a fcitx manage=off
 
 bspc config external_rules_command $BSPDIR/external_rules.sh
 
-
 # set wallpaper
 feh --bg-fill "$BSPDIR/wallpapers/hell3.png"
 
 # reload statusbar
-$HOME/.config/polybar/launch.sh --tokyonight 
-
+$HOME/.config/polybar/launch.sh --tokyonight

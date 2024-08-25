@@ -337,8 +337,12 @@ super + d
 	bspc node -s last.local
 
 # Transplant into window in chosen direction
+super + shift + ctrl + {Left,Down,Up,Right}
+  bspwm-bubble-move.sh {west,south,north,east}
+
+# Transplant into window in chosen direction (allow rotation)
 super + shift + {Left,Down,Up,Right}
-  euclid_mover.sh {west,south,north,east}
+  bspwm-bubble-move.sh -r {west,south,north,east}
 
 # Move a floating window
 super + {Left,Down,Up,Right}

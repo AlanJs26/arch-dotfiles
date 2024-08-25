@@ -19,7 +19,7 @@
     "scripts": [
       "$BSPDIR/color-border-mode.sh",
       "$BSPDIR/fix-polybar-fullscreen.sh",
-      "$HOME/.config/eww/scripts/music --cover_daemon_python"
+      "$HOME/.config/eww/scripts/music_helper.sh --cover_daemon"
     ],
     "always": [
       "xmodmap $HOME/.config/X11/xmodmap",

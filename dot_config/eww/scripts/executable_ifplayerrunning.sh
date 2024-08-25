@@ -14,12 +14,12 @@ listen_status(){
   if [ -z "$1" ]; then
     listen_status 
   else
-    eww update songname="$(~/.config/eww/scripts/music --song)"
-    eww update artist="$(~/.config/eww/scripts/music --artist)"
-    eww update icon="$(~/.config/eww/scripts/music --status)"
-    eww update ctime="$(~/.config/eww/scripts/music --ctime)"
-    eww update ttime="$(~/.config/eww/scripts/music --ttime)"
-    eww update ptime="$(~/.config/eww/scripts/music --time)"
+    eww update songname="$(~/.config/eww/scripts/music_helper.sh --song)"
+    eww update artist="$(~/.config/eww/scripts/music_helper.sh --artist)"
+    eww update icon="$(~/.config/eww/scripts/music_helper.sh --status)"
+    eww update ctime="$(~/.config/eww/scripts/music_helper.sh --ctime)"
+    eww update ttime="$(~/.config/eww/scripts/music_helper.sh --ttime)"
+    eww update ptime="$(~/.config/eww/scripts/music_helper.sh --time)"
   fi
 }
 

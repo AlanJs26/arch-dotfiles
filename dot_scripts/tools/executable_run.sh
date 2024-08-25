@@ -4,8 +4,8 @@ arg=$1
 ext=$(echo $arg | rg '\..+$' -o)
 
 if [[ $arg =~ 'xdg-open' ]]; then
-    arg=${1:10:-1}
-    ext=$(echo $arg | rg "\..+$" -o)
+  arg=${1:10:-1}
+  ext=$(echo $arg | rg "\..+$" -o)
 fi
 
 mime="$(file -b "$arg")"
@@ -13,13 +13,13 @@ mime="$(file -b "$arg")"
 zoxide add "$(dirname "$arg")"
 
 if [[ $mime =~ "image" ]]; then
-    feh "$arg" --class "__float__" --scale-down
+  feh "$arg" --class "__float__" --scale-down
 elif [[ $mime =~ "PowerPoint" ]]; then
-    zaread "$arg"
+  zaread "$arg"
 elif [[ $mime =~ "ASCII" ]]; then
-    kitty nvim "$arg"
-elif [ -n "$(echo "$mime"|grep -i "document")" ]; then
-    zaread "$arg"
+  kitty nvim "$arg"
+elif [ -n "$(echo "$mime" | grep -i "document")" ] || [[ $mime =~ "Word" ]]; then
+  zaread "$arg"
 else
-    xdg-open "$arg"
+  xdg-open "$arg"
 fi

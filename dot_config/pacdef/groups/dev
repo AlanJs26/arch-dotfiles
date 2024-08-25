@@ -8,18 +8,15 @@ haskell-scotty
 carapace
 
 direnv
-httpie
 
 tree-sitter
 tree-sitter-cli
 
 juliaup
-act
 
 f2-bin
 just
 
-transcrypt
 mupdf-tools
 
 pandoc-cli

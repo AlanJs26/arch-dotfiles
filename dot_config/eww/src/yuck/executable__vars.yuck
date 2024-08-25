@@ -9,23 +9,26 @@
 
 ; (defpoll ssid :interval '3s' `~/.config/eww/scripts/wifi --ssid`)
 
-(defpoll active_sink :interval '5s' `~/Documentos/tools/cycle-audio-devices.sh get_default`)
+(defpoll active_sink :interval '5s' `cycle-audio-devices.sh --active-device`)
 
 (defpoll user :interval '5m' `echo $USER`)
 (defpoll host :interval '5m' `cat /etc/hostname`)
 
 ; (defpoll songimage :interval "1s" 'echo "/tmp/cover.png"')
-(defpoll songname :interval "1s" "~/.config/eww/scripts/music --song")
-(defpoll artist :interval "1s" "~/.config/eww/scripts/music --artist")
-(defpoll icon :interval "1s" "~/.config/eww/scripts/music --status")
-(defpoll ctime :interval "1s" "~/.config/eww/scripts/music --ctime")
-(defpoll ttime :interval "1s" "~/.config/eww/scripts/music --ttime")
-(defpoll ptime :interval "1s" "~/.config/eww/scripts/music --time")
+(defpoll songname :interval "1s" "~/.config/eww/scripts/music_helper.sh --song")
+(defpoll artist :interval "1s" "~/.config/eww/scripts/music_helper.sh --artist")
+(defpoll icon :interval "1s" "~/.config/eww/scripts/music_helper.sh --status")
+(defpoll ctime :interval "1s" "~/.config/eww/scripts/music_helper.sh --ctime")
+(defpoll ttime :interval "1s" "~/.config/eww/scripts/music_helper.sh --ttime")
+(defpoll ptime :interval "1s" "~/.config/eww/scripts/music_helper.sh --time")
 
 (deflisten musicMainframeStatus "~/.config/eww/scripts/ifplayerrunning.sh mainframe_song" )
 (deflisten musicDiscloseStatus "~/.config/eww/scripts/ifplayerrunning.sh disclose_song" )
 
-(deflisten songimage "~/.config/eww/scripts/music --cover_daemon" )
+;; (defpoll songimage :interval "1s" "~/.config/eww/scripts/music_helper.sh --cover" )
+(deflisten songimage "~/.config/eww/scripts/music_helper.sh --cover_listen" )
+;; (deflisten songimage "~/.config/eww/scripts/music_helper.sh --cover_daemon_python" )
+;; (deflisten songimage "~/.config/eww/scripts/music_helper.sh --cover_daemon" )
 
 (deflisten cards "~/.config/eww/scripts/notification_logger.zsh subscribe")
 ; (defpoll critical :interval "1s" "~/.config/eww/scripts/notification_logger.zsh crits")

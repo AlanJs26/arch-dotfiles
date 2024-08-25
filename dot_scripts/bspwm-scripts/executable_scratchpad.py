@@ -119,20 +119,20 @@ def match_name(node: Node):
     return True
 
 hidden_nodes = bspc.query.nodes('.hidden')
-floating_nodes = bspc.query.nodes('.floating').sort(lambda x:x.id)
+all_nodes = bspc.query.nodes('.window').sort(lambda x:x.id)
 
-matched = floating_nodes.filter(match_name)
+matched = all_nodes.filter(match_name)
 
 matched_visible = matched - hidden_nodes 
 matched_hidden = hidden_nodes & matched 
-matched_marked = bspc.query.nodes('.floating.marked') & matched 
+matched_marked = bspc.query.nodes('.marked') & matched 
 
 matched_focused = (bspc.query.nodes('.focused') & matched_visible).pop() 
 
 if args.behaviour == 'toggleall':
 
     if matched_visible:
-        for node in floating_nodes:
+        for node in all_nodes:
             if node.hidden:
                 node.marked = False
             else:
@@ -159,11 +159,13 @@ elif args.behaviour in ['i3', 'swap']:
             next_node.marked = True
             if args.behaviour == 'swap':
                 next_node.hidden = False
-                next_node.to_monitor('focused', follow=True)
+                if next_node.layout == 'floating':
+                    next_node.to_monitor('focused', follow=True)
                 next_node.focus()
     elif matched_visible:
         for node in matched_visible:
-            node.to_monitor('focused', follow=True)
+            if node.layout == 'floating':
+                node.to_monitor('focused', follow=True)
     else:
         matched_marked_hidden = matched_marked & matched_hidden
 
@@ -174,7 +176,8 @@ elif args.behaviour in ['i3', 'swap']:
 
         if current_node:
             current_node.hidden = False
-            current_node.to_monitor('focused', follow=True)
+            if current_node.layout == 'floating':
+                current_node.to_monitor('focused', follow=True)
             current_node.focus()
         elif args.run and not matched.first():
             os.system(args.run)
@@ -192,7 +195,9 @@ elif args.behaviour == 'nomark':
 
     if current_node:
         current_node.hidden = False
-        current_node.to_monitor('focused', follow=True)
+        
+        if current_node.layout == 'floating':
+            current_node.to_monitor('focused', follow=True)
         current_node.focus()
     elif args.run and not matched.first():
         os.system(args.run)

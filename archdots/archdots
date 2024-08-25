@@ -2367,6 +2367,10 @@ archdots_setup_amd_command() {
   fi
 
   if [[ ! -f /etc/modprobe.d/amdgpu.conf ]]; then
+
+  	user="$(id -nu 1000)"
+  	HOME="/home/$user"
+
   	echo Adding amd radeon configuration to /etc/modprobe.d/
   	cat "$HOME/.local/share/chezmoi/archdots/public/amdgpu.conf" | sudo dd of=/etc/modprobe.d/amdgpu.conf
 
@@ -2734,9 +2738,9 @@ archdots_autostart_scripts_command() {
 
   		if [ -n "${args[--restart]}" ];then
   				echo "$script_command"
-  				pgrep -f "$script_basename"|xargs -i kill {};sleep 1 && bash "$(eval "echo $script_command")" &
+  				pgrep -f "$script_basename"|xargs -i kill {};sleep 1 && bash $(eval "echo $script_command") &
   		else
-  				pgrep -f "$script_basename" > /dev/null || bash "$(eval "echo $script_command")" &
+  				pgrep -f "$script_basename" > /dev/null || bash $(eval "echo $script_command") &
   		fi
   done
 

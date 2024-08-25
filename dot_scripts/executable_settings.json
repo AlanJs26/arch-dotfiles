@@ -58,29 +58,11 @@
   ],
   "autostart": {
     "programs": [
-      "fcitx5 -d",
-      "syncthing serve --no-browser --logfile=default",
-      "dunst",
-      "nm-applet",
-      "picom",
-      "evrouter --config $HOME/.config/evrouter/.evrouterrc /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd",
-      "greenclip daemon",
-      "bspdragwin.py --daemon",
-      "eww daemon --restart",
-      "jgmenu --hide-on-startup",
-      "bspswallow",
-      "unclutter --timeout 10 --exclude-root",
-      "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
     ],
     "scripts": [
-      "$BSPDIR/color-border-mode.sh",
-      "$BSPDIR/fix-polybar-fullscreen.sh",
-      "lockscreen.sh disable",
-      "$HOME/.config/eww/scripts/music --cover_daemon_python"
+      "lockscreen.sh disable"
     ],
     "always": [
-      "xmodmap $HOME/.config/X11/xmodmap",
-      "bash $TOOLS/setup-monitors.sh"
     ]
   },
   "monitor": {

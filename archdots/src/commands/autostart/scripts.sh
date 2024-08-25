@@ -33,8 +33,8 @@ for script in "${all_scripts[@]}"; do
 
 		if [ -n "${args[--restart]}" ];then
 				echo "$script_command"
-				pgrep -f "$script_basename"|xargs -i kill {};sleep 1 && bash "$(eval "echo $script_command")" &
+				pgrep -f "$script_basename"|xargs -i kill {};sleep 1 && bash $(eval "echo $script_command") &
 		else
-				pgrep -f "$script_basename" > /dev/null || bash "$(eval "echo $script_command")" &
+				pgrep -f "$script_basename" > /dev/null || bash $(eval "echo $script_command") &
 		fi
 done

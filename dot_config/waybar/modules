@@ -1,6 +1,6 @@
 {
   "custom/music": {
-   "interval": 0,
+   "restart-interval": 0,
    "escape": true,
    "format": "{}",
    "exec": "~/.config/waybar/scripts/scroll_spotify_status.sh",

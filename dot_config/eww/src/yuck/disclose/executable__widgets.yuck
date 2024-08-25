@@ -64,9 +64,9 @@
     ) 
   )
   (box :class 'disclose_song_side' :orientation 'v'
-            (button :class "disclose_song_btn white prev" :onclick "~/.config/eww/scripts/music --prev"  "󰒮")
-            (button :class "disclose_song_btn accent play" :onclick "~/.config/eww/scripts/music --toggle" "${icon}" )
-            (button :halign 'start' :hexpand true :class "disclose_song_btn white symsongbtn next" :onclick "~/.config/eww/scripts/music --next" "󰒭")
+            (button :class "disclose_song_btn white prev" :onclick "~/.config/eww/scripts/music_helper.sh --prev"  "󰒮")
+            (button :class "disclose_song_btn accent play" :onclick "~/.config/eww/scripts/music_helper.sh --toggle" "${icon}" )
+            (button :halign 'start' :hexpand true :class "disclose_song_btn white symsongbtn next" :onclick "~/.config/eww/scripts/music_helper.sh --next" "󰒭")
     )
   )
 )
