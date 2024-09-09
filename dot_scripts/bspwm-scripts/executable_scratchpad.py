@@ -16,7 +16,7 @@ def config() -> ArgumentParser:
     argparser.add_argument(
         'title_query',
         action='store',
-        default='',
+        default='.*',
         type=str,
         nargs='?',
         help='regex for window titles'
@@ -119,13 +119,19 @@ def match_name(node: Node):
     return True
 
 hidden_nodes = bspc.query.nodes('.hidden')
-all_nodes = bspc.query.nodes('.window').sort(lambda x:x.id)
+if args.title_query == '.*':
+    all_nodes = bspc.query.nodes('.floating').sort(lambda x:x.id)
+else:
+    all_nodes = bspc.query.nodes('.window').sort(lambda x:x.id)
 
 matched = all_nodes.filter(match_name)
 
 matched_visible = matched - hidden_nodes 
 matched_hidden = hidden_nodes & matched 
-matched_marked = bspc.query.nodes('.marked') & matched 
+if args.title_query == '.*':
+    matched_marked = bspc.query.nodes('.floating.marked') & matched 
+else:
+    matched_marked = bspc.query.nodes('.marked') & matched 
 
 matched_focused = (bspc.query.nodes('.focused') & matched_visible).pop() 
 

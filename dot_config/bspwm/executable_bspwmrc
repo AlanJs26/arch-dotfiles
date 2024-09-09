@@ -93,7 +93,7 @@ bspc rule -a "__pluto__:*:*" hidden=on
 
 bspc rule -a peek manage=off
 bspc rule -a fcitx manage=off
-# bspc rule -a "MATLAB R2022b - academic use" manage=on
+bspc rule -a "MATLAB R2022b - academic use" manage=off
 
 bspc config external_rules_command $BSPDIR/external_rules.sh
 

@@ -49,7 +49,10 @@ super + Print
 
 # Screenshot screen (file)
 super + shift + Print
-  flameshot full --path "$HOME/Imagens"
+  maim --hidecursor --select --capturebackground "$HOME/Imagens/$(date +%s).png";\
+  notify-send Screenshot "Saved at $HOME/Imagens/$(date +%s).png"
+
+  # flameshot full --path "$HOME/Imagens"
 
 # Color Picker (fn + F10)
 XF86HomePage
@@ -166,9 +169,13 @@ super + ctrl + z
 super + ctrl + x
 	scratchpad.py --instance "nemo" --behaviour nomark --run "nemo --class '__float_center__'"
 
-# Audio Relay (scratchpad)
+# # Audio Relay (scratchpad)
+# super + shift + s
+# 	scratchpad.py --class "com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
+
+# LocalSend (scratchpad)
 super + shift + s
-	scratchpad.py --class "com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
+	scratchpad.py --class "Localsend" --behaviour nomark --run "localsend"
 
 # Pdf Viewer (scratchpad)
 super + shift + backslash
@@ -180,7 +187,7 @@ super + ctrl + backslash
 
 # Floating terminal kitty (scratchpad)
 super + shift + z
-	scratchpad.py "kitty" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
+	scratchpad.py "kitty$|kittynvim$" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
 	# scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
 
 # Floating kitty neovim (scratchpad)

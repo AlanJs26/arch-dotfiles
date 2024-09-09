@@ -48,7 +48,6 @@ visual-studio-code-bin
 
 # Graphics and design
 inkscape
-speedcrunch
 
 # Input methods
 fcitx5
@@ -87,6 +86,7 @@ obs-studio
 
 [python]
 pdfarranger
+meson
 
 Jinja2
 MarkupSafe
