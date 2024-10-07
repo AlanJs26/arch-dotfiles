@@ -3,6 +3,10 @@
 super + Escape
     pkill -usr1 -x sxhkd; notify-send -a sxhkd 'sxhkd' 'Reloaded config' -u low;
 
+# Kill Picom
+super + shift + Escape
+    pkill -x picom; notify-send -a sxhkd 'picom' 'killed picom' -u low;
+
 #######################################################################
 #                               Others                                #
 #######################################################################
@@ -121,9 +125,9 @@ super + ctrl + Return
 super + ctrl + @space
 	$SCRIPTS/rofi-scripts/rofi-zoxide.sh
 
-# File Browser
-super + alt + @space
-	rofi -show filebrowser -run-command "run.sh \"\{cmd\}\""
+# # File Browser
+# super + alt + @space
+# 	rofi -show filebrowser -run-command "run.sh \"\{cmd\}\""
 
 # Show shortcuts
 super + shift + question
@@ -138,7 +142,7 @@ super + shift + v
 	rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # Scratchpad Menu
-{super + ctrl + i, super + ctrl + shift + a}
+{super + ctrl + i, super + ctrl + shift + a, super + alt + @space}
 	$SCRIPTS/rofi-scripts/rofi-scratchpad-bspwm.sh
 
 #######################################################################

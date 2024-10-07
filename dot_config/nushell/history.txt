@@ -841,3 +841,86 @@ exit
 exit
 ls
 exit
+ls
+cat v0.csv 
+echo v0.csv 
+open v0.csv
+open v0.csv| get time
+open v0.csv| get 0
+open v0.csv| split column ';'
+open v0.csv
+open v0.csv| lines
+open v0.csv -h
+open v0.csv --raw | lines |split column ';'
+open v0.csv --raw | lines |split column ';'| drop
+open v0.csv --raw | lines |split column ';'| shift
+open v0.csv --raw | lines |split column ';'| skip
+open v0.csv --raw | lines |split column ';' | get 0
+open v0.csv --raw | lines |split column ';' time v i| skip
+open v0.csv --raw | lines |split column ';' time v i| skip| max
+open v0.csv --raw | lines |split column ';' time v i| skip| max v
+open v0.csv --raw | lines |split column ';' time v i| skip| max -h
+plugin list
+plugin add
+plugin add polars
+polars
+plugin -h
+plugin use polars
+use polars
+open v0.csv --raw | lines |split column ';' time v i| skip| math max
+open v0.csv --raw | lines |split column ';' time v i| skip| math min
+open ~/.local/share/zathura/bookmarks.sqlite
+open ~/.local/share/zathura/bookmarks.sqlite history
+open ~/.local/share/zathura/bookmarks.sqlite history.filinfo
+open ~/.local/share/zathura/bookmarks.sqlite history.fileinfo
+open ~/.local/share/zathura/bookmarks.sqlite history fileinfo
+open ~/.local/share/zathura/bookmarks.sqlite -h
+open ~/.local/share/zathura/bookmarks.sqlite history 
+open ~/.local/share/zathura/bookmarks.sqlite history['fileinfo']
+open ~/.local/share/zathura/bookmarks.sqlite history|collect {||$in}
+open ~/.local/share/zathura/bookmarks.sqlite history|collect {||$in.fileinfo}
+open ~/.local/share/zathura/bookmarks.sqlite fileinfo
+open ~/.local/share/zathura/bookmarks.sqlite | get fileinfo
+exit
+alan = 12
+$alan = 12
+let alan = "jose"
+echo $alan
+show
+which print 
+print $alan
+echo lan
+exit
+let alan = "jose"
+fd
+fd -e png
+let alan = "-e png"
+fd $alan
+let alan = [-e png]
+fd $alan
+fd ...$alan
+[png jpeg] | zip [a a]
+[png jpeg] | zip [a a]|flatten
+[a]*4
+print ([a]*4)
+fill -h
+[a b]|fill 3
+[1]|repeat 5
+use std
+std repeat 
+[1]|std repeat 
+[1]|std repeat 5
+1|std repeat 5
+exit
+1|std repeat 5
+use std
+scope commands
+use std<\n>scope commands<\n>| where name =~ '^std '<\n>| select name usage extra_usage<\n>| wrap "std-lib"
+use dataframes
+use dataframe
+ls|explore
+ls|explore -i
+try
+ls|try
+ls|explore -i
+exit

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Calcpy
+StartupWMClass=calcpy
+Comment=Scientific calculator made of IPython and SymPy
+GenericName=Calcpy
+Exec=/usr/bin/kitty --class __float__ calcpy 
+Icon=calculator
+Type=Application
+Terminal=false
+Categories=Utility;Calculator;Education;Science;Math;
+Keywords=calculation;arithmetic;scientific;python;sympy;
+Path=/usr/bin

@@ -39,6 +39,7 @@ zinit light zdharma/fast-syntax-highlighting
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light hlissner/zsh-autopair 
+zinit light jirutka/zsh-shift-select 
 
 ### End of Zinit Plugins
 #
@@ -72,6 +73,8 @@ alias gitb="git branch -a"
 alias lg="lazygit"
 alias copy="xclip -sel copy"
 
+alias lddtree="libtree"
+
 function zz(){
     result="$(zoxide query $@|head -n1)"
 
@@ -89,7 +92,7 @@ function rm(){
 eval "$(starship init zsh)" 
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
-# eval "$(thefuck --alias)"
+eval "$(thefuck --alias)"
 ### End of Terminal Behaviour Scripts
 
 ### Atuin Setup
@@ -103,8 +106,5 @@ bindkey '^r' _atuin_search_widget
 # source /usr/share/nvm/init-nvm.sh
 ### End of NVM setup
 
-export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
-
-eval $(thefuck --alias)
 
 # LS_COLORS="$(vivid generate tokyonight-storm)"
