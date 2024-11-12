@@ -177,9 +177,9 @@ super + ctrl + x
 # super + shift + s
 # 	scratchpad.py --class "com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
 
-# LocalSend (scratchpad)
+# LocalSend and AudioRelay (scratchpad)
 super + shift + s
-	scratchpad.py --class "Localsend" --behaviour nomark --run "localsend"
+	scratchpad.py --class "Localsend|com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
 
 # Pdf Viewer (scratchpad)
 super + shift + backslash

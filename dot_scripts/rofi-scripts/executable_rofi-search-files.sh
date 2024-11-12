@@ -3,22 +3,24 @@
 search_query="/mnt/DiscoExterno/_Codes/Markdown/USP/6 Semestre"
 search_extensions=(-e png -e jpeg -e pdf -e jpg)
 
-function parse_file() {
+function parse_filename() {
+  f=$1
+  icon=''
   case "$1" in
   *pdf)
-    echo pdf
+    icon=pdf
     ;;
   *)
-    echo $1
+    icon=$1
     ;;
   esac
+
+  echo -en "$(basename "$f")\0icon\x1f$icon\x1fmeta\x1f$f\n"
 }
 IFS=$'\n' files=($(fd $search_extensions . $search_query))
 
 result=$(for f in $files; do
-  icon="$(parse_file $f)"
-
-  echo -en "$(basename "$f")\0icon\x1f$icon\x1fmeta\x1f$f\n"
+  parse_filename $f
 done | rofi -dmenu -format i -i -p 'Files: ')
 if [ -n "$result" ]; then
   notify-send "file" $result

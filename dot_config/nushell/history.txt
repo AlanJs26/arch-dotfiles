@@ -924,3 +924,107 @@ try
 ls|try
 ls|explore -i
 exit
+ls | sort
+sort -h
+ls| sort-by modified
+ls Downloads| sort-by modified
+ls Downloads| where type=file | sort-by modified
+ls Downloads| where type==file | sort-by modified
+ls
+ls Downloads| where type=='file' | sort-by modified
+ls Downloads| where type = file | sort-by modified
+ls Downloads| where type = 'file' | sort-by modified
+ls Downloads| where type = "file" | sort-by modified
+ls Downloads| where type == file | sort-by modified
+ls Downloads| where type == file | sort-by modified -r
+ls Downloads| where type == file | sort-by modified -r| get name
+ls Downloads| where type == file | sort-by modified -r| get name|rofi -dmenu
+ls Downloads| where type == file | sort-by modified -r| get name|into string |rofi -dmenu
+ls Downloads| where type == file | sort-by modified -r| get name|into string
+ls Downloads| where type == file | sort-by modified -r| get name|into text
+ls Downloads| where type == file | sort-by modified -r| get name|to text
+ls Downloads| where type == file | sort-by modified -r| get name|to csv
+ls Downloads| where type == file | sort-by modified -r| select name|to csv
+ls Downloads| where type == file | sort-by modified -r| get name|to text
+ls Downloads| where type == file | sort-by modified -r| get name|to text|rofi -dmenu
+nvim $nu.config-path
+ls Downloads/|columns
+ls Downloads/|filter {|f| ($f|path parse).extension == 'pdf'}
+ls Downloads/|each {|f| ($f|path parse).extension}
+ls Downloads/|each {|f| ($f|path parse)}
+ls Downloads/|each {|f| $f|path parse}
+ls Downloads/|each {|f| $f.name}
+ls Downloads/|each {|f| $f.name|path parse}
+ls Downloads/|each {|f| ($f.name|path parse).extension}
+ls Downloads/|each {|f| ($f.name|path parse).extension == 'pdf'}
+ls Downloads/|filter {|f| ($f.name|path parse).extension == 'pdf'}
+ls Downloads/|filter {|| ($in.name|path parse).extension == 'pdf'}
+basename
+$env.HOME|path basename
+echo "\x1f"
+echo "\\x1f"
+echo '\x1f'
+echo '\u{X1f}'
+echo "\u{X1f}"
+echo "\u{X1F}"
+echo "\u{x1f}"
+echo "\u{Xx1f}"
+echo "\u{x1f}"
+echo "\u{111}"
+echo r"\u{x1f}"
+echo r"\x1f"
+echo r"\0"
+echo r"\0"|rofi
+let nullchar = r"\0"
+let nullchar = r#'\0'#
+echo $nullchar
+let nullchar = r'\0'
+echo '\0'
+echo "\u{0}"
+echo "\u{x}1f"
+echo "\u{x}"
+echo "\x"
+ansi green
+$"$(ansi green) ana"
+$"(ansi green) ana"
+$"(ansi green)ana"
+"\u{1f}"
+echo "\u{1f}"
+"\u{0}"
+ls Downloads| where type == file| first
+ls Downloads| where type == file| first|get name
+ls Downloads| where type == file| first|get name|path parse|get extension
+nu --help 
+z usp
+ls
+cd `6 Semestre/`
+ls
+pwd
+rofi -h|rg normal
+rofi -h|rg normal -C 4
+; ls
+;ls
+exit
+mv -h
+move -h
+ls
+touch alan
+touch Downloads/alan
+mv alan Downloads/
+touch alan
+mv alan Downloads/ -n
+try -h
+echo oi
+mv --help
+mv ~/alan Downloads/alan
+touch alan
+mv -n ~/alan Downloads/alan
+try {mv -n ~/alan Downloads/alan} catch {echo oi}
+find
+'alan'|find a
+man mv
+['a' 'b' 'c']| filter {|| not ($in in ['a'])}
+['a']|length
+['a'].0
+[]|first
+first -h

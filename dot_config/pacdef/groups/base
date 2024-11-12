@@ -1,4 +1,6 @@
 [arch]
+python-calcpy-git
+
 ffmpeg
 
 # Video drivers
@@ -43,8 +45,6 @@ llvm16
 # Desktop environment and greeter
 lightdm
 lightdm-gtk-greeter
-sddm
-sddm-theme-deepin-git
 
 # X11 tools
 xdg-desktop-portal-gtk

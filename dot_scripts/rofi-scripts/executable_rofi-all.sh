@@ -12,6 +12,7 @@ screensaver
 window_class
 window_name
 kill_window
+save_to_obsidian
 zoxide' | rofi -dmenu -p 'rofi')"
 
 ROFI_SCRIPTS=$SCRIPTS/rofi-scripts
@@ -60,6 +61,9 @@ window_name)
   wmname=$(xprop | rg "^WM_NAME.+\"(.+?)\"" -r '$1')
   printf "%s" "$wmname" | xclip -sel copy
   notify-send "WM_NAME" "$wmname"
+  ;;
+save_to_obsidian)
+  $ROFI_SCRIPTS/rofi-save-to-obsidian.nu
   ;;
 *)
   echo "unknown argument"

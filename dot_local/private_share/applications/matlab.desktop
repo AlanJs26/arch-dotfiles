@@ -2,7 +2,8 @@
 Type=Application
 Terminal=false
 MimeType=text/x-matlab
-Exec=sh -c "_JAVA_AWT_WM_NONREPARENTING=1 GTK_THEME=adwaita LD_PRELOAD=/lib64/libfreetype.so /home/alan/matlab/bin/matlab -desktop"
+# Exec=sh -c "_JAVA_AWT_WM_NONREPARENTING=1 GTK_THEME=adwaita LD_PRELOAD=/lib64/libfreetype.so /home/alan/MATLAB/R2022b/bin/matlab -desktop"
+Exec=/home/alan/MATLAB/R2022b/bin/matlab
 Name=MATLAB
 Icon=matlab
 Categories=Development;Math;Science

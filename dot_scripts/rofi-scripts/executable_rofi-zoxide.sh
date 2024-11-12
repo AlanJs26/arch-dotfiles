@@ -14,7 +14,7 @@ HISTORY=~/.cache/rofi-zoxide-history.txt
 ROWS=$([ -f $HISTORY ] && echo 5 || echo 0)
 
 # tac inverts the order of lines
-results=$(cat $HISTORY 2>/dev/null | tac | rofi -dmenu -theme "~/.config/rofi/tokyonight/rofi-onecolumn.rasi" -p "zoxide" -l $ROWS)
+results=$(cat $HISTORY 2>/dev/null | tac | rofi -dmenu -theme "~/.config/rofi/tokyonight/rofi-onecolumn.rasi" -p "zoxide" -l $ROWS -sort)
 status=$?
 
 if [ -z "$results" ]; then
