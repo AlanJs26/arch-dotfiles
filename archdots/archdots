@@ -85,28 +85,29 @@ archdots_setup_usage() {
   echo
   # :command.usage_commands
   printf "%s\n" "Commands:"
-  printf "  %s   \n" "$(green "all")             "
-  printf "  %s   \n" "$(green "git_credentials") "
-  printf "  %s   \n" "$(green "yay")             "
-  printf "  %s   \n" "$(green "defaults")        "
-  printf "  %s   \n" "$(green "git_delta")       "
-  printf "  %s   \n" "$(green "nvim")            "
-  printf "  %s   \n" "$(green "evrouter")        "
-  printf "  %s   \n" "$(green "downgrade")       "
-  printf "  %s   \n" "$(green "monitors")        "
-  printf "  %s   \n" "$(green "pip")             "
-  printf "  %s   \n" "$(green "docker")          "
-  printf "  %s   \n" "$(green "ssh_agent")       "
-  printf "  %s   \n" "$(green "rclone")          "
-  printf "  %s   \n" "$(green "cron")            "
-  printf "  %s   \n" "$(green "audiorelay")      "
-  printf "  %s   \n" "$(green "amd")             "
-  printf "  %s   \n" "$(green "amdgpupro")       "
-  printf "  %s   \n" "$(green "cups")            "
-  printf "  %s   \n" "$(green "desktop_entries") "
-  printf "  %s   \n" "$(green "display_manager") "
-  printf "  %s   \n" "$(green "terminal_history")"
-  printf "  %s   \n" "$(green "tabbed")          "
+  printf "  %s   \n" "$(green "all")               "
+  printf "  %s   \n" "$(green "git_credentials")   "
+  printf "  %s   \n" "$(green "yay")               "
+  printf "  %s   \n" "$(green "defaults")          "
+  printf "  %s   \n" "$(green "git_delta")         "
+  printf "  %s   \n" "$(green "nvim")              "
+  printf "  %s   \n" "$(green "evrouter")          "
+  printf "  %s   \n" "$(green "downgrade")         "
+  printf "  %s   \n" "$(green "monitors")          "
+  printf "  %s   \n" "$(green "pip")               "
+  printf "  %s   \n" "$(green "docker")            "
+  printf "  %s   \n" "$(green "ssh_agent")         "
+  printf "  %s   \n" "$(green "rclone")            "
+  printf "  %s   \n" "$(green "cron")              "
+  printf "  %s   \n" "$(green "audiorelay")        "
+  printf "  %s   \n" "$(green "amd")               "
+  printf "  %s   \n" "$(green "amdgpupro")         "
+  printf "  %s   \n" "$(green "cups")              "
+  printf "  %s   \n" "$(green "desktop_entries")   "
+  printf "  %s   \n" "$(green "display_manager")   "
+  printf "  %s   \n" "$(green "terminal_history")  "
+  printf "  %s   \n" "$(green "tabbed")            "
+  printf "  %s   \n" "$(green "noise_cancellation")"
   echo
 
   # :command.long_usage
@@ -762,6 +763,35 @@ archdots_setup_tabbed_usage() {
   printf "%s\n" "Usage:"
   printf "  archdots setup tabbed\n"
   printf "  archdots setup tabbed --help | -h\n"
+  echo
+
+  # :command.long_usage
+  if [[ -n $long_usage ]]; then
+    printf "%s\n" "Options:"
+
+    # :command.usage_fixed_flags
+    printf "  %s\n" "--help, -h"
+    printf "    Show this help\n"
+    echo
+
+  fi
+}
+
+# :command.usage
+archdots_setup_noise_cancellation_usage() {
+  if [[ -n $long_usage ]]; then
+    printf "archdots setup noise_cancellation\n"
+    echo
+
+  else
+    printf "archdots setup noise_cancellation\n"
+    echo
+
+  fi
+
+  printf "%s\n" "Usage:"
+  printf "  archdots setup noise_cancellation\n"
+  printf "  archdots setup noise_cancellation --help | -h\n"
   echo
 
   # :command.long_usage
@@ -1803,6 +1833,10 @@ send_completions() {
   echo $'  local compline="${compwords[*]}"'
   echo $''
   echo $'  case "$compline" in'
+  echo $'    \'setup noise_cancellation\'*)'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
+  echo $'      ;;'
+  echo $''
   echo $'    \'setup terminal_history\'*)'
   echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h")" -- "$cur" )'
   echo $'      ;;'
@@ -1964,7 +1998,7 @@ send_completions() {
   echo $'      ;;'
   echo $''
   echo $'    \'setup\'*)'
-  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro audiorelay cron cups defaults desktop_entries display_manager docker downgrade evrouter git_credentials git_delta monitors nvim pip rclone ssh_agent tabbed terminal_history yay")" -- "$cur" )'
+  echo $'      while read -r; do COMPREPLY+=( "$REPLY" ); done < <( compgen -W "$(_archdots_completions_filter "--help -h all amd amdgpupro audiorelay cron cups defaults desktop_entries display_manager docker downgrade evrouter git_credentials git_delta monitors noise_cancellation nvim pip rclone ssh_agent tabbed terminal_history yay")" -- "$cur" )'
   echo $'      ;;'
   echo $''
   echo $'    \'edit\'*)'
@@ -2339,17 +2373,20 @@ archdots_setup_audiorelay_command() {
   #!/usr/bin/env bash
 
   if [ "$1" = "check" ]; then
-  	if [[ ! $(cat /etc/pulse/default.pa|rg 'Virtual-Mic') ]]; then
-  		echo notok
-  	fi
-  	exit
+    if [[ ! -f $HOME/.config/pipewire/pipewire-pulse.conf.d/audiorelay.conf ]]; then
+      echo notok
+    fi
+    exit
   fi
 
-  if [[ ! $(cat /etc/pulse/default.pa|rg 'Virtual-Mic') ]]; then
-  	sudo cat "$HOME/.local/share/chezmoi/archdots/public/audiorelay-devices.txt" >> /etc/pulse/default.pa
+  systemctl --user enable pipewire wireplumber pipewire-pulse
+  systemctl --user restart pipewire wireplumber pipewire-pulse
 
+  if [[ ! -f $HOME/.config/pipewire/pipewire-pulse.conf.d/audiorelay.conf ]]; then
+    mkdir -p $HOME/.config/pipewire/pipewire-pulse.conf.d
+    cp "$HOME/.local/share/chezmoi/archdots/public/audiorelay.conf" "$HOME/.config/pipewire/pipewire-pulse.conf.d"
   else
-  	echo Already configured
+    echo Already configured
   fi
 
 }
@@ -2500,6 +2537,32 @@ archdots_setup_tabbed_command() {
   fi
 
   (cd "$HOME/.local/share/chezmoi/archdots/public/tabbed" && make clean install)
+
+}
+
+# :command.function
+archdots_setup_noise_cancellation_command() {
+  # src/commands/setup/noise_cancellation.sh
+  #!/usr/bin/env bash
+
+  if [ "$1" = "check" ]; then
+    if [[ ! -d /usr/lib/linux-rnnoise ]]; then
+      echo notok
+    fi
+    exit
+  fi
+
+  mkdir -p $HOME/.config/pipewire/pipewire-pulse.conf.d
+
+  wget https://github.com/werman/noise-suppression-for-voice/releases/latest/download/linux-rnnoise.zip
+  unzip linux-rnnoise.zip
+  rm linux-rnnoise.zip
+  sudo mv linux-rnnoise /usr/lib
+
+  cp "$HOME/.local/share/chezmoi/archdots/public/99-input-denoising.conf" "$HOME/.config/pipewire/pipewire-pulse.conf.d"
+
+  systemctl --user enable pipewire wireplumber pipewire-pulse
+  systemctl --user restart pipewire wireplumber pipewire-pulse
 
 }
 
@@ -3434,6 +3497,13 @@ archdots_setup_parse_requirements() {
       action="tabbed"
       shift
       archdots_setup_tabbed_parse_requirements "$@"
+      shift $#
+      ;;
+
+    noise_cancellation)
+      action="noise_cancellation"
+      shift
+      archdots_setup_noise_cancellation_parse_requirements "$@"
       shift $#
       ;;
 
@@ -4432,6 +4502,50 @@ archdots_setup_tabbed_parse_requirements() {
 
   # :command.command_filter
   action="setup tabbed"
+
+  # :command.parse_requirements_while
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+
+      -?*)
+        printf "invalid option: %s\n" "$key" >&2
+        exit 1
+        ;;
+
+      *)
+        # :command.parse_requirements_case
+        # :command.parse_requirements_case_simple
+        printf "invalid argument: %s\n" "$key" >&2
+        exit 1
+
+        ;;
+
+    esac
+  done
+
+}
+
+# :command.parse_requirements
+archdots_setup_noise_cancellation_parse_requirements() {
+  # :command.fixed_flags_filter
+  while [[ $# -gt 0 ]]; do
+    case "${1:-}" in
+      --help | -h)
+        long_usage=yes
+        archdots_setup_noise_cancellation_usage
+        exit
+        ;;
+
+      *)
+        break
+        ;;
+
+    esac
+  done
+
+  # :command.command_filter
+  action="setup noise_cancellation"
 
   # :command.parse_requirements_while
   while [[ $# -gt 0 ]]; do
@@ -5916,6 +6030,7 @@ run() {
     "setup display_manager") archdots_setup_display_manager_command ;;
     "setup terminal_history") archdots_setup_terminal_history_command ;;
     "setup tabbed") archdots_setup_tabbed_command ;;
+    "setup noise_cancellation") archdots_setup_noise_cancellation_command ;;
     "completions") archdots_completions_command ;;
     "add") archdots_add_command ;;
     "forget") archdots_forget_command ;;

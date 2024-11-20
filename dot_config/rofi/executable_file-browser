@@ -4,6 +4,7 @@ oc-cmd     "nemo;icon:nemo"
 oc-cmd     "zathura;icon:zathura"
 oc-cmd     "xreader;icon:xreader"
 oc-cmd     "kitty;icon:kitty"
+oc-cmd     "vivaldi-snapshot;icon:vivaldi"
 depth      1
 
 open-parent-as-self

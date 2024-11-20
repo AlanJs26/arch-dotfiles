@@ -64,11 +64,11 @@ XF86HomePage
 
 # Change Audio device (fn + F11)
 XF86Calculator
-	cycle-audio-devices.sh
+	cycle-audio-devices.nu
 
 # Change Audio device port (shift + fn + F11)
 shift + XF86Calculator
-	cycle-audio-devices.sh --port
+	cycle-audio-devices.nu port
 
 super + button2
 	bspdragwin.py hold
@@ -167,7 +167,7 @@ super + shift + a
 
 # Youtube Music or MPV (scratchpad)
 super + ctrl + z
-	scratchpad.py "(YouTube Music)|mpv|Spotify" --behaviour nomark
+	scratchpad.py "(YouTube Music)|mpv|Spotify" --behaviour toggleall --floating
 
 # Floating nemo (scratchpad)
 super + ctrl + x
@@ -179,7 +179,7 @@ super + ctrl + x
 
 # LocalSend and AudioRelay (scratchpad)
 super + shift + s
-	scratchpad.py --class "Localsend|com-azefsw-audioconnect-desktop-app-MainKt" --behaviour nomark
+	scratchpad.py --class "Localsend|com-azefsw-audioconnect-desktop-app-MainKt" --behaviour i3
 
 # Pdf Viewer (scratchpad)
 super + shift + backslash
@@ -191,7 +191,7 @@ super + ctrl + backslash
 
 # Floating terminal kitty (scratchpad)
 super + shift + z
-	scratchpad.py "kitty$|kittynvim$" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
+	scratchpad.py "kitty$|kittynvim$" -r "kitty --title floatkitty --class __float_center__" --behaviour swap
 	# scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
 
 # Floating kitty neovim (scratchpad)
@@ -467,12 +467,12 @@ super + bracketright
 
 # Increase Volume
 XF86AudioRaiseVolume
-	pamixer --sink $(cycle-audio-devices.sh --active-device --id) --increase 5 || amixer -q -D pulse sset Master 5%+
+	pamixer --sink $(cycle-audio-devices.nu sink --active) --increase 5 || amixer -q -D pulse sset Master 5%+
 
 
 # Decrease Volume
 XF86AudioLowerVolume
-	pamixer --sink $(cycle-audio-devices.sh --active-device --id) --decrease 5 || amixer -q -D pulse sset Master 5%-
+	pamixer --sink $(cycle-audio-devices.nu sink --active) --decrease 5 || amixer -q -D pulse sset Master 5%-
 
 # Play Pause
 XF86AudioPlay
@@ -489,15 +489,4 @@ XF86AudioPrev
 # Mute
 XF86AudioMute
 	amixer -q -D pulse set Master toggle
-
-# # Paste with Mouse
-# {_,shift + }button9
-# 	xdotool key {ctrl+v,shift+ctrl+v}
-#
-# # Copy with Mouse
-# {_,shift + }button8
-# 	# xdotool key {ctrl+c,shift+ctrl+c}
-	
-
-
 

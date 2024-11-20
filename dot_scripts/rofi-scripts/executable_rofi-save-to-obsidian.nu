@@ -55,25 +55,39 @@ if not ($target_path|path exists) {
   mv -n $selected_file_path $target_folder_path 
   notify-send $'Moved to "($selected_folder)/($selected_subfolder)"' $selected_file
 } else {
-  let selected_action = ['cancel', 'delete', 'rename', 'overwrite']|to text|rofi -dmenu
-  match $selected_action { 
-      'delete' => {
-        rm $selected_file_path
-        notify-send 'Deleted' $selected_file
-      }
-      'rename' => {
-        /usr/bin/mv --backup=existing $selected_file_path $target_folder_path
-        notify-send $'Moved with rename to "($selected_folder)/($selected_subfolder)"' $selected_file
-      }
-      'overwrite' => {
-        mv $selected_file_path $target_folder_path 
-        notify-send $'Ovewrited to "($selected_folder)/($selected_subfolder)"' $selected_file
-      }
-      _ => {
-        notify-send 'Move to Obsidian' 'aborted'
-        exit
-      }
+
+  let identical = (cmp $selected_file_path $target_path|is-empty)
+  let actions = if $identical {
+    ['cancel', 'delete', 'delete then open target']
+  } else {
+    ['cancel', 'delete', 'rename', 'overwrite']
   }
+
+  let selected_action = $actions|to text|rofi -dmenu
+  match $selected_action { 
+  'delete' => {
+    rm $selected_file_path
+    notify-send 'Deleted' $selected_file
+  }
+  'rename' => {
+    alias mv_native = /usr/bin/mv
+    mv_native --backup=existing $selected_file_path $target_folder_path
+    notify-send $'Moved with rename to "($selected_folder)/($selected_subfolder)"' $selected_file
+  }
+  'overwrite' => {
+    mv $selected_file_path $target_folder_path 
+    notify-send $'Ovewrited to "($selected_folder)/($selected_subfolder)"' $selected_file
+  }
+  'delete then open target' => {
+    rm $selected_file_path
+    notify-send 'Deleted' $selected_file
+    xdg-open $target_path 
+  }
+  _ => {
+    notify-send 'Move to Obsidian' 'aborted'
+    exit
+  }
+}
 }
 
 $"[[($selected_file)]]"|xclip -sel clipboard

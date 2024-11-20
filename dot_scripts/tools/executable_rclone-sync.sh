@@ -34,7 +34,7 @@ for item in ${pathlinks[@]}; do
     rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access --resync || should_report_error=1
   else
 
-    ignored_files=$(fd '.venv' ${item_split[0]} --hidden --type=directory | rg "${item_split[0]}" -r '' | awk '{print "--exclude '"'"'" $0 "'"'"'" }' | rg -U '\n' -r '')
+    ignored_files=$(fd '\.venv|\.CondaPkg' ${item_split[0]} --hidden --type=directory | rg "${item_split[0]}" -r '' | awk '{print "--exclude '"'"'" $0 "'"'"'" }' | rg -U '\n' -r '')
 
     rclone_command=''
     if [[ $SHLVL -lt 4 ]] && [ "$1" != "--log" ]; then
@@ -58,3 +58,5 @@ if [[ $should_report_error -eq 1 ]]; then
 else
   echo "ok" >$HOME/.rclone_status.txt
 fi
+
+tail -n 2000 $HOME/.rclone.log | sponge $HOME/.rclone.log

@@ -21,9 +21,10 @@ xorg-xmodmap
 
 betterlockscreen
 
-pulseaudio
-pulseaudio-alsa
 playerctl
+wireplumber
+pipewire
+pipewire-pulse
 
 ttf-icomoon-feather
 ttf-iosevka-nerd

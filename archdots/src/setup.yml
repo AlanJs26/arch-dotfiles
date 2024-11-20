@@ -33,6 +33,7 @@ commands:
 - name: display_manager
 - name: terminal_history
 - name: tabbed
+- name: noise_cancellation
 
   # args:
   # - name: source

@@ -78,6 +78,12 @@ def config() -> ArgumentParser:
     )
 
     argparser.add_argument(
+        '--floating',
+        action='store_true',
+        help='only match floating windows'
+    )
+
+    argparser.add_argument(
         "-r",
         "--run",
         default='',
@@ -119,7 +125,7 @@ def match_name(node: Node):
     return True
 
 hidden_nodes = bspc.query.nodes('.hidden')
-if args.title_query == '.*':
+if args.title_query == '.*' or args.floating:
     all_nodes = bspc.query.nodes('.floating').sort(lambda x:x.id)
 else:
     all_nodes = bspc.query.nodes('.window').sort(lambda x:x.id)
@@ -128,29 +134,35 @@ matched = all_nodes.filter(match_name)
 
 matched_visible = matched - hidden_nodes 
 matched_hidden = hidden_nodes & matched 
-if args.title_query == '.*':
-    matched_marked = bspc.query.nodes('.floating.marked') & matched 
-else:
-    matched_marked = bspc.query.nodes('.marked') & matched 
+
+matched_marked = bspc.query.nodes('.marked') & matched 
 
 matched_focused = (bspc.query.nodes('.focused') & matched_visible).pop() 
 
 if args.behaviour == 'toggleall':
 
-    if matched_visible:
-        for node in all_nodes:
-            if node.hidden:
-                node.marked = False
-            else:
-                node.marked = True
-                node.hidden = True
+    if matched_visible & bspc.query.nodes(desktop_selector='.!focused'):
+        if node := (matched_marked.first() or matched_visible.first()):
+            node.to_monitor('focused', follow=True)
+            node.focus()
+        for node in matched:
+            node.to_monitor('focused', follow=True)
+    elif matched_visible:
+        for node in matched:
+            node.marked = False
+            node.hidden = True
+        if matched_focused:
+            matched_focused.marked = True  
     else:
         matched_marked_hidden = matched_marked & matched_hidden
-        for node in matched_marked_hidden:
+        if node := (matched_marked_hidden.first() or matched_hidden.first()):
             node.hidden = False
-        node = matched_marked_hidden.first()
-        if node:
+            node.to_monitor('focused', follow=True)
             node.focus()
+
+        for node in matched_hidden:
+            node.hidden = False
+            node.to_monitor('focused', follow=True)
 
 
 elif args.behaviour in ['i3', 'swap']:

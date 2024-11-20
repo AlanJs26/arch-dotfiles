@@ -1028,3 +1028,345 @@ man mv
 ['a'].0
 []|first
 first -h
+pactl list
+pactl 
+pactl -h
+pactl list short
+pactl set-sink-port 297 2
+pactl set-sink-port youtube-music 2
+pactl set-sink-port 297 0
+pactl set-sink-port 297 1
+pactl set-sink-port 297
+pactl set-sink-port #297 2
+pactl set-sink-port 63 2
+pacmd
+pactl set-sink-port 2 297
+pactl set-sink-port
+pactl set-sink-port -h
+pactl -h
+pactl list
+pactl list|rg sink
+pactl list|rg sink -C 5
+pactl -h
+pactl info
+pactl stat
+pactl info
+pactl -h
+pactl set-default-sink alsa_output.pci-0000_08_00.6.analog-stereo
+pactl info
+pactl set-default-source alsa_output.pci-0000_08_00.6.analog-stereo
+pactl set-default-sink 63
+pactl set-default-sink #63
+pactl set-default-sink alsa_output.pci-0000_08_00.6.analog-stereo
+pactl -h
+pactl list shot
+pactl list short
+pactl list sinks
+pactl -h
+pactl set-sink-port 69 analog-output-lineout
+pactl set-sink-port 69 analog-output-headphones
+pactl list -h
+pactl list sources
+pactl list sources short
+pactl list sink-inputs 
+pactl list sink-inputs short
+pactl list sink-inputs 
+pactl -h
+pactl list sinks short
+pactl list sink-inputs 
+pactl list sink-inputs short
+pactl list sinks short
+pactl move-sink-input 355 audiorelay-virtual-mic-sink
+pactl move-sink-input 355 alsa_output.pci-0000_08_00.6.analog-stereo
+pactl list sinks short| parse "{id} {name} {} {} {} {status}"
+pactl list sinks short| parse "{id} {name} {c} {b} {a} {status}"
+pactl list sinks short
+pactl list sinks short| parse "{id}	{name}	{}	{}	{}	{status}"
+pactl list sinks short| parse "{id}	{name}	{a}	{b}	{c}	{status}"
+pactl list sinks short| parse "{id}"
+pactl list sinks short| parse "{id}	{ab}"
+pactl list sinks short| parse "{id}	{name}"
+pactl list sinks short| parse "{id} {name}"
+pactl list sinks short| parse "{id}	{name}	{}"
+pactl list sinks short| parse "{id}	{name}	{a}"
+pactl list sinks short| parse "{id}	{name}	{a}	{b}"
+pactl list sinks short| parse "{id}	{name}	{1}	{2}"
+pactl list sinks short| parse "{id}	{name}	{1}	{2}	{3}	{4}"
+pactl list sinks short| parse "{id}	{name}	{1}	{2}	{3}"
+pactl list sinks short| parse "{id}	{name}	{1}	{2}	{status}"
+pactl list sinks short| parse "{id}	{name}	{1}	{2}	{status}"|select id name status
+pactl list sinks short| detect columns
+pactl list sinks short| detect columns --no-headers
+pactl list sinks short| detect columns --no-headers --combine-columns 0..1
+pactl list sinks short| detect columns --no-headers|columns
+pactl list sinks short| detect columns --no-headers|headers
+pactl list sinks short| detect columns --no-headers|prepend [a b c d e f]
+pactl list sinks short| detect columns --no-headers|prepend [[a b c d e f]]
+pactl list sinks short| detect columns --no-headers|prepend [[a b c d e f]]|headers
+pactl list sinks short| detect columns --no-headers
+pactl list sinks short| detect columns --no-headers --guess
+pactl list sinks short| detect columns --no-headers
+pactl list sinks short| split "\t"
+pactl list sinks short| split column "\t"
+pactl list sinks short|lines| split column "\t"
+pactl list sinks short|lines| split column "\t"|rename a
+pactl list sinks short|lines| split column "\t"|rename a b
+pactl list sinks short|lines| split column "\t"|select 1 
+pactl list sinks short|lines| split column "\t"|select 1
+pactl list sinks short|lines| split column "\t"|1 1
+pactl list sinks short|lines| split column "\t"|get 1
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|where id==36
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|where id == 36
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|where id == "36"
+"12"|int
+"12"|int int
+"12"|into int
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|into int -c id
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|into int -c [id]
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|into value -c [id]
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|into value
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|into value|where id == 36
+pactl list sinks short|lines| split column "\t"|rename id name 1 2 status|select id name status|into value
+pactl list sink-inputs short
+pactl list sink-inputs short|lines|split column "\t"|select column1|rename id
+pactl list sink-inputs short|lines|split column "\t"|rename id sink|select id sink 
+pactl list sink-inputs
+pactl list -h
+pactl -h
+pactl info -h
+pactl info 69
+pactl list 69
+pactl list sinks
+pactl list sinks|rg '^Sink #\d+'
+pactl list sinks|rg '^Sink #\d+' -h
+split column -h
+pactl list sinks|split row --regex '^Sink #\d+'
+pactl list sinks|split row --regex 'Sink #\d+'
+pactl list sinks|split row --regex 'Sink #\d+'|trim
+pactl list sinks|split row --regex 'Sink #\d+'|str trim
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| $in}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| $in|str length}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| $in|str length > 1}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|each {|| $in}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|each {|| $in + "asd"}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|each {|| $in|str length}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|each {|| $in|str length > 1}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|each {|| ($in|str length) > 1}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|parse '{a}: {b}'}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|lines|parse '{a}: {b}'}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|lines|parse -r '(.+): (.*)'}
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split column -r '\w+:$'}
+pactl list sinks
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split column --regex '\s+\w+:$'}
+'alan:'|split column -r '\w+:'
+'asdf\nalan:'|split row -r '\w+:'
+$'asdf\nalan:'|split row -r '\w+:'
+ls
+pactl list sinks| save sinks.txt
+cat sinks.txt 
+open sinks.txt
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split column --regex '\s+\w+:$'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split row --regex '\s+\w+:$'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split row --regex '\w+:'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split row --regex '\w+:\s+$'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split row --regex '^\w+:'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|parse -r '(\w+:$)(.+?)'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|parse -r '(\w+:)(.+?)'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|parse -r '(\w+:)(.+)'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|parse -r '(\w+?:)(.+)'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|parse -r '([a-zA-Z\s]+?:)(.+)'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|lines|split column '\t'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split column '\t'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|lines|split column '	'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|lines|split column '	'|group}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|lines|split column '	'|group-by}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|lines|split column '	'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace '\t' ''}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a '\t' ''}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a "^\w+:$" '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a '^\w+:$' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a '^\w+:' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a '\w+:' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r '[a-zA-Z]+:' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r '^[a-zA-Z]+:' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r '\A[a-zA-Z]+:' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r '[a-zA-Z]+?:$' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r '[a-zA-Z]+?:' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^[a-zA-Z]+:' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^[a-zA-Z]+:$' '[[$0]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'|prepend "[[Content]]"}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'|prepend "[[Content]]"|join}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("[[Content]]" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("[[Content]]\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("[[Content]]\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'|from toml}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("[[Content]]\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("[[Content]]\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'|str replace -a -r -m '(.+?):(.+)' '$1 = "$2"'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("[[Content]]\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'|str replace -a -r -m '(.+?):(.+)' '$1 = "$2"'|from toml}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("[[Content]]\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'|str replace -a -r -m '(.+?):(.+)' '$1 = "$2"'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("Content:\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|str replace -a -r -m '(.+?):(.+)' '$1 = "$2"'}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("Content:\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|str replace -a -r -m '(.+?):(.+)' '$1 = "$2"'|from ini}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("Content:\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|str replace -a -r -m '(.+?):(.+)' '$1 = "$2"'|from toml }
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("Content:\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]' }
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| ("Content:\n" ++ $in)|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|split column -r '[.+]' }
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|split column -r '[.+]' }
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|split column -r '^[.+]' }
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|split column -r '[\w+]' }
+open sinks.txt|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|str replace -a "\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[$1]'|split column -r '\[.+\]' }
+pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}|each {|| $in|split column --regex '\s+\w+:$'}
+pactl list sinks
+[a;3]
+[a:3]
+[a,3]
+[a;4,12;32]
+[a,2;4]
+[a 2;4]
+ls
+ls|get name
+parse
+parse -h
+./audio.nu
+parse -h
+./audio.nu
+split column -h
+./audio.nu
+split column -h
+./audio.nu
+split column -h
+./audio.nu
+transpose -h
+./audio.nu
+'a'|str contains 'a'
+./audio.nu
+find -h
+length
+./audio.nu
+echo "\t"
+./audio.nu
+pactl list sinks
+./audio.nu
+pactl list sinks
+./audio.nu
+get -h
+[[a,b]; ["alan" 5] ["jose" 2]]
+[[a,b]; ["alan" 5] ["jose" 2]]|into record
+[[a,b]; ["alan" 5]]|into record
+./audio.nu
+./audio.nu device
+./audio.nu device --id
+./audio.nu --id
+./audio.nu 
+./audio.nu device
+./audio.nu
+./audio.nu --id
+./audio.nu -h
+./audio.nu --id
+./audio.nu 
+./audio.nu -h
+pactl list -h
+pactl info
+./audio.nu -h
+./audio.nu 
+./audio.nu|find --columns [state] RUNNING
+./audio.nu 
+sort-by -h
+./audio.nu 
+pactl move-sink-input 355 alsa_output.pci-0000_08_00.6.analog-stereo
+./audio.nu 
+pactl list sinks short
+./audio.nu 
+pactl list sinks|split row --regex 'Sink #\d+'
+./audio.nu 
+1&&2
+1 and 2
+true and true
+true and false
+./audio.nu 
+[a b c]
+[a b c]|find c
+[a b c]|enumerate
+[a b c]|enumerate|find b
+[a b c]|roll down 1
+[a b c]|roll down --by 1
+[a b c]|table|roll down --by 1
+[a b c]|enumerate|roll down --by 1
+[a b c]|enumerate|roll up --by 1
+./audio.nu 
+[a b c]|enumerate|find b
+[a b c]|enumerate|find b|index
+[a b c]|enumerate|describe
+[a b c]|enumerate|find b
+[a b c]|enumerate|find b|get 0
+[a b c]|enumerate|find b|get 0.index
+[a b c]|enumerate|find b|get index
+[a b c]|enumerate|find b|get index.0
+./audio.nu 
+pactl set-sink-port -h
+./audio.nu 
+./audio.nu device --active
+./audio.nu port --active
+./audio.nu port
+./audio.nu --active
+./audio.nu
+./audio.nu --active
+./audio.nu port --active
+pactl -h
+./audio.nu port
+./audio.nu device
+pactl set-default-sink alsa_output.pci-0000_08_00.6.analog-stereo
+pactl -h
+pactl get-default-sink 
+wpctl
+wpctl status
+wpctl set-default 61
+wpctl status
+wpctl set-default 60
+wpctl status
+wpctl set-default 50
+wpctl -h
+./audio.nu device
+./audio.nu port
+pactl list sinks short
+./audio.nu port
+./audio.nu device
+pactl set-default-sink alsa_output.pci-0000_08_00.6.analog-stereo
+pactl get-default-sink 
+ls
+mv audio.nu cycle-audio-devices.nu
+./cycle-audio-devices.nu -h
+./cycle-audio-devices.nu port -h
+./cycle-audio-devices.nu -h
+exit
+/usr/bin/mv
+ls
+cd Downloads/
+ls
+touch alan.txt
+nvim alan.txt 
+cp alan.txt jose.txt
+cmp alan.txt jose.txt
+cmp alan.txt jose.txt || echo oi
+cmp alan.txt jose.txt or echo oi
+(cmp alan.txt jose.txt) or (echo oi)
+if (cmp alan.txt jose.txt) {echo oi}
+if (cmp alan.txt jose.txt|is-not-empty) {echo oi}
+if (cmp alan.txt PlanoEnsino.pdf|is-not-empty) {echo oi}
+cmp alan.txt `Aula de C++／OO - 2021.mp4`
+'/usr/bin/mv'
+mv --help
+let mv = /usr/bin/mv
+alias mv = /usr/bin/mv
+mv
+mut alan = 'jose'
+echo $alan
+exit
+sh
+exit
