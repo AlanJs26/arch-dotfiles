@@ -1370,3 +1370,51 @@ echo $alan
 exit
 sh
 exit
+[a b;1 2]
+[[a b];1 2]
+[[a b];[1 2]]
+exit
+open /tmp/previous_sink.json
+./cycle-audio-devices.nu --debug
+./cycle-audio-devices.nu --debug|get state
+./cycle-audio-devices.nu --debug
+./cycle-audio-devices.nu --debug|select state
+./cycle-audio-devices.nu --debug|collect {||$in.0}
+./cycle-audio-devices.nu --debug|lines
+./cycle-audio-devices.nu --debug
+./cycle-audio-devices.nu|where id > 40
+./cycle-audio-devices.nu --debug|where id > 40
+./cycle-audio-devices.nu --debug
+[1 2 3]|first
+[]|first
+[]|if 1
+[]|if 1 {12}
+[]|if true {12}
+[]|if $in|is-not-empty {12}
+[]|if ($in|is-not-empty) {12}
+[1]|if ($in|is-not-empty) {12}
+./cycle-audio-devices.nu sink
+cat sinks.txt 
+cat /tmp/previous_sink.json 
+./cycle-audio-devices.nu sink; cat /tmp/previous_sink.json 
+./cycle-audio-devices.nu --debug
+./cycle-audio-devices.nu sink; cat /tmp/previous_sink.json 
+cycle-audio-devices.nu --debug
+cycle-audio-devices.nu port
+cycle-audio-devices.nu --debug
+cycle-audio-devices.nu --refresh
+cycle-audio-devices.nu --debug
+cat /tmp/previous_sink.json 
+cycle-audio-devices.nu --debug
+cycle-audio-devices.nu --active
+cycle-audio-devices.nu port --active
+cycle-audio-devices.nu --active
+cycle-audio-devices.nu port --active
+cycle-audio-devices.nu --active
+cycle-audio-devices.nu sink --active
+cycle-audio-devices.nu --active
+cycle-audio-devices.nu --refresh
+z tools
+./cycle-audio-devices.nu --debug
+./cycle-audio-devices.nu sink
+./cycle-audio-devices.nu port

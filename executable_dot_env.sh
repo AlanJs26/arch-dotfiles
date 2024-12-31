@@ -39,7 +39,19 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 # Intel Quartus
 export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
 
-
-if [ -f ~/.config/environment.d/profile.conf ]; then
-	eval "$(cat ~/.config/environment.d/profile.conf|xargs -i echo export {})"
+if [[ "$XDG_SESSION_TYPE" != "wayland" ]]; then
+  fcitx_env=$(cat <<EOF
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS="@im=fcitx"
+GLFW_IM_MODULE=ibus
+QT_QPA_PLATFORMTHEME=gtk2
+EOF
+)
+  eval "$(cat <<<$fcitx_env|awk '!/^\s*#/'|xargs -i echo export {})"
+  cat <<<$fcitx_env > ~/.config/environment.d/profile.conf
 fi
+
+# if [ -f ~/.config/environment.d/profile.conf ]; then
+# 	eval "$(cat ~/.config/environment.d/profile.conf|awk '!/^\s*#/'|xargs -i echo export {})"
+# fi

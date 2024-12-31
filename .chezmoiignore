@@ -12,3 +12,4 @@ __pycache__
 .urserver/urserver.config
 .scripts/tools/tabbed
 .config/mpv
+.config/nvim

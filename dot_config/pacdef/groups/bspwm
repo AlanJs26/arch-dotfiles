@@ -4,6 +4,7 @@ gnome-themes-extra
 bibata-cursor-theme
 
 inotify-tools
+xss-lock
 
 qt5-styleplugins
 xorg-xev
@@ -16,8 +17,8 @@ xdo
 xqp
 bspwm
 sxhkd
-picom-simpleanims-next-git
 xorg-xmodmap
+picom-git
 
 betterlockscreen
 

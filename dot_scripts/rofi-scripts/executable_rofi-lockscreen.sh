@@ -2,17 +2,16 @@
 
 mode="$(echo "enable
 disable
-lock"|rofi -dmenu -p 'lockscreen')"
+lock" | rofi -dmenu -p 'lockscreen')"
 
 case "$mode" in
-    enable)
-        $HOME/.local/bin/lockscreen.sh start
-    ;;
-    disable)
-        $HOME/.local/bin/lockscreen.sh disable
-    ;;
-    lock)
-        $HOME/.local/bin/lockscreen.sh lock
-    ;;
+enable)
+  $HOME/.scripts/tools/lockscreen.sh start
+  ;;
+disable)
+  $HOME/.scripts/tools/lockscreen.sh disable
+  ;;
+lock)
+  $HOME/.scripts/tools/lockscreen.sh lock
+  ;;
 esac
-

@@ -1,0 +1,10 @@
+pkgs:
+  custom:
+  - tabbed
+  - alan
+  - testpkg
+  pacman:
+  - vim
+  - yt-dlp
+  - npm
+  - alan

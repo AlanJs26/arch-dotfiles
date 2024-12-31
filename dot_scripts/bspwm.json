@@ -24,7 +24,8 @@
     "always": [
       "xmodmap $HOME/.config/X11/xmodmap",
       "rm /tmp/.evrouter:0||true",
-      "$TOOLS/setup-monitors.sh"
+      "$TOOLS/setup-monitors.sh",
+      "cycle-audio-devices.nu --refresh"
     ]
   }
 }

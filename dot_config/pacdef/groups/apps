@@ -1,5 +1,6 @@
 [arch]
 localsend-bin
+mupdf
 
 libreoffice-still
 
@@ -89,6 +90,7 @@ obs-studio
 [python]
 pdfarranger
 meson
+asciidoc
 
 Jinja2
 MarkupSafe

@@ -41,7 +41,6 @@ super + shift + y
 # Hide polybar
 super + y
 	polybar-hide-monitor.sh $(bspc query -M -m .focused --names)
-  
 
 # Screenshot region
 Print
@@ -92,10 +91,6 @@ super + @button2
 # Change Monitors (fn + F09)
 XF86Mail
 	$SCRIPTS/rofi-scripts/rofi-monitors.sh
-
-# Sound Manager (fn + F12)
-XF86Search 
-	archdots launch sound_manager
 
 # Terminal Emulator
 super + Return
@@ -163,12 +158,18 @@ super + alt + a
 
 # Cicle all scratchpad windows
 super + shift + a
-	scratchpad.py ".*" --behaviour i3 --not_class "$(archdots settings '.apps.pdf_viewer' -r)|qalculate-gtk" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
+	scratchpad.py ".*" --behaviour i3 --not_class "$(archdots settings '.apps.pdf_viewer' -r)|qalculate-gtk|com-azefsw-audioconnect-desktop-app-MainKt" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
 
 # Youtube Music or MPV (scratchpad)
 super + ctrl + z
 	scratchpad.py "(YouTube Music)|mpv|Spotify" --behaviour toggleall --floating
 
+# Sound Manager (fn + F12) (scratchpad)
+XF86Search 
+  app_name=$(archdots settings .apps.sound_manager -r);\
+  scratchpad.py --instance $app_name --behaviour nomark --run $app_name
+
+  
 # Floating nemo (scratchpad)
 super + ctrl + x
 	scratchpad.py --instance "nemo" --behaviour nomark --run "nemo --class '__float_center__'"
@@ -277,10 +278,6 @@ super + ctrl + a
 #                            Focus Windows                            #
 #######################################################################
 
-# Focus next tabbed window
-# Alt + Tab
-# 	tabc 
-
 # Focus Window
 super + {h,j,k,l}
 	focusmover.sh {west,south,north,east}
@@ -302,14 +299,6 @@ super + {_,shift + }x
 	else;\
 		bspc node -f {next,prev}.local.\!hidden.window;\
 	fi
-
-# Focus the next/previous tab of monocle window
-# alt + {_,shift + }~Tab
-# 	if   [ "$(bspc query -T -n focused|jq .client.className -r)" != "tabbed" ]\
-# 		&& [ "$(bspc query -T -d focused|jq .userLayout -r)" = "monocle" ]; then;\
-# 			bspc node -f {next,prev}.local.\!hidden.\!floating.window;\
-# 	fi
-# 	# bspc node -f @{parent,brother}
 
 # Switch window on alt release
 alt + {shift + ,_}~Tab

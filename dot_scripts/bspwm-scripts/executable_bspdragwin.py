@@ -1,4 +1,4 @@
-#!/bin/python3.11
+#!/bin/python3
 
 from sys import argv
 import zmq
@@ -161,6 +161,7 @@ while True:
             mouse_y = pointer.root_y
 
             desktop = bspc.query.desktops('focused').pop()
+            if not desktop: continue
 
             node_id = find_node_below(desktop.root, mouse_x, mouse_y, focused_node.id, receptacles)
 

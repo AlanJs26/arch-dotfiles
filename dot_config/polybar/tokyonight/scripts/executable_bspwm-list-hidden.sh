@@ -36,7 +36,7 @@ if [ $(bspc query -N -n .leaf.hidden|wc -l) -gt 0 ]; then
             Qalculate-gtk)
                 icon=""
                 ;;
-            Spotify|"YouTube Music")
+            Spotify|"YouTube Music"|"com.github.th_ch.youtube_music")
                 icon=""
                 ;;
             com-azefsw-audioconnect-desktop-app-MainKt)

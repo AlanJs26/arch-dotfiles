@@ -8,12 +8,19 @@ id=${1?}
 
 spotify() { state=floating; }
 
+$TOOLS/cycle-audio-devices.nu --refresh
+
 get_win_name() {
     xprop -id $1|rg "^WM_NAME.+\"(.+?)\"" -r '$1'
 }
 
 if [ "$class" = "__main__.py" ] && grep -q "TexText" <<< "$(get_win_name $1)"; then
     state=floating; 
+fi
+
+
+if [ "$class" = "Stremio" ]; then
+  $HOME/.scripts/tools/lockscreen.sh disable
 fi
 
 case $instance.$class in
@@ -24,6 +31,7 @@ case $instance.$class in
         esac
     ;;
 esac
+
 
 printf '%s ' \
     ${border:+"border=$border"} \

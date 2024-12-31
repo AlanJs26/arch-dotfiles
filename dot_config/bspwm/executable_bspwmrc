@@ -24,6 +24,7 @@ archdots autostart
 
 # bspc configurations
 bspc config focused_border_color "#414f6e"
+bspc config normal_border_color "#2a2d3d"
 
 bspc config border_width 2
 bspc config window_gap 12
@@ -56,12 +57,14 @@ floating_windows=(
   "mpv"
   "Onboard"
   "YouTube Music"
+  "com.github.th_ch.youtube_music"
   "com-st-microxplorer-maingui-STM32CubeMX"
   "__float__:*:*"
   "org.gnome.clocks"
   "File-roller"
   "Syncthing GTK"
   "fcitx5-config-qt"
+  "pavucontrol"
 )
 
 pseudo_tiled_windows=(
@@ -94,7 +97,6 @@ bspc rule -a "__pluto__:*:*" hidden=on
 bspc rule -a peek manage=off
 bspc rule -a fcitx manage=off
 # bspc rule -a "MATLAB R2022b - academic use" manage=off
-# bspc rule -a "Com.github.Aylur.ags" manage=off
 
 bspc config external_rules_command $BSPDIR/external_rules.sh
 

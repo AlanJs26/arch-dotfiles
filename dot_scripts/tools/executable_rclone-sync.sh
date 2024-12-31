@@ -19,7 +19,8 @@ fi
 
 pathlinks=(
   "/mnt/DiscoExterno/_Arquivos/PDFs;drive-usp:PDFs"
-  "/mnt/DiscoExterno/_Codes/Markdown/USP;drive-usp:Obsidian/USP"
+  "/mnt/DiscoExterno/ObsidianVaults/USP;drive-usp:Obsidian/USP"
+  "/mnt/DiscoExterno/_Codes;drive-usp:Codes"
 )
 
 exec > >(tee -a $HOME/.rclone.log) 2>&1
@@ -34,7 +35,7 @@ for item in ${pathlinks[@]}; do
     rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access --resync || should_report_error=1
   else
 
-    ignored_files=$(fd '\.venv|\.CondaPkg' ${item_split[0]} --hidden --type=directory | rg "${item_split[0]}" -r '' | awk '{print "--exclude '"'"'" $0 "'"'"'" }' | rg -U '\n' -r '')
+    ignored_files=$(fd '^(\.?venv|\.CondaPkg|target|build|node_modules)$' ${item_split[0]} --no-ignore --hidden --type=directory | rg "${item_split[0]}" -r '' | awk '{print "--exclude '"'"'" $0 "'"'"'" }' | rg -U '\n' -r '')
 
     rclone_command=''
     if [[ $SHLVL -lt 4 ]] && [ "$1" != "--log" ]; then

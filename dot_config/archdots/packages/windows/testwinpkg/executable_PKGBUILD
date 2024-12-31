@@ -1,0 +1,17 @@
+description='a testpkg for testing in windows'
+url='https://example.com'
+depends=('tabbed' 'pacman:ncdu')
+source=()
+platform='linux'
+
+install() {
+  echo testwinpkg install script
+}
+
+uninstall() {
+  echo testwinpkg uninstall script
+}
+
+check() {
+  echo testwinpkg check script
+}

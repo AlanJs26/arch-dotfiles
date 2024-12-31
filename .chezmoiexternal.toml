@@ -2,3 +2,7 @@
     type = "git-repo"
     url = "git@github.com:AlanJs26/mpv.git"
     refreshPeriod = "168h"
+[".config/nvim"]
+    type = "git-repo"
+    url = "git@github.com:AlanJs26/nvim_config.git"
+    refreshPeriod = "168h"

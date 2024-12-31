@@ -5,7 +5,6 @@ ZSH_THEME=""
 ZSHZ_TRAILING_SLASH=true
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-# plugins=(git fzf)
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
@@ -42,13 +41,12 @@ zinit light hlissner/zsh-autopair
 zinit light jirutka/zsh-shift-select 
 
 ### End of Zinit Plugins
-#
 
 # Load envirounment variables
 source ~/.env.sh
 
 ### Yazi Config
-function ya() {
+function lf() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXX")"
 	yazi "$@" --cwd-file="$tmp"
 	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
@@ -56,7 +54,6 @@ function ya() {
 	fi
 	rm -f -- "$tmp"
 }
-alias lf=ya
 ### End of Yazi Config
 
 ### Aliases
@@ -75,6 +72,9 @@ alias copy="xclip -sel copy"
 
 alias lddtree="libtree"
 
+alias run="run.sh"
+alias open="run.sh"
+
 function zz(){
     result="$(zoxide query $@|head -n1)"
 
@@ -83,7 +83,7 @@ function zz(){
 }
 
 function rm(){
-    chezmoi remove --force $@ 2> /dev/null || /bin/rm $@
+    chezmoi destroy --force $@ 2> /dev/null || /bin/rm $@
 }
 
 ### End of Aliases
@@ -102,9 +102,4 @@ eval "$(atuin init zsh)"
 bindkey '^r' _atuin_search_widget
 ### End of Atuin Setup
 
-### NVM setup
-# source /usr/share/nvm/init-nvm.sh
-### End of NVM setup
-
-
-# LS_COLORS="$(vivid generate tokyonight-storm)"
+export PATH="/usr/local/bin/bin:$PATH"
