@@ -10,18 +10,17 @@ install() {
   cd "${pkgname}-${pkgver}"
 
   make
+  mkdir -p ~/.local/bin
+  mv tabbed ~/.local/bin
 }
 
 uninstall() {
   cd "$pkgname-$pkgver"
 
   make clean
+  rm ~/.local/bin/tabbed
 }
 
 check() {
-  cd "${pkgname}-${pkgver}"
-
-  if [ ! -f ./tabbed ]; then
-    exit 1
-  fi
+  which tabbed
 }

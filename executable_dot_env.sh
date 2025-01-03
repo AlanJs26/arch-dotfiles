@@ -25,6 +25,8 @@ done
 
 SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
+# export ARCHDOTS=dots
+
 export SHELL="$(which zsh)";
 export VISUAL=nvim;
 export EDITOR=nvim;
@@ -35,6 +37,7 @@ export ANDROID_HOME=$HOME/android-sdk
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 export _JAVA_AWT_WM_NONREPARENTING=1
+
 
 # Intel Quartus
 export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"

@@ -1,6 +1,8 @@
 archdots
 README.md
 .venv
+*.venv
+./**/.venv
 .git
 *.git
 ./**/.git

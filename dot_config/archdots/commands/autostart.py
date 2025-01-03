@@ -11,6 +11,9 @@ flags:
   - long: --restart
     type: bool
     help: force commands to be restarted
+  - long: --list
+    type: bool
+    help: list all configured colletions
 ARCHDOTS
 """
 
@@ -18,8 +21,8 @@ ARCHDOTS
 args = args  # type: ignore
 
 from typing import Literal
-from archdots.settings import read_config  # type: ignore
-from archdots.utils import CommandException  # type: ignore
+from archdots.settings import read_config
+from archdots.utils import CommandException
 from rich import print
 from os.path import expandvars, basename
 from os import system
@@ -39,6 +42,10 @@ config: dict = read_config()
 
 if not "autostart" in config:
     raise CommandException('there is no "autostart" entry in config.yaml')
+
+if args["list"]:
+    print(config["autostart"])
+    exit()
 
 processes = list(psutil.process_iter())
 
