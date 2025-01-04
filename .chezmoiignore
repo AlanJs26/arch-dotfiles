@@ -12,6 +12,7 @@ __pycache__
 ./**/__pycache__
 .urserver/urserver.pid
 .urserver/urserver.config
+.urserver/backup
 .scripts/tools/tabbed
 .config/mpv
 .config/nvim
