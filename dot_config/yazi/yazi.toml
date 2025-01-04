@@ -1,0 +1,4 @@
+# yazi.toml
+[manager]
+sort_by = "modified"
+sort_reverse = true

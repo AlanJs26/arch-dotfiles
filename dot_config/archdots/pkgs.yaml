@@ -1,7 +1,10 @@
 pkgs:
   custom:
-  - testpkg
   - tabbed
+  - amdgpu_pro_oglp
+  - downgrade
+  - evrouter
+  - yay
   pacman:
   - atuin
   - grub

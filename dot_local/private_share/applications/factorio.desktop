@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Factorio
+GenericName=Factorio Game
+Comment=Factorio a game of building factories
+StartupNotify=true
+Exec=bash -c '/home/alan/Games/factorio/bin/x64/factorio > /tmp/factorio.log 2>&1'
+Icon=/home/alan/Games/factorio/data/core/graphics/factorio-icon.png
+Categories=Game;
+Keywords=Games;Factorio;

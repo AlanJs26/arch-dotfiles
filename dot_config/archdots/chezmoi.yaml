@@ -1,35 +1,35 @@
 chezmoi:
-# - ~/.local/share/applications
-# - ~/.scripts
+- ~/.local/share/applications
+- ~/.scripts
 - ~/.config/autostart
 - ~/.config/bspwm
 - ~/.config/btop
 - ~/.config/ctpv
-# - ~/.config/direnv
-# - ~/.config/dunst
-# - ~/.config/environment.d
-# - ~/.config/evremap
-# - ~/.config/evrouter
-# - ~/.config/eww
-# - ~/.config/feh
-# - ~/.config/gtk-2.0
-# - ~/.config/gtk-3.0
-# - ~/.config/hypr
-# - ~/.config/jgmenu
-# - ~/.config/kitty
-# - ~/.config/nemo
-# - ~/.config/pacdef
-# - ~/.config/picom
-# - ~/.config/polybar
-# - ~/.config/rofi
-# - ~/.config/sioyek
-# - ~/.config/sxhkd
-# - ~/.config/thefuck
-# - ~/.config/waybar
-# - ~/.config/X11
-# - ~/.config/yay
+- ~/.config/direnv
+- ~/.config/dunst
+- ~/.config/environment.d
+- ~/.config/evremap
+- ~/.config/evrouter
+- ~/.config/eww
+- ~/.config/feh
+- ~/.config/gtk-2.0
+- ~/.config/gtk-3.0
+- ~/.config/hypr
+- ~/.config/jgmenu
+- ~/.config/kitty
+- ~/.config/nemo
+- ~/.config/pacdef
+- ~/.config/picom
+- ~/.config/polybar
+- ~/.config/rofi
+- ~/.config/sioyek
+- ~/.config/sxhkd
+- ~/.config/thefuck
+- ~/.config/waybar
+- ~/.config/X11
+- ~/.config/yay
 - ~/.zshrc
 - ~/.Xresources
 - ~/.env.sh
 - ~/.bashrc
-# - ~/.urserver
+- ~/.urserver

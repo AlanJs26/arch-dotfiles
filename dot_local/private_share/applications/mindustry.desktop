@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Mindustry
+GenericName=Mindustry Game
+Comment=Mindustry, a game of building factories
+TryExec=/home/alan/Games/mindustry-linux-64-bit/Mindustry
+StartupNotify=true
+Exec=/home/alan/Games/mindustry-linux-64-bit/Mindustry
+Icon=/home/alan/Games/mindustry-linux-64-bit/Mindustry_Icon.png
+Categories=Game;
+Keywords=Games;Mindustry;
