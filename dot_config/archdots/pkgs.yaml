@@ -4,7 +4,7 @@ pkgs:
   - amdgpu_pro_oglp
   - downgrade
   - evrouter
-  - yay
+  # - yay
   pacman:
   - atuin
   - grub
