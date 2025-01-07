@@ -9,7 +9,6 @@ autostart:
 - commands:
   - fcitx5 -d
   - syncthing serve --no-browser --logfile=default
-  - dunst
   - nm-applet
   - picom
   - evrouter --config $HOME/.config/evrouter/.evrouterrc /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse
@@ -22,6 +21,7 @@ autostart:
   - unclutter --timeout 10 --exclude-root
   - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
   - syncthing-gtk --minimized
+  - dunst
   match_method: name
   name: programs
 - commands:
@@ -38,6 +38,15 @@ autostart:
   daemon: false
   name: always
   priority: 10
+- commands:
+  - fcitx5 -d,
+  - syncthing serve --no-browser --logfile=default,
+  - evremap remap ~/.config/evremap/evremap.toml,
+  - nm-applet,
+  - greenclip daemon,
+  - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+  match_method: name
+  name: hyprland_programs
 backup:
 - action: copy
   destination: drive-usp:PDFs
@@ -57,3 +66,4 @@ backup:
 import:
 - ./chezmoi.yaml
 - ./pkgs.yaml
+- ./hyprland.yaml

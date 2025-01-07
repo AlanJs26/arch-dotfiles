@@ -1,0 +1,74 @@
+{
+  "bar.layouts": {
+    "0": {
+      "left": [
+        "dashboard",
+        "workspaces"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "systray",
+        "volume",
+        "network",
+        "clock",
+        "notifications"
+      ]
+    },
+    "1": {
+      "left": [
+        "dashboard",
+        "workspaces"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "clock",
+        "notifications"
+      ]
+    },
+    "2": {
+      "left": [
+        "dashboard",
+        "workspaces"
+      ],
+      "middle": [
+        "media"
+      ],
+      "right": [
+        "volume",
+        "clock",
+        "notifications"
+      ]
+    }
+  },
+  "bar.workspaces.ignored": "-\\d+",
+  "theme.font.name": "Noto Sans CJK JP",
+  "theme.font.label": "Noto Sans CJK JP",
+  "theme.bar.scaling": 75,
+  "bar.autoHide": "fullscreen",
+  "bar.workspaces.show_icons": true,
+  "bar.clock.format": "%d %b  %H:%M",
+  "bar.media.show_active_only": false,
+  "bar.media.rightClick": "playerctl next",
+  "bar.media.middleClick": "playerctl play-pause",
+  "bar.customModules.updates.pollingInterval": 1440000,
+  "menus.dashboard.powermenu.avatar.image": "~/.face.icon",
+  "menus.dashboard.powermenu.avatar.name": "system",
+  "menus.dashboard.shortcuts.enabled": true,
+  "menus.dashboard.directories.enabled": false,
+  "menus.clock.time.military": false,
+  "menus.clock.weather.enabled": true,
+  "terminal": "kitty",
+  "menus.dashboard.shortcuts.left.shortcut1.command": "dots launch browser",
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Browser",
+  "menus.dashboard.shortcuts.left.shortcut2.command": "dots launch music_player",
+  "menus.dashboard.shortcuts.left.shortcut2.tooltip": "Music Player",
+  "menus.dashboard.directories.left.directory3.label": "󰚝 Scripts",
+  "menus.dashboard.directories.left.directory3.command": "bash -c \"xdg-open $HOME/.scripts/\"",
+  "menus.dashboard.directories.right.directory2.command": "bash -c \"xdg-open $HOME/Imagens/\"",
+  "menus.dashboard.directories.right.directory1.command": "bash -c \"xdg-open $HOME/Documentos/\""
+}

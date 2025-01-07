@@ -94,15 +94,15 @@ XF86Mail
 
 # Terminal Emulator
 super + Return
-	archdots launch terminal
+	dots launch terminal
 
 # Web Browser
 super + shift + Return
-	archdots launch browser
+	dots launch browser
 
 # File-explorer
 super + shift + n
-	archdots launch file_explorer
+	dots launch file_explorer
 
 # Launch Programs
 super + @space
@@ -158,7 +158,7 @@ super + alt + a
 
 # Cicle all scratchpad windows
 super + shift + a
-	scratchpad.py ".*" --behaviour i3 --not_class "$(archdots settings '.apps.pdf_viewer' -r)|qalculate-gtk|com-azefsw-audioconnect-desktop-app-MainKt" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
+	scratchpad.py ".*" --behaviour i3 --not_class "$(dots settings query '.apps.pdf_viewer' --raw)|qalculate-gtk|com-azefsw-audioconnect-desktop-app-MainKt" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
 
 # Youtube Music or MPV (scratchpad)
 super + ctrl + z
@@ -166,7 +166,7 @@ super + ctrl + z
 
 # Sound Manager (fn + F12) (scratchpad)
 XF86Search 
-  app_name=$(archdots settings .apps.sound_manager -r);\
+  app_name=$(dots settings query .apps.sound_manager --raw);\
   scratchpad.py --instance $app_name --behaviour nomark --run $app_name
 
   
@@ -184,7 +184,7 @@ super + shift + s
 
 # Pdf Viewer (scratchpad)
 super + shift + backslash
-	scratchpad.py --class "$(archdots settings '.apps.pdf_viewer' -r)" --behaviour swap
+	scratchpad.py --class "$(dots settings query '.apps.pdf_viewer' --raw)" --behaviour swap
 
 # Qalculate (scratchpad)
 super + ctrl + backslash
@@ -211,11 +211,11 @@ super + alt + r
 
 # Restart scripts
 super + shift + r
-	archdots autostart --restart scripts && notify-send -a bspwm 'Bspwm' 'Restarted all scripts' -u low;
+	dots autostart --restart scripts && notify-send -a bspwm 'Bspwm' 'Restarted all scripts' -u low;
 
 # Restart programs
 super + shift + alt + r
-	archdots autostart --restart programs && notify-send -a bspwm 'Bspwm' 'Restarted all autostart programs' -u low;
+	dots autostart --restart programs && notify-send -a bspwm 'Bspwm' 'Restarted all autostart programs' -u low;
 
 # Close and kill
 super + {shift + ,alt + }q

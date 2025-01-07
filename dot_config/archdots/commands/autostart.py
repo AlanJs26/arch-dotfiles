@@ -22,7 +22,7 @@ args = args  # type: ignore
 
 from typing import Literal
 from archdots.settings import read_config
-from archdots.utils import CommandException
+from archdots.exceptions import CommandException
 from rich import print
 from os.path import expandvars, basename
 from os import system

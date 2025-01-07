@@ -3,8 +3,6 @@ source $HOME/.env.sh
 
 archdots alternate_config bspwm
 
-crontab -l
-
 # fix cursor, keyboard and numlock
 xsetroot -cursor_name left_ptr
 setxkbmap -model abnt2 -layout br -variant abnt2
@@ -16,7 +14,7 @@ killall sxhkd
 sxhkd &
 
 # autostart scripts and programs
-archdots autostart
+dots autostart programs scripts
 
 # restart urserver
 /opt/urserver/urserver-stop

@@ -22,4 +22,4 @@ extra_args="$(echo $@ | awk -F " -- " '{print $2}')"
 dependencies=$(echo "$(pactree $packages -l -u | normalize) $(pactree $packages -r -l -u)" | normalize)
 # dependencies=$(echo "$(pactree $packages -r -l -u)" | normalize)
 
-yay -Sy $dependencies $extra_args
+yay -Sy --needed $dependencies $extra_args

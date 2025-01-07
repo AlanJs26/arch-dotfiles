@@ -16,7 +16,15 @@ preserve_aspect = true
 [scratchpads.music]
 animation = "fromBottom"
 command = "youtube-music"
-class = "YouTube Music"
+class = "com.github.th_ch.youtube_music"
+size = "70% 75%"
+preserve_aspect = true
+margin = 150
+
+[scratchpads.filemanager]
+animation = "fromBottom"
+command = "nemo --class __float__Nemo"
+class = "__float__Nemo"
 size = "70% 75%"
 preserve_aspect = true
 margin = 150

@@ -4,7 +4,8 @@ pkgs:
   - amdgpu_pro_oglp
   - downgrade
   - evrouter
-  # - yay
+  - rofi-power-menu
+  - yay
   pacman:
   - atuin
   - grub
@@ -14,7 +15,6 @@ pkgs:
   - rsync
   - texlive-mathscience
   - lxappearance
-  - yay
   - eza
   - texlive-basic
   - evremap-git
@@ -35,7 +35,6 @@ pkgs:
   - xss-lock
   - ncdu
   - eww-git
-  - pacdef
   - gst-plugins-base
   - mkinitcpio
   - mupdf
@@ -243,7 +242,6 @@ pkgs:
   - linux-firmware
   - qalculate-gtk
   - noto-fonts-cjk
-  - rofi-power-menu
   - nemo-image-converter
   - dunst
   - nano
@@ -252,7 +250,6 @@ pkgs:
   - lightdm
   - xqp
   - ripgrep
-  - evrouter
   - vim
   - yt-dlp
   - docker-compose
@@ -262,3 +259,8 @@ pkgs:
   - nvm
   - thefuck
   - vhs
+  - edk2-shell
+  - ags-hyprpanel-git
+  - brightnessctl
+  - power-profiles-daemon
+  - swww
