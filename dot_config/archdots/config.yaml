@@ -37,16 +37,8 @@ autostart:
   - cycle-audio-devices.nu --refresh
   daemon: false
   name: always
+  run_with: [scripts, programs]
   priority: 10
-- commands:
-  - fcitx5 -d,
-  - syncthing serve --no-browser --logfile=default,
-  - evremap remap ~/.config/evremap/evremap.toml,
-  - nm-applet,
-  - greenclip daemon,
-  - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-  match_method: name
-  name: hyprland_programs
 backup:
 - action: copy
   destination: drive-usp:PDFs

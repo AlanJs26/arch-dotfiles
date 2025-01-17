@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Untitled Goose Game
+Exec="/home/alan/Games/Untitled Goose Game/run.sh"
+Exec=bash -c 'SDL_VIDEODRIVER=x11 "/home/alan/Games/Untitled Goose Game/run.sh" > /tmp/goose.log 2>&1'
+Icon=/home/alan/Games/Untitled Goose Game/Untitled_Data/Resources/UnityPlayer.png
+Type=Application
+Categories=Game;
+StartupNotify=true
+Comment=Start Untitled Goose Game
+Comment[ru_RU]=Запустить Untitled Goose Game

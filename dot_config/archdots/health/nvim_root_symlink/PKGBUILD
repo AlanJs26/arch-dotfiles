@@ -1,0 +1,39 @@
+description='creates a symlink between users neovim config and root'
+url=''
+depends=('pacman:neovim-nightly-bin' 'pacman:git')
+source=()
+# make this health script platform specific. Supported platforms: linux, windows
+# platform='linux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script is ran inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function is used to configure the health script
+install() {
+  echo "symlinkinkg user's neovim config to root"
+  sudo ln -s $HOME/.config/nvim /root/.config/nvim
+  touch configured.txt
+}
+
+# This function is used to unconfigure the health script
+uninstall() {
+  if [ -L "/root/.config/nvim" ]; then
+    echo "removing symlink"
+    sudo rm /root/.config/nvim
+  fi
+  if [ -f configured.txt ]; then
+    rm configured.txt
+  fi
+}
+
+# This function should end with exit code 0 when the health script is configured
+# and end with exit code 1 when it is unconfigured
+check() {
+  if [ ! -f configured.txt ]; then
+    exit 1
+  fi
+}
+

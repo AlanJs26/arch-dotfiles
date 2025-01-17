@@ -35,7 +35,7 @@ for item in ${pathlinks[@]}; do
     rclone bisync "${item_split[0]}" "${item_split[1]}" --verbose --check-access --resync || should_report_error=1
   else
 
-    ignored_files=$(fd '^(\.?venv|\.CondaPkg|target|build|node_modules)$' ${item_split[0]} --no-ignore --hidden --type=directory | rg "${item_split[0]}" -r '' | awk '{print "--exclude '"'"'" $0 "'"'"'" }' | rg -U '\n' -r '')
+    ignored_files=$(fd '^(\.?venv|\.CondaPkg|target|build|node_modules|\.cache)$' ${item_split[0]} --no-ignore --hidden --type=directory | rg "${item_split[0]}" -r '' | awk '{print " --exclude '"'"'" $0 "'"'"'" }' | rg -U '\n' -r '')
 
     rclone_command=''
     if [[ $SHLVL -lt 4 ]] && [ "$1" != "--log" ]; then
@@ -49,6 +49,7 @@ for item in ${pathlinks[@]}; do
       rclone_command="rclone sync $ignored_files '${item_split[0]}' '${item_split[1]}' --verbose >>$HOME/.rclone.log 2>&1 || should_report_error=1"
       # rclone copy $ignored_files "${item_split[0]}" "${item_split[1]}" --verbose >>$HOME/.rclone.log 2>&1 || should_report_error=1
     fi
+    echo "$rclone_command"
     eval $rclone_command
   fi
 

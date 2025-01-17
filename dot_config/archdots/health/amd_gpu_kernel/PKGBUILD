@@ -1,0 +1,54 @@
+description='setup all necessary configuration to make gpu'"'"'s from amd work on x11'
+url=''
+depends=()
+source=()
+# make this health script platform specific. Supported platforms: linux, windows
+# platform='linux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script is ran inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function is used to configure the health script
+install() {
+  echo "message from install() of amd_gpu_kernel"
+
+  user="$(id -nu 1000)"
+  HOME="/home/$user"
+
+  echo "Adding amd radeon configuration to /etc/modprobe.d/"
+
+  cat "$PKGPATH/amdgpu.conf" | sudo dd of=/etc/modprobe.d/amdgpu.conf
+  cat "$PKGPATH/radeon.conf" | sudo dd of=/etc/modprobe.d/radeon.conf
+
+  cat "$PKGPATH/20-amdgpu.conf" | sudo dd of=/etc/X11/xorg.conf.d/20-amdgpu.conf
+
+  cat "$PKGPATH/mkinitcpio_amdgpu.conf" | sudo dd of=/etc/mkinitcpio.conf.d/mkinitcpio_amdgpu.conf
+
+  cat /etc/mkinitcpio.conf | rg --passthrough '^MODULES=.+' -r 'MODULES=(amdgpu radeon)' | sudo dd of=/etc/mkinitcpio.conf
+
+  sudo mkinitcpio -P
+}
+
+# This function is used to unconfigure the health script
+uninstall() {
+  sudo rm /etc/modprobe.d/amdgpu.conf
+  sudo rm /etc/modprobe.d/radeon.conf
+  sudo rm /etc/X11/xorg.conf.d/20-amdgpu.conf
+  sudo rm /etc/mkinitcpio.conf.d/mkinitcpio_amdgpu.conf
+
+  cat /etc/mkinitcpio.conf | rg --passthrough 'MODULES=(amdgpu radeon)' -r 'MODULES=()' | sudo dd of=/etc/mkinitcpio.conf
+
+  sudo mkinitcpio -P
+}
+
+# This function should end with exit code 0 when the health script is configured
+# and end with exit code 1 when it is unconfigured
+check() {
+  if [[ ! -f /etc/modprobe.d/amdgpu.conf ]]; then
+    echo 1
+  fi
+}
+

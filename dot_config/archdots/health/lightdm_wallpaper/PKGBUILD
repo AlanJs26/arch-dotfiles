@@ -1,0 +1,38 @@
+description='sets lightdm wallpaper'
+url=''
+depends=('pacman:lightdm' 'pacman:lightdm-gtk-greeter')
+source=()
+# make this health script platform specific. Supported platforms: linux, windows
+# platform='linux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script is ran inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function is used to configure the health script
+install() {
+  sudo mkdir -p /usr/share/pixmaps/
+  sudo mkdir -p /etc/lightdm
+  sudo cp $PKGPATH/lightdm_background.png /usr/share/pixmaps/
+  sudo cp $PKGPATH/lightdm_profile.png /usr/share/pixmaps/
+
+  sudo cp $PKGPATH/lightdm.conf /etc/lightdm
+  sudo cp $PKGPATH/lightdm-gtk-greeter.conf /etc/lightdm
+}
+
+# This function is used to unconfigure the health script
+uninstall() {
+  sudo pacman -Rn lightdm lightdm-gtk-greeter
+  sudo pacman -Sy lightdm lightdm-gtk-greeter
+}
+
+# This function should end with exit code 0 when the health script is configured
+# and end with exit code 1 when it is unconfigured
+check() {
+  if [ ! -f "/usr/share/pixmaps/lightdm_background.png" ]; then
+    echo 1
+  fi
+}
+

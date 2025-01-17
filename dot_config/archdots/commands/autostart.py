@@ -36,6 +36,7 @@ class CollectionModel(BaseModel):
     commands: list[str]
     priority: int = 1
     daemon: bool = True
+    run_with: list[str] = []
 
 
 config: dict = read_config()
@@ -50,7 +51,7 @@ if args["list"]:
 processes = list(psutil.process_iter())
 
 collections = sorted(
-    [CollectionModel(**c) for c in config["autostart"]],
+    [CollectionModel.model_validate(c) for c in config["autostart"]],
     key=lambda c: c.priority,
     reverse=True,
 )
@@ -58,7 +59,8 @@ collections = sorted(
 if target_collections := args["collection"]:
     collections = list(
         filter(
-            lambda c: c.name in target_collections or c.priority > 1,
+            lambda c: c.name in target_collections
+            or any(el in target_collections for el in c.run_with),
             collections,
         )
     )

@@ -1,0 +1,35 @@
+description='setup atuin terminal history logion'
+url=''
+depends=('pacman:atuin' 'pacman:gum' 'pacman:ripgrep')
+source=()
+# make this health script platform specific. Supported platforms: linux, windows
+# platform='linux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script is ran inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function is used to configure the health script
+install() {
+  if gum confirm "Have you already registered to Atuin?"; then
+    atuin login
+  else
+    atuin register
+  fi
+  atuin import auto
+  atuin sync
+}
+
+# This function is used to unconfigure the health script
+uninstall() {
+  atuin logout
+  atuin history prune
+}
+
+# This function should end with exit code 0 when the health script is configured
+# and end with exit code 1 when it is unconfigured
+check() {
+  atuin status | rg 'Username: .{2,}'
+}

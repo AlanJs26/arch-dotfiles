@@ -33,3 +33,4 @@ chezmoi:
 - ~/.env.sh
 - ~/.bashrc
 - ~/.urserver
+- ~/.config/archdots

@@ -52,7 +52,7 @@
   "bar.autoHide": "fullscreen",
   "bar.workspaces.show_icons": true,
   "bar.clock.format": "%d %b  %H:%M",
-  "bar.media.show_active_only": false,
+  "bar.media.show_active_only": true,
   "bar.media.rightClick": "playerctl next",
   "bar.media.middleClick": "playerctl play-pause",
   "bar.customModules.updates.pollingInterval": 1440000,

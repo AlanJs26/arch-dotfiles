@@ -1,0 +1,20 @@
+autostart:
+- commands:
+  - fcitx5 -d
+  - syncthing serve --no-browser --logfile=default
+  - evremap remap ~/.config/evremap/evremap.toml
+  - nm-applet
+  - greenclip daemon
+  - hyprpanel
+  - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+  match_method: name
+  name: hyprland_programs
+- commands:
+  - xmodmap $HOME/.config/X11/xmodmap
+  - rm /tmp/.evrouter:0||true
+  - killall dunst||true
+  - cycle-audio-devices.nu --refresh
+  daemon: false
+  name: always_hyprland
+  run_with: [hyprland_programs]
+  priority: 10
