@@ -13,6 +13,7 @@ window_class
 window_name
 kill_window
 save_to_obsidian
+save_to_thunderatz
 zoxide' | rofi -dmenu -p 'rofi')"
 
 ROFI_SCRIPTS=$SCRIPTS/rofi-scripts
@@ -64,6 +65,9 @@ window_name)
   ;;
 save_to_obsidian)
   $ROFI_SCRIPTS/rofi-save-to-obsidian.nu
+  ;;
+save_to_thunderatz)
+  $ROFI_SCRIPTS/rofi-save-to-obsidian.nu --subfolder ThundeRatz
   ;;
 *)
   echo "unknown argument"

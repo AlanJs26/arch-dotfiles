@@ -14,11 +14,12 @@ killall sxhkd
 sxhkd &
 
 # autostart scripts and programs
-dots autostart programs scripts
-
-# restart urserver
-/opt/urserver/urserver-stop
-/opt/urserver/urserver-start --no-manager --no-notify &
+if [ -f ~/.cache/archdots/autostart.sh ] && [ ! -f /tmp/executed_autostart ]; then
+  ~/.cache/archdots/autostart.sh
+  touch /tmp/executed_autostart
+else
+  dots autostart programs scripts
+fi
 
 # bspc configurations
 bspc config focused_border_color "#414f6e"
@@ -103,3 +104,9 @@ feh --bg-fill "$BSPDIR/wallpapers/hell3.png"
 
 # reload statusbar
 $HOME/.config/polybar/launch.sh --tokyonight
+
+# restart urserver
+/opt/urserver/urserver-stop
+/opt/urserver/urserver-start --no-manager --no-notify &
+
+dots health configure

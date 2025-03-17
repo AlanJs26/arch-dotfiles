@@ -1418,3 +1418,41 @@ z tools
 ./cycle-audio-devices.nu --debug
 ./cycle-audio-devices.nu sink
 ./cycle-audio-devices.nu port
+nvim /home/alan/.config/nushell/env.nu
+./cycle-audio-devices.nu sink
+exit
+./cycle-audio-devices.nu sink
+cycle-audio-devices.nu sink
+cycle-audio-devices.nu -h
+cycle-audio-devices.nu --debug
+ls /tmp/music
+cat /tmp/music
+ls /tmp
+cat /tmp/previous_sink.json
+cycle-audio-devices.nu --debug
+cycle-audio-devices.nu sink
+cycle-audio-devices.nu --debug
+cat /tmp/previous_sink.json
+cycle-audio-devices.nu --debug
+cycle-audio-devices.nu sink
+cycle-audio-devices.nu --debug
+cycle-audio-devices.nu sink
+cycle-audio-devices.nu --debug
+cycle-audio-devices.nu sink
+pgrep audiorelay
+ls ~/.config/pulse/
+ls ~/.config/pipewire/pipewire.conf.d/
+ls ~/.config/pipewire/pipewire-pulse.conf.d/
+cat ~/.config/pipewire/pipewire-pulse.conf.d/audiorelay.conf
+audiorelay 
+archlinux-java fix
+sudo archlinux-java fix
+archlinux-java fix
+audiorelay 
+ls
+ls | sort
+nvim $nu.config-path
+exit
+ls
+./rofi-save-to-obsidian.nu
+./rofi-save-to-obsidian.nu --subfolder Thunderatz

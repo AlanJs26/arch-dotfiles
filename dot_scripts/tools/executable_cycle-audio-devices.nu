@@ -23,7 +23,7 @@ let sinks = $sink_info|each {|sink|
   let state = $content|get State
   $output = ($output|insert state $state)
 
-  let id = $properties|get 'object.id'|into int
+  let id = $properties|get 'object.serial'|into int
   $output = ($output|insert id $id)
 
   let name = $properties|get 'node.name'
@@ -76,10 +76,16 @@ def set_port [sink, port, --hide_notifications] {
 def cycle_sink [] {
   let next_sink = do {
     let running_sink = $sinks|find --columns [state] RUNNING
+
+    let cache_sink = if ($cache_file|path exists) {
+      open $cache_file
+    } else {
+      []
+    }
+
     if ($running_sink|is-empty) {
-      if ($cache_file|path exists) and ($sinks|length) > 1 {
-        let sink = (open $cache_file)
-        $sinks|enumerate|find $sink.name|if ($in|is-not-empty) {
+      if ($cache_sink|is-not-empty) {
+        $sinks|enumerate|find $cache_sink.name|if ($in|is-not-empty) {
           let sink_index = $in|get index.0
           return ($sinks|enumerate|roll up --by $sink_index|skip|get item.0)
         }
@@ -87,7 +93,12 @@ def cycle_sink [] {
       return ($sinks|sort-by id|first)
     }
 
-    let possible_next_sinks = $sinks|where id > $running_sink.0.id
+    let possible_next_sinks = if ($cache_sink|is-not-empty) {
+      $sinks|where id > $cache_sink.id
+    } else {
+      $sinks|where id > $running_sink.0.id
+    }
+
     if ($possible_next_sinks|is-empty) {
       $sinks|sort-by id|first
     } else {
@@ -174,7 +185,7 @@ def "main port" [
 
     return $active_port
   }
-
+  
   let next_port = cycle_port
   set_port $next_port.sink $next_port.port
 }
@@ -186,6 +197,11 @@ def main [
   --debug
 ] { 
   if $debug {
+    let cache_sink = if ($cache_file|path exists) {
+      print "last sink"
+      print (open $cache_file)
+    }
+
     return $sinks
   }
 

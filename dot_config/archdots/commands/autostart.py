@@ -14,6 +14,9 @@ flags:
   - long: --list
     type: bool
     help: list all configured colletions
+  - long: --export
+    type: bool
+    help: export each collection as a shell script and print it contents
 ARCHDOTS
 """
 
@@ -64,6 +67,27 @@ if target_collections := args["collection"]:
             collections,
         )
     )
+
+if args["export"]:
+    script_txt = "#!/usr/bin/bash\n"
+    script_txt += (
+        r'function print_title () { echo -e "\033[0;36m::\033[0m $@"; }' + "\n"
+    )
+    for collection in collections:
+        script_txt += f"# {collection.name}\n"
+        for cmd in collection.commands:
+
+            if collection.daemon:
+                cmd_basename = basename(cmd.split()[0])
+                if collection.match_method == "name" and len(cmd_basename) < 15:
+                    script_txt += f"pgrep -x \"{cmd_basename}\" >/dev/null || (print_title '{cmd}'; {cmd}) &\n"
+                else:
+                    script_txt += f"pgrep -f \"{cmd}\" >/dev/null || (print_title '{cmd}'; {cmd}) &\n"
+            else:
+                script_txt += f"print_title '{cmd}'; {cmd}\n"
+        script_txt += "\n"
+    print(script_txt)
+    exit()
 
 
 def run_process(command):

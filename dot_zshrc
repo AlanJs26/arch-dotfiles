@@ -5,7 +5,7 @@ ZSH_THEME=""
 ZSHZ_TRAILING_SLASH=true
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-plugins=(git)
+plugins=(git uv)
 
 source $ZSH/oh-my-zsh.sh
 
