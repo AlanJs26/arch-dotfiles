@@ -30,7 +30,7 @@ if [ $(bspc query -N -n .leaf.hidden|wc -l) -gt 0 ]; then
         icon=""
         
         case "$node_class" in
-            kitty|__float__|__float_center__)
+            kitty|__float__|__float_center__|__float_kitty_center__)
                 icon=""
                 ;;
             Qalculate-gtk)

@@ -40,4 +40,4 @@ awk '!visited[$0]++' $HISTORY | sponge $HISTORY
 
 results=$(zoxide query -l | fzf --filter="$results" | head -n1)
 
-rofi -show file-browser-extended -file-browser-dir "$results" -file-browser-cmd "$TOOLS/run.sh" -normalize-match
+rofi -show file-browser-extended -file-browser-sort-by-mtime -file-browser-dir "$results" -file-browser-cmd "$TOOLS/run.sh" -normalize-match

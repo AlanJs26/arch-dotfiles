@@ -68,13 +68,13 @@
   "monitor": {
     "setup": [
       {
-        "alias": "primary",
+        "alias": "primary-old",
         "name": "DisplayPort-1-0",
         "width": 1920,
         "height": 1080
       },
       {
-        "alias": "secundary",
+        "alias": "secundary-old",
         "name": "DisplayPort-1",
         "width": 1360,
         "height": 768
@@ -84,6 +84,18 @@
         "name": "HDMI-A-1",
         "width": 1920,
         "height": 1080
+      },
+      {
+        "alias": "primary",
+        "name": "HDMI-A-0",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "alias": "secundary",
+        "name": "DisplayPort-0",
+        "width": 1360,
+        "height": 768
       }
     ],
     "layouts": [
@@ -92,7 +104,7 @@
         "layout": [
           {
             "monitor_alias": "primary",
-            "primary": false,
+            "primary": true,
             "enabled": true,
             "x": "1360",
             "y": "0",
@@ -100,7 +112,7 @@
           },
           {
             "monitor_alias": "secundary",
-            "primary": true,
+            "primary": false,
             "enabled": true,
             "x": "0",
             "y": "312",

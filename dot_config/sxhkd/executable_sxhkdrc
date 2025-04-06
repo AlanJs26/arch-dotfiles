@@ -150,7 +150,7 @@ super + ctrl + m
 
 # Toggle all floating windows (scratchpad)
 super + p
-	scratchpad.py --behaviour toggleall
+	scratchpad.py --behaviour toggleall --floating
 
 # Add window to scratchpad
 super + alt + a
@@ -158,7 +158,7 @@ super + alt + a
 
 # Cicle all scratchpad windows
 super + shift + a
-	scratchpad.py ".*" --behaviour i3 --not_class "$(dots settings query '.apps.pdf_viewer' --raw)|qalculate-gtk|com-azefsw-audioconnect-desktop-app-MainKt" --not_title "(YouTube Music)|mpv|Spotify|floatkitty"
+	scratchpad.py --behaviour i3 --not_class "$(yq '.apps.pdf_viewer' ~/.config/archdots/config.yaml -r)|qalculate-gtk|com-azefsw-audioconnect-desktop-app-MainKt" --not_title "(YouTube Music)|mpv|Spotify|floatkitty" --floating
 
 # Youtube Music or MPV (scratchpad)
 super + ctrl + z
@@ -192,7 +192,8 @@ super + ctrl + backslash
 
 # Floating terminal kitty (scratchpad)
 super + shift + z
-	scratchpad.py "kitty$|kittynvim$" -r "kitty --title floatkitty --class __float_center__" --behaviour swap
+	scratchpad.py "kitty$|kittynvim$" -r "kitty --title floatkitty --class __float_kitty_center__" --behaviour toggleall
+# scratchpad.py "kitty$|kittynvim$" -r "kitty --title floatkitty --class __float_center__" --behaviour swap
 	# scratchpad.py "floatkitty" --class "__float__|__float_center__" -r "kitty --title floatkitty --class __float_center__" --behaviour nomark
 
 # Floating kitty neovim (scratchpad)

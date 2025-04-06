@@ -84,6 +84,7 @@ bspc rule -a "*:*:smallkitty" state=floating center=on rectangle="400x100+300+80
 bspc rule -a "__zoxide__" state=floating rectangle="1300x300+0+0" center=on
 
 bspc rule -a "__float_center__:*:*" state=floating center=on rectangle="960x660+200+800"
+bspc rule -a "__float_kitty_center__:*:*" state=floating center=on rectangle="960x660+200+800"
 
 bspc rule -a "Typstudio" state=tiled
 

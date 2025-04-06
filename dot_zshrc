@@ -30,7 +30,6 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
-
 ### End of Zinit's installer chunk
 
 ### Zinit Plugins
@@ -39,7 +38,7 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light hlissner/zsh-autopair 
 zinit light jirutka/zsh-shift-select 
-
+zinit light matthiasha/zsh-uv-env
 ### End of Zinit Plugins
 
 # Load envirounment variables
@@ -57,7 +56,6 @@ function lf() {
 ### End of Yazi Config
 
 ### Aliases
-
 alias "docker compose"="docker-compose"
 
 alias ls="eza"
@@ -85,7 +83,6 @@ function zz(){
 function rm(){
     chezmoi destroy --force $@ 2> /dev/null || /bin/rm $@
 }
-
 ### End of Aliases
 
 ### Terminal Behaviour Scripts
@@ -101,5 +98,25 @@ eval "$(atuin init zsh)"
 
 bindkey '^r' _atuin_search_widget
 ### End of Atuin Setup
+
+### uv Setup
+eval "$(uv generate-shell-completion zsh)"
+
+_uv_run_mod() {
+    if [[ "$words[2]" == "run" && "$words[CURRENT]" != -* ]]; then
+        local venv_binaries
+        if [[ -d .venv/bin ]]; then
+            venv_binaries=( ${(@f)"$(_call_program files ls -1 .venv/bin 2>/dev/null)"} )
+        fi
+
+        _alternative \
+            'files:filename:_files' # \
+            # "binaries:venv binary:(($venv_binaries))"
+    else
+        _uv "$@"
+    fi
+}
+compdef _uv_run_mod uv
+### End of uv Setup
 
 export PATH="/usr/local/bin/bin:$PATH"
