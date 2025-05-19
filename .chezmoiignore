@@ -6,6 +6,9 @@ README.md
 .git
 *.git
 ./**/.git
+.cache
+*.cache
+./**/.cache
 .urserver/*.log*
 __pycache__
 *__pycache__*

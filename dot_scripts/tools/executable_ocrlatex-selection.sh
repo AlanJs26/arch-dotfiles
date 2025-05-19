@@ -4,8 +4,7 @@ tmpfile=$(mktemp tmp.XXXX.png)
 
 maim -u -s "$tmpfile"
 
-# pix2tex "$tmpfile"
-rapid_latex_ocr "$tmpfile"|rg 'cost: [0-9.]+$' -v|xclip -selection copy
+rapid_latex_ocr "$tmpfile" | rg 'cost: [0-9.]+$' -v | xclip -selection copy
 
 rm $tmpfile
 

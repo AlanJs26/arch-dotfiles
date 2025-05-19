@@ -1,5 +1,5 @@
 (defwindow mainframe
-          :monitor "DisplayPort-1-0"
+          :monitor "HDMI-A-0"
           :geometry (geometry :x "-6px"
                               :y "43px"
                               :anchor "top right")

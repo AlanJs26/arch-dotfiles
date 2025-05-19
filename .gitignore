@@ -3,5 +3,7 @@ archdots/public/amdgpu-pro-installer/*
 dot_urserver/*.log*
 dot_git
 *dot_git*
+.cache
+dot_cache
 *__pycache__*
 __pycache__

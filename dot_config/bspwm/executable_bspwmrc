@@ -15,6 +15,7 @@ sxhkd &
 
 # autostart scripts and programs
 if [ -f ~/.cache/archdots/autostart.sh ] && [ ! -f /tmp/executed_autostart ]; then
+  pgrep -f $HOME/.cache/archdots/autostart.sh | xargs kill || true
   ~/.cache/archdots/autostart.sh
   touch /tmp/executed_autostart
 else
