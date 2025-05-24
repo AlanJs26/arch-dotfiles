@@ -1456,3 +1456,63 @@ exit
 ls
 ./rofi-save-to-obsidian.nu
 ./rofi-save-to-obsidian.nu --subfolder Thunderatz
+exit
+nvim $nu.config-path
+exit
+niri msg --json focused-window
+nvim $nu.config-path
+exit
+nvim $nu.config-path
+niri msg --json focused-window
+niri msg --json focused-window|from json
+niri msg --json focused-window|from json|select workspace_id
+niri msg --json focused-window|from json|select workspace_id -v
+niri msg --json focused-window|from json|get workspace_id
+niri msg --json windows|from json
+niri msg --json windows|from json|filter {||$in.workspace_id > 1}
+niri msg --json windows|from json|filter {||$in.workspace_id > 4}
+if (niri msg --json windows|from json|filter {||$in.workspace_id > 4}) {echo oi}
+if (niri msg --json windows|from json|filter {||$in.workspace_id > 4}|length) {echo oi}
+if (niri msg --json windows|from json|filter {||$in.workspace_id > 4}|length > 0) {echo oi}
+niri msg --json windows|from json|filter {||$in.workspace_id > 4}|length
+(niri msg --json windows|from json|filter {||$in.workspace_id > 4}|length) > 0
+if (niri msg --json windows|from json|filter {||$in.workspace_id > 4}|length) > 0 {echo oi}
+if (niri msg --json windows|from json|filter {||$in.workspace_id > 4}|length) == 0 {echo oi}
+sleep 3
+sleep 3sec
+sleep 3sec; nifi msg --json focused-window|from json|get workspace_id
+sleep 2sec; niri msg --json focused-window|from json|get workspace_id
+sleep 2sec; niri msg --json focused-window|from json|get workspace_id || -1
+sleep 2sec; (niri msg --json focused-window|from json|get workspace_id || -1)
+sleep 2sec; (niri msg --json focused-window|from json|get workspace_id or -1)
+sleep 2sec; (niri msg --json focused-window)?|from json|get workspace_id
+sleep 2sec; (niri msg --json focused-window|from json)?.workspace_id
+sleep 2sec; (niri msg --json focused-window|from json).?workspace_id
+sleep 2sec; (niri msg --json focused-window|from json)?|get workspace_id
+sleep 2sec; (niri msg --json focused-window|from json).?|get workspace_id
+exit
+niri msg --json workspaces|from json
+niri msg --json workspaces|from json|filter {||$in.is_focused}
+niri msg --json workspaces|from json|filter {||not $in.is_focused}|get
+niri msg --json workspaces|from json|filter {||not $in.is_focused}|get idx
+niri msg --json workspaces|from json|filter {||not $in.is_focused}|get idx|find {||$in > 3}
+niri msg --json workspaces|from json|filter {||not $in.is_focused}|get idx|find 3
+niri msg --json workspaces|from json|find {||$in.output == 'HDMI-A-1'}
+niri msg --json workspaces|from json|find output == 'HDMI-A-1'
+niri msg --json workspaces|from json|find is_focused|find output == 'HDMI-A-1'
+niri msg --json workspaces|from json|find is_focused
+niri msg --json workspaces|from json|find is_focused == true
+niri msg --json workspaces|from json|find 'is_focused == true'
+niri msg --json workspaces|from json|find is_focused true
+niri msg --json workspaces|from json|find true --columns [is_focused]
+niri msg --json workspaces|from json|find true --columns is_focused
+niri msg --json workspaces|from json|find true --columns [is_focused]
+niri msg --json workspaces|from json|find true --columns [is_focused]|get output
+(niri msg --json workspaces|from json|find true --columns [is_focused]).output
+(niri msg --json workspaces|from json|find true --columns [is_focused]).output.0
+niri msg --json windows|from json
+niri msg --json workspaces|from json
+niri msg --json overview-state
+niri msg --json overview-state|from json
+niri msg --json overview-state|from json|find true
+niri msg --json overview-state|from json|get is_open

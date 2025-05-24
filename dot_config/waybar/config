@@ -1,33 +1,30 @@
 {
-	"include": "~/.config/waybar/modules",
-	"layer": "top",
-	//"mode": "dock",
-	"exclusive": true,
-	"passthrough": false,
-	"position": "top",
-	"spacing": 3,
-	"fixed-center": true,
-	"ipc": true,
-	"margin-left": 0,
-	"margin-right": 0,
-
-	"modules-left": [
-		"hyprland/workspaces" 
-	],
-
-	"modules-center": [
-		"cpu", 
-		"custom/music",
-		"memory",
-		"custom/duolingo",
-	], 
-
-	"modules-right": [
-		"custom/archdots",
-		"tray", 
-		"pulseaudio",
-		//"pulseaudio#microphone", 
-		"custom/notifications",
-		"clock"
-	],
+  "include": "~/.config/waybar/modules",
+  "layer": "top",
+  //"mode": "dock",
+  "exclusive": true,
+  "passthrough": false,
+  "position": "top",
+  "spacing": 3,
+  "fixed-center": true,
+  "ipc": true,
+  "margin-left": 0,
+  "margin-right": 0,
+  "modules-left": [
+    "niri/workspaces"
+  ],
+  "modules-center": [
+    "cpu",
+    "custom/music",
+    "memory",
+    "custom/duolingo",
+  ],
+  "modules-right": [
+    "custom/archdots",
+    "tray",
+    "pulseaudio",
+    //"pulseaudio#microphone", 
+    "custom/notifications",
+    "clock"
+  ],
 }

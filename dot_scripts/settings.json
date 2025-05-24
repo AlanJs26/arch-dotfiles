@@ -2,7 +2,6 @@
   "chezmoi": [
     "~/.local/share/applications",
     "~/.scripts",
-
     "~/.config/autostart",
     "~/.config/bspwm",
     "~/.config/btop",
@@ -30,16 +29,14 @@
     "~/.config/waybar",
     "~/.config/X11",
     "~/.config/yay",
-
     "~/.zshrc",
     "~/.Xresources",
     "~/.env.sh",
     "~/.bashrc",
-
     "~/.urserver"
   ],
   "apps": {
-    "browser": "vivaldi-snapshot",
+    "browser": "vivaldi-snapshot --ozone-platform-hint=wayland",
     "file_explorer": "nemo",
     "terminal": "kitty",
     "sound_manager": "pavucontrol",
@@ -57,13 +54,11 @@
     }
   ],
   "autostart": {
-    "programs": [
-    ],
+    "programs": [],
     "scripts": [
       "lockscreen.sh disable"
     ],
-    "always": [
-    ]
+    "always": []
   },
   "monitor": {
     "setup": [

@@ -2,6 +2,7 @@ description='Yet another yogurt. Pacman wrapper and AUR helper written in go'
 url='https://github.com/Jguer/yay'
 depends=()
 source=('https://aur.archlinux.org/yay.git')
+# source_on_check=false
 # make this package platform specific. Supported platforms: linux, windows
 # platform='linux'
 

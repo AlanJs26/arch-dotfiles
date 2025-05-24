@@ -1,5 +1,5 @@
 apps:
-  browser: vivaldi-snapshot
+  browser: vivaldi-snapshot --ozone-platform-hint=wayland
   file_explorer: nemo
   music_player: youtube-music
   pdf_viewer: sioyek
