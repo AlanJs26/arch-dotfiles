@@ -1,0 +1,13 @@
+[Unit]
+Description=Statusbar for hyprland using ags
+Requires=wayland-session@hyprland.desktop.target
+After=wayland-session@hyprland.desktop.target
+
+[Service]
+Type=simple
+ExecStart=%h/.scripts/tools/launch/hyprpanel-launch.sh
+Restart=always
+RestartSec=2s 
+
+[Install]
+WantedBy=wayland-session@hyprland.desktop.target

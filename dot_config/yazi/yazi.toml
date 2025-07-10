@@ -1,4 +1,5 @@
 # yazi.toml
-[manager]
+[mgr]
 sort_by = "mtime"
 sort_reverse = true
+
