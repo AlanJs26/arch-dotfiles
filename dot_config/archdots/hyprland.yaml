@@ -1,16 +1,16 @@
 autostart:
 - commands:
   - nm-applet
-  - hyprpanel
   - syncthing serve --no-browser --logfile=default
+  - syncthing-gtk --minimized
   - fcitx5 -d
+  - wl-paste --type text --watch cliphist store
+  - wl-paste --type image --watch cliphist store
   match_method: name
   name: hyprland_programs
 - commands:
-  - cycle-audio-devices.nu --refresh
-  - rm /tmp/.evrouter:0||true
-  - xmodmap $HOME/.config/X11/xmodmap
-  - killall dunst||true
+  - notify-send archdots "running scripts"
+  - ~/.scripts/tools/cycle-audio-devices.nu --refresh||true
   daemon: false
   name: always_hyprland
   priority: 10

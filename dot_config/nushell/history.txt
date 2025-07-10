@@ -1516,3 +1516,5 @@ niri msg --json overview-state
 niri msg --json overview-state|from json
 niri msg --json overview-state|from json|find true
 niri msg --json overview-state|from json|get is_open
+atuin status
+ls

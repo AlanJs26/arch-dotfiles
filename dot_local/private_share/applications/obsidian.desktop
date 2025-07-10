@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Obsidian
-Exec=obsidian-launch.sh %U
+Exec=/home/alan/.scripts/tools/launch/obsidian-launch.sh %U
 Terminal=false
 Type=Application
 Icon=obsidian

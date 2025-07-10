@@ -56,7 +56,7 @@ def set_sink [sink, --hide_notifications] {
   $sink|save $cache_file --force
 
   if not $hide_notifications {
-    notify-send -a bspwm -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Sound output switched to" $sink.name -u low
+    notify-send -a Audio -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Sound output switched to" $sink.name -u low
   }
 }
 
@@ -68,7 +68,7 @@ def set_port [sink, port, --hide_notifications] {
   pactl set-sink-port $sink_id $port
 
   if not $hide_notifications {
-    notify-send -a bspwm -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Port switched to" $port -u low
+    notify-send -a Audio -i "/usr/share/icons/Tela-circle-dark/16/actions/audio-ready.svg" "Port switched to" $port -u low
   }
 }
 

@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+source ~/.env.sh
+
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   cat <<EOF
 Helper script that spawns rofi-file-explorer given a zoxide query
