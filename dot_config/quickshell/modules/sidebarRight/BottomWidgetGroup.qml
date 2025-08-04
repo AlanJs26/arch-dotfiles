@@ -1,3 +1,4 @@
+import "root:/"
 import "root:/modules/common"
 import "root:/modules/common/widgets"
 import "root:/services"
@@ -7,6 +8,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
+import Quickshell.Hyprland
 
 Rectangle {
     id: root
@@ -14,7 +17,7 @@ Rectangle {
     color: Appearance.colors.colLayer1
     clip: true
     implicitHeight: collapsed ? collapsedBottomWidgetGroupRow.implicitHeight : bottomWidgetGroupRow.implicitHeight
-    property int selectedTab: 0
+    property int selectedTab: Persistent.states.sidebar.bottomGroup.selectedTab
     property bool collapsed: Persistent.states.sidebar.bottomGroup.collapsed
     property var tabs: [
         {"type": "calendar", "name": "Calendar", "icon": "calendar_month", "widget": calendarWidget}, 
@@ -27,6 +30,12 @@ Rectangle {
             easing.type: Appearance.animation.elementMove.type
                 easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
         }
+    }
+
+    function setSelectedTab(index) {
+        const safeIndex = index % tabs.length
+        Persistent.states.sidebar.bottomGroup.selectedTab = safeIndex
+        root.selectedTab = safeIndex
     }
 
     function setCollapsed(state) {
@@ -54,9 +63,9 @@ Rectangle {
         if ((event.key === Qt.Key_PageDown || event.key === Qt.Key_PageUp)
             && event.modifiers === Qt.ControlModifier) {
             if (event.key === Qt.Key_PageDown) {
-                root.selectedTab = Math.min(root.selectedTab + 1, root.tabs.length - 1)
+                root.setSelectedTab(Math.min(root.selectedTab + 1, root.tabs.length - 1))
             } else if (event.key === Qt.Key_PageUp) {
-                root.selectedTab = Math.max(root.selectedTab - 1, 0)
+                root.setSelectedTab(Math.max(root.selectedTab - 1, 0))
             }
             event.accepted = true;
         }
@@ -145,7 +154,7 @@ Rectangle {
                         buttonText: modelData.name
                         buttonIcon: modelData.icon
                         onClicked: {
-                            root.selectedTab = index
+                            root.setSelectedTab(index)
                         }
                     }
                 }
@@ -173,8 +182,12 @@ Rectangle {
             Layout.fillWidth: true
             height: tabStack.children[0]?.tabLoader?.implicitHeight // TODO: make this less stupid
             Layout.alignment: Qt.AlignVCenter
-            property int realIndex: 0
+            property int realIndex: Persistent.states.sidebar.bottomGroup.selectedTab
             property int animationDuration: Appearance.animation.elementMoveFast.duration * 1.5
+
+            Component.onCompleted: {
+                tabStack.currentIndex = root.selectedTab
+            }
 
             // Switch the tab on halfway of the anim duration
             Connections {
@@ -235,4 +248,5 @@ Rectangle {
             anchors.margins: 5
         }
     }
+
 }

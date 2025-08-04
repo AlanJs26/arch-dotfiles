@@ -23,7 +23,8 @@ Singleton {
         "wpsoffice": "wps-office2019-kprometheus",
         "footclient": "foot",
         "zen": "zen-browser",
-        "brave-browser": "brave-desktop"
+        "brave-browser": "brave-desktop",
+        "com.github.th_ch.youtube_music": "youtube-music",
     })
     property var regexSubstitutions: [
         {
@@ -41,7 +42,11 @@ Singleton {
         {
             "regex": /gcr.prompter/,
             "replace": "system-lock-screen"
-        }
+        },
+        {
+            "regex": /^kitty-.+/,
+            "replace": "kitty"
+        },
     ]
 
     readonly property list<DesktopEntry> list: Array.from(DesktopEntries.applications.values)

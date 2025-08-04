@@ -1518,3 +1518,579 @@ niri msg --json overview-state|from json|find true
 niri msg --json overview-state|from json|get is_open
 atuin status
 ls
+z
+exit
+dupefi . --outtmpl='$0,$1' 2>/dev/null | awk 'NR==1{print "in,out"};{print}'|from csv
+dupefi . --outtmpl='$0;$1' 2>/dev/null | awk 'NR==1{print "in,out"};{print}'|from csv --separator ';'
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in,out"};{print}'|from csv --separator ';'
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'|save test.csv
+ls
+cat
+read test.csv
+cat test.csv
+open test.csv
+open test.csv|where in =~ "Lucas"
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|each {|| $in.in}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|each {|| $in.in.0}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|each {|| echo $in.in}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|each {|| gum confirm $in.in}
+gum
+gum confirm aa
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|each {|| gum confirm $in.in}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do {|| for x in $in {gum confirm $x}}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do {|| for x in $in {gum confirm $x.in}}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do {|| for x in $in {echo $x}}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {echo $x}}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for $x in $in {echo $x}}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { print $in}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {print $x} }
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {gum confirm $x.in} }
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {if (gum confirm $x.in) {print sim} else {print nao}} }
+gum confirm aa
+gum confirm aa|str join
+gum confirm aa|str
+print (gum confirm aa)
+try {gum confirm aa} catch {print nao}
+try {gum confirm aa; print sim} catch {print nao}
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {try {gum confirm $x.in; print sim} catch {print nao}} }
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {try {gum confirm $"yes: ($x.in)\nno: ($x.in)"; print $x.in} catch {print $x.out}} }
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {try {gum confirm $"yes: ($x.in)\nno:  ($x.out)"; print $x.in} catch {print $x.out}} }
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {try {gum confirm $"Choose which to keep\nyes: ($x.in)\nno:  ($x.out)"; rm $x.out} catch {rm $x.in}} }
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'|save test.csv
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'|save test.csv -f
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {try {gum confirm $"Choose which to keep\nyes: ($x.in)\nno:  ($x.out)"; rm $x.out} catch {rm $x.in}} }
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'|save test.csv -f
+open test.csv
+open test.csv|where in =~ "Lucas" and in =~ "Lucas"|do { for x in $in {try {gum confirm $"Choose which to keep\nyes: ($x.in)\nno:  ($x.out)"; rm $x.out} catch {rm $x.in}} }
+open test.csv|do { for x in $in {try {gum confirm $"Choose which to keep\nyes: ($x.in)\nno:  ($x.out)"; rm $x.out} catch {rm $x.in}} }
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'|save test.csv -f
+cd ..
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'
+dupefi . --outtmpl='$0;$1'|where in =~ '^\.' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'|save test.csv -f
+open test.csv|where in =~ '^[^\.]'
+open test.csv|where in =~ '^[^\.]' and out =~ '^[^\.]'
+open test.csv|where in =~ '^[^\.]' and out =~ '^[^\.]'|do { for x in $in {try {gum confirm $"Choose which to keep\nyes: ($x.in)\nno:  ($x.out)"; rm $x.out} catch {rm $x.in}} }
+dupefi . --outtmpl='$0;$1' | awk 'NR==1{print "in;out"};{print}'|from csv --separator ';'
+[1 2 3]
+hyprctl activewindow -j|from jeson
+hyprctl activewindow -j|from json
+let a=(hyprctl activewindow -j|from json)
+let a=$(hyprctl activewindow -j|from json)
+let a = (hyprctl activewindow -j|from json)
+a
+$a
+hyprctl activewindow -j|from json
+sleep 3sec|hyprctl activewindow -j|from json
+sleep 2sec|hyprctl activewindow -j|from json
+[]
+[]|empty
+[]|is-empty
+1 or 2
+1 || 2
+echo (1 or 2)
+echo (true or false)
+hyprctl monitors -j|from json
+hyprctl monitors -j|from json|where focused == true
+hyprctl activemonitor
+""|is-empty
+"a"|is-empty
+null|is-empty
+hyprctl activewindow -j|from json
+(hyprctl activewindow -j|from json).workspace.id
+hyprctl clients -j|from json
+hyprctl clients -j|from json|where workspace.id == 1
+hyprctl clients -j|from json|where workspace.id == 1|min
+hyprctl clients -j|from json|where workspace.id == 1
+hyprctl clients -j|from json|where workspace.id == 1|min at[0]
+hyprctl clients -j|from json|where workspace.id == 1|math min at[0]
+help math min
+help minimum
+help -h
+help --find minimum
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if(acc.at.0 > it.at.0){acc}else{at}}
+hyprctl clients -j|from json|where workspace.id == 1|reduce --fold {at:[0]} {|it, acc| if(acc.at.0 > it.at.0){acc}else{at}}
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if($acc.at.0 > $it.at.0){$acc}else{$at}}
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$at}}
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}}
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}}|get at
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}}|get at.0
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}}|get at[0]
+hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}}|get at.0
+(hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}})at.0
+(hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}}).at.0
+(hyprctl clients -j|from json|where workspace.id == 1|reduce {|it, acc| if ($acc.at.0 > $it.at.0) {$acc} else {$it}}).at[0]
+z tools
+ls
+cd ..
+ls
+cd hyprland-scripts/
+ls
+./nu-cycle.nu
+chmod +x nu-cycle.nu 
+nu nu-cycle.nu 
+nu nu-cycle.nu |get size
+nu nu-cycle.nu |select size
+nu nu-cycle.nu
+nu nu-cycle.nu|get size
+nu nu-cycle.nu
+1/2
+1 / 2
+nu nu-cycle.nu
+[1 2 3] > 2
+[1 2 3] | each {|| $in > 2}
+[1 2 3] | each {|| $in > 2}|find true
+[1 2 3] | find {|| $in > 2}
+[1 2 3] | where {|| $in > 2}
+[1 2 3] | where {|| $in > 2}|first
+[1 2 3] | where $in > 2|first
+[1 2 3] | where $it > 2|first
+nu nu-cycle.nu
+let a = 1
+"a $a"
+$"a $a"
+$"a $(a)"
+f"a $a"
+nu nu-cycle.nu
+hyprctl dispatch resizewindowpixel -1032 0,address:0x55722e95a240
+nu nu-cycle.nu
+"a b"|split
+"a b"|split words
+nu nu-cycle.nu
+hyprctl getoption genereal:layout
+hyprctl getoption general:layout
+hyprctl getoption general:layout -j|from json
+hyprctl getoption general:layout -j|from json|get str
+a = {|| 4}
+let a = {|| 4}
+$a
+$a 1
+$a()
+a
+do $a
+nu nu-cycle.nu
+hyprctl dispatch layoutmsg mfact 0.75
+hyprctl dispatch layoutmsg mfact 1
+hyprctl dispatch layoutmsg mfact 100
+hyprctl dispatch layoutmsg mfact, 0.1
+hyprctl dispatch layoutmsg mfact exact 0.1
+hyprctl dispatch layoutmsg mfact exact 0.5
+nu nu-cycle.nu
+math abs 12
+12|math abs
+nu nu-cycle.nu
+hyprctl getoption general:gaps
+hyprctl getoption general:window_gap
+hyprctl getoption general:gaps_in
+qalc '4/1920'
+qalc '(4+5)/1920'
+nu nu-cycle.nu
+[1 2 3]|find 5
+if ([1 2 3]|find 5) {print oi}
+if ([1 2 3]|find 5|is-not-empty) {print oi}
+nu nu-cycle.nu
+hyprctl layers
+hyprctl layers -j|from json
+nu nu-cycle.nu
+describe [1 2 3]
+[1 2 3]|describe
+nu nu-cycle.nu
+nu nu-cycle.nu -h
+nu nu-cycle.nu --orientation left
+nu nu-cycle.nu
+nu nu-cycle.nu -h
+ls
+chmod +x keybind-cycle-master-width.sh 
+chmod +x keybind-change-orientation.nu 
+ls
+nu keybind-change-orientation.nu 
+nu keybind-change-orientation.nu  left
+nu keybind-change-orientation.nu right
+nu keybind-change-orientation.nu center
+cat /tmp/master-orientation.txt
+nu cycle-master-width.nu 
+hyprctl clients -j|from json|where workspace.id == 1|length
+nu cycle-master-width.nu 
+hyprctl getoption master:slave_count_for_center_master
+hyprctl getoption master:slave_count_for_center_master -j
+hyprctl getoption master:slave_count_for_center_master -j|from json
+nu cycle-master-width.nu 
+(hyprctl getoption master:slave_count_for_center_master -j|from json|get int)
+nu cycle-master-width.nu 
+nu cycle-master-width.nu
+ls
+nu cycle-master-width.nu 
+hyprctl activewindow -j|from json
+chmod +x keybind-move-focus.nu 
+nu keybind-move-focus.nu 
+nu keybind-move-focus.nu u
+hyprctl activewindow -j|from json|get at
+nu keybind-move-focus.nu l
+hyprnavi l
+sleep 1sec|hyprctl activewindow -j|from json
+sleep 1sec|hyprctl activewindow -j|from json|get workspace
+hyprnavi l
+hyprnavi l --swap
+hyprctl monitors -j
+hyprctl monitors -j|from json
+hyprnavi l --swap
+hyprnavi l --swap --bordersize 10
+z hyprnavi
+hyprctl clients -j|from json|where address == "0x55622db09be0"
+df
+du
+sys
+sys disks
+sys disks | where mount == "/"
+sys disks | where mount == "/" | take
+sys disks | where mount == "/" | take 1
+sys disks | where mount == "/" | if $in.free > 50gb {1} else {0}
+sys disks | where mount == "/" | if $in.0.free > 50gb {1} else {0}
+sys disks | where mount == "/" | get 0
+if sys disks | where mount == "/").0.free > 50gb {1)}else{0}
+if (sys disks | where mount == "/").0.free > 50gb) {1} else {0}
+if ((sys disks | where mount == "/").0.free > 50gb) {1} else {0}
+if (sys disks | where mount == "/").0.free > 50gb {1} else {0}
+if (sys disks | where mount == "/").0.free > 500gb {1} else {0}
+(sys disks | where mount == "/").0.free < 3gb
+(sys disks | where mount == "/").0.free > 10gb
+let alan = "wow"
+echo "$alan/jose"
+echo $"$alan/jose"
+echo "($alan)/jose"
+echo $"($alan)/jose"
+ansi normal
+ansi default
+mkdir -h
+ls
+mkdir test/jose
+tree
+rm test
+rm test -r
+ls
+path dirname "alan/jose"
+"alan"|path dirname
+mkdir
+("alan"|path dirname) or "."
+match ("alan"|path dirname) {"" => ".", $x => $x}
+match ("jose/alan"|path dirname) {"" => ".", $x => $x}
+mkdir .
+ls
+ls -a
+dirname
+match 1 {1 => echo oi}
+match 1 {1 => (echo oi)}
+match 1 {1 => (echo oi)};echo ola
+match 1 {1 => (print oi)};echo ola
+match 1 {$x if $x > 1 => (print oi)};echo ola
+match 3 {$x if $x > 1 => (print oi)};echo ola
+""|is-empty
+"a"|do {print $in}
+"a"|do {|folder|print $folder}
+"a"|do {|folder| print $folder}
+"a"|do {print $in}
+"a"|if ($in == "a") {echo $in}
+"a"|if ($in == "b") {echo $in}
+"a"|match {"a" => 1,_ => 0}
+match "a" {"a" => 1,_ => 0}
+match "a" {"a" => 1}
+match "b" {"a" => 1}
+"alan"|path basename
+"alan/jose"|path basename
+nu backup_script.nu 
+(sys disks | where mount == "/").0.free
+(sys disks | where mount == "/").0.free < 3gb
+nu backup_script.nu 
+tree
+for x in "/home" {print $x}
+for x in (ls "/home") {print $x}
+for x in (ls "/home/tr") {print $x}
+for x in (ls "home/tr") {print $x}
+ls
+lf
+ls home/tr/logs/|sort-by size
+ls home/tr/logs/|sort-by size|reverse
+ls home/tr/logs/|sort-by size|reverse|take 1
+ls
+touch test
+ls home/tr/logs/|sort-by size|reverse|take 1
+ls home/tr/logs/|sort-by size|reverse|take 1|get 0
+ls home/tr/logss
+ls home/tr/logs|where name == "a"
+ls home/tr/logs|where name == "a"|take 1
+nu backup_script.nu 
+lf
+nu backup_script.nu 
+ls
+nu backup_script.nu 
+[1 2 3]|str join
+[1 2 3]|str join words
+[1 2 3]|str
+[1 2 3]|to str
+[1 2 3]|into str
+[1 2 3]|into string
+[1 2 3]|to string
+[1 2 3]|str join ' '
+nu backup_script.nu 
+date
+^date
+nu backup_script.nu 
+tree
+nu backup_script.nu 
+ls home/tr/logs/|sort-by size
+ls home/tr/logs/
+ls home/tr/logs/|sort-by modified
+sort-by -h
+ls home/tr/logs/|sort-by -r modified
+ls home/tr/logs/|sort-by -r modified|take 1
+ls
+ls|each {$in.name}
+ls|get name
+nu backup_script.nu 
+tree
+[1 2 3]|last
+[]|last
+[1 2 3]|reverse|take
+[1 2 3]|reverse|take 1
+[]|reverse|take 1
+[]|reverse|take 1|str join ' '
+nu backup_script.nu 
+[...(seq 1 5)]
+[...(seq 1 5) ...(seq 1 5)]
+nu backup_script.nu 
+ls|print
+cat /asdf
+cat /asdf o+e>|print
+let alan = (cat /asdf o+e>|print)
+let alan = (cat /asdf o+e>|str)
+print $alan
+let alan = (cat /asdf o+e>|)
+print $alan
+def falan [] {return 1}
+flan
+falan
+$env.LAST_EXIT_CODE
+falan
+$env.LAST_EXIT_CODE
+error -h
+def falan [] {exit 1}
+nu backup_script.nu 
+ls|complete
+^ls|complete
+rclone ls --max-depth=1 drive:|complete
+rclone ls --max-depth=1 drive|complete
+rclone ls --max-depth=1 drive-usp:|complete
+nu backup_script.nu 
+print
+nu backup_script.nu 
+curl -h
+{status:'up', msg:'WOW', ping:''} | url build-query
+{<\n>host: 'www.example.com',<\n>params: {status: 'up', msg: 'wow'}<\n>} | url join
+{<\n>scheme: 'http',<\n>host: 'www.example.com',<\n>params: {status: 'up', msg: 'wow'}<\n>} | url join
+{<\n>scheme: 'http',<\n>host: 'www.example.com',<\n>params: {status: 'up', msg: 'wow'}<\n>} | url join|http get
+{<\n>scheme: 'http',<\n>host: 'www.example.com',<\n>params: {status: 'up', msg: 'wow'}<\n>} | url join|do {http get $in}
+error make {msg:'wow'}
+try {error make {msg:'wow'}} catch {print $in}
+try {ls /asdf} catch {print $in}
+try {^ls asdfas} catch {print $in}
+ls asdfa
+try {ls asdfas} catch {print $in}
+try {ls /asdfas} catch {print $in}
+ls /asdf
+{<\n>scheme: 'http',<\n>host: 'www.example.com',<\n>params: {status: 'up', msg: 'wow'}<\n>} | url join
+{<\n>scheme: 'http',<\n>host: 'www.example.com',<\n>params: {status: 'up', msg: 'wow& asdf'}<\n>} | url join
+rclone ls --max-depth=1 drive:|complete
+lgo
+log
+use std/log
+log
+log af
+log bla jose
+log -h
+help log
+log info bla
+log info $"(ansi cyan)[wow](ansi default) minha nossa"
+1|if ($in == 1) {print $in 1} else {print $in 2}
+1|if ($in != 1) {print $in 1} else {print $in 2}
+nu backup_script.nu 
+rclone ls --max-depth=1 drive-usp:
+help str
+'ala:jose:dos'|split row ':'
+'ala:jose:dos'|split row ':'|take 1
+'ala:jose:dos'|split row ':'|get 0
+{alan:'jose',dos:'santos'}
+{alan:'jose',dos:'santos'}|get alan
+{alan:'jose',dos:'santos'}
+{alan:'jose',dos:'santos'}|each {print $in}
+{alan:'jose',dos:'santos'}|each {print $in.0}
+{alan:'jose',dos:'santos'}|columns
+{alan:'jose',dos:'santos'}|columns|where $it == alan
+{alan:'jose',dos:'santos'}|columns|where $it == alanj
+{alan:'jose',dos:'santos'}|columns|where $it == alanj|is-empty-list
+{alan:'jose',dos:'santos'}|columns|where $it == alanj|is-empty
+not false
+nu backup_script.nu 
+$alan
+let alan = {alan:'jose',dos:'santos'}
+try {$alan|get alan} catch {1}
+try {$alan|get alanf} catch {1}
+if true {echo oi } else {echo nooooo}
+def --wrapped falan [--wow?,...args] {^echo ...$args}
+falan -r alan
+let diskfree = (sys disks | where mount == "/").0.free
+print $diskfree
+print $"wow = ($diskfree)"
+nu backup_script.nu 
+docker images
+hyprctl clients -j|from json
+hyprctl clients -j|from json|group-by title
+hyprctl clients -j|from json|group-by address
+hyprctl clients -j|from json|group-by address|values
+hyprctl clients -j|from json|group-by address|values|flatten
+hyprctl clients -j|from json|find address == 12
+hyprctl clients -j|from json|find address == 12asdf
+hyprctl clients -j|from json|find address == 1
+[1 2 3]|append [4 5 6]
+z hypr scr
+ls
+nu cycle-apps.nu 
+nu cycle-apps.nu --title kitty
+nu cycle-apps.nu --class kitty
+nu cycle-apps.nu --title vivaldi
+nu cycle-apps.nu --title "(?i)vivaldi"
+nu cycle-apps.nu --class kitty
+hyprctl activewindow -j|from json
+hyprctl activewindow -j|from json|get address
+hyprctl activewindow -j|from json|get address|decode hex
+hyprctl activewindow -j|from json|get address|skip 2
+hyprctl activewindow -j|from json|get address|split chars|skip 2
+hyprctl activewindow -j|from json|get address|split chars|skip 2|join
+hyprctl activewindow -j|from json|get address|split chars|skip 2|str join
+hyprctl activewindow -j|from json|get address|split chars|skip 2|str join|decode hex
+hyprctl activewindow -j|from json|get address
+(hyprctl activewindow -j|from json|get address)
+(hyprctl activewindow -j|from json|get address) + 1
+(hyprctl activewindow -j|from json|get address|into int) + 1
+(hyprctl activewindow -j|from json|get address|into int)
+"0x5"|into int
+"0xa"|into int
+hyprctl clients -j|from json
+hyprctl clients -j|from json|update address {$in|into int}
+"0x5" < "0x1"
+"0x5" < "0xa"
+hyprctl clients -j|from json|find name == alan
+hyprctl clients -j|from json|where name == alan
+hyprctl clients -j|from json|where title == alan
+[1 2 3 4]|skip while $it < 2
+[1 2 3 4]|skip while {$in < 2}
+[1 2 3 4]|skip while {$in < 2+1}
+[1 2 3 4]|skip while {$in < (2+1)}
+[1 2 3 4]|skip while {$in < (2 + 1)}
+[1 2 3 4]|skip while {$in <= 2}
+[]|take 1
+nu cycle-apps.nu --class kitty
+[1 2 3 "a" 4 5 6]|split list "a"
+[1 2 3 4 5 6]|split list "a"
+"alan:jose:dos"|split list ":"
+"alan:jose:dos"|split row ":"
+"alan:jose:dos"|split row ":"|take 1
+"alan:jose:dos"|str replace -r '^alan:' ''
+"asdf:alan:jose:dos"|str replace -r '^alan:' ''
+"asdf:alan:jose:dos"|str replace -r '^(alan|jose):' ''
+"alan:jose:dos"|str replace -r '^(alan|jose):' ''
+"jose:jose:dos"|str replace -r '^(alan|jose):' ''
+nu cycle-apps.nu 
+nu cycle-apps.nu kitty
+nu cycle-apps.nu class:kitty
+nu cycle-apps.nu class:kitty class:kitty
+nu cycle-apps.nu class:kitty vivaldi
+nu cycle-apps.nu class:kitty '(?i)vivaldi'
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi'
+nu cycle-apps.nu class:kitty class:kitty -or '(?i)vivaldi'
+nu cycle-apps.nu class:kitty title:cycle -or '(?i)vivaldi'
+nu cycle-apps.nu class:kitty title:cycle
+nu cycle-apps.nu class:kitty title:cycle -or '(?i)vivaldi'
+nu cycle-apps.nu class:kitty title:nu -or '(?i)vivaldi'
+[1 2] | split list 2
+[1 2 3 4] | split list 2
+[1 0 2 3 0 4 5] | split list 2
+[1 0 2 3 0 4 5] | split list 0
+[0 2 3 0 4 5] | split list 0
+match ([0 2 3 0 4 5] | split list 0) {[[], $a] => "1"}
+match ([0 2 3 0 4 5] | split list 0) {[[], $b] => "1", [$a, []] => "2", [$a, $b] => "3"}
+match ([0 2 3 0 4 5] | split list 0) {[[], $b] => "1", [$a, []] => "2", [$a, $b] => "3", _ => "no"}
+match ([0 2 3] | split list 0) {[[], $b] => "1", [$a, []] => "2", [$a, $b] => "3", _ => "no"}
+match ([1 0 2 3] | split list 0) {[[], $b] => "1", [$a, []] => "2", [$a, $b] => "3", _ => "no"}
+match ([1 0] | split list 0) {[[], $b] => "1", [$a, []] => "2", [$a, $b] => "3", _ => "no"}
+match ([1 0] | split list 0) {[$a, $b] => "3", _ => "no"}
+match ([1 0] | split list 0) {[$a, $b] => "yes", _ => "no"}
+match ([1 0 2] | split list 0) {[$a, $b] => "yes", _ => "no"}
+match ([0 2] | split list 0) {[$a, $b] => "yes", _ => "no"}
+match ([1 0 2 0 3] | split list 0) {[$a, $b] => "yes", _ => "no"}
+match ([1] | split list 0) {[$a, $b] => "yes", _ => "no"}
+[1]|split list 0
+match ([1] | split list 0) {[$a, $b] => "yes", [$a] => "wow", _ => "no"}
+let [a,b] = 
+let [a,b] = [1,2]
+let a,b = [1,2]
+$a
+$a,b
+nu cycle-apps.nu class:kitty title:nu -or '(?i)vivaldi'
+nu cycle-apps.nu class:kitty title:nu -or '(?i)vivaldi' --not
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not title:cycle
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not 
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi'
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not title:cycle --not title:cycle
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not title:cycle 
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not title:nu
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not nu
+ls
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not nu
+nu cycle-apps.nu -h
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not nu
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --not nu --by-monitor
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-monitor
+hyprctl clients -j|from json
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-monitor
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi'
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-monitor
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+hyprctl clients -j|from json
+hyprctl clients -j|from json|describe
+hyprctl clients -j|from json|transpose
+help --find list
+hyprctl clients -j|from json|into record
+hyprctl clients -j|from json|into record|table
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+hyprctl clients -j|from json
+hyprctl clients -j|from json|select 0
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+hyprctl clients -j|from json|select 0
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --no-special
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+[]|group-by a
+[]|group-by a|columns
+[]|group-by a|columns|length
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --no-special
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+hyprctl clients -j|from json
+hyprctl clients -j|from json|get class
+hyprctl clients -j
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --by-workspace --no-special
+nu cycle-apps.nu class:kitty -or '(?i)vivaldi' --no-special
+hyprprop
+nu cycle-apps.nu class:vivaldi --by-workspace
+1|split list 
+1|split list ''
+[1]
+hyprctl activewindow -j|from json|get asdf
+nu cycle-apps.nu class:kitty --by-workspace

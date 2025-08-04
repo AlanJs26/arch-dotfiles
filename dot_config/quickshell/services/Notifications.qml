@@ -147,13 +147,17 @@ Singleton {
         persistenceSupported: true
 
         onNotification: (notification) => {
+            if(!notification.summary?.length || !notification.body?.length || !notification.appName?.length) {
+                console.log('[ALAN]', JSON.stringify(notifToJSON(notification)))
+                return
+            }
             notification.tracked = true
+
             const newNotifObject = notifComponent.createObject(root, {
                 "id": notification.id + root.idOffset,
                 "notification": notification,
                 "time": Date.now(),
             });
-			root.list = [...root.list, newNotifObject];
 
             // Popup
             if (!root.popupInhibited) {
@@ -166,7 +170,12 @@ Singleton {
 
             root.notify(newNotifObject);
             // console.log(notifToString(newNotifObject));
-            notifFileView.setText(stringifyList(root.list));
+
+			root.list = [...root.list, newNotifObject];
+
+            if(notification.urgency > 0) {
+                notifFileView.setText(stringifyList(root.list));
+            }
         }
     }
 
@@ -240,7 +249,7 @@ Singleton {
         path: Qt.resolvedUrl(filePath)
         onLoaded: {
             const fileContents = notifFileView.text()
-            root.list = JSON.parse(fileContents).map((notif) => {
+            root.list = JSON.parse(fileContents).filter((notif) => notif.body && notif.summary && notif.appName).map((notif) => {
                 return notifComponent.createObject(root, {
                     "id": notif.id,
                     "actions": [], // Notification actions are meaningless if they're not tracked by the server or the sender is dead

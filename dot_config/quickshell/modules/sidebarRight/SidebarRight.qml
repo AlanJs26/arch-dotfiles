@@ -204,6 +204,17 @@ Scope {
 
     }
 
+    GlobalShortcut {
+        name: "todosToggle"
+        description: qsTr("Toggles todos sidebar on press")
+
+        onPressed: {
+            Persistent.states.sidebar.bottomGroup.selectedTab = 1
+            GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen;
+            if(GlobalStates.sidebarRightOpen) Notifications.timeoutAll();
+        }
+    }
+
     IpcHandler {
         target: "sidebarRight"
 
@@ -227,6 +238,7 @@ Scope {
         description: qsTr("Toggles right sidebar on press")
 
         onPressed: {
+            Persistent.states.sidebar.bottomGroup.selectedTab = 0
             GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen;
             if(GlobalStates.sidebarRightOpen) Notifications.timeoutAll();
         }

@@ -16,11 +16,13 @@ Singleton {
     property var addresses: []
     property var windowByAddress: ({})
     property var monitors: []
+    property var workspacerules: []
     property var layers: ({})
 
     function updateWindowList() {
         getClients.running = true
         getMonitors.running = true
+        getWorkspaceRules.running = true
     }
 
     function updateLayers() {
@@ -69,6 +71,7 @@ Singleton {
         stdout: SplitParser {
             onRead: (data) => {
                 root.monitors = JSON.parse(data)
+                root.monitors.sort((a,b) => a.id - b.id)
             }
         }
     }
@@ -79,6 +82,16 @@ Singleton {
         stdout: SplitParser {
             onRead: (data) => {
                 root.layers = JSON.parse(data)
+            }
+        }
+    }
+
+    Process {
+        id: getWorkspaceRules
+        command: ["bash", "-c", "hyprctl workspacerules -j | jq -c"]
+        stdout: SplitParser {
+            onRead: (data) => {
+                root.workspacerules = JSON.parse(data)
             }
         }
     }

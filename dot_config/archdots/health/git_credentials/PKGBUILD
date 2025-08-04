@@ -35,7 +35,6 @@ check() {
   username="$(git config --global --get user.name || echo '')"
 
   if [[ -z "$useremail" ]] || [[ -z "$username" ]]; then
-    echo 1
+    exit 1
   fi
 }
-

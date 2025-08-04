@@ -14,8 +14,13 @@ Scope {
     property bool showOsdValues: false
     property string protectionMessage: ""
     property var focusedScreen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name)
+    property bool firstTime: true
 
     function triggerOsd() {
+        if(firstTime) {
+            firstTime = false
+            return
+        }
         showOsdValues = true
         osdTimeout.restart()
     }

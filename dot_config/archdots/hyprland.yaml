@@ -1,16 +1,16 @@
 autostart:
 - commands:
   - nm-applet
-  - syncthing serve --no-browser --logfile=default
   - syncthing-gtk --minimized
   - fcitx5 -d
-  - wl-paste --type text --watch cliphist store
   - wl-paste --type image --watch cliphist store
+  - wl-paste --type text --watch cliphist store
+  - syncthing serve --no-browser --logfile=default
   match_method: name
   name: hyprland_programs
 - commands:
-  - notify-send archdots "running scripts"
   - ~/.scripts/tools/cycle-audio-devices.nu --refresh||true
+  - notify-send archdots "running scripts" -u low
   daemon: false
   name: always_hyprland
   priority: 10

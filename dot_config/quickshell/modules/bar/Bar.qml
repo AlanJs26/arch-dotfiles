@@ -215,13 +215,13 @@ Scope {
                                 }
                             }
 
-                            ActiveWindow {
-                                visible: barRoot.useShortenedForm === 0
-                                Layout.rightMargin: Appearance.rounding.screenRounding
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                bar: barRoot
-                            }
+                            // ActiveWindow {
+                            //     visible: barRoot.useShortenedForm === 0
+                            //     Layout.rightMargin: Appearance.rounding.screenRounding
+                            //     Layout.fillWidth: true
+                            //     Layout.fillHeight: true
+                            //     bar: barRoot
+                            // }
                         }
                     }
                 }

@@ -16,22 +16,44 @@ Scope { // Scope
     id: root
     property bool pinned: Config.options?.dock.pinnedOnStartup ?? false
 
+    // property bool isTopLevel: false
+    //
+    // Connections {
+    //     target: HyprlandData
+    //     function onWindowListChanged() {
+    //         HyprlandData.windowList.filter(w => )
+    //     }
+    // }
+    //
+    function isWorkspaceEmpty() {
+        return !HyprlandData.windowList.some(w => ( 
+            w.workspace.id == Hyprland.focusedWorkspace.id
+            && w.floating == false
+            && w.hidden == false
+            && w.pinned == false
+        ))
+    }
+
     Variants { // For each monitor
         model: Quickshell.screens
 
         LazyLoader {
             id: dockLoader
             required property var modelData
-            activeAsync: Config.options?.dock.hoverToReveal || (!ToplevelManager.activeToplevel?.activated)
+            // activeAsync: Config.options?.dock.hoverToReveal || !ToplevelManager.activeToplevel?.activated
+            activeAsync: Config.options?.dock.hoverToReveal 
+                         || !ToplevelManager.activeToplevel?.activated 
+                         || isWorkspaceEmpty()
 
             component: PanelWindow { // Window
                 id: dockRoot
                 screen: dockLoader.modelData
-                
+               
                 property bool reveal: root.pinned 
                     || (Config.options?.dock.hoverToReveal && dockMouseArea.containsMouse) 
                     || dockApps.requestDockShow 
                     || (!ToplevelManager.activeToplevel?.activated)
+                    || isWorkspaceEmpty()
 
                 anchors {
                     bottom: true

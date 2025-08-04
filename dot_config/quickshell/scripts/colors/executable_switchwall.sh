@@ -233,6 +233,7 @@ switch() {
       #   --transition-pos "$cursorposx, $cursorposy_inverted" &
 
       # Set wallpaper with hyprpaper
+      hyprctl hyprpaper unload "$imgpath"
       hyprctl hyprpaper preload "$imgpath"
       hyprctl hyprpaper wallpaper ",$imgpath"
 

@@ -15,6 +15,7 @@ topath=(
 "$HOME/.config/bspwm"
 "$HOME/.local/share/chezmoi/archdots"
 "$HOME/.local/bin"
+"$HOME/.cargo/bin"
 "/opt/urserver"
 )
 

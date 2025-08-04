@@ -190,7 +190,7 @@ Scope {
             GlobalStates.superReleaseMightTrigger = false
             GlobalStates.sidebarRightOpen = false
             GlobalStates.sidebarLeftOpen = false
-
+            GlobalStates.overviewOpen = false;
         }
     }
     GlobalShortcut {

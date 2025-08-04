@@ -14,8 +14,13 @@ Scope {
     property bool showOsdValues: false
     property var focusedScreen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name)
     property var brightnessMonitor: Brightness.getMonitorForScreen(focusedScreen)
+    property bool firstTime: true
 
     function triggerOsd() {
+        if(firstTime) {
+            firstTime = false
+            return
+        }
         showOsdValues = true
         osdTimeout.restart()
     }
