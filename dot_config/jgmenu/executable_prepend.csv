@@ -1,0 +1,16 @@
+Terminal,archdots launch terminal,/home/alan/.config/jgmenu/MenuIcons/terminal.png
+Web Browser,archdots launch browser,/home/alan/.config/jgmenu/MenuIcons/web-browser.png
+File manager,archdots launch file_explorer,/home/alan/.config/jgmenu/MenuIcons/file-manager.png
+Obsidian,obsidian,/home/alan/.config/jgmenu/MenuIcons/edit-note.png
+Music Player,archdots launch music_player,/home/alan/.config/jgmenu/MenuIcons/music.png
+
+^sep()
+Applications,^checkout(lx-apps),/home/alan/.config/jgmenu/MenuIcons/applications.png
+Show Keybinds,bash ~/.config/sxhkd/sxhkd-help,/home/alan/.config/jgmenu/MenuIcons/dashboard.png
+Reload Scripts and Programs,dots autostart programs scripts --restart;notify-send "Bspwm" "Restarted User Scripts and Programs",/home/alan/.config/jgmenu/MenuIcons/system-menu.png
+
+^sep()
+Restart, bspc wm -r, /home/alan/.config/jgmenu/MenuIcons/restart.png
+Exit,rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate",/home/alan/.config/jgmenu/MenuIcons/exit.png
+
+^tag(lx-apps)

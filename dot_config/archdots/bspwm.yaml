@@ -1,36 +1,36 @@
 autostart:
 - commands:
-  - xmodmap $HOME/.config/X11/xmodmap
+  - dunst
+  - syncthing-gtk --minimized
+  - picom
+  - bspswallow
+  - evrouter --config $HOME/.config/evrouter/.evrouterrc /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse
+    /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd
+  - syncthing serve --no-browser --logfile=default
+  - nm-applet
+  - eww daemon --restart
+  - unclutter --timeout 10 --exclude-root
+  - greenclip daemon
+  - fcitx5 -d
+  - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+  - bspdragwin.py --daemon
+  - jgmenu --hide-on-startup
+  match_method: name
+  name: programs
+- commands:
   - rm /tmp/.evrouter:0||true
-  - cycle-audio-devices.nu --refresh||true
   - $TOOLS/setup-monitors.sh
+  - xmodmap $HOME/.config/X11/xmodmap
+  - cycle-audio-devices.nu --refresh||true
   daemon: false
   name: always
   priority: 10
   run_with:
-  - programs
   - scripts
+  - programs
 - commands:
   - $HOME/.config/eww/scripts/music_helper.sh --cover_daemon
-  - $BSPDIR/fix-polybar-fullscreen.sh
   - $BSPDIR/color-border-mode.sh
+  - $BSPDIR/fix-polybar-fullscreen.sh
   match_method: cmdline
   name: scripts
-- commands:
-  - picom
-  - bspswallow
-  - jgmenu --hide-on-startup
-  - bspdragwin.py --daemon
-  - syncthing-gtk --minimized
-  - nm-applet
-  - dunst
-  - unclutter --timeout 10 --exclude-root
-  - fcitx5 -d
-  - evrouter --config $HOME/.config/evrouter/.evrouterrc /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse
-    /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd
-  - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-  - greenclip daemon
-  - syncthing serve --no-browser --logfile=default
-  - eww daemon --restart
-  match_method: name
-  name: programs

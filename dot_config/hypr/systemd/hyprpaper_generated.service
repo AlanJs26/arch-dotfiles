@@ -1,0 +1,13 @@
+[Unit]
+Description=Use wallpaper from illogical-impulse configs
+Requires=hyprpaper.service
+After=hyprpaper.service
+
+[Service]
+Type=simple
+ExecStart=%h/.config/hypr/hyprpaper/load_generated.sh
+Restart=on-failure
+RestartSec=1s 
+
+[Install]
+WantedBy=hyprpaper.service

@@ -1,0 +1,194 @@
+{
+  "custom/music": {
+   "restart-interval": 0,
+   "escape": true,
+   "format": "{}",
+   "exec": "~/.config/waybar/scripts/scroll_spotify_status.sh",
+   "on-click": "playerctl play-pause",
+   "on-click-right": "playerctl next"
+  },
+  "custom/notifications": {
+    "format": "{}",
+    "exec": "$HOME/.config/polybar/tokyonight/scripts/notifications-count.sh",
+    "interval": 2,
+    "on-click": "eww open disclose --toggle&&eww close mainframe; $HOME/.config/eww/scripts/notification_logger.zsh clear_pending ",
+    "on-click-right": "dunstctl set-paused toggle"
+  },
+  "custom/archdots": {
+    "interval": 60,
+    "format": "{}",
+    "exec": "bash ~/.config/waybar/scripts/archdots-status.sh",
+    "on-click": "kitty --class __float__ bash -c \"archdots sync&&printf \\\"Press Enter\\\"&& read a\""
+  },
+  "custom/duolingo": {
+    "format": "{}",
+    "exec": "bash ~/.config/waybar/scripts/duolingo_streak.sh",
+    "interval": 100,
+    "on-click": "xdg-open 'https://duolingo.com'"
+  },
+  "cpu": {
+    "format": " {usage}%",
+    "interval": 1,
+    "format-alt-click": "click",
+    "format-alt": "{icon0}{icon1}{icon2}{icon3}  {usage:>2}%",
+    "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+  },
+
+  "memory": {
+    "interval": 10,
+    "format": " {percentage}% ",
+  },
+
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    //"format": "{name}: {icon}",
+    //"format": "{icon}",
+    "show-special": false,
+    "on-click": "activate",
+    "all-outputs": false,
+    "sort-by-number": true,
+    "format-icons": {
+      "1": "main  ",
+      "2": "2  ",
+      "3": "3  ",
+      "4": "4  ",
+      "5": "5  ",
+      "6": "6  ",
+      "7": "7  ",
+      "8": "8  ",
+      "9": "9  ",
+      "10": " 10 ",
+      "focused": "",
+      "default": "",
+    },
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+  },
+
+
+  "clock": {
+    //"format": "{:%I:%M %p}",
+    "format": " {:%H:%M  %a, %d/%m/%Y} ",
+    //"format-alt": " {:%I:%M %p   %Y, %d %B, %A}",
+    "format-alt": " {:%H:%M   %d/%m/%Y, %A}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode"          : "year",
+      "mode-mon-col"  : 3,
+      "weeks-pos"     : "right",
+      "on-scroll"     : 1,
+      "on-click-right": "mode",
+      "format": {
+        "months":     "<span color='#ffead3'><b>{}</b></span>",
+        "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+        "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions":  {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  "custom/power": {
+    "format": "  ",
+    "tooltip": false,
+    "on-click": "sh -c '(sleep 0.5s; wlogout --protocol layer-shell)' & disown",
+    "on-click-right": "~/.config/scripts/glassmorphism"
+  },
+
+  "network": {
+    "format": "{ifname}",
+    "format-wifi": "{essid} ({signalStrength}%)  ",
+    "format-ethernet": "",
+    "format-disconnected": "", //An empty format will hide the module.
+    "tooltip-format": "{ifname} via {gwaddr} ",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "tooltip-format-ethernet": "{ifname} ",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 50,
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": " {icon} {volume} %",
+    "format-muted": " mute",
+    "format-icons": {
+      "headphone": " ",
+      "hands-free": " ",
+      "headset": " ",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""],
+      "ignored-sinks": ["Easy Effects Sink"],
+    },
+    "scroll-step": 5.0,
+    "on-click": "pamixer --toggle-mute",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "amixer -q -D pulse sset Master 5%+",
+    "on-scroll-down": "amixer -q -D pulse sset Master 5%-",
+    "smooth-scrolling-threshold": 1,
+  },
+
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": " {volume} %",
+    "format-source-muted": "",
+    "on-click": "~/.config/scripts/volume --toggle-mic",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "~/.config/scripts/volume --mic-inc",
+    "on-scroll-down": "~/.config/scripts/volume --mic-dec",
+    "scroll-step": 5,
+  },
+
+  "wireplumber": {
+    "format": "{icon} {volume} %",
+    "format-muted": " Mute",
+    "on-click": "~/.config/scripts/volume --toggle",
+    "on-click-right": "pavucontrol",
+    "on-scroll-up": "~/.config/scripts/volume --inc",
+    "on-scroll-down": "~/.config/scripts/volume --dec",
+    "format-icons": ["", "", ""],
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8,
+  },
+
+  "custom/lock": {
+    "format": "",
+    "on-click": "~/.config/scripts/lockscreen",
+    "tooltip": false,
+  },
+
+  "custom/keybindings": {
+    "format":"",
+    "tooltip": false,
+    "on-click": "~/.config/scripts/keyhint",
+  },
+
+  "custom/updater":{
+    "format": " {}",
+    "exec": "checkupdates | wc -l",
+    "exec-if": "[[ $(checkupdates | wc -l) ]]",
+    "interval": 15,
+    "on-click": "foot -T update paru -Syu || yay -Syu && notify-send 'The system has been updated'",
+    "on-click-right": "~/.config/scripts/changeWallpaper",
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": "",
+    },
+  }
+}
