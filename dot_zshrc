@@ -5,7 +5,7 @@ ZSH_THEME=""
 ZSHZ_TRAILING_SLASH=true
 export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-plugins=(git uv colored-man-pages)
+plugins=(uv colored-man-pages)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -70,7 +70,9 @@ alias gitb="git branch -a"
 alias lg="lazygit"
 alias copy="xclip -sel copy"
 
-alias lddtree="libtree"
+function lddtree() {
+  libtree $(which $1)
+}
 
 alias run="run.sh"
 alias open="run.sh"

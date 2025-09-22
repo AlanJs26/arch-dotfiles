@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 source ~/.env.sh
 
 mode="$(echo 'monitors
@@ -6,6 +8,7 @@ ssh
 colorpicker
 ocr
 ocrlatex
+record
 shortcuts
 applications
 screensaver
@@ -28,6 +31,9 @@ scratchpad)
   ;;
 ssh)
   $ROFI_SCRIPTS/rofi-ssh-aliases.sh
+  ;;
+record)
+  $ROFI_SCRIPTS/rofi-record.sh
   ;;
 colorpicker)
   colorpicker-selection.sh

@@ -2094,3 +2094,54 @@ nu cycle-apps.nu class:vivaldi --by-workspace
 [1]
 hyprctl activewindow -j|from json|get asdf
 nu cycle-apps.nu class:kitty --by-workspace
+ss
+ss -tulpen
+ss -tulpen state LISTENING| detect columns
+ss -tulpen state LISTENING
+ss -tulpn state LISTENING
+ss -tulpn state LISTENING| detect columns
+help detect columns
+ss -tulpn state LISTENING| detect columns --guess
+ss -tulpn state LISTENING| detect columns --guess -c 5..6
+ss -tulpn state LISTENING| detect columns --guess -c 3..4 -c 5..6
+ss -tulpn state LISTENING| detect columns --guess -c 3..4
+ss -tulpn state LISTENING| detect columns --guess -c 2..3
+ss -tulpn state LISTENING| detect columns --guess -c 2..3 -c 4..5
+ss -tulpn state LISTENING| detect columns --guess -c 2..3
+ss -tulpn state LISTENING| detect columns --guess --skip 1 --no-headers
+help str replace
+ss -tulpn state LISTENING| str replace -r '\s{2,}' '\t'
+ss -tulpn state LISTENING| str replace --all -r '\s{2,}' '\t'
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' '\t'
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' (char '\t')
+help char
+char --list
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' (char tab)
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' (char tab)|detect columns
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' (char tab)|detect columns --guess
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' (char tab)|split column (char tab)
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' (char tab)|lines|split column (char tab)
+ss -tulpn state LISTENING| str replace --all --multiline -r '\s{2,}' (char tab)|lines
+ss -tulpn state LISTENING| lines
+ss -tulpn state LISTENING|lines|each {|| str replace --all --multiline -r '\s{2,}' (char tab)}
+ss -tulpn state LISTENING|lines|each {|| str replace --all --multiline -r '\s{2,}' (char tab)}|split column (char tab)
+ss -tulpn state LISTENING|lines|each {|| str replace --all --multiline -r '\s{2,}' (char tab)}|split column (char tab)|headers
+ss -tulpen state LISTENING|lines|each {|| str replace --all --multiline -r '\s{2,}' (char tab)}|split column (char tab)|headers
+ss -tulpen state LISTENING
+ss -tulpen state LISTENING|lines|each {|| str replace -all -r '(\S) (\S)' '$1_$2'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S) (\S)' '$1_$2'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S)\s(\S)' '$1_$2'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S)\s(\S)' '!!!!!'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S)\s(\S)' '$1_$2'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S)' '$1'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S) ' '$1'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S) ' '$1_'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S) ' '$1 _'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S) ' '${1}_'}
+ss -tulpen state LISTENING|lines|each {|| str replace --all -r '(\S) (\S)' '${1}_${2}'}
+ss -tulpen state LISTENING|each {|| str replace --all -r '(\S) (\S)' '${1}_${2}'}
+ss -tulpen state LISTENING|str replace --all -r '(\S) (\S)' '${1}_${2}'
+ss -tulpen state LISTENING|str replace --all -r '(\S) (\S)' '${1}_${2}'|detect columns
+ss -tulpen state LISTENING|str replace --all -r '(\S) (\S)' '${1}_${2}'|detect columns --guess
+ss -tulpen state LISTENING
+exit

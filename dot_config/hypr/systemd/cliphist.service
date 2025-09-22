@@ -1,0 +1,13 @@
+[Unit]
+Description=Clipboard history manager
+Requires=wayland-session@hyprland.desktop.target
+After=wayland-session@hyprland.desktop.target
+
+[Service]
+Type=simple
+ExecStart=%h/.scripts/tools/launch/cliphist-launch.sh
+Restart=always
+RestartSec=1s 
+
+[Install]
+WantedBy=wayland-session@hyprland.desktop.target

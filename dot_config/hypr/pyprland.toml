@@ -5,7 +5,8 @@ plugins = [
 ]
 
 [scratchpads.kitty]
-animation = "fromBottom"
+# animation = "fromBottom"
+animation = ""
 command = "kitty --class kitty-scratchpad"
 class = "kitty-scratchpad"
 size = "75% 60%"
@@ -23,7 +24,8 @@ preserve_aspect = true
 margin = 150
 
 [scratchpads.qalculate]
-animation = "fromBottom"
+# animation = "fromBottom"
+animation = ""
 command = "qalculate-gtk"
 class = "qalculate-gtk"
 size = "20% 60%"
@@ -31,7 +33,8 @@ preserve_aspect = true
 margin = 150
 
 [scratchpads.filemanager]
-animation = "fromBottom"
+# animation = "fromBottom"
+animation = ""
 command = "nemo --class __float__Nemo"
 class = "__float__Nemo"
 size = "70% 75%"
@@ -39,7 +42,8 @@ preserve_aspect = true
 margin = 150
 
 [scratchpads.pavucontrol]
-animation = "fromBottom"
+# animation = "fromBottom"
+animation = ""
 command = "pavucontrol"
 class = "org.pulseaudio.pavucontrol"
 size = "70% 75%"

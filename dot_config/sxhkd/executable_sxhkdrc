@@ -95,7 +95,7 @@ XF86Mail
 
 # Terminal Emulator
 super + Return
-	dots launch terminal
+	archdots launch terminal
 
 # Web Browser
 super + shift + Return

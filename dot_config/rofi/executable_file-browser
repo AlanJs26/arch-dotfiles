@@ -1,6 +1,6 @@
 cmd        "/home/alan/Documentos/tools/run.sh"
 oc-cmd     "xdg-open;icon:html"
-oc-cmd     "nemo;icon:nemo"
+oc-cmd     "nemo --existing-window;icon:nemo"
 oc-cmd     "zathura;icon:zathura"
 oc-cmd     "xreader;icon:xreader"
 oc-cmd     "kitty;icon:kitty"

@@ -1,11 +1,8 @@
 autostart:
 - commands:
-  - syncthing-gtk --minimized
   - syncthing serve --no-browser --logfile=default
   - nm-applet
-  - wl-paste --type image --watch cliphist store
   - fcitx5 -d
-  - wl-paste --type text --watch cliphist store
   match_method: name
   name: hyprland_programs
 - commands:
