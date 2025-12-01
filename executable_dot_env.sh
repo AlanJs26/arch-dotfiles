@@ -7,7 +7,8 @@ export BSPSETTINGS="$HOME/.scripts/settings.json"
 export SCRIPTS="$HOME/.scripts"
 
 topath=(
-"$HOME/.local/share/gem/ruby/3.0.0/bin"
+"$HOME/.local/share/gem/ruby/3.0.0/bin" # ruby
+"$HOME/.dotnet/tools" # .NET Core SDK tools
 "$SCRIPTS/bin"
 "$SCRIPTS/bspwm-scripts"
 "$TOOLS"
@@ -40,11 +41,13 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 export _JAVA_AWT_WM_NONREPARENTING=1
 
+# atac
+export ATAC_KEY_BINDINGS="$HOME/.config/atac/vim_key_bindings.toml"
+
 export SDL_VIDEODRIVER=x11
 
 # Intel Quartus
 export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
-
 
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   fcitx_env=$(cat <<EOF

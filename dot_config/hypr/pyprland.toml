@@ -49,3 +49,12 @@ class = "org.pulseaudio.pavucontrol"
 size = "70% 75%"
 preserve_aspect = true
 margin = 150
+
+
+[scratchpads.audiorelay]
+# animation = "fromBottom"
+animation = ""
+command = ""
+class = "com-azefsw-audioconnect-desktop-app-MainKt"
+preserve_aspect = true
+margin = 150

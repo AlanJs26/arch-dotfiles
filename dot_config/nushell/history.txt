@@ -2145,3 +2145,54 @@ ss -tulpen state LISTENING|str replace --all -r '(\S) (\S)' '${1}_${2}'|detect c
 ss -tulpen state LISTENING|str replace --all -r '(\S) (\S)' '${1}_${2}'|detect columns --guess
 ss -tulpen state LISTENING
 exit
+sleep 0.01
+sleep 100ms
+z hypr scr
+ls
+./cycle-master-width.nu
+lf
+./cycle-master-width.nu
+ls
+./keybind-change-orientation.nu
+./keybind-cycle-master-width.sh
+filter
+"alan" =~ "a"
+"alan jose" =~ ""
+"alan jose" =~ "alan"
+"alan jose" =~ "alanf"
+not "alan jose" =~ "alanf"
+not ("alan jose" =~ "alanf")
+not ("alan jose" =~ "alan|Alan")
+"alan jose" =~ "alan|Alan"
+"alan jose" =~ "Alan"
+"alan jose" =~ "alan|Alan"
+["alan" "jose"]
+["alan" "jose" "sadf"] | each {|| "alan jose" =~ $in}
+["alan" "jose" "sadf"] | each {|| "alan jose" =~ $in} | any
+["alan" "jose" "sadf"] | any {|| "alan jose" =~ $in}
+cycle-audio-devices.nu sink
+pactl list sink-inputs
+pactl list sink-inputs short
+pactl list sink-inputs
+pactl list sink-inputs short
+pactl list sink
+pactl list sinks
+pactl list sink-inputs
+pactl list sink-inputs short
+cycle-audio-devices.nu sink
+[] | append [1 2]
+[] | append [1;2]
+[] | append [1,2]
+[1] | append [1,2]
+[1] | append [[1,2]]
+let a = [1 2]
+a
+$a
+[] | append $a
+{name: "a"}
+{name: "a", jose: "b"}
+[] | append {name: "a", jose: "b"}
+pactl move-sink-input -h
+pactl move-sink-input --help
+pactl --help
+cycle-audio-devices.nu sink

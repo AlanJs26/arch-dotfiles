@@ -2,7 +2,21 @@
 
 source ~/.env.sh
 
-mode="$(echo 'monitors
+mode=''
+if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+  mode="$(echo 'record
+ssh
+colorpicker
+ocr
+ocrlatex
+applications
+prop
+kill_window
+save_to_obsidian
+save_to_thunderatz
+zoxide' | rofi -dmenu -p 'rofi')"
+else
+  mode="$(echo 'monitors
 scratchpad
 ssh
 colorpicker
@@ -12,17 +26,26 @@ record
 shortcuts
 applications
 screensaver
+prop
 window_class
 window_name
 kill_window
 save_to_obsidian
 save_to_thunderatz
 zoxide' | rofi -dmenu -p 'rofi')"
+fi
 
 ROFI_SCRIPTS=$SCRIPTS/rofi-scripts
 
 case "$mode" in
 "--list") ;;
+prop)
+  if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+    kitty bash -c 'hyprprop; echo Press ENTER to continue; read -n 1'
+  else
+    kitty bash -c 'xprop; echo Press ENTER to continue; read -n 1'
+  fi
+  ;;
 monitors)
   $ROFI_SCRIPTS/rofi-monitors.sh
   ;;
@@ -57,7 +80,11 @@ screensaver)
   $ROFI_SCRIPTS/rofi-lockscreen.sh
   ;;
 kill_window)
-  xprop | awk '/PID/ {print $3}' | xargs kill -9
+  if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+    hyprprop | jq .pid | xargs kill -9
+  else
+    xprop | awk '/PID/ {print $3}' | xargs kill -9
+  fi
   ;;
 window_class)
   wmname=$(xprop | rg "^WM_CLASS.+\"(.+?)\"" -r '$1')

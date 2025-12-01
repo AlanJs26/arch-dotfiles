@@ -70,6 +70,8 @@ alias gitb="git branch -a"
 alias lg="lazygit"
 alias copy="xclip -sel copy"
 
+alias idf=idf.py
+
 function lddtree() {
   libtree $(which $1)
 }
@@ -124,3 +126,7 @@ compdef _uv_run_mod uv
 ### End of uv Setup
 
 export PATH="/usr/local/bin/bin:$PATH"
+
+# qlty
+export QLTY_INSTALL="$HOME/.qlty"
+export PATH="$QLTY_INSTALL/bin:$PATH"

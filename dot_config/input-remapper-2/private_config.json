@@ -1,6 +1,8 @@
 {
-    "version": "2.1.1",
+    "version": "2.2.0",
     "autoload": {
-        "USB GAMING MOUSE ": "Mouse Copy Paste"
+        "USB GAMING MOUSE ": "Mouse Copy Paste",
+        "2.4G Dongle": "Function Keys",
+        "Sunshine X-Box One (virtual) pad": "Arrow Keys"
     }
 }

@@ -44,9 +44,11 @@ def --wrapped main [ ...args ] {
   let by_workspace = ($args|has "--by-workspace")
   let allow_special = ($args|has "--allow-special")
   let allow_floating = ($args|has "--allow-floating")
+  let bring_window = ($args|has "--bring-window")
 
   let args_pair = match ($args
     |where $it != "--by-workspace"
+    |where $it != "--bring-window"
     |where $it != "--allow-special"
     |where $it != "--allow-floating"
     |split list "--not") {
@@ -124,6 +126,28 @@ def --wrapped main [ ...args ] {
       print $"Focusing workspace ($target_workspace.0.workspace.id)"
       hyprctl dispatch workspace $target_workspace.0.workspace.id
     }
+
+  } else if ($bring_window and ($matches|length) >= 1) {
+    print $"Bring window - (ansi cyan)\(*\) = selected window(ansi default)"
+
+    for client in $matches {
+      if ($focused_client|is-not-empty) and ($client.address == $focused_client.address) {
+        print $"(ansi cyan)\(*\)(ansi default) ($client.title)"
+      } else {
+        print $"    ($client.title)"
+      }
+    }
+    print ''
+
+    let target_client = ($matches|skip while {$in.address <= $focused_client.address}|take 1)
+    if ($target_client|is-empty) {
+      print $"Bringing window ($matches.0.title)"
+      hyprctl dispatch movetoworkspace $"+0,address:($matches.0.address)"
+    } else {
+      print $"Bringing window ($target_client.0.title)"
+      hyprctl dispatch movetoworkspace $"+0,address:($target_client.0.address)"
+    }
+
 
   } else {
     if not $by_workspace and ($matches|length) == 1 {

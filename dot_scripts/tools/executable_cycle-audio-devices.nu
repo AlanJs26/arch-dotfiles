@@ -2,11 +2,36 @@
 
 let cache_file = '/tmp/previous_sink.json'
 
-let sink_inputs = pactl list sink-inputs short|lines|split column "\t"|rename id sink|select id sink|into value
+let sink_inputs_info = pactl list sink-inputs|split row --regex 'Sink Input #\d+'|str trim|where {|| ($in|str length) > 1}
+let sink_inputs = $sink_inputs_info|each {|sink|
+  mut output = {}
+  let parsed = $sink|str replace -a -m -r "^\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'
+  let names = $parsed|rg '^\[\[.+\]\]'|str replace -r -a '\[\[(.+)\]\]' '$1'|lines
+  let info = $parsed|split column -r '\[\[.+\]\]'|rename Content ...$names 
 
-let sink_info = pactl list sinks|split row --regex 'Sink #\d+'|str trim|filter {|| ($in|str length) > 1}
+  let content = $info|get Content|each {||
+    $in|lines|str replace : '==='|split column '==='|str trim|transpose -i|headers|into record
+  }|into record
 
-let sinks = $sink_info|each {|sink|
+  let properties = ($info|get Properties|each {||
+    $in|lines|parse '{key} = "{value}"'|str trim|transpose -i|headers|into record
+  })|into record
+
+  let id = $properties|get 'object.serial'|into int
+  $output = ($output|insert id $id)
+
+  let sink_id = $content|get Sink
+  $output = ($output|insert sink $sink_id)
+
+  let name = $properties|get 'node.name'
+  $output = ($output|insert name $name)
+
+  $output
+}
+
+let sink_info = pactl list sinks|split row --regex 'Sink #\d+'|str trim|where {|| ($in|str length) > 1}
+
+let all_sinks = $sink_info|each {|sink|
   mut output = {}
   let parsed = $sink|str replace -a -m -r "^\t" ''|str replace -a -r -m '^([a-zA-Z]+):$' '[[$1]]'
   let names = $parsed|rg '^\[\[.+\]\]'|str replace -r -a '\[\[(.+)\]\]' '$1'|lines
@@ -47,10 +72,25 @@ let sinks = $sink_info|each {|sink|
   $output
 }
 
+let sinks = $all_sinks | where {|sink|
+  (["mic|Mic"] | all {|| not ($sink.name =~ $in) })
+}
+
 def set_sink [sink, --hide_notifications] {
+  let inputs2keep = []
+  $sink_inputs|each {|sink_input|
+    if (["RtAudio"] | any {|| $sink_input.name =~ $in}) {
+      let sink_name = $all_sinks | where {|| $in.id == $sink_input.sink} | get description
+
+      $inputs2keep | append {id: $sink_input.id, sink: $sink_name}
+    } else {
+      pactl move-sink-input $sink_input.id $sink.name
+    }
+  }
   pactl set-default-sink $sink.name
-  $sink_inputs|each {||
-    pactl move-sink-input $in.id $sink.name
+
+  $inputs2keep|each {|input|
+      pactl move-sink-input $input.id $input.sink
   }
 
   $sink|save $cache_file --force
@@ -113,7 +153,7 @@ def cycle_sink [] {
 def cycle_port []: nothing -> record<sink: string, port: string> {
   let running_sinks = $sinks|find --columns [state] RUNNING
 
-  $running_sinks|filter {|| $in|columns|find ports|is-not-empty}|collect {|sink| 
+  $running_sinks|where {|| $in|columns|find ports|is-not-empty}|collect {|sink| 
     if ($sink | is-empty) or (($sink | get ports.0 | length) <= 1) { return [] }
     let active_port = $sink|get active_port.0
     let ports = $sink|get ports.0
@@ -181,7 +221,7 @@ def "main port" [
       return $active_port
     }
 
-    let active_port = $running_sinks|filter {|| $in|columns|find ports|is-not-empty}|get active_port.0
+    let active_port = $running_sinks|where {|| $in|columns|find ports|is-not-empty}|get active_port.0
 
     return $active_port
   }

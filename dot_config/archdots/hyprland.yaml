@@ -1,7 +1,7 @@
 autostart:
 - commands:
-  - syncthing serve --no-browser --logfile=default
   - nm-applet
+  - syncthing serve --no-browser --logfile=default
   - fcitx5 -d
   match_method: name
   name: hyprland_programs

@@ -14,4 +14,4 @@ configuration {
   /* combi-modi: "drun,run,run"; */
 }
 
-@theme "./tokyonight/rofi.rasi"
+@theme "./themes/rofi.rasi"

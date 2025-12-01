@@ -3,7 +3,7 @@ use std assert
 
 def main [
   --vault = "/mnt/DiscoExterno/ObsidianVaults/USP" # obsidian vault
-  --subfolder = "7 Semestre" # subfolder to search
+  --subfolder = "8 Semestre" # subfolder to search
   --excluded = "Rascunhos, Mídia, Notebooks"
 ] {
 
