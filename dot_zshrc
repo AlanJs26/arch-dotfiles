@@ -71,6 +71,7 @@ alias lg="lazygit"
 alias copy="xclip -sel copy"
 
 alias idf=idf.py
+alias gmc="gmc --context \"add a gitmoji in plain text at the start of the message. Use colons around the emoji name\""
 
 function lddtree() {
   libtree $(which $1)

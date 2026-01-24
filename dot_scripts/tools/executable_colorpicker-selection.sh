@@ -1,11 +1,18 @@
 #!/usr/bin/sh
 
-if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+case "$XDG_CURRENT_DESKTOP" in
+"Hyprland")
   sleep 0.5
   color=$(hyprpicker --autocopy | rg '^#\w+')
-else
+  ;;
+"niri")
+  sleep 0.5
+  color=$(hyprpicker --autocopy | rg '^#\w+')
+  ;;
+*)
   color=$(colorpicker --one-shot | rg "Hex: (.+)" -or '$1')
   printf "%s" $color | xclip -sel copy
-fi
+  ;;
+esac
 
 notify-send "Colorpicker" "$color" -u low

@@ -3,7 +3,8 @@
 source ~/.env.sh
 
 mode=''
-if [ "$XDG_CURRENT_DESKTOP" = "Hyprland" ]; then
+case "$XDG_CURRENT_DESKTOP" in
+"Hyprland")
   mode="$(echo 'record
 ssh
 colorpicker
@@ -14,8 +15,22 @@ prop
 kill_window
 save_to_obsidian
 save_to_thunderatz
+power
 zoxide' | rofi -dmenu -p 'rofi')"
-else
+  ;;
+"niri")
+  mode="$(echo 'record
+ssh
+colorpicker
+ocr
+ocrlatex
+applications
+save_to_obsidian
+save_to_thunderatz
+power
+zoxide' | rofi -dmenu -p 'rofi')"
+  ;;
+*)
   mode="$(echo 'monitors
 scratchpad
 ssh
@@ -32,8 +47,10 @@ window_name
 kill_window
 save_to_obsidian
 save_to_thunderatz
+power
 zoxide' | rofi -dmenu -p 'rofi')"
-fi
+  ;;
+esac
 
 ROFI_SCRIPTS=$SCRIPTS/rofi-scripts
 
@@ -101,6 +118,9 @@ save_to_obsidian)
   ;;
 save_to_thunderatz)
   $ROFI_SCRIPTS/rofi-save-to-obsidian.nu --subfolder ThundeRatz
+  ;;
+power)
+  rofi -show power-menu -modi "power-menu:rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate"
   ;;
 *)
   echo "unknown argument"

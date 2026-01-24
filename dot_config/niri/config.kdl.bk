@@ -1,0 +1,530 @@
+// This config is in the KDL format: https://kdl.dev
+// "/-" comments out the following node.
+// Check the wiki for a full description of the configuration:
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Overview
+
+environment {
+  ELECTRON_OZONE_PLATFORM_HINT "wayland"
+  QT_QPA_PLATFORM "wayland"
+  DISPLAY ":0"
+
+  XDG_CURRENT_DESKTOP "niri"
+  XDG_SESSION_TYPE "wayland"
+  QT_QPA_PLATFORM "wayland"
+  MOZ_ENABLE_WAYLAND "1"
+  QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+  _JAVA_AWT_WM_NONREPARENTING "1"
+}
+
+// Input device configuration.
+// Find the full list of options on the wiki:
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Input
+input {
+  // workspace-auto-back-and-forth
+  keyboard {
+    numlock
+    xkb {
+      layout "br"
+      // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
+    }
+  }
+
+  // Next sections include libinput settings.
+  // Omitting settings disables them, or leaves them at their default values.
+  touchpad {
+    // off
+    tap
+    // dwt
+    // dwtp
+    natural-scroll
+    // accel-speed 0.2
+    // accel-profile "flat"
+    // scroll-method "two-finger"
+    // disabled-on-external-mouse
+  }
+
+  mouse {
+    // off
+    // natural-scroll
+    // accel-speed 0.2
+    // accel-profile "flat"
+    // scroll-method "no-scroll"
+  }
+
+  trackpoint {
+    // off
+    // natural-scroll
+    // accel-speed 0.2
+    // accel-profile "flat"
+    // scroll-method "on-button-down"
+    // scroll-button 273
+    // middle-emulation
+  }
+
+  // Uncomment this to make the mouse warp to the center of newly focused windows.
+  // warp-mouse-to-focus
+
+  // Focus windows and outputs automatically when moving the mouse into them.
+  // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
+  focus-follows-mouse max-scroll-amount="20%"
+
+}
+
+// You can configure outputs by their name, which you can find
+// by running `niri msg outputs` while inside a niri instance.
+// The built-in laptop monitor is usually called "eDP-1".
+// Find more information on the wiki:
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
+// Remember to uncomment the node by removing "/-"!
+output "HDMI-A-1" {
+    // Uncomment this line to disable this output.
+    // off
+
+    // Resolution and, optionally, refresh rate of the output.
+    // The format is "<width>x<height>" or "<width>x<height>@<refresh rate>".
+    // If the refresh rate is omitted, niri will pick the highest refresh rate
+    // for the resolution.
+    // If the mode is omitted altogether or is invalid, niri will pick one automatically.
+    // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
+    mode "1920x1080@60.000"
+    scale 1
+    transform "normal"
+    position x=1360 y=0
+}
+output "DP-1" {
+    // Uncomment this line to disable this output.
+    // off
+    mode "1360x768@60.015"
+    scale 1
+    transform "normal"
+    position x=0 y=312
+}
+
+// Settings that influence how windows are positioned and sized.
+// Find more information on the wiki:
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
+// Settings that influence how windows are positioned and sized.
+// Find more information on the wiki:
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
+layout {
+    // Set gaps around windows in logical pixels.
+    gaps 12
+
+    // When to center a column when changing focus, options are:
+    // - "never", default behavior, focusing an off-screen column will keep at the left
+    //   or right edge of the screen.
+    // - "always", the focused column will always be centered.
+    // - "on-overflow", focusing a column will center it if it doesn't fit
+    //   together with the previously focused column.
+    center-focused-column "never"
+    always-center-single-column
+
+    tab-indicator {
+        // off
+        // hide-when-single-tab
+        place-within-column
+        gap 5
+        width 6
+        position "left"
+        gaps-between-tabs 3
+        corner-radius 8
+    }
+
+
+    // You can customize the widths that "switch-preset-column-width" (Mod+R) toggles between.
+    preset-column-widths {
+        // Proportion sets the width as a fraction of the output width, taking gaps into account.
+        // For example, you can perfectly fit four windows sized "proportion 0.25" on an output.
+        // The default preset widths are 1/3, 1/2 and 2/3 of the output.
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+
+        // Fixed sets the width in logical pixels exactly.
+        // fixed 1920
+    }
+
+    // You can change the default width of the new windows.
+    // If you leave the brackets empty, the windows themselves will decide their initial width.
+    default-column-width { proportion 0.6667; }
+
+    // By default focus ring and border are rendered as a solid background rectangle
+    // behind windows. That is, they will show up through semitransparent windows.
+    // This is because windows using client-side decorations can have an arbitrary shape.
+    //
+    // If you don't like that, you should uncomment `prefer-no-csd` below.
+    // Niri will draw focus ring and border *around* windows that agree to omit their
+    // client-side decorations.
+    //
+    // Alternatively, you can override it with a window rule called
+    // `draw-border-with-background`.
+
+    // You can change how the focus ring looks.
+    focus-ring {
+        off
+        width 2
+    }
+
+    // You can also add a border. It's similar to the focus ring, but always visible.
+    border {
+        width 2
+
+        active-gradient from="#92a4c9" to="#4b70c0" angle=45
+        inactive-gradient from="#556180" to="#2b3652" angle=45 relative-to="workspace-view"
+    }
+
+    shadow {
+        on
+
+        draw-behind-window true
+
+        // You can change how shadows look. The values below are in logical
+        // pixels and match the CSS box-shadow properties.
+
+        // Softness controls the shadow blur radius.
+        softness 5
+
+        // Spread expands the shadow.
+        spread 10
+
+        // Offset moves the shadow relative to the window.
+        offset x=0 y=5
+
+        // You can also change the shadow color and opacity.
+        color "#0135"
+    }
+
+    // Struts shrink the area occupied by windows, similarly to layer-shell panels.
+    // You can think of them as a kind of outer gaps. They are set in logical pixels.
+    // Left and right struts will cause the next window to the side to always be visible.
+    // Top and bottom struts will simply add outer gaps in addition to the area occupied by
+    // layer-shell panels and regular gaps.
+    struts {
+        left 15
+        right 15
+        top -6
+        bottom -6
+    }
+}
+
+// Add lines like this to spawn processes at startup.
+// Note that running niri as a session supports xdg-desktop-autostart,
+// which may be more convenient to use.
+// See the binds section below for more spawn examples.
+// spawn-at-startup "alacritty" "-e" "fish"
+
+spawn-at-startup "xwayland-satellite"
+
+spawn-at-startup "wl-paste" "--watch" "cliphist" "store"
+
+spawn-at-startup "dunst"
+spawn-at-startup "waybar"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+spawn-at-startup "swaybg" "-i" "/home/alan/.config/bspwm/wallpapers/hell3.png"
+
+// Uncomment this line to ask the clients to omit their client-side decorations if possible.
+// If the client will specifically ask for CSD, the request will be honored.
+// Additionally, clients will be informed that they are tiled, removing some rounded corners.
+prefer-no-csd
+
+// You can change the path where screenshots are saved.
+// A ~ at the front will be expanded to the home directory.
+// The path is formatted with strftime(3) to give you the screenshot date and time.
+screenshot-path "~/Imagens/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// You can also set this to null to disable saving screenshots to disk.
+// screenshot-path null
+
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Animations
+animations {
+  // slowdown 2.0
+
+  window-open {
+    duration-ms 250
+    curve "linear"
+    custom-shader r"
+
+    vec4 expanding_circle(vec3 coords_geo, vec3 size_geo) {
+      vec3 coords_tex = niri_geo_to_tex * coords_geo;
+      vec4 color = texture2D(niri_tex, coords_tex.st);
+      vec2 coords = (coords_geo.xy - vec2(0.5, 0.5)) * size_geo.xy * 2.0;
+      coords = coords / length(size_geo.xy);
+      float p = niri_clamped_progress;
+      if (p * p <= dot(coords, coords))
+      color = vec4(0.0);
+
+      return color;
+    }
+
+    vec4 open_color(vec3 coords_geo, vec3 size_geo) {
+      return expanding_circle(coords_geo, size_geo);
+    }
+    "
+  }
+
+  window-close {
+    duration-ms 100
+    curve "linear"
+    custom-shader r"
+
+    vec4 fall_and_rotate(vec3 coords_geo, vec3 size_geo) {
+      float progress = niri_clamped_progress * niri_clamped_progress;
+      vec2 coords = (coords_geo.xy - vec2(0.5, 1.0)) * size_geo.xy;
+      coords.y -= progress * 1440.0;
+      float random = (niri_random_seed - 0.5) / 2.0;
+      random = sign(random) - random;
+      float max_angle = 0.5 * random;
+      float angle = progress * max_angle;
+      mat2 rotate = mat2(cos(angle), -sin(angle), sin(angle), cos(angle));
+      coords = rotate * coords;
+      coords_geo = vec3(coords / size_geo.xy + vec2(0.5, 1.0), 1.0);
+      vec3 coords_tex = niri_geo_to_tex * coords_geo;
+      vec4 color = texture2D(niri_tex, coords_tex.st);
+
+      return color;
+    }
+
+    vec4 close_color(vec3 coords_geo, vec3 size_geo) {
+      return fall_and_rotate(coords_geo, size_geo);
+    }
+    "
+  }
+}
+
+// https://github.com/YaLTeR/niri/wiki/Configuration:-Window-Rules
+window-rule {
+    min-height 200
+    min-width 420
+    // max-width 1830
+}
+
+window-rule {
+    match app-id="kitty"
+    default-column-width { proportion 0.5; }
+}
+
+window-rule {
+  match app-id="Scangearmp2"
+  open-floating true
+}
+
+window-rule {
+  match app-id="vivaldi-snapshot"
+  open-maximized true
+}
+
+layer-rule {
+  match namespace="rofi"
+  // baba-is-float true
+
+  shadow {
+    on
+    softness 40
+    spread 5
+    offset x=0 y=5
+    draw-behind-window true
+    color "#00000064"
+  }
+
+}
+
+binds {
+    // Keys consist of modifiers separated by + signs, followed by an XKB key name
+    // in the end. To find an XKB name for a particular key, you may use a program
+    // like wev.
+    //
+    // "Mod" is a special modifier equal to Super when running on a TTY, and to Alt
+    // when running as a winit window.
+    //
+    // Most actions that you can bind here can also be invoked programmatically with
+    // `niri msg action do-something`.
+
+    // Mod-Shift-/, which is usually the same as Mod-?,
+    // shows a list of important hotkeys.
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    Mod+Shift+Z { spawn "ndrop" "kitty" "--class" "kitty_1"; }
+    Mod+Ctrl+Z { spawn "ndrop" "youtube-music" "--class" "com.github.th_ch.youtube_music"; }
+    Mod+Ctrl+X { spawn "ndrop" "nemo" "--class" "nemo"; }
+    Mod+Ctrl+BackSlash { spawn "ndrop" "qalculate-gtk"; }
+
+    XF86Search  { spawn "ndrop" "pavucontrol" "--class" "org.pulseaudio.pavucontrol"; }
+
+    // Mod+W { toggle-column-tabbed-display; }
+
+    // Suggested binds for running programs: terminal, app launcher, screen locker.
+    Mod+Return { spawn "kitty"; }
+    Mod+Shift+Return { spawn "/usr/bin/vivaldi-snapshot" "--ozone-platform-hint=wayland"; }
+    Mod+Space { spawn "rofi" "-show" "drun"; }
+
+    // Example volume keys mappings for PipeWire & WirePlumber.
+    // The allow-when-locked=true property makes them work even when the session is locked.
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.1-"; }
+    XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioNext        allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPrev        allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioPlay        allow-when-locked=true { spawn "playerctl" "play-pause"; }
+
+    XF86Calculator       allow-when-locked=true { spawn "~/.scripts/tools/cycle-audio-devices.nu" "sink"; }
+    Shift+XF86Calculator allow-when-locked=true { spawn "~/.scripts/tools/cycle-audio-devices.nu" "port"; }
+
+    Mod+Ctrl+Space { spawn "~/.scripts/rofi-scripts/rofi-zoxide.sh"; }
+
+    Mod+Shift+Q { close-window; }
+    Mod+Apostrophe repeat=false { toggle-overview; }
+
+    Mod+Shift+V { spawn "bash" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"; }
+
+    Mod+h { focus-column-or-monitor-left; }
+    Mod+j { focus-window-or-workspace-down; }
+    Mod+k { focus-window-or-workspace-up; }
+    Mod+l { focus-column-or-monitor-right; }
+
+    // Mod+Tab { focus-workspace-down; }
+    Mod+Tab { spawn "~/.scripts/niri-scripts/focus-available.nu"; }
+    Mod+Shift+Tab { focus-workspace-up; }
+
+    Mod+Shift+h { move-column-left-or-to-monitor-left; }
+    Mod+Shift+j { move-window-down-or-to-workspace-down; }
+    Mod+Shift+k { move-window-up-or-to-workspace-up; }
+    Mod+Shift+l { move-column-right-or-to-monitor-right; }
+
+    // Mod+Shift+Ctrl+h { move-workspace-to-monitor-left; }
+    Mod+Shift+Ctrl+h { spawn "~/.scripts/niri-scripts/swap-monitors.sh" "left"; }
+    Mod+Shift+Ctrl+j { move-workspace-down; }
+    Mod+Shift+Ctrl+k { move-workspace-up; }
+    Mod+Shift+Ctrl+l { spawn "~/.scripts/niri-scripts/swap-monitors.sh" "right"; }
+    // Mod+Shift+Ctrl+l { move-workspace-to-monitor-right; }
+
+    Mod+0 { focus-column-first; }
+    Mod+Home { focus-column-first; }
+    Mod+End  { focus-column-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+End  { move-column-to-last; }
+
+    Mod+Ctrl+h  { focus-monitor-left; }
+    Mod+Ctrl+j  { focus-monitor-down; }
+    Mod+Ctrl+k    { focus-monitor-up; }
+    Mod+Ctrl+l { focus-monitor-right; }
+
+    Mod+Alt+Shift+j { move-column-to-workspace-down; }
+    Mod+Alt+Shift+k { move-column-to-workspace-up; }
+
+    Mod+Shift+Page_Down { move-workspace-down; }
+    Mod+Shift+Page_Up   { move-workspace-up; }
+
+    // You can bind mouse wheel scroll ticks using the following syntax.
+    // These binds will change direction based on the natural-scroll setting.
+    //
+    // To avoid scrolling through workspaces really fast, you can use
+    // the cooldown-ms property. The bind will be rate-limited to this value.
+    // You can set a cooldown on any bind, but it's most useful for the wheel.
+    Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+    Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+
+    // Usually scrolling up and down with Shift in applications results in
+    // horizontal scrolling; these binds replicate that.
+    Mod+Shift+WheelScrollDown      { focus-column-right; }
+    Mod+Shift+WheelScrollUp        { focus-column-left; }
+    Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
+    Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+
+    // Similarly, you can bind touchpad scroll "ticks".
+    // Touchpad scrolling is continuous, so for these binds it is split into
+    // discrete intervals.
+    // These binds are also affected by touchpad's natural-scroll, so these
+    // example binds are "inverted", since we have natural-scroll enabled for
+    // touchpads by default.
+    // Mod+TouchpadScrollDown { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02+"; }
+    // Mod+TouchpadScrollUp   { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "0.02-"; }
+
+    // You can refer to workspaces by index. However, keep in mind that
+    // niri is a dynamic workspace system, so these commands are kind of
+    // "best effort". Trying to refer to a workspace index bigger than
+    // the current workspace count will instead refer to the bottommost
+    // (empty) workspace.
+    //
+    // For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
+    // will all refer to the 3rd workspace.
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Ctrl+1 { move-column-to-workspace 1; }
+    Mod+Ctrl+2 { move-column-to-workspace 2; }
+    Mod+Ctrl+3 { move-column-to-workspace 3; }
+    Mod+Ctrl+4 { move-column-to-workspace 4; }
+    Mod+Ctrl+5 { move-column-to-workspace 5; }
+    Mod+Ctrl+6 { move-column-to-workspace 6; }
+    Mod+Ctrl+7 { move-column-to-workspace 7; }
+    Mod+Ctrl+8 { move-column-to-workspace 8; }
+    Mod+Ctrl+9 { move-column-to-workspace 9; }
+
+    // Alternatively, there are commands to move just a single window:
+    // Mod+Ctrl+1 { move-window-to-workspace 1; }
+
+
+    Mod+Comma  { consume-window-into-column; }
+    Mod+Period { expel-window-from-column; }
+
+    // There are also commands that consume or expel a single window to the side.
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+
+    // Mod+W { switch-preset-column-width; }
+    Mod+W { spawn "~/.scripts/niri-scripts/preset-width.sh"; }
+    // Mod+Shift+W { switch-preset-window-height; }
+    Mod+Ctrl+W { reset-window-height; }
+
+    Mod+F { fullscreen-window; }
+    Mod+Shift+F { toggle-windowed-fullscreen; }
+    Mod+Ctrl+F { expand-column-to-available-width; }
+    Mod+Shift+W { expand-column-to-available-width; }
+
+    // Mod+A { maximize-column; }
+    Mod+A { spawn "~/.scripts/niri-scripts/maximize-and-center-column.sh"; }
+
+    Mod+C { center-visible-columns; }
+    Mod+Ctrl+C { center-column; }
+
+    // Finer width adjustments.
+    // This command can also:
+    // * set width in pixels: "1000"
+    // * adjust width in pixels: "-5" or "+5"
+    // * set width as a percentage of screen width: "25%"
+    // * adjust width as a percentage of screen width: "-10%" or "+10%"
+    // Pixel sizes use logical, or scaled, pixels. I.e. on an output with scale 2.0,
+    // set-column-width "100" will make the column occupy 200 physical screen pixels.
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+
+    // Finer height adjustments when in column with other windows.
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // Move the focused window between the floating and the tiling layout.
+    Mod+S       { toggle-window-floating; }
+    Mod+Shift+S { switch-focus-between-floating-and-tiling; }
+
+    Mod+E { toggle-column-tabbed-display; }
+
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Shift+Print { screenshot-window; }
+
+    // The quit action will show a confirmation dialog to avoid accidental exits.
+    Mod+Shift+E { spawn "bash" "-c" "rofi -show power-menu -modi 'power-menu:~/.local/bin/rofi-power-menu --choices=lockscreen/shutdown/reboot/logout/suspend/hibernate'"; }
+
+    // Powers off the monitors. To turn them back on, do any input like
+    // moving the mouse or pressing any other key.
+    Mod+Shift+P { power-off-monitors; }
+}

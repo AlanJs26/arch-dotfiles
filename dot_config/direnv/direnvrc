@@ -27,5 +27,5 @@ layout_gitpull() {
 }
 
 layout_esp32() {
-  . $HOME/Documentos/esp-idf/export.sh
+  . $HOME/Documentos/repos/esp-idf/export.sh
 }

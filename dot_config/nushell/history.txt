@@ -2196,3 +2196,28 @@ pactl move-sink-input -h
 pactl move-sink-input --help
 pactl --help
 cycle-audio-devices.nu sink
+;ls
+http -v get localhost:5280/api/channel/list "X-SESSION-COOKIE:2a19fc81-0850-439c-9c32-8ca96bbc5226" 'users[]:=1'
+;http -v get localhost:5280/api/channel/list "X-SESSION-COOKIE:2a19fc81-0850-439c-9c32-8ca96bbc5226" 'users[]:=1'
+;/usr/bin/http -v get localhost:5280/api/channel/list "X-SESSION-COOKIE:2a19fc81-0850-439c-9c32-8ca96bbc5226" 'users[]:=1'
+/usr/bin/http -v get localhost:5280/api/channel/list "X-SESSION-COOKIE:2a19fc81-0850-439c-9c32-8ca96bbc5226" 'users[]:=1'
+help http
+./requests.nu
+./requests.nu -h
+let a = "oi"
+./requests.nu -h
+./requests.nu login -h
+./requests.nu login example@email.com 123
+ls
+./requests.nu login example@email.com 123
+ls
+cat session.json 
+./requests.nu login example@email.com 123
+cat session.json 
+./requests.nu login example@email.com 123
+cat session.json 
+./requests.nu test
+./requests.nu clear-session
+./requests.nu test
+./requests.nu login example@email.com 123
+./requests.nu test
