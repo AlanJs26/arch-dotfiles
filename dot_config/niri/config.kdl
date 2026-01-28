@@ -6,6 +6,8 @@ config-notification {
     disable-failed
 }
 
+spawn-at-startup "swayidle" "-w" "timeout" "601" "niri msg action power-off-monitors" "timeout" "600" "dms ipc call lock lock" "before-sleep" "dms ipc call lock lock"
+
 workspace "scratch"
 
 gestures {
@@ -236,6 +238,9 @@ window-rule {
     match app-id=r#"^blueman-manager$"#
     match app-id=r#"^org\.gnome\.Nautilus$"#
     match app-id=r#"^steam$"#
+    match app-id=r#"^qalculate-gtk$"#
+    match app-id=r#"^com\.github\.th_ch\.youtube_music$"#
+    match app-id=r#"^com-azefsw-audioconnect-desktop-app-MainKt$"#
     match app-id=r#"^xdg-desktop-portal$"#
     open-floating true
 }

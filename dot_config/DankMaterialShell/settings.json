@@ -100,7 +100,7 @@
       "width": 50
     },
     {
-      "id": "darkMode",
+      "id": "idleInhibitor",
       "enabled": true,
       "width": 50
     }
@@ -144,7 +144,7 @@
   "lockDateFormat": "",
   "mediaSize": 1,
   "appLauncherViewMode": "list",
-  "spotlightModalViewMode": "list",
+  "spotlightModalViewMode": "grid",
   "sortAppsAlphabetically": false,
   "appLauncherGridColumns": 4,
   "spotlightCloseNiriOverview": true,

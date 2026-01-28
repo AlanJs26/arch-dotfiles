@@ -1,6 +1,6 @@
-description='install the systemd service located at hyprland config'
+description='install the systemd services located at niri config'
 url=''
-depends=('pacman:ripgrep' 'pacman:sttr-bin')
+depends=('pacman:niri' 'pacman:ripgrep' 'pacman:sttr-bin')
 source=()
 # source_on_check=false
 # make this health script platform specific. Supported platforms: linux, windows
@@ -14,23 +14,19 @@ platform='linux'
 
 # This function is used to configure the health script
 install() {
-  SOURCE_DIR="$HOME/.config/hypr/systemd"
+  SOURCE_DIR="$HOME/.config/niri/systemd"
   DEST_DIR="$HOME/.config/systemd/user"
-
-  source_files="$(/usr/bin/ls -p $SOURCE_DIR | grep -v '/$' | sort)"
 
   mkdir -p "$DEST_DIR"
 
   cp $SOURCE_DIR/* $DEST_DIR
 
   systemctl --user daemon-reload
-
-  # cat <<<$source_files | xargs -i systemctl --user enable --now {}
 }
 
 # This function is used to unconfigure the health script
 uninstall() {
-  SOURCE_DIR="$HOME/.config/hypr/systemd"
+  SOURCE_DIR="$HOME/.config/niri/systemd"
   DEST_DIR="$HOME/.config/systemd/user"
 
   source_files="$(/usr/bin/ls -p $SOURCE_DIR | grep -v '/$' | sort)"
@@ -47,7 +43,7 @@ uninstall() {
 # This function should end with exit code 0 when the health script is configured
 # and end with exit code 1 when it is unconfigured
 check() {
-  SOURCE_DIR="$HOME/.config/hypr/systemd"
+  SOURCE_DIR="$HOME/.config/niri/systemd"
   DEST_DIR="$HOME/.config/systemd/user"
 
   source_files="$(/usr/bin/ls -p $SOURCE_DIR | grep -v '/$' | sort)"
@@ -71,3 +67,4 @@ check() {
 
   exit 0
 }
+

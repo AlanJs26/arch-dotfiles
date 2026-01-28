@@ -7,8 +7,12 @@ binds {
 
     Mod+X hotkey-overlay-title="Rofi all" { spawn "~/.scripts/rofi-scripts/rofi-all.sh"; }
 
-    Mod+Ctrl+Z hotkey-overlay-title="YouTube Music" { spawn "~/.config/niri/scratchpad.sh" "--app-id" "com.github.th_ch.youtube_music"; }
-    Mod+Shift+S hotkey-overlay-title="AudioRelay" { spawn "~/.config/niri/scratchpad.sh" "--app-id" "com-azefsw-audioconnect-desktop-app-MainKt"; }
+    Mod+Ctrl+Z hotkey-overlay-title="YouTube Music" { spawn "~/.config/niri/scripts/scratchpad.sh" "--app-id" "com.github.th_ch.youtube_music"; }
+    Mod+Shift+S hotkey-overlay-title="AudioRelay" { spawn "~/.config/niri/scripts/scratchpad.sh" "--app-id" "com-azefsw-audioconnect-desktop-app-MainKt"; }
+    Mod+Ctrl+Backslash hotkey-overlay-title="Qalculate" { spawn "~/.config/niri/scripts/scratchpad.sh" "--app-id" "qalculate-gtk" "--spawn" "qalculate-gtk"; }
+
+    Mod+P repeat=false { spawn-sh "pgrep wl-kbptr || wl-kbptr -c /home/alan/.config/wl_kbptr/config.toml -o modes=tile,split,click"; }
+    Mod+Shift+P repeat=false { spawn-sh "pgrep wl-kbptr || wl-kbptr -c /home/alan/.config/wl_kbptr/config.toml -o modes=tile"; }
 
     // === Application Launchers ===
     Mod+Return hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
@@ -135,8 +139,8 @@ binds {
     // === Workspace Navigation ===
     Mod+Page_Down      { focus-workspace-down; }
     Mod+Page_Up        { focus-workspace-up; }
-    Mod+U              { focus-workspace-down; }
-    Mod+I              { focus-workspace-up; }
+    // Mod+U              { focus-workspace-down; }
+    // Mod+I              { focus-workspace-up; }
     Mod+Ctrl+Down { move-column-to-workspace-down; }
     Mod+Ctrl+Up   { move-column-to-workspace-up; }
     Mod+Ctrl+U         { move-column-to-workspace-down; }
@@ -216,5 +220,5 @@ binds {
     Alt+Print { screenshot-window; }
     // === System Controls ===
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-    Mod+Shift+P { power-off-monitors; }
+    Mod+Shift+comma { power-off-monitors; }
 }

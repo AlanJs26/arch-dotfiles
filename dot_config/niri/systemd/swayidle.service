@@ -1,0 +1,13 @@
+[Unit]
+Description=Sway idle management
+Requires=niri.service
+After=niri.service
+
+[Service]
+Type=simple
+ExecStart=%h/.config/niri/scripts/swayidle.sh
+Restart=always
+RestartSec=2s 
+
+[Install]
+WantedBy=niri.service

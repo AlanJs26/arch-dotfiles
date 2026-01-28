@@ -1,11 +1,5 @@
 autostart:
 - commands:
-  - nm-applet
-  - syncthing serve --no-browser --logfile=default
-  - fcitx5 -d
-  match_method: name
-  name: hyprland_programs
-- commands:
   - ~/.scripts/tools/cycle-audio-devices.nu --refresh||true
   - notify-send archdots "running scripts" -u low
   daemon: false
@@ -13,3 +7,9 @@ autostart:
   priority: 10
   run_with:
   - hyprland_programs
+- commands:
+  - syncthing serve --no-browser --logfile=default
+  - fcitx5 -d
+  - nm-applet
+  match_method: name
+  name: hyprland_programs

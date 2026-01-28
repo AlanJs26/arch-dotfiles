@@ -3,6 +3,7 @@
     "autoload": {
         "USB GAMING MOUSE ": "Mouse Copy Paste",
         "2.4G Dongle": "Function Keys",
-        "Sunshine X-Box One (virtual) pad": "Arrow Keys"
+        "Sunshine X-Box One (virtual) pad": "Arrow Keys",
+        "SONiX USB DEVICE": "Keyboard Scroll"
     }
 }
