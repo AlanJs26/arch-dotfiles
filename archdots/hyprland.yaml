@@ -1,0 +1,15 @@
+autostart:
+  - commands:
+      - ~/.scripts/tools/cycle-audio-devices.nu --refresh||true
+    # - notify-send archdots "running scripts" -u low
+    daemon: false
+    name: always_hyprland
+    priority: 10
+    run_with:
+      - hyprland_programs
+  - commands:
+      - syncthing serve --no-browser --logfile=default
+      - fcitx5 -d
+      - nm-applet
+    match_method: name
+    name: hyprland_programs

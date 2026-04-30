@@ -1,0 +1,8 @@
+* {
+  al:  {{dank16.color0.default.hex}}00;
+  bg:  {{colors.background.default.hex}}df;
+  se:  {{dank16.color4.default.hex}};
+  fg:  {{colors.on_secondary.default.hex}};
+  ac:  {{dank16.color4.default.hex}};
+  tx:  {{colors.on_surface.default.hex}};
+}

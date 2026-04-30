@@ -1,0 +1,24 @@
+version = 1
+
+[groups.calc]
+class = "qalculate-gtk"
+on_no_match = "qalculate-gtk"
+
+[groups.terminal]
+class = "kitty-scratchpad"
+on_no_match = "kitty --class kitty-scratchpad"
+
+[groups.music]
+class = "com.github.th_ch.youtube_music"
+on_no_match = "youtube-music --ozone-platform-hint=wayland --enable-wayland-ime --wayland-text-input-version=3"
+
+[groups.filemanager]
+class = "nemo"
+on_no_match = "nemo"
+
+[groups.pavucontrol]
+class = "org.pulseaudio.pavucontrol"
+on_no_match = "pavucontrol"
+
+[groups.audiorelay]
+class = "com-azefsw-audioconnect-desktop-app-MainKt"
