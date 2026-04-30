@@ -1,146 +1,153 @@
-# Antes de rodar
+# 🏠 Arch Dotfiles (arch-dotfiles)
 
-Instalar o [yay](https://github.com/Jguer/yay)
+Bem-vindo(a)! Este repositório contém minha configuração de **dotfiles** para Arch Linux, pensada para ser **reprodutível**, fácil de manter e simples de aplicar em uma instalação nova.
 
-Certificar se o horario está correto para não ocorrer erros com os certificados SSL
+A gestão dos dotfiles aqui é feita com o **[`dots`](https://github.com/AlanJs26/dots)** ✨ — um CLI que organiza o fluxo de instalação/atualização e usa o **chezmoi por trás dos panos** para aplicar os arquivos no lugar certo.
 
-`sudo timedatectl set-ntp true`
+---
 
-instalar pacotes relacionados ao keyring e chaves PGP
+## ✅ Pré-requisitos (antes de rodar qualquer coisa)
 
-`yay -Sy archlinux-keyring`
+Algumas coisinhas evitam dor de cabeça com certificados, chaves e repositórios.
 
-`sudo rm /etc/pacman.d/gnupq/*`
+### 🕒 1) Verifique o horário (SSL)
 
-`sudo pacman-key --init && sudo pacman-key --populate`
+Se o relógio do sistema estiver errado, você pode ter erro de certificado SSL. Ative NTP:
 
-`sudo pacman-key --refresh-keys`
+```bash
+sudo timedatectl set-ntp true
+```
 
-Atualizar todos os pacotes atuais
+### 📦 2) Instale o yay (AUR helper)
 
-`yay -Syuu`
+Instale o [yay](https://github.com/Jguer/yay) (como você preferir).
 
-## Direnv
+### 🔑 3) Atualize keyring/PGP (evita erro ao instalar)
 
-O direnv permite adicionar variáveis de ambiente especificas dependendo da pasta em questão.
+```bash
+yay -Sy archlinux-keyring
 
-Um tutorial de como usar esta presente [nesta pagina](https://github.com/direnv/direnv/wiki)
+sudo rm /etc/pacman.d/gnupq/*
+sudo pacman-key --init && sudo pacman-key --populate
+sudo pacman-key --refresh-keys
+```
 
-## Eww
+### 🔄 4) Atualize tudo
 
-Na época que eu escrevi esse README o pacote [eww-git](https://aur.archlinux.org/packages/eww-x11) não funciona se as seguintes chaves gpg não forem instaladas explicitamente. O comando para instalar é o seguinte
+```bash
+yay -Syuu
+```
+
+---
+
+## 🚀 Gerenciando os dotfiles com `dots`
+
+O `dots` é o jeito recomendado de usar este repositório. Ele cuida do fluxo padrão e **automatiza a configuração inicial** (incluindo o `chezmoi init` quando necessário).
+
+> Em outras palavras: você usa `dots`, e ele usa **chezmoi** por trás para aplicar os arquivos.
+
+### 🧩 Instalação do `dots`
+
+Siga as instruções do repositório do projeto:
+
+- https://github.com/AlanJs26/dots
+
+(Se você já tem o `dots` instalado, pode pular essa parte.)
+
+### 🏁 1) Primeira vez: inicializar e aplicar
+
+Em uma instalação nova (ou em uma máquina nova), use o comando de init do `dots`:
+
+```bash
+dots init
+```
+
+Esse comando é o ponto de partida: ele faz a configuração inicial necessária e prepara o gerenciamento dos dotfiles para este repo.
+
+### 🔄 2) Sincronizar / aplicar mudanças
+
+Depois que tudo está inicializado, o fluxo normal é manter os dotfiles sincronizados. Dependendo do seu uso, você vai alternar entre:
+
+- puxar atualizações
+- ver o que mudou
+- aplicar mudanças
+
+Se você quiser entender o que vai ser alterado **antes** de aplicar, procure no `dots` os comandos equivalentes de *diff*/*apply* (ele delega isso ao chezmoi).
+
+### ✍️ 3) Fazendo modificações nos seus dotfiles
+
+O workflow mental aqui é bem “git-like”:
+
+1. você altera arquivos no seu sistema
+2. adiciona/atualiza esses arquivos no gerenciador
+3. confere o diff
+4. aplica
+5. commita e faz push
+
+Se você já usava `chezmoi add`, `chezmoi diff` e `chezmoi apply`, saiba que continua valendo — só que o recomendado é **fazer isso através do `dots`**, que mantém o processo mais guiado e consistente.
+
+---
+
+## 🧠 Dicas e Truques
+
+Aqui ficam as dicas que não são diretamente “gerenciamento de dotfiles”, mas que ajudam muito no setup.
+
+### 🌱 Direnv
+
+O direnv permite adicionar variáveis de ambiente específicas dependendo da pasta em questão.
+
+Tutorial oficial (bem completo):
+- https://github.com/direnv/direnv/wiki
+
+### 🧩 Eww (GPG)
+
+Na época que eu escrevi este README, o pacote [eww-x11](https://aur.archlinux.org/packages/eww-x11) podia falhar se as chaves GPG abaixo não fossem importadas explicitamente.
 
 ```bash
 curl -sS https://github.com/elkowar.gpg | gpg --import -i -;
 curl -sS https://github.com/web-flow.gpg | gpg --import -i -
 ```
 
-## Zsh
+### 🐚 Zsh
 
-O zsh precisa ser configurado manualmente. São necessários o [oh-my-zsh](https://ohmyz.sh) e o gerenciador de plugins [zinit](https://github.com/zdharma-continuum/zinit)
+O Zsh precisa ser configurado manualmente. Recomendo:
+- [oh-my-zsh](https://ohmyz.sh)
+- [zinit](https://github.com/zdharma-continuum/zinit)
 
-Para instalar o oh-my-zsh execute o comando abaixo
+Instalar oh-my-zsh:
 
 ```bash
 sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 ```
 
-
-Para instalar o zinit execute o comando abaixo
+Instalar zinit:
 
 ```bash
 bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 ```
 
-# Montando Partições
+### 💾 Montando partições automaticamente (fstab)
 
-Para montar partições ao iniciar o sistema é preciso criar uma entrada no `/etc/fstab`. Como isso é muito complicado, é mais rápido utilizar o [gnome-disks](https://archlinux.org/packages/extra/x86_64/gnome-disk-utility/) para criar essa entrada de forma automatica
+Para montar partições ao iniciar o sistema é preciso criar uma entrada no `/etc/fstab`. Como isso pode ser chato de fazer manualmente, muitas vezes é mais rápido usar o **gnome-disks** e configurar por lá.
 
-Lembre-se de criar a pasta no ponto de montagem, senão a montagem vai falhar
+> Lembre-se de criar a pasta no ponto de montagem, senão a montagem vai falhar.
 
-# Usando o archdots
+### 🐍 Python: pip não existe
 
-`archdots` é um wrapper para facilitar o uso do chezmoi e pacdef. Os principais comandos são:
-
-`archdots sync`
-
-Esse comando syncroniza o chezmoi e o pacdef
-
-`archdots setup`
-
-Esse comando contém vários scripts de instalação que o chezmoi e pacdef não fornecem de forma satisfatória
-
-`archdots edit`
-
-Esse comando usa o editor padrão para modificar os arquivos de pacotes do pacdef
-
-`archdots git SUBCOMANDO`
-
-Esse é um atalho para o git desse repo
-
-# Gerenciando os dotfiles
-
-os dotfiles são gerenciados pelo [chezmoi](https://www.chezmoi.io).
-
-O comando abaixo inicia o chezmoi com esse repositório
-
-`chezmoi init --apply https://github.com/$GITHUB_USERNAME/dotfiles.git`
-
-## Fazendo modificações
-
-O chezmoi é basicamente um wrapper para git, assim o seu workflow é similar a um projeto git.
-
-Onde é possível especificar arquivos e pastas para o chezmoi gerenciar com
-
-`chezmoi add CAMINHO`
-
-> Isso só é preciso ser feito apenas uma vez
-
-Agora toda vez que for feito uma mudança nesse arquivo é possível rodar o comando abaixo para ver o diff das modificações
-
-`chezmoi diff`
-
-Quando estiver satisfeito com as mudanças, basta rodar o comando abaixo para aplicar as mudanças.
-
-`chezmoi -v apply`
-
-Esses comandos adicionam e atualizam os arquivos no "banco de dados" do chezmoi. Esses arquivos são salvos em `~/.local/share/chezmoi` na forma de um repositório git, assim para adiciona-lo ao github basta rodar os comando usuais de git.
+No Arch, você pode acabar com Python instalado mas sem o pip disponível como esperado. Uma forma de resolver é:
 
 ```bash
-# entra na pasta do chezmoi
-chezmoi cd
-
-git add .
-git commit -m "primeira vez com chezmoi"
-
-# Adicionando um remote para git
-git remote add https://github.com/username/repo.git
-git push
+python -m ensurepip
 ```
 
-> Ao rodar `chezmoi init --apply https://github.com/$GITHUB_USERNAME/dotfiles.git` não é preciso adicionar o remote no git, porque esse comando já faz isso
+---
 
-# Gerenciando os pacotes
+## 📌 Notas
 
-O gerenciamento de pacotes é feito pelo [pacdef](https://github.com/steven-omaha/pacdef). Essa ferramenta permite gerenciar os pacotes do arch, python, rust, apt e flatpak de forma declarativa.
+- Este repositório foca em **dotfiles** e no fluxo de aplicação via `dots`.
+- Se algo estiver quebrando no seu ambiente, abra uma issue com:
+  - distro/versão
+  - logs
+  - o que você tentou rodar
 
-O seu funcionamento consiste em vários arquivos de texto localizados em `~/.config/pacdef/groups` que contém os pacotes que devem ser instalados. Esses arquivos seguem o formato toml, onde são separados por seções que especificam o tipo de pacote, sendo `[arch]`, `[debian]`, `[flatpak]`, `[python]` e `[rust]` as opções disponíveis.
-
-## Como usar
-
-Os dois principais comandos que serão usados ao longo do tempo são: `pacdef package sync` e `pacdef package review`
-
-O comando `pacdef package sync` lê todos os pacotes declarados e os instala no computador. Assim esse é o comando que é executado após modificações nas listas de pacotes em `~/.config/pacdef/groups`
-
-Já o comando `pacdef package review` vai pegar todos os pacotes que não estão sendo gerenciados e faz perguntas sobre o que fazer com eles (para qual grupo atribui-lo, desistalar, ignorar, etc)
-
-
-# Python
-
-Aqui estão listadas algumas dicas e soluções sobre como configurar o python da primeira vez
-
-## pip não existe
-
-O arch tem dois pacotes principais para instalar o python: `python` e `python-pip`. Embora o segundo comando pareça instalar o pip, na verdade ele só vai configurar um alias para `pip`, ou seja, é preciso antes instalar o pip na versão de python atual. Para isso é preciso rodar o comando abaixo
-
-`python -m ensurepip`
+Boa configuração! ✨
