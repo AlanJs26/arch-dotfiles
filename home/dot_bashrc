@@ -5,12 +5,10 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 
 source ~/.env.sh
-
 
 # JINA_CLI_BEGIN
 
@@ -20,13 +18,13 @@ _jina() {
   local word="${COMP_WORDS[COMP_CWORD]}"
 
   if [ "$COMP_CWORD" -eq 1 ]; then
-    COMPREPLY=( $(compgen -W "$(jina commands)" -- "$word") )
+    COMPREPLY=($(compgen -W "$(jina commands)" -- "$word"))
   else
     local words=("${COMP_WORDS[@]}")
     unset words[0]
     unset words[$COMP_CWORD]
     local completions=$(jina completions "${words[@]}")
-    COMPREPLY=( $(compgen -W "$completions" -- "$word") )
+    COMPREPLY=($(compgen -W "$completions" -- "$word"))
   fi
 }
 
@@ -42,8 +40,6 @@ export JINA_DEFAULT_WORKSPACE_BASE="${HOME}/.jina/executor-workspace"
 
 [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
 eval "$(atuin init bash)"
-
-export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
 
 eval "$(starship init bash)"
 LS_COLORS="$(vivid generate tokyonight-storm)"

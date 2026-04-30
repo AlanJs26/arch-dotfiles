@@ -46,9 +46,6 @@ export ATAC_KEY_BINDINGS="$HOME/.config/atac/vim_key_bindings.toml"
 
 export SDL_VIDEODRIVER=x11
 
-# Intel Quartus
-export QSYS_ROOTDIR="/home/alan/intelFPGA_lite/23.1std/quartus/sopc_builder/bin"
-
 if [ "$XDG_SESSION_TYPE" = "x11" ]; then
   fcitx_env=$(cat <<EOF
 GTK_IM_MODULE=fcitx

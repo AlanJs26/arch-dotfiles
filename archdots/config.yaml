@@ -6,38 +6,25 @@ apps:
   sound_manager: pavucontrol
   terminal: kitty
 backup:
-- action: copy
-  destination: drive-usp:PDFs
-  source: /mnt/DiscoExterno/_Arquivos/PDFs
-- action: copy
-  destination: drive-usp:Obsidian/USP
-  source: /mnt/DiscoExterno/ObsidianVaults/USP
-- action: copy
-  destination: drive-usp:Codes
-  ignore-patterns:
-  - \.?v?env
-  - node_modules
-  - target
-  - build
-  - \.CondaPkg
-  - kitti-dataset
-  - \.cache
-  source: /mnt/DiscoExterno/_Codes
-ignored_pkgs:
-  pacman:
-  - alpm-buildinfo
-  - alpm-db
-  - alpm-docs
-  - alpm-lint
-  - alpm-mtree
-  - alpm-pkgbuild-bridge
-  - alpm-pkginfo
-  - alpm-repo-db
-  - alpm-soname
-  - alpm-srcinfo
-  - warsaw-bin
+  - action: copy
+    destination: drive-usp:PDFs
+    source: /mnt/DiscoExterno/_Arquivos/PDFs
+  - action: copy
+    destination: drive-usp:Obsidian/USP
+    source: /mnt/DiscoExterno/ObsidianVaults/USP
+  - action: copy
+    destination: drive-usp:Codes
+    ignore-patterns:
+      - \.?v?env
+      - node_modules
+      - target
+      - build
+      - \.CondaPkg
+      - kitti-dataset
+      - \.cache
+    source: /mnt/DiscoExterno/_Codes
 import:
-- ./chezmoi.yaml
-- ./pkgs.yaml
-- ./hyprland.yaml
-- ./bspwm.yaml
+  - ./chezmoi.yaml
+  - ./pkgs.yaml
+  - ./hyprland.yaml
+  - ./bspwm.yaml
