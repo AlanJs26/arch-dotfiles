@@ -23,6 +23,19 @@ backup:
   - kitti-dataset
   - \.cache
   source: /mnt/DiscoExterno/_Codes
+ignored_pkgs:
+  pacman:
+  - alpm-buildinfo
+  - alpm-db
+  - alpm-docs
+  - alpm-lint
+  - alpm-mtree
+  - alpm-pkgbuild-bridge
+  - alpm-pkginfo
+  - alpm-repo-db
+  - alpm-soname
+  - alpm-srcinfo
+  - warsaw-bin
 import:
 - ./chezmoi.yaml
 - ./pkgs.yaml

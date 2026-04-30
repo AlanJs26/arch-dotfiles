@@ -1,6 +1,6 @@
 description='setup all cron entries for scheduled actions'
 url=''
-depends=('pacman:cronie' 'pacman:rclone')
+depends=('pacman:cronie' 'pacman:rclone' 'pacman:ripgrep')
 source=()
 # make this health script platform specific. Supported platforms: linux, windows
 # platform='linux'
@@ -13,7 +13,9 @@ source=()
 
 # This function is used to configure the health script
 install() {
-  crontab "$PKGPATH/cron_rclone.txt"
+  rg '\$HOME' "$PKGPATH/cron_rclone.txt" -r $HOME >/tmp/cron_rclone.txt
+
+  crontab "/tmp/cron_rclone.txt"
 }
 
 # This function is used to unconfigure the health script
