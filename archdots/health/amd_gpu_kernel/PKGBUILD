@@ -1,4 +1,4 @@
-description='setup all necessary configuration to make gpu'"'"'s from amd work on x11'
+description='setup all necessary configuration to make gpus from amd work on x11'
 url=''
 depends=()
 source=()

@@ -24,8 +24,8 @@ ARCHDOTS
 args = args  # type: ignore
 
 from typing import Literal
-from archdots.settings import read_config
-from archdots.exceptions import CommandException
+from archdots.config.manager import ConfigManager
+from archdots.core.exceptions import CommandException
 from rich import print
 from os.path import expandvars, basename
 from os import system
@@ -42,7 +42,7 @@ class CollectionModel(BaseModel):
     run_with: list[str] = []
 
 
-config: dict = read_config()
+config: dict = ConfigManager().load()
 
 if not "autostart" in config:
     raise CommandException('there is no "autostart" entry in config.yaml')

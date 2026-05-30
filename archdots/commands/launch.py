@@ -17,12 +17,12 @@ ARCHDOTS
 # this prevents the language server to throwing warnings
 args = args  # type: ignore
 
-from archdots.settings import read_config
+from archdots.config.manager import ConfigManager
 import os
 
 apps = " ".join(args["app"])
 
-config = read_config()
+config = ConfigManager().load()
 
 if "apps" not in config:
     exit()

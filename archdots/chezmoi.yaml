@@ -1,38 +1,38 @@
 chezmoi:
-  - ~/.config/archdots
-# - ~/.config/autostart
-# - ~/.config/btop
-# - ~/.config/niri
-# - ~/.config/hypr
-# - ~/.config/sioyek
-# - ~/.config/thefuck
-# - ~/.config/polybar
-# - ~/.config/X11
-# - ~/.config/bspwm
-# - ~/.config/evrouter
-# - ~/.config/dunst
-# - ~/.config/feh
-# - ~/.config/environment.d
-# - ~/.config/jgmenu
-# - ~/.scripts
-# - ~/.config/sxhkd
-# - ~/.config/ctpv
-# - ~/.config/evremap
-# - ~/.config/pacdef
-# - ~/.config/pypr
-# - ~/.config/nemo
-# - ~/.config/yay
-# - ~/.Xresources
-# - ~/.config/gtk-2.0
-# - ~/.local/share/applications
-# - ~/.env.sh
-# - ~/.config/gtk-3.0
-# - ~/.config/direnv
-# - ~/.config/eww
-# - ~/.bashrc
-# - ~/.config/waybar
-# - ~/.urserver/remotes/MPV/
-# - ~/.config/kitty
-# - ~/.config/rofi
-# - ~/.zshrc
-# - ~/.config/picom
+- ~/.config/evrouter
+- ~/.config/ctpv
+- ~/.config/archdots
+- ~/.local/share/applications
+- ~/.config/evremap
+- ~/.config/niri
+- ~/.Xresources
+- ~/.config/eww
+- ~/.bashrc
+- ~/.config/pypr
+- ~/.config/picom
+- ~/.config/polybar
+- ~/.env.sh
+- ~/.config/btop
+- ~/.config/jgmenu
+- ~/.config/X11
+- ~/.config/environment.d
+- ~/.config/direnv
+- ~/.config/gtk-3.0
+- ~/.config/pacdef
+- ~/.config/hypr
+- ~/.urserver/remotes/MPV/
+- ~/.zshrc
+- ~/.config/rofi
+- ~/.config/waybar
+- ~/.config/thefuck
+- ~/.config/bspwm
+- ~/.config/gtk-2.0
+- ~/.config/autostart
+- ~/.config/sioyek
+- ~/.config/feh
+- ~/.config/nemo
+- ~/.config/dunst
+- ~/.config/yay
+- ~/.config/kitty
+- ~/.scripts
+- ~/.config/sxhkd
