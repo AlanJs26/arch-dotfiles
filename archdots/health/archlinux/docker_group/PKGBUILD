@@ -1,0 +1,34 @@
+description='setup docker for non root users'
+url=''
+depends=('pacman:docker')
+source=()
+# make this health script platform specific. Supported platforms: linux, windows
+platform='archlinux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script is ran inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function is used to configure the health script
+install() {
+  sudo groupadd docker
+  sudo gpasswd -a $USER docker
+  sudo usermod -aG docker $USER
+  newgrp docker
+  echo "YOU MUST RESTART YOUR SESSION TO CHANGES THAT EFFECT"
+}
+
+# This function is used to unconfigure the health script
+uninstall() {
+  sudo groupdel docker
+  echo "YOU MUST RESTART YOUR SESSION TO CHANGES THAT EFFECT"
+}
+
+# This function should end with exit code 0 when the health script is configured
+# and end with exit code 1 when it is unconfigured
+check() {
+  groups | grep docker
+}
+

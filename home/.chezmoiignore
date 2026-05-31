@@ -19,5 +19,3 @@ __pycache__
 .config/nvim
 .config/nushell/history.txt
 *nohup.out
-.config/symlink_archdots.tmpl
-.config/archdots

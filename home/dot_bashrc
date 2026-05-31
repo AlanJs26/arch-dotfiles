@@ -13,33 +13,40 @@ source ~/.env.sh
 # JINA_CLI_BEGIN
 
 ## autocomplete
-_jina() {
-  COMPREPLY=()
-  local word="${COMP_WORDS[COMP_CWORD]}"
+if (command -v uv > /dev/null); then
+	_jina() {
+	  COMPREPLY=()
+	  local word="${COMP_WORDS[COMP_CWORD]}"
 
-  if [ "$COMP_CWORD" -eq 1 ]; then
-    COMPREPLY=($(compgen -W "$(jina commands)" -- "$word"))
-  else
-    local words=("${COMP_WORDS[@]}")
-    unset words[0]
-    unset words[$COMP_CWORD]
-    local completions=$(jina completions "${words[@]}")
-    COMPREPLY=($(compgen -W "$completions" -- "$word"))
-  fi
-}
+	  if [ "$COMP_CWORD" -eq 1 ]; then
+		COMPREPLY=($(compgen -W "$(jina commands)" -- "$word"))
+	  else
+		local words=("${COMP_WORDS[@]}")
+		unset words[0]
+		unset words[$COMP_CWORD]
+		local completions=$(jina completions "${words[@]}")
+		COMPREPLY=($(compgen -W "$completions" -- "$word"))
+	  fi
+	}
 
-complete -F _jina jina
+	complete -F _jina jina
 
-# session-wise fix
-ulimit -n 4096
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-# default workspace for Executors
-export JINA_DEFAULT_WORKSPACE_BASE="${HOME}/.jina/executor-workspace"
+	# session-wise fix
+	ulimit -n 4096
+	export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+	# default workspace for Executors
+	export JINA_DEFAULT_WORKSPACE_BASE="${HOME}/.jina/executor-workspace"
+fi
 
 # JINA_CLI_END
 
-[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
-eval "$(atuin init bash)"
+which vivid > /dev/null && LS_COLORS="$(vivid generate tokyonight-storm)"
 
-eval "$(starship init bash)"
-LS_COLORS="$(vivid generate tokyonight-storm)"
+which starship > /dev/null && eval "$(starship init bash)"
+
+if [ -d "$HOME/.atuin/bin" ]; then
+    [[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+    . "$HOME/.atuin/bin/env"
+    eval "$(atuin init bash --disable-up-arrow)"
+fi
+

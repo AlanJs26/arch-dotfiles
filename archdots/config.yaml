@@ -6,25 +6,25 @@ apps:
   sound_manager: pavucontrol
   terminal: kitty
 backup:
-- action: copy
-  destination: drive-usp:PDFs
-  source: /mnt/DiscoExterno/_Arquivos/PDFs
-- action: copy
-  destination: drive-usp:Obsidian/USP
-  source: /mnt/DiscoExterno/ObsidianVaults/USP
-- action: copy
-  destination: drive-usp:Codes
-  ignore-patterns:
-  - \.?v?env
-  - node_modules
-  - target
-  - build
-  - \.CondaPkg
-  - kitti-dataset
-  - \.cache
-  source: /mnt/DiscoExterno/_Codes
+  - ignore-patterns:
+      - \.CondaPkg
+      - target
+      - \.?v?env
+      - \.cache
+      - node_modules
+      - kitti-dataset
+      - build
+    source: /mnt/DiscoExterno/_Codes
+    destination: drive-usp:Codes
+    action: copy
+  - destination: drive-usp:PDFs
+    action: copy
+    source: /mnt/DiscoExterno/_Arquivos/PDFs
+  - source: /mnt/DiscoExterno/ObsidianVaults/USP
+    destination: drive-usp:Obsidian/USP
+    action: copy
 import:
-- ./chezmoi.yaml
-- ./pkgs.yaml
-- ./hyprland.yaml
-- ./bspwm.yaml
+  - ./chezmoi.yaml
+  - ./pkgs.yaml
+  - ./hyprland.yaml
+  - ./bspwm.yaml

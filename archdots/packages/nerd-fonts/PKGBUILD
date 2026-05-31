@@ -1,0 +1,78 @@
+description='Nerd Fonts patches developer targeted fonts with a high number of glyphs'
+url='https://www.nerdfonts.com/'
+depends=()
+source=()
+# source_on_check=false
+# asks user for elevated privileges
+# elevated=false
+# make this package platform specific. Examples: linux, windows, archlinux, ubuntu
+platform='ubuntu'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file 
+
+# You can add the suffix "_powershell" to the functions in order to run them using powershell
+
+# This function is used to install the package on the system
+install() {
+    declare -a fonts=(
+        CascadiaCode
+        FiraCode
+        FiraMono
+        JetBrainsMono
+        Noto
+        RobotoMono
+        Ubuntu
+        UbuntuMono
+    )
+
+    version=$(curl -s 'https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest' | jq -r '.name')
+    if [ -z "$version" ] || [ "$version" = "null" ]; then
+        version="v3.2.1"
+    fi
+    echo "latest version: $version"
+
+    fonts_dir="${HOME}/.local/share/fonts"
+    #fonts_dir="/usr/share/fonts"
+
+    if [[ ! -d "$fonts_dir" ]]; then
+        mkdir -p "$fonts_dir"
+    fi
+
+    for font in "${fonts[@]}"; do
+        zip_file="${font}.zip"
+        download_url="https://github.com/ryanoasis/nerd-fonts/releases/download/${version}/${zip_file}"
+        echo "Downloading $download_url"
+        wget "$download_url"
+        unzip -o "$zip_file" -d "$fonts_dir"  # Added the -o option here to allow replacing
+        rm "$zip_file"
+    done
+
+    find "$fonts_dir" -name 'Windows Compatible' -delete
+
+    fc-cache -fv
+}
+
+# This function is used to uninstall the package from the system
+uninstall() {
+    fonts_dir="${HOME}/.local/share/fonts"
+    if [[ -d "$fonts_dir" ]]; then
+        echo "Removing Nerd Fonts from $fonts_dir..."
+        find "$fonts_dir" -type f -iname '*Nerd*' -delete
+        fc-cache -fv
+    fi
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+    fonts_dir="${HOME}/.local/share/fonts"
+    if (ls "$fonts_dir" | grep Nerd >/dev/null 2>&1); then
+        exit 0
+    else
+        exit 1
+    fi
+}

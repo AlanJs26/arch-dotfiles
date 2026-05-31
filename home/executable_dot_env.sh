@@ -28,9 +28,6 @@ SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 # export ARCHDOTS=dots
 
-if (which zsh &> /dev/null);then
-  export SHELL="$(which zsh)";
-fi
 export VISUAL=nvim;
 export EDITOR=nvim;
 export FZF_DEFAULT_OPTS='--height 60% --border --exact' 

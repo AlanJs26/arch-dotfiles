@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Game 816168432860790794
-Exec=xdg-open steam://rungameid/(null) %u
-Type=Application
-NoDisplay=true
-Categories=Discord;Games;
-MimeType=x-scheme-handler/discord-816168432860790794;

@@ -1,0 +1,32 @@
+description='tree is an open-source cross-platform tree cli implemented in Rust'
+url='https://github.com/peteretelej/tree'
+depends=('pacman:eget-bin')
+source=()
+# source_on_check=false
+# make this package platform specific. Supported platforms: linux, windows
+platform='archlinux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function install the package on the system
+install() {
+  eget -q peteretelej/tree --to=treers
+  mkdir -p ~/.local/bin
+  mv ./treers ~/.local/bin
+}
+
+# This function uninstall the package from the system
+uninstall() {
+  rm ~/.local/bin/treers
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  which treers
+}
+

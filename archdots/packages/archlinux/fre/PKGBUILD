@@ -1,0 +1,32 @@
+description='Command line frecency tracking'
+url='https://github.com/camdencheek/fre'
+depends=('pacman:rustup')
+source=('https://github.com/camdencheek/fre')
+# source_on_check=false
+# make this package platform specific. Supported platforms: linux, windows
+platform='archlinux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function install the package on the system
+install() {
+  pushd ${sourced[0]}
+  cargo install --path .
+  popd
+}
+
+# This function uninstall the package from the system
+uninstall() {
+  cargo uninstall -p fre
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  which fre
+}
+

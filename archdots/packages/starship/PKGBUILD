@@ -1,0 +1,34 @@
+description='cross-shell prompt'
+url='https://starship.rs'
+depends=()
+source=()
+# source_on_check=false
+# asks user for elevated privileges
+# elevated=false
+# make this package platform specific. Examples: linux, windows, archlinux, ubuntu
+platform='ubuntu'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file 
+
+# You can add the suffix "_powershell" to the functions in order to run them using powershell
+
+# This function is used to install the package on the system
+install() {
+    curl -sS https://starship.rs/install.sh | sh
+}
+
+# This function is used to uninstall the package from the system
+uninstall() {
+    # Locate and delete the starship binary
+    sudo sh -c 'rm "$(command -v 'starship')"'
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+    which starship
+}

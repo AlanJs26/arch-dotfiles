@@ -1,0 +1,26 @@
+description='simple generic tabbed frontend to xembed-aware applications'
+url='https://tools.suckless.org/tabbed'
+depends=('pacman:libx11' 'pacman:libxft')
+source=()
+platform='archlinux'
+
+install() {
+  cp -r "$PKGPATH/tabbed" .
+
+  cd tabbed
+
+  make
+  mkdir -p ~/.local/bin
+  mv tabbed ~/.local/bin
+}
+
+uninstall() {
+  cd tabbed
+
+  make clean
+  rm ~/.local/bin/tabbed
+}
+
+check() {
+  which tabbed
+}

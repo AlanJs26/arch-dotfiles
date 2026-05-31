@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=MATLAB
+Comment=MathWorks MATLAB
+Exec=/home/alan/.local/share/MATLAB/R2026a/bin/matlab -desktop
+Icon=/home/alan/.local/share/MATLAB/R2026a/bin/glnxa64/cef_resources/matlab_icon.png
+Terminal=false
+Categories=Development;Science;IDE;
+StartupWMClass=MATLAB

@@ -1,0 +1,30 @@
+description='Yet another yogurt. Pacman wrapper and AUR helper written in go'
+url='https://github.com/Jguer/yay'
+depends=()
+source=('https://aur.archlinux.org/yay.git')
+# source_on_check=false
+# make this package platform specific. Supported platforms: linux, windows
+platform='archlinux'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# This function install the package on the system
+install() {
+  cd "${sourced[0]}"
+  makepkg -si
+}
+
+# This function uninstall the package from the system
+uninstall() {
+  sudo pacman -R yay
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  which yay
+}

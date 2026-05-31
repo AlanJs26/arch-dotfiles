@@ -56,15 +56,23 @@ function lf() {
 ### End of Yazi Config
 
 ### Aliases
-alias "docker compose"="docker-compose"
+if (command -v docker-compose > /dev/null); then
+    alias "docker compose"="docker-compose"
+fi
 
-alias ls="eza"
-alias ll="eza --long"
-alias l="eza --long"
+if (command -v eza > /dev/null); then
+    alias ls="eza"
+    alias ll="eza --long"
+    alias l="eza --long"
+fi
 
 alias clear='printf '\''\033[2J\033[3J\033[1;1H'\'''
 
-alias cat="bat"
+if (command -v bat > /dev/null); then
+    alias cat="bat"
+elif (command -v batcat > /dev/null); then
+    alias cat="batcat"
+fi
 alias gits="git status"
 alias gitb="git branch -a"
 alias lg="lazygit"
@@ -87,43 +95,44 @@ function zz(){
     ls $result
 }
 
-function rm(){
-    chezmoi destroy --force $@ 2> /dev/null || /bin/rm $@
-}
+if (command -v chezmoi > /dev/null); then
+    function rm(){
+        chezmoi destroy --force $@ 2> /dev/null || /bin/rm $@
+    }
+fi
 ### End of Aliases
 
-### Terminal Behaviour Scripts
-eval "$(starship init zsh)" 
-eval "$(zoxide init zsh)"
-eval "$(direnv hook zsh)"
-eval "$(thefuck --alias)"
-### End of Terminal Behaviour Scripts
 
 ### Atuin Setup
-export ATUIN_NOBIND="true"
-eval "$(atuin init zsh)"
+if [ -d "$HOME/.atuin/bin" ]; then
+    . "$HOME/.atuin/bin/env"
+    export ATUIN_NOBIND="true"
+    eval "$(atuin init zsh)"
 
-bindkey '^r' _atuin_search_widget
+    bindkey '^r' _atuin_search_widget
+fi
 ### End of Atuin Setup
 
 ### uv Setup
-eval "$(uv generate-shell-completion zsh)"
+if (command -v uv > /dev/null); then
+    eval "$(uv generate-shell-completion zsh)"
 
-_uv_run_mod() {
-    if [[ "$words[2]" == "run" && "$words[CURRENT]" != -* ]]; then
-        local venv_binaries
-        if [[ -d .venv/bin ]]; then
-            venv_binaries=( ${(@f)"$(_call_program files ls -1 .venv/bin 2>/dev/null)"} )
+    _uv_run_mod() {
+        if [[ "$words[2]" == "run" && "$words[CURRENT]" != -* ]]; then
+            local venv_binaries
+            if [[ -d .venv/bin ]]; then
+                venv_binaries=( ${(@f)"$(_call_program files ls -1 .venv/bin 2>/dev/null)"} )
+            fi
+    
+            _alternative \
+                'files:filename:_files' # \
+                # "binaries:venv binary:(($venv_binaries))"
+        else
+            _uv "$@"
         fi
-
-        _alternative \
-            'files:filename:_files' # \
-            # "binaries:venv binary:(($venv_binaries))"
-    else
-        _uv "$@"
-    fi
-}
-compdef _uv_run_mod uv
+    }
+    compdef _uv_run_mod uv
+fi
 ### End of uv Setup
 
 export PATH="/usr/local/bin/bin:$PATH"
@@ -131,3 +140,10 @@ export PATH="/usr/local/bin/bin:$PATH"
 # qlty
 export QLTY_INSTALL="$HOME/.qlty"
 export PATH="$QLTY_INSTALL/bin:$PATH"
+
+### Terminal Behaviour Scripts
+which direnv > /dev/null && eval "$(direnv hook zsh)"
+which thefuck > /dev/null && eval "$(thefuck --alias)"
+which zoxide > /dev/null && eval "$(zoxide init zsh)"
+which starship > /dev/null && eval "$(starship init zsh)" 
+### End of Terminal Behaviour Scripts
