@@ -36,7 +36,9 @@ def filter_clients [queries] {
 }
 
 # Cycles between matching apps
-def --wrapped main [ ...args ] {
+def --wrapped main [ ...args_raw ] {
+  let $args = ($args_raw|into string)
+
   if ($args|is-empty) {
     exit 1
   }

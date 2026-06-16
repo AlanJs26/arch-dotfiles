@@ -1,9 +1,10 @@
 description='simple horizontal navigation feature for Hyprland'
 url='https://github.com/AlanJs26/hyprnavi'
-depends=('pacman:rustup')
+ubuntu_depends=('apt:rustup')
+archlinux_depends=('pacman:rustup')
 source=('https://github.com/AlanJs26/hyprnavi')
 # make this package platform specific. Supported platforms: linux, windows
-platform='archlinux'
+platform='hyprland'
 
 # All items of source will be downloaded and extracted (when necessary)
 # all downloaded (or extracted folders) are stored inside ${sourced[@]}

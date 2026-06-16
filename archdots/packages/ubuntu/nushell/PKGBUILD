@@ -1,0 +1,37 @@
+description='a new type of shell'
+url='https://nushell.sh'
+depends=('custom:carapace')
+source=()
+# source_on_check=false
+# asks user for elevated privileges
+# elevated=false
+# make this package platform specific. Examples: linux, windows, archlinux, ubuntu
+platform='ubuntu'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# You can add the suffix "_powershell" to the functions in order to run them using powershell
+
+# This function is used to install the package on the system
+install() {
+  wget -qO- https://apt.fury.io/nushell/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/fury-nushell.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/fury-nushell.gpg] https://apt.fury.io/nushell/ /" | sudo tee /etc/apt/sources.list.d/fury-nushell.list
+  sudo apt update
+  sudo apt install nushell
+}
+
+# This function is used to uninstall the package from the system
+uninstall() {
+  sudo apt remove nushell
+  sudo rm /etc/apt/sources.list.d/fury-nushell.list
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  which nu
+}

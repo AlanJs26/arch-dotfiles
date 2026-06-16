@@ -1,9 +1,10 @@
 description='setup docker for non root users'
 url=''
-depends=('pacman:docker')
+archlinux_depends=('pacman:docker')
+ubuntu_depends=('apt:docker.io' 'apt:util-linux-extra')
 source=()
 # make this health script platform specific. Supported platforms: linux, windows
-platform='archlinux'
+platform='linux'
 
 # All items of source will be downloaded and extracted (when necessary)
 # all downloaded (or extracted folders) are stored inside ${sourced[@]}
@@ -31,4 +32,3 @@ uninstall() {
 check() {
   groups | grep docker
 }
-

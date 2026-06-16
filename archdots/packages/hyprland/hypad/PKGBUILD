@@ -1,10 +1,11 @@
 description='yet another hyprland scratchpad implementation (but in rust)'
 url='https://github.com/AlanJs26/hypad'
-depends=('pacman:rustup')
+archlinux_depends=('pacman:rustup')
+ubuntu_depends=('apt:rustup')
 source=('https://github.com/AlanJs26/hypad')
 # source_on_check=false
 # make this package platform specific. Supported platforms: linux, windows
-platform='archlinux'
+platform='hyprland'
 
 # All items of source will be downloaded and extracted (when necessary)
 # all downloaded (or extracted folders) are stored inside ${sourced[@]}
@@ -18,11 +19,31 @@ install() {
   cargo build --release
   sudo cp target/release/hypad /usr/local/bin
   sudo chmod +x /usr/local/bin/hypad
+
+  service_folder="$HOME/.config/systemd/user"
+
+  mkdir -p "$service_folder"
+  cp "$PKGPATH/hypad.service" "$service_folder"
+
+  systemctl --user daemon-reload
+
+  echo "Run 'systemctl --user enable --now hypad.service' to enable the daemon"
 }
 
 # This function uninstall the package from the system
 uninstall() {
   sudo rm /usr/local/bin/hypad
+
+  if (systemctl is-active --user hypad | grep -q "^active"); then
+    systemctl stop --user hypad.service
+  fi
+
+  if (systemctl is-enabled --user hypad | grep -q "^enabled"); then
+    systemctl disable --user hypad.service
+  fi
+
+  service_path="$HOME/.config/systemd/user/hypad.service"
+  [ -f "$service_path" ] && rm "$service_path"
 }
 
 # This function should end with exit code 0 when the package is installed on system
@@ -30,4 +51,3 @@ uninstall() {
 check() {
   which hypad
 }
-

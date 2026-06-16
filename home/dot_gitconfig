@@ -1,0 +1,18 @@
+[user]
+	name = AlanJs26
+	email = alanjoses.29@gmail.com
+[init]
+	defaultBranch = main
+[core]
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+[merge]
+    conflictStyle = zdiff3
+[fetch]
+	prune = true
+[submodule]
+	recurse = true

@@ -13,8 +13,8 @@ class = "com.github.th_ch.youtube_music"
 on_no_match = "youtube-music --ozone-platform-hint=wayland --enable-wayland-ime --wayland-text-input-version=3"
 
 [groups.filemanager]
-class = "nemo"
-on_no_match = "nemo"
+class = "com.system76.CosmicFiles"
+on_no_match = "cosmic-files"
 
 [groups.pavucontrol]
 class = "org.pulseaudio.pavucontrol"

@@ -1,30 +1,31 @@
 apps:
   browser: vivaldi --ozone-platform-hint=wayland
-  file_explorer: nemo
+  file_explorer: cosmic-files
   music_player: youtube-music
   pdf_viewer: sioyek
   sound_manager: pavucontrol
   terminal: kitty
 backup:
-  - ignore-patterns:
-      - \.CondaPkg
-      - target
-      - \.?v?env
-      - \.cache
-      - node_modules
-      - kitti-dataset
-      - build
+  - action: copy
+    source: /mnt/DiscoExterno/ObsidianVaults/USP
+    destination: drive-usp:Obsidian/USP
+  - action: copy
+    destination: drive-usp:PDFs
+    source: /mnt/DiscoExterno/_Arquivos/PDFs
+  - action: copy
     source: /mnt/DiscoExterno/_Codes
     destination: drive-usp:Codes
-    action: copy
-  - destination: drive-usp:PDFs
-    action: copy
-    source: /mnt/DiscoExterno/_Arquivos/PDFs
-  - source: /mnt/DiscoExterno/ObsidianVaults/USP
-    destination: drive-usp:Obsidian/USP
-    action: copy
+    ignore-patterns:
+      - \.CondaPkg
+      - build
+      - \.cache
+      - \.?v?env
+      - node_modules
+      - kitti-dataset
+      - target
 import:
   - ./chezmoi.yaml
-  - ./pkgs.yaml
-  - ./hyprland.yaml
-  - ./bspwm.yaml
+  - ./hyprland.yaml: hyprland
+  - ./bspwm.yaml: bspwm
+  - ./ubuntu_pkgs.yaml: ubuntu
+  - ./archlinux_pkgs.yaml: archlinux

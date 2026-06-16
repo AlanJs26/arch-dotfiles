@@ -1,6 +1,6 @@
-description='Unleash your terminal like never before'
-url='https://ohmyz.sh'
-depends=()
+description='An advanced browser made with the power user in mind'
+url='https://vivaldi.com'
+depends=('apt:jq' 'apt:httpie')
 source=()
 # source_on_check=false
 # asks user for elevated privileges
@@ -12,24 +12,30 @@ platform='ubuntu'
 # all downloaded (or extracted folders) are stored inside ${sourced[@]}
 # This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
 #
-# $PKGPATH has the path to folder containing this file 
+# $PKGPATH has the path to folder containing this file
 
 # You can add the suffix "_powershell" to the functions in order to run them using powershell
 
 # This function is used to install the package on the system
 install() {
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  vivaldi_info="$(http GET 'https://archlinux.org/packages/extra/x86_64/vivaldi/json/')"
+  vivaldi_ver="$(cat <<<$vivaldi_info | jq -r .pkgver)"
+  vivaldi_deb="vivaldi-stable_${vivaldi_ver}-1_amd64.deb"
+
+  if ! [ -f "$vivaldi_deb" ]; then
+    wget "https://downloads.vivaldi.com/stable/${vivaldi_deb}"
+  fi
+
+  sudo dpkg -i $vivaldi_deb
 }
 
 # This function is used to uninstall the package from the system
 uninstall() {
-    zsh -c "uninstall_oh_my_zsh"
+  sudo apt uninstall vivaldi-stable
 }
 
 # This function should end with exit code 0 when the package is installed on system
 # and end with exit code 1 when it is uninstalled
 check() {
-    if ! [[ -d "$HOME/.oh-my-zsh" ]]; then
-        exit 1
-    fi
+  which vivaldi
 }

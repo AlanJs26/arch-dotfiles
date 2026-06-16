@@ -404,11 +404,36 @@
     }
   },
   "hyprlandOutputSettings": {},
-  "displayProfiles": {},
-  "activeDisplayProfile": {},
+  "displayProfiles": {
+    "hyprland": {
+      "profile_1781563308971_sws6ql": {
+        "id": "profile_1781563308971_sws6ql",
+        "name": "default",
+        "outputSet": [
+          "DP-1",
+          "DP-2"
+        ],
+        "createdAt": 1781563308971,
+        "updatedAt": 1781563308971
+      },
+      "profile_1781569209045_dp3ris": {
+        "id": "profile_1781569209045_dp3ris",
+        "name": "alternative",
+        "outputSet": [
+          "DP-1",
+          "DP-2"
+        ],
+        "createdAt": 1781569209045,
+        "updatedAt": 1781569209045
+      }
+    }
+  },
+  "activeDisplayProfile": {
+    "hyprland": "profile_1781563308971_sws6ql"
+  },
   "displayProfileAutoSelect": false,
   "displayShowDisconnected": false,
-  "displaySnapToEdge": true,
+  "displaySnapToEdge": false,
   "barConfigs": [
     {
       "id": "default",
