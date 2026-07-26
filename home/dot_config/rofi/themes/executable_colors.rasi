@@ -1,8 +1,8 @@
 * {
-  al:  #12131800;
-  bg:  #121318df;
-  se:  #99b1f2;
-  fg:  #2a3042;
-  ac:  #99b1f2;
-  tx:  #e2e2e9;
+  al:  #0e151300;
+  bg:  #0e1513df;
+  se:  #6ecbb1;
+  fg:  #1d352e;
+  ac:  #6ecbb1;
+  tx:  #dee4e0;
 }

@@ -9,12 +9,12 @@ class = "kitty-scratchpad"
 on_no_match = "kitty --class kitty-scratchpad"
 
 [groups.music]
-class = "com.github.th_ch.youtube_music"
+class = "com.github.th-ch.youtube-music"
 on_no_match = "youtube-music --ozone-platform-hint=wayland --enable-wayland-ime --wayland-text-input-version=3"
 
 [groups.filemanager]
-class = "com.system76.CosmicFiles"
-on_no_match = "cosmic-files"
+class = "org.gnome.Nautilus"
+on_no_match = "nautilus"
 
 [groups.pavucontrol]
 class = "org.pulseaudio.pavucontrol"

@@ -1,0 +1,36 @@
+description='a manager for lg tvs homebrews'
+url='https://github.com/webosbrew/dev-manager-desktop'
+depends=('custom:eget')
+source=()
+# source_on_check=false
+# asks user for elevated privileges
+# elevated=false
+# make this package platform specific. Examples: linux, windows, archlinux, ubuntu
+platform='ubuntu'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# You can add the suffix "_powershell" to the functions in order to run them using powershell
+
+# This function is used to install the package on the system
+install() {
+  eget webosbrew/dev-manager-desktop -a '.deb'
+  debfile="$(/usr/bin/ls | grep '.deb$' | head -n1)"
+  chmod +x "$debfile"
+  sudo dpkg -i "$debfile"
+}
+
+# This function is used to uninstall the package from the system
+uninstall() {
+  sudo apt remove webos-dev-manager
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  which webos-dev-manager
+}

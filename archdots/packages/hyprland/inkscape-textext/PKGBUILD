@@ -1,0 +1,39 @@
+description='Re-editable LaTeX/ typst graphics for Inkscape'
+url='https://github.com/textext/textext'
+depends=('custom:eget' 'apt:python3')
+source=()
+# source_on_check=false
+# asks user for elevated privileges
+# elevated=false
+# make this package platform specific. Examples: linux, windows, archlinux, ubuntu
+platform='ubuntu'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# You can add the suffix "_powershell" to the functions in order to run them using powershell
+
+# This function is used to install the package on the system
+install() {
+  eget textext/textext -a '.tar.gz' -d
+  tarfile="$(/usr/bin/ls | grep '.tar.gz$' | head -n1)"
+  tar -xvf "$tarfile"
+  tardir="$(/usr/bin/ls -d */ | head -n1)"
+  pushd $tardir
+  python3 setup.py
+  popd
+}
+
+# This function is used to uninstall the package from the system
+uninstall() {
+  rm -r ~/.config/inkscape/extensions/textext/
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  [ ! -d ~/.config/inkscape/extensions/textext/ ] && exit 1
+}

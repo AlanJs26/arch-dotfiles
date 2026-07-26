@@ -18,6 +18,7 @@ topath=(
 "$HOME/.local/bin"
 "$HOME/.cargo/bin"
 "/opt/urserver"
+"$HOME/.npm-global/bin"
 )
 
 for item in ${topath[@]}; do

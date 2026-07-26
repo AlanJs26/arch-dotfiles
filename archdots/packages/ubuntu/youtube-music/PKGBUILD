@@ -30,7 +30,7 @@ install() {
 
 # This function is used to uninstall the package from the system
 uninstall() {
-  sudo apt uninstall youtube-music
+  sudo apt remove youtube-music
 }
 
 # This function should end with exit code 0 when the package is installed on system

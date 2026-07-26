@@ -1,0 +1,103 @@
+description='Print Scan for Canon PIXMA series'
+url='https://aur.archlinux.org/packages/canon-pixma-g6000-complete'
+depends=(
+  'apt:rsync'
+)
+source=(
+  'https://aur.archlinux.org/cgit/aur.git/plain/canon-pixma-g6000-complete-scangear-icon.png?h=canon-pixma-g6000-complete'
+  'https://aur.archlinux.org/cgit/aur.git/plain/canon-pixma-g6000-complete-scangear.desktop?h=canon-pixma-g6000-complete'
+  'https://gdlp01.c-wss.com/gds/2/0100010482/01/cnijfilter2-5.90-1-deb.tar.gz'
+  'https://gdlp01.c-wss.com/gds/5/0100010485/01/scangearmp2-3.90-1-deb.tar.gz'
+)
+# source_on_check=false
+# asks user for elevated privileges
+elevated=true
+# make this package platform specific. Examples: linux, windows, archlinux, ubuntu
+platform='ubuntu'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# You can add the suffix "_powershell" to the functions in order to run them using powershell
+
+# This function is used to install the package on the system
+install() {
+  # dir: cnifilter2 packages
+  pushd "${sourced[2]}/packages"
+  cnifilter2_deb="$(pwd)/$(ls | grep amd64 | head -n1)"
+  popd
+
+  [ -d cnifilter2 ] && rm -r cnifilter2
+  dpkg-deb -R $cnifilter2_deb cnifilter2
+
+  # dir: scangearmp2 packages
+  pushd "${sourced[3]}/packages"
+  scangearmp2_deb="$(pwd)/$(ls | grep amd64 | head -n1)"
+  popd
+
+  [ -d scangearmp2 ] && rm -r scangearmp2
+  dpkg-deb -R $scangearmp2_deb scangearmp2
+
+  rsync -av cnifilter2/ scangearmp2/ out/
+
+  # dir: out
+  pushd out
+  find usr etc -type f | awk '{print "/" $1}' >files.txt
+
+  # Mark shared libs executable
+  find 'usr/lib' -name '*.so*' -exec chmod 755 '{}' '+'
+
+  rsync -av usr/ /usr/
+  rsync -av etc/ /etc/
+
+  ln /usr/lib/libcncpnet2.so.1.2.4 /usr/lib/libcncpnet2.so
+  ln /usr/lib/libcnbpnet30.so.1.0.0 /usr/lib/libcnbpnet30.so
+  ln /usr/lib/libcncpnet30.so.1.0.0 /usr/lib/libcncpnet30.so
+  ln /usr/lib/libcnbpnet20.so.1.0.0 /usr/lib/libcnbpnet20.so
+  ln /usr/lib/libcnbpcnclapicom2.so.5.0.0 /usr/lib/libcnbpcnclapicom2.so
+  ln /usr/lib/libcncpmslld2.so.3.0.0 /usr/lib/libcncpmslld2.so
+  ln /usr/lib/libcncpnet20.so.1.0.0 /usr/lib/libcncpnet20.so
+  ln /usr/lib/libcnnet2.so.1.2.4 /usr/lib/libcnnet2.so
+  popd
+
+  mv out/files.txt .
+
+  # Install entry in application menu, including icon
+  rsync -pt --chmod=644 "${sourced[0]}" '/usr/share/pixmaps/canon-pixma-g6000-complete-scangear-icon.png'
+  rsync -pt --chmod=644 "${sourced[1]}" '/usr/share/applications/canon-pixma-g6000-complete-scangear.desktop'
+}
+
+# This function is used to uninstall the package from the system
+uninstall() {
+  rm '/usr/share/pixmaps/canon-pixma-g6000-complete-scangear-icon.png'
+  rm '/usr/share/applications/canon-pixma-g6000-complete-scangear.desktop'
+
+  cat files.txt | xargs rm
+
+  rm -r /usr/share/cmdtocanonij3
+  rm -r /usr/share/scangearmp2
+  rm -r /usr/share/cmdtocanonij2
+  rm -r /usr/share/doc/scangearmp2
+  rm -r /usr/share/doc/cnijfilter2
+  rm -r /usr/share/cnijlgmon3
+  rm -r /usr/lib/bjlib
+  rm -r /usr/lib/bjlib2
+
+  rm /usr/lib/libcncpnet2.so
+  rm /usr/lib/libcnbpnet30.so
+  rm /usr/lib/libcncpnet30.so
+  rm /usr/lib/libcnbpnet20.so
+  rm /usr/lib/libcnbpcnclapicom2.so
+  rm /usr/lib/libcncpmslld2.so
+  rm /usr/lib/libcncpnet20.so
+  rm /usr/lib/libcnnet2.so
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  which scangearmp2
+}
