@@ -5,24 +5,27 @@
 def main [
   direction: string # Direction to focus. u/d/l/r
 ] {
+  let dir_map = { u: "up", d: "down", l: "left", r: "right" }
+  let lua_dir = ($dir_map | get -o $direction | default $direction)
+
   let activewindow = (hyprctl activewindow -j|from json) 
 
   if ($activewindow|is-empty) {
-    hyprctl dispatch movefocus $direction
+    hyprctl dispatch $"hl.dsp.focus\({ direction = \"($lua_dir)\" }\)"
   }
 
   if ($activewindow.floating == true) {
     if (["u" "d"]|find $direction|is-not-empty) {
-      hyprctl dispatch cyclenext tiled
+      hyprctl dispatch 'hl.dsp.window.cycle_next({ tiled = true })'
     } else {
-      # hyprctl dispatch movefocus $direction
+      # hyprctl dispatch $"hl.dsp.focus\({ direction = \"($lua_dir)\" }\)"
       if ($direction == "r") {
-        hyprctl dispatch cyclenext visible floating
+        hyprctl dispatch 'hl.dsp.window.cycle_next({ next = true, floating = true })'
       } else {
-        hyprctl dispatch cyclenext visible prev floating
+        hyprctl dispatch 'hl.dsp.window.cycle_next({ next = false, floating = true })'
       }
     }
-    hyprctl dispatch bringactivetotop
+    hyprctl dispatch 'hl.dsp.window.alter_zorder({ mode = "top" })'
   } else {
     if (["u" "d"]|find $direction|is-not-empty) {
       let clients = (hyprctl clients -j|from json)
@@ -45,13 +48,13 @@ def main [
         ($direction == "d" and $activewindow == $lowermost) 
         or ($direction == "u" and $activewindow == $uppermost)
       ) {
-        hyprctl dispatch cyclenext floating
+        hyprctl dispatch 'hl.dsp.window.cycle_next({ floating = true })'
       } else {
-        hyprctl dispatch movefocus $direction
+        hyprctl dispatch $"hl.dsp.focus\({ direction = \"($lua_dir)\" }\)"
       }
-      hyprctl dispatch bringactivetotop
+      hyprctl dispatch 'hl.dsp.window.alter_zorder({ mode = "top" })'
     } else {
-      hyprctl dispatch movefocus $direction
+      hyprctl dispatch $"hl.dsp.focus\({ direction = \"($lua_dir)\" }\)"
     }
   }
 }

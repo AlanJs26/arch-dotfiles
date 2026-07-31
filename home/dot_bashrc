@@ -50,3 +50,7 @@ if [ -d "$HOME/.atuin/bin" ]; then
     eval "$(atuin init bash --disable-up-arrow)"
 fi
 
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/alan/.local/bin:$PATH"

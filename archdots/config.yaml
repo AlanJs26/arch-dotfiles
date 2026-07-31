@@ -6,23 +6,23 @@ apps:
   sound_manager: pavucontrol
   terminal: kitty
 backup:
-  - source: /mnt/DiscoExterno/_Arquivos/PDFs
+  - destination: drive-usp:PDFs
     action: copy
-    destination: drive-usp:PDFs
-  - source: /mnt/DiscoExterno/ObsidianVaults/USP
-    action: copy
-    destination: drive-usp:Obsidian/USP
+    source: /mnt/DiscoExterno/_Arquivos/PDFs
   - ignore-patterns:
-      - \.?v?env
       - kitti-dataset
-      - target
-      - node_modules
       - \.CondaPkg
-      - \.cache
+      - node_modules
+      - target
       - build
+      - \.?v?env
+      - \.cache
+    destination: drive-usp:Codes
     action: copy
     source: /mnt/DiscoExterno/_Codes
-    destination: drive-usp:Codes
+  - action: copy
+    destination: drive-usp:Obsidian/USP
+    source: /mnt/DiscoExterno/ObsidianVaults/USP
 import:
   - ./chezmoi.yaml
   - ./hyprland.yaml: hyprland

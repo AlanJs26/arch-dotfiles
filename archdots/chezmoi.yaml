@@ -1,34 +1,34 @@
 chezmoi:
-  - ~/.config/environment.d
-  - ~/.config/evremap
-  - ~/.config/pacdef
-  - ~/.config/picom
-  - ~/.config/bspwm
-  - ~/.config/polybar
-  - ~/.config/feh
-  - ~/.Xresources
-  - ~/.env.sh
-  - ~/.config/thefuck
   - ~/.config/gtk-3.0
-  - ~/.config/evrouter
-  - ~/.config/yay
-  - ~/.config/btop
-  - ~/.config/autostart
-  - ~/.config/direnv
-  - ~/.config/sioyek
-  - ~/.local/share/applications
-  - ~/.config/waybar
-  - ~/.bashrc
-  - ~/.config/kitty
-  - ~/.config/jgmenu
-  - ~/.config/hypr
-  - ~/.config/rofi
-  - ~/.config/nemo
-  - ~/.config/sxhkd
-  - ~/.zshrc
-  - ~/.config/eww
-  - ~/.config/niri
-  - ~/.config/gtk-2.0
   - ~/.scripts
+  - ~/.config/sioyek
+  - ~/.config/btop
+  - ~/.config/yay
+  - ~/.config/niri
+  - ~/.config/environment.d
+  - ~/.config/hypr
+  - ~/.config/eww
+  - ~/.config/waybar
+  - ~/.env.sh
+  - ~/.config/bspwm
   - ~/.config/dunst
+  - ~/.config/sxhkd
   - ~/.urserver/remotes/MPV/
+  - ~/.config/polybar
+  - ~/.config/thefuck
+  - ~/.zshrc
+  - ~/.config/pacdef
+  - ~/.config/autostart
+  - ~/.config/evremap
+  - ~/.bashrc
+  - ~/.config/rofi
+  - ~/.config/direnv
+  - ~/.config/jgmenu
+  - ~/.config/feh
+  - ~/.config/picom
+  - ~/.config/kitty
+  - ~/.config/evrouter
+  - ~/.Xresources
+  - ~/.config/nemo
+  - ~/.local/share/applications
+  - ~/.config/gtk-2.0

@@ -91,8 +91,8 @@ def handle_float [
 
 
   # Dispatch commands to Hyprland
-  hyprctl dispatch resizewindowpixel $"exact ($final_width) ($final_height),address:($activewindow.address)"
-  hyprctl dispatch movewindowpixel $"exact ($final_x) ($final_y),address:($activewindow.address)"
+  hyprctl dispatch $"hl.dsp.window.resize\({ x = ($final_width), y = ($final_height), window = \"address:($activewindow.address)\" }\)"
+  hyprctl dispatch $"hl.dsp.window.move\({ x = ($final_x), y = ($final_y), window = \"address:($activewindow.address)\" }\)"
 }
 
 
@@ -129,7 +129,7 @@ def main [
     handle_float $activewindow $percentages $activemonitor $direction $border_size
     exit 0
   } else if ($layout == "dwindle") {
-    hyprctl dispatch layoutmsg movetoroot
+    hyprctl dispatch 'hl.dsp.layout("movetoroot")'
     exit 0
   }
 
@@ -205,14 +205,14 @@ def main [
 
   # Dispatch command based on layout and direction
   if ($layout == "master") {
-    hyprctl dispatch layoutmsg mfact exact ($new_ratio / 100)
+    hyprctl dispatch $"hl.dsp.layout\(\"mfact exact ($new_ratio / 100)\"\)"
   } else { # dwindle
     if $is_vertical {
       let dy = (($new_ratio - $targetwindow_ratio) / 100 * $monitor_height | math round)
-      hyprctl dispatch resizewindowpixel $"0 ($dy),address:($targetwindow.address)"
+      hyprctl dispatch $"hl.dsp.window.resize\({ x = 0, y = ($dy), relative = true, window = \"address:($targetwindow.address)\" }\)"
     } else {
       let dx = (($new_ratio - $targetwindow_ratio) / 100 * $monitor_width | math round)
-      hyprctl dispatch resizewindowpixel $"($dx) 0,address:($targetwindow.address)"
+      hyprctl dispatch $"hl.dsp.window.resize\({ x = ($dx), y = 0, relative = true, window = \"address:($targetwindow.address)\" }\)"
     }
   }
 }

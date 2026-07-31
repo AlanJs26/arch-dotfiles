@@ -1,0 +1,16 @@
+hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("hyprctl dispatch hyprexpo:expo toggle"))
+
+hl.config({
+    plugin = {
+        hyprexpo = {
+            columns = 3,
+            gap_size = 5,
+            bg_col = "rgb(111111)",
+            workspace_method = "center current",
+            enable_gesture = true,
+            gesture_fingers = 3,
+            gesture_distance = 300,
+            gesture_positive = true,
+        },
+    },
+})

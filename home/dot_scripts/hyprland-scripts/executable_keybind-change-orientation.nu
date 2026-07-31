@@ -9,12 +9,12 @@ def main [
   if $layout == "dwindle" {
     hyprctl keyword binds:window_direction_monitor_fallback false
     let dir = (match $orientation { 
-      "bottom"|"center" => "b",
-      "right" => "r",
-      "left" => "l",
-      "top" => "u",
+      "bottom"|"center" => "down",
+      "right" => "right",
+      "left" => "left",
+      "top" => "up",
     })
-    hyprctl dispatch movewindow $dir
+    hyprctl dispatch $"hl.dsp.window.move\({ direction = \"($dir)\" }\)"
     hyprctl keyword binds:window_direction_monitor_fallback true
     exit
   }
@@ -27,6 +27,6 @@ def main [
     "orientationleft"
   }
 
-  hyprctl dispatch layoutmsg $orientation_arg
+  hyprctl dispatch $"hl.dsp.layout\(\"($orientation_arg)\"\)"
 } 
 

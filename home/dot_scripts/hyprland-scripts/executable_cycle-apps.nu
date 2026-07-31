@@ -99,7 +99,7 @@ def --wrapped main [ ...args_raw ] {
     ($flatten_by_workspace.0.workspace.id == $focused_client.workspace.id)
   ) {
     print "Single match. Focusing previous workspace"
-    hyprctl dispatch workspace previous
+    hyprctl dispatch 'hl.dsp.focus({ workspace = "previous" })'
     exit
   }
 
@@ -123,10 +123,10 @@ def --wrapped main [ ...args_raw ] {
 
     if ($target_workspace|is-empty) {
       print $"Focusing workspace ($flatten_by_workspace.0.workspace.id)"
-      hyprctl dispatch workspace $flatten_by_workspace.0.workspace.id
+      hyprctl dispatch $"hl.dsp.focus\({ workspace = ($flatten_by_workspace.0.workspace.id) }\)"
     } else {
       print $"Focusing workspace ($target_workspace.0.workspace.id)"
-      hyprctl dispatch workspace $target_workspace.0.workspace.id
+      hyprctl dispatch $"hl.dsp.focus\({ workspace = ($target_workspace.0.workspace.id) }\)"
     }
 
   } else if ($bring_window and ($matches|length) >= 1) {
@@ -144,17 +144,17 @@ def --wrapped main [ ...args_raw ] {
     let target_client = ($matches|skip while {$in.address <= $focused_client.address}|take 1)
     if ($target_client|is-empty) {
       print $"Bringing window ($matches.0.title)"
-      hyprctl dispatch movetoworkspace $"+0,address:($matches.0.address)"
+      hyprctl dispatch $"hl.dsp.window.move\({ workspace = \"+0\", window = \"address:($matches.0.address)\" }\)"
     } else {
       print $"Bringing window ($target_client.0.title)"
-      hyprctl dispatch movetoworkspace $"+0,address:($target_client.0.address)"
+      hyprctl dispatch $"hl.dsp.window.move\({ workspace = \"+0\", window = \"address:($target_client.0.address)\" }\)"
     }
 
 
   } else {
     if not $by_workspace and ($matches|length) == 1 {
       print "Single match. Focusing previous window"
-      hyprctl dispatch focuscurrentorlast
+      hyprctl dispatch 'hl.dsp.focus({ last = true })'
       exit
     }
 
@@ -171,17 +171,17 @@ def --wrapped main [ ...args_raw ] {
 
     if ($focused_client|is-empty) {
       print $"Focusing window ($matches.0.title)"
-      hyprctl dispatch focuswindow $"address:($matches.0.address)"
+      hyprctl dispatch $"hl.dsp.focus\({ window = \"address:($matches.0.address)\" }\)"
       exit
     }
 
     let target_client = ($matches|skip while {$in.address <= $focused_client.address}|take 1)
     if ($target_client|is-empty) {
       print $"Focusing window ($matches.0.title)"
-      hyprctl dispatch focuswindow $"address:($matches.0.address)"
+      hyprctl dispatch $"hl.dsp.focus\({ window = \"address:($matches.0.address)\" }\)"
     } else {
       print $"Focusing window ($target_client.0.title)"
-      hyprctl dispatch focuswindow $"address:($target_client.0.address)"
+      hyprctl dispatch $"hl.dsp.focus\({ window = \"address:($target_client.0.address)\" }\)"
     }
   }
 }

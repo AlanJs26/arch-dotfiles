@@ -178,6 +178,7 @@ pkgs:
     - tailscale
     - nvm
     - canon-pixma-g6000
+    - antigravity-cli
   uv:
     - thefuck@3.11
     - yazi-bin@3.11.15
