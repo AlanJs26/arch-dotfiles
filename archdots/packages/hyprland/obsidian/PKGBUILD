@@ -1,0 +1,67 @@
+description='A powerful knowledge base that works on top of a local folder of plain text Markdown files'
+url='https://obsidian.md'
+# depends=('custom:eget')
+depends=()
+source=('https://raw.githubusercontent.com/obsidianmd/obsidian-releases/refs/heads/master/desktop-releases.json')
+# source_on_check=false
+# asks user for elevated privileges
+# elevated=false
+# make this package platform specific. Examples: linux, windows, archlinux, ubuntu
+platform='ubuntu'
+
+# All items of source will be downloaded and extracted (when necessary)
+# all downloaded (or extracted folders) are stored inside ${sourced[@]}
+# This script runs inside a folder over ~/.cache/archdots/pkgname, where all sources are downloaded
+#
+# $PKGPATH has the path to folder containing this file
+
+# You can add the suffix "_powershell" to the functions in order to run them using powershell
+
+# This function is used to install the package on the system
+install() {
+  set -e
+  pkgver="$(jq .latestVersion ${sourced[0]} -r)"
+
+  if ! [[ -f "obsidian.tar.gz" ]]; then
+    eget obsidianmd/obsidian-releases -a '.tar.gz' -d -t "${pkgver}" --to="obsidian.tar.gz"
+  else
+    echo "obsidian.tar.gz já existe em cache"
+  fi
+
+  mkdir -p srcdir
+  tar -xvf obsidian.tar.gz -C srcdir --strip-components=1 2>/dev/null || tar -xvf obsidian.tar.gz -C srcdir
+
+  cd srcdir
+
+  # Install desktop file
+  sudo install -Dm644 "$PKGPATH/obsidian.desktop" -t /usr/share/applications/
+
+  # Most of the release package is electron, but we use system's default one
+  # So strip away asar packages and put them to /usr/lib/
+  pushd resources/
+  sudo mkdir -p /usr/lib/obsidian
+  sudo chmod 0755 /usr/lib/obsidian
+  # install icon
+  sudo install -Dm644 icon.png /usr/share/icons/hicolor/512x512/apps/obsidian.png
+  sudo find . -type d -exec install -d {,/usr/lib/obsidian/}{} \;
+  sudo find . -type f -exec install -D {,/usr/lib/obsidian/}{} \;
+  popd
+
+  sudo chown root:root chrome-sandbox
+  sudo chmod 4755 chrome-sandbox
+  # Install executable file
+  sudo ln -s "$(pwd)/obsidian" /usr/bin/obsidian
+}
+
+# This function is used to uninstall the package from the system
+uninstall() {
+  sudo rm -r /usr/lib/obsidian
+  sudo rm /usr/bin/obsidian
+  sudo rm /usr/share/icons/hicolor/512x512/apps/obsidian.png
+}
+
+# This function should end with exit code 0 when the package is installed on system
+# and end with exit code 1 when it is uninstalled
+check() {
+  which obsidian
+}

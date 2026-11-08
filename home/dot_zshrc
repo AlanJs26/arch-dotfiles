@@ -39,6 +39,7 @@ zinit light zsh-users/zsh-completions
 zinit light hlissner/zsh-autopair 
 zinit light jirutka/zsh-shift-select 
 zinit light matthiasha/zsh-uv-env
+zinit light zpm-zsh/clipboard
 ### End of Zinit Plugins
 
 # Load envirounment variables

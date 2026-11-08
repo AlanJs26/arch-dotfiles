@@ -17,7 +17,7 @@ flags:
     help: force logging
 ARCHDOTS
 
-exec > >(tee -a $HOME/.rclone.log) 2>&1
+# exec > >(tee -a $HOME/.rclone.log) 2>&1
 
 should_report_error=0
 
@@ -42,9 +42,9 @@ for i in $(seq 0 $(($backup_len - 1))); do
 
     rclone_command=''
     if [[ $SHLVL -lt 4 ]] && [[ ${args[log]} -eq 0 ]]; then
-      rclone_command="rclone sync $ignored_flag '$source' '$destination' --verbose --delete-excluded || should_report_error=1"
+      rclone_command="rclone bisync $ignored_flag '$source' '$destination' --verbose --delete-excluded || should_report_error=1"
     else
-      rclone_command="rclone sync $ignored_flag '$source' '$destination' --verbose --delete-excluded >>$HOME/.rclone.log 2>&1 || should_report_error=1"
+      rclone_command="rclone bisync $ignored_flag '$source' '$destination' --verbose --delete-excluded >>$HOME/.rclone.log 2>&1 || should_report_error=1"
     fi
     echo "$rclone_command"
   fi

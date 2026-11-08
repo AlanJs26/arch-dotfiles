@@ -1,50 +1,50 @@
 autostart:
-  - run_with:
-      - hyprland_programs
-    commands:
-      - ~/.scripts/tools/cycle-audio-devices.nu --refresh||true
-    name: always_hyprland
-    priority: 10
-    daemon: false
-  - match_method: cmdline
-    commands:
-      - $HOME/.config/eww/scripts/music_helper.sh --cover_daemon
-      - $BSPDIR/fix-polybar-fullscreen.sh
-      - $BSPDIR/color-border-mode.sh
-    name: scripts
   - name: hyprland_programs
-    match_method: name
     commands:
+      - fcitx5 -d
       - syncthing serve --no-browser --logfile=default
       - nm-applet
-      - fcitx5 -d
-  - name: programs
-    commands:
-      - unclutter --timeout 10 --exclude-root
-      - evrouter --config $HOME/.config/evrouter/.evrouterrc 
-        /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse 
-        /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd
-      - dunst
-      - bspdragwin.py --daemon
-      - nm-applet
-      - bspswallow
-      - syncthing serve --no-browser --logfile=default
-      - eww daemon --restart
-      - fcitx5 -d
-      - syncthing-gtk --minimized
-      - jgmenu --hide-on-startup
-      - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-      - greenclip daemon
-      - picom
     match_method: name
-  - commands:
-      - xmodmap $HOME/.config/X11/xmodmap
+  - name: scripts
+    commands:
+      - $BSPDIR/color-border-mode.sh
+      - $BSPDIR/fix-polybar-fullscreen.sh
+      - $HOME/.config/eww/scripts/music_helper.sh --cover_daemon
+    match_method: cmdline
+  - priority: 10
+    commands:
       - cycle-audio-devices.nu --refresh||true
-      - rm /tmp/.evrouter:0||true
+      - xmodmap $HOME/.config/X11/xmodmap
       - $TOOLS/setup-monitors.sh
-    name: always
+      - rm /tmp/.evrouter:0||true
+    daemon: false
     run_with:
       - scripts
       - programs
-    priority: 10
+    name: always
+  - priority: 10
+    commands:
+      - ~/.scripts/tools/cycle-audio-devices.nu --refresh||true
+    run_with:
+      - hyprland_programs
     daemon: false
+    name: always_hyprland
+  - name: programs
+    commands:
+      - dunst
+      - syncthing serve --no-browser --logfile=default
+      - unclutter --timeout 10 --exclude-root
+      - eww daemon --restart
+      - syncthing-gtk --minimized
+      - nm-applet
+      - greenclip daemon
+      - bspswallow
+      - evrouter --config $HOME/.config/evrouter/.evrouterrc 
+        /dev/input/by-id/usb-18f8_USB_GAMING_MOUSE-event-mouse 
+        /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd
+      - /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+      - fcitx5 -d
+      - jgmenu --hide-on-startup
+      - bspdragwin.py --daemon
+      - picom
+    match_method: name

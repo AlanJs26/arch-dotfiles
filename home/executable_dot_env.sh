@@ -59,6 +59,23 @@ else
   echo " " >~/.config/environment.d/profile.conf
 fi
 
-# if [ -f ~/.config/environment.d/profile.conf ]; then
-# 	eval "$(cat ~/.config/environment.d/profile.conf|awk '!/^\s*#/'|xargs -i echo export {})"
-# fi
+## SECRETS
+
+# deve conter esses exports
+# BW_SESSION -> para o bitwarden cli
+# BWS_ACCESS_TOKEN -> para o bitwarden secrets manager
+[ -f ~/.secrets.sh ] && source ~/.secrets.sh
+
+get_bws_token ()
+{
+    secret="$(bws secret get $1)"
+    echo "export $(echo $secret|jq -r .key)=\"$(echo $secret|jq -r .value)\""
+}
+
+tokens=(
+  "a96bec90-6f6a-4635-8d4c-b4fb00f4875f"
+)
+
+for token in ${tokens[@]}; do
+  eval $(get_bws_token $token)
+done

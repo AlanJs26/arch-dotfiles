@@ -1,0 +1,13 @@
+[Unit]
+Description=Draw on the screen
+Requires=wayland-session@hyprland.desktop.target
+After=wayland-session@hyprland.desktop.target
+
+[Service]
+Type=simple
+ExecStart=wayscriber --daemon
+Restart=always
+RestartSec=2s 
+
+[Install]
+WantedBy=wayland-session@hyprland.desktop.target

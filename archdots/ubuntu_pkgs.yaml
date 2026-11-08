@@ -179,6 +179,10 @@ pkgs:
     - nvm
     - canon-pixma-g6000
     - antigravity-cli
+    - obsidian
+    - pup
+    - bibata-cursor
+    - bw
   uv:
     - thefuck@3.11
     - yazi-bin@3.11.15
@@ -189,3 +193,4 @@ pkgs:
     - vivid@https://github.com/sharkdp/vivid/releases/download/v0.10.1/vivid_0.10.1_amd64.deb
     - chrome@https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     - wayscriber@https://github.com/devmobasa/wayscriber/releases/latest/download/wayscriber-amd64.deb
+    - f2@https://github.com/ayoisaiah/f2/releases/download/v2.2.2/f2_2.2.2_linux_amd64.deb

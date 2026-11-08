@@ -19,3 +19,4 @@ __pycache__
 .config/nvim
 .config/nushell/history.txt
 *nohup.out
+.secrets.sh

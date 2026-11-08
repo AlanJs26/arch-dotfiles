@@ -1,13 +1,14 @@
 local mainMod = "SUPER"
 
 -- Special workspace & tools
-hl.bind(mainMod .. " + I", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + I", hl.dsp.window.move({ workspace = "special:magic" }))
+-- hl.bind(mainMod .. " + I", hl.dsp.workspace.toggle_special("magic"))
+-- hl.bind(mainMod .. " + SHIFT + I", hl.dsp.window.move({ workspace = "special:magic" }))
 hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("wayscriber --daemon-toggle"))
 
 -- Monitors
 hl.bind(mainMod .. " + O", hl.dsp.focus({ monitor = "+1" }))
-hl.bind(mainMod .. " + SHIFT + D", hl.dsp.exec_cmd("hyprctl dispatch swapactiveworkspaces 'current +1'"))
+hl.bind(mainMod .. " + SHIFT + D", hl.dsp.workspace.swap_monitors({ monitor1 = "current", monitor2 = "+1" }))
+hl.bind(mainMod .. " + SHIFT + O", hl.dsp.workspace.swap_monitors({ monitor1 = "current", monitor2 = "+1" }))
 
 -- Screen / Zoom
 hl.bind(
@@ -27,10 +28,38 @@ hl.bind(mainMod .. " + SHIFT + mouse_up", hl.dsp.exec_cmd("~/.config/hypr/module
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + S", hl.dsp.window.float({ action = "toggle" }))
 
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.exec_cmd("hyprnavi l --swap --bordersize 10"))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprnavi r --swap --bordersize 10"))
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd("hyprnavi u --swap"))
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.exec_cmd("hyprnavi d --swap"))
+local has_hyprnavi = false
+local handle = io.popen("which hyprnavi")
+if handle then
+	has_hyprnavi = handle:read("*a") ~= ""
+	handle:close()
+end
+
+if has_hyprnavi then
+	hl.bind(mainMod .. " + SHIFT + H", hl.dsp.exec_cmd("hyprnavi l --swap --bordersize 10"))
+	hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("hyprnavi r --swap --bordersize 10"))
+	hl.bind(mainMod .. " + SHIFT + K", hl.dsp.exec_cmd("hyprnavi u --swap"))
+	hl.bind(mainMod .. " + SHIFT + J", hl.dsp.exec_cmd("hyprnavi d --swap"))
+
+	hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("hyprnavi l"))
+	hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprnavi r"))
+
+	hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("hyprnavi u"))
+	hl.bind(mainMod .. " + K", hl.dsp.group.next())
+
+	hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("hyprnavi d"))
+	hl.bind(mainMod .. " + J", hl.dsp.group.prev())
+else
+	hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.swap({ direction = "l" }))
+	hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.swap({ direction = "r" }))
+	hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.swap({ direction = "u" }))
+	hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.swap({ direction = "d" }))
+
+	hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }))
+	hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }))
+	hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
+	hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
+end
 
 hl.bind(mainMod .. " + SHIFT + Left", hl.dsp.window.move({ direction = "l" }))
 hl.bind(mainMod .. " + SHIFT + Right", hl.dsp.window.move({ direction = "r" }))
@@ -43,25 +72,28 @@ hl.bind(
 	hl.dsp.exec_cmd("$HOME/.scripts/hyprland-scripts/keybind-cycle-master-width.sh vertical")
 )
 
-hl.bind(mainMod .. " + SHIFT + CTRL + H", hl.dsp.window.resize({ x = -40, y = 0 }), { repeating = true })
-hl.bind(mainMod .. " + SHIFT + CTRL + L", hl.dsp.window.resize({ x = 40, y = 0 }), { repeating = true })
-hl.bind(mainMod .. " + SHIFT + CTRL + K", hl.dsp.window.resize({ x = 0, y = -40 }), { repeating = true })
-hl.bind(mainMod .. " + SHIFT + CTRL + J", hl.dsp.window.resize({ x = 0, y = 40 }), { repeating = true })
+hl.bind(
+	mainMod .. " + SHIFT + CTRL + H",
+	hl.dsp.window.resize({ relative = true, x = -40, y = 0 }),
+	{ repeating = true }
+)
+hl.bind(
+	mainMod .. " + SHIFT + CTRL + L",
+	hl.dsp.window.resize({ relative = true, x = 40, y = 0 }),
+	{ repeating = true }
+)
+hl.bind(
+	mainMod .. " + SHIFT + CTRL + K",
+	hl.dsp.window.resize({ relative = true, x = 0, y = -40 }),
+	{ repeating = true }
+)
+hl.bind(
+	mainMod .. " + SHIFT + CTRL + J",
+	hl.dsp.window.resize({ relative = true, x = 0, y = 40 }),
+	{ repeating = true }
+)
 
 hl.bind(mainMod .. " + E", hl.dsp.group.toggle())
-
-hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("hyprnavi l"))
-hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprnavi r"))
--- hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("$HOME/.scripts/hyprland-scripts/keybind-move-focus.nu l"))
--- hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("$HOME/.scripts/hyprland-scripts/keybind-move-focus.nu r"))
-
--- hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("$HOME/.scripts/hyprland-scripts/keybind-move-focus.nu u"))
-hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("hyprnavi u"))
-hl.bind(mainMod .. " + K", hl.dsp.group.next())
-
--- hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("$HOME/.scripts/hyprland-scripts/keybind-move-focus.nu d"))
-hl.bind(mainMod .. " + J", hl.dsp.exec_cmd("hyprnavi d"))
-hl.bind(mainMod .. " + J", hl.dsp.group.prev())
 
 hl.bind(mainMod .. " + Left", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + Right", hl.dsp.focus({ direction = "right" }))
@@ -117,9 +149,15 @@ hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.focus({ workspace = "m-1" }))
 hl.bind(mainMod .. " + ALT + Tab", hl.dsp.window.move({ workspace = "m+1" }))
 hl.bind(mainMod .. " + ALT + SHIFT + Tab", hl.dsp.window.move({ workspace = "m-1" }))
 
-hl.bind(mainMod .. " + Apostrophe", hl.dsp.focus({ workspace = "emptym" }))
-hl.bind(mainMod .. " + ALT + Apostrophe", hl.dsp.window.move({ workspace = "emptym" }))
-hl.bind(mainMod .. " + SHIFT + Apostrophe", hl.dsp.window.move({ workspace = "emptym", follow = false }))
+-- hl.bind(mainMod .. " + Apostrophe", hl.dsp.focus({ workspace = "emptym" }))
+-- hl.bind(mainMod .. " + ALT + Apostrophe", hl.dsp.window.move({ workspace = "emptym" }))
+-- hl.bind(mainMod .. " + SHIFT + Apostrophe", hl.dsp.window.move({ workspace = "emptym", follow = false }))
+hl.bind(mainMod .. " + code:48", hl.dsp.focus({ workspace = "emptym" }))
+hl.bind(mainMod .. " + ALT + code:48", hl.dsp.window.move({ workspace = "emptym" }))
+hl.bind(mainMod .. " + SHIFT + code:48", hl.dsp.window.move({ workspace = "emptym", follow = false }))
+hl.bind(mainMod .. " + code:49", hl.dsp.focus({ workspace = "emptym" }))
+hl.bind(mainMod .. " + ALT + code:49", hl.dsp.window.move({ workspace = "emptym" }))
+hl.bind(mainMod .. " + SHIFT + code:49", hl.dsp.window.move({ workspace = "emptym", follow = false }))
 
 -- Workspaces 1..10
 for i = 1, 10 do
@@ -129,7 +167,7 @@ for i = 1, 10 do
 end
 
 -- Programs & Scratchpads
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("kitty"))
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("dots launch terminal"))
 hl.bind(mainMod .. " + SHIFT + Return", hl.dsp.exec_cmd("dots launch browser"))
 
 hl.bind(mainMod .. " + CTRL + backslash", hl.dsp.exec_cmd("hypad toggle calc"))
@@ -153,10 +191,15 @@ hl.bind(
 	)
 )
 
--- Master Layout
-hl.bind(mainMod .. " + D", hl.dsp.layout("swapwithmaster"))
-hl.bind(mainMod .. " + Equal", hl.dsp.layout("addmaster"))
-hl.bind(mainMod .. " + Minus", hl.dsp.layout("removemaster"))
+if hl.get_config("general.layout") == "master" then
+	-- Master Layout
+	hl.bind(mainMod .. " + D", hl.dsp.layout("swapwithmaster"))
+	hl.bind(mainMod .. " + Equal", hl.dsp.layout("addmaster"))
+	hl.bind(mainMod .. " + Minus", hl.dsp.layout("removemaster"))
+
+	hl.bind(mainMod .. " + bracketleft", hl.dsp.layout("rollnext"))
+	hl.bind(mainMod .. " + bracketright", hl.dsp.layout("rollprev"))
+end
 
 hl.bind(
 	mainMod .. " + CTRL + Left",
@@ -182,9 +225,6 @@ hl.bind(
 	hl.dsp.exec_cmd("$HOME/.scripts/hyprland-scripts/keybind-change-orientation.nu center")
 )
 hl.bind(mainMod .. " + CTRL + K", hl.dsp.exec_cmd("$HOME/.scripts/hyprland-scripts/keybind-change-orientation.nu top"))
-
-hl.bind(mainMod .. " + bracketleft", hl.dsp.layout("rollnext"))
-hl.bind(mainMod .. " + bracketright", hl.dsp.layout("rollprev"))
 
 -- Hyprland
 hl.bind(mainMod .. " + ALT + R", hl.dsp.exec_cmd("hyprctl reload"))

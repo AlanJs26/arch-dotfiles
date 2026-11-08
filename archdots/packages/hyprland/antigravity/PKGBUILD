@@ -1,8 +1,11 @@
 description='googles ai powered ide'
 url='https://antigravity.google'
-depends=()
+depends=(
+  'custom:pup'
+  'apt:jq'
+  'apt:curl'
+)
 source=(
-  'https://storage.googleapis.com/antigravity-public/antigravity-hub/2.1.4-6481382726303744/linux-x64/Antigravity.tar.gz'
   'https://aur.archlinux.org/cgit/aur.git/plain/antigravity.desktop?h=antigravity'
   'https://aur.archlinux.org/cgit/aur.git/plain/antigravity.png?h=antigravity'
 )
@@ -22,14 +25,26 @@ platform='ubuntu'
 
 # This function is used to install the package on the system
 install() {
+  download_link="$(curl -s https://aur.archlinux.org/packages/antigravity | pup '#pkgsrcslist li json{}' | jq -r '.[]|.children[]|select(.text|endswith("x86_64.tar.gz"))|.href')"
+  wget "$download_link"
+  tar -xvf "Antigravity.tar.gz"
+
   pkgname="antigravity"
   desktop_file="${sourced[1]}"
   png_file="${sourced[2]}"
+
+  if [ -d /opt/Antigravity ]; then
+    rm -r /opt/Antigravity
+  fi
 
   install -d "/opt"
   cp -a Antigravity-*/ "/opt/Antigravity"
 
   cd "${sourced[0]}"
+
+  if [ -f "/usr/bin/$pkgname" ]; then
+    rm "/usr/bin/$pkgname"
+  fi
 
   install -d "/usr/bin"
   ln -s /opt/Antigravity/antigravity "/usr/bin/$pkgname"

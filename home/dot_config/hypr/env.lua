@@ -15,7 +15,6 @@ hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
 hl.env("XCURSOR_SIZE", "24")
 
 -- Wayland Support
-hl.env("AQ_DRM_DEVICES", "/dev/dri/card1:/dev/dri/card2")
 hl.env("CLUTTER_BACKEND", "wayland")
 hl.env("ELECTRON_OZONE_PLATFORM_HINT", "wayland")
 hl.env("GDK_BACKEND", "wayland,x11")

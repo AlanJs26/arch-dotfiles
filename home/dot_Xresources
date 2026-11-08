@@ -4,7 +4,6 @@ Xft.autohint:	0
 Xft.hintstyle:	hintslight
 Xft.rgba:	rgb
 Xft.lcdfilter:	lcddefault
-Xcursor.theme: Bibata-Modern-Classic
  
  
 ! Tokyonight colorscheme
@@ -28,3 +27,5 @@ Xcursor.theme: Bibata-Modern-Classic
 *color13: #414868
 *color14: #7dcfff
 *color15: #c0caf5  
+Xcursor.theme: Bibata-Modern-Classic
+Xcursor.size: 24

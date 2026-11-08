@@ -9,17 +9,39 @@ hl.window_rule({ match = { float = true }, border_size = 2 })
 
 -- Dialog windows
 local dialog_titles = {
-    "^(Open File)(.*)$", "^(Select a File)(.*)$", "^(Choose wallpaper)(.*)$",
-    "^(Open Folder)(.*)$", "^(Save As)(.*)$", "^(Library)(.*)$", "^(File Upload)(.*)$"
+	"^(Open File)(.*)$",
+	"^(Select a File)(.*)$",
+	"^(Choose wallpaper)(.*)$",
+	"^(Open Folder)(.*)$",
+	"^(Save As)(.*)$",
+	"^(Library)(.*)$",
+	"^(File Upload)(.*)$",
 }
 for _, t in ipairs(dialog_titles) do
-    hl.window_rule({ match = { title = t }, center = true, float = true })
+	hl.window_rule({ match = { title = t }, center = true, float = true })
 end
 
 -- Steam
-hl.window_rule({ match = { class = "^([Ss]team)$", title = "^(Steam Big Picture Mode)$" }, suppress_event = "fullscreen" })
-hl.window_rule({ match = { class = "^([Ss]team)$", title = "^(Steam Big Picture Mode)$" }, fullscreen = true, no_anim = true, sync_fullscreen = true, center = true })
-hl.window_rule({ match = { class = "^([Ss]team)$", title = "^(Friends List)$" }, float = true, center = true, size = "20% 80%" })
+hl.window_rule({
+	match = { class = "^([Ss]team)$", title = "^(Steam Big Picture Mode)$" },
+	suppress_event = "fullscreen",
+})
+hl.window_rule({
+	match = { class = "^([Ss]team)$", title = "^(Steam Big Picture Mode)$" },
+	fullscreen = true,
+	no_anim = true,
+	sync_fullscreen = true,
+	center = true,
+})
+hl.window_rule({
+	match = { class = "^([Ss]team)$", title = "^(Friends List)$" },
+	float = true,
+	center = true,
+	size = "20% 80%",
+})
+
+-- VS Code
+hl.window_rule({ match = { float = true }, center = true })
 
 -- Matlab
 hl.window_rule({ match = { class = ".*MATLAB.*", title = "(Opening\\.\\.\\.|^Figure.*)" }, float = true })
@@ -52,21 +74,28 @@ hl.window_rule({ match = { class = "(Webots)" }, suppress_event = "activatefocus
 
 -- Picture-in-Picture
 hl.window_rule({
-    match = { title = "^([Pp]icture[-\\s]?[Ii]n[-\\s]?[Pp]icture)(.*)$" },
-    float = true,
-    keep_aspect_ratio = true,
-    move = "73% 72%",
-    pin = true
+	match = { title = "^([Pp]icture[-\\s]?[Ii]n[-\\s]?[Pp]icture)(.*)$" },
+	float = true,
+	keep_aspect_ratio = true,
+	move = "73% 72%",
+	pin = true,
 })
 
 -- Layer rules
 hl.layer_rule({ match = { namespace = ".*" }, xray = true })
 
 local no_anim_namespaces = {
-    "walker", "selection", "overview", "anyrun", "indicator.*", "osk", "hyprpicker", "noanim"
+	"walker",
+	"selection",
+	"overview",
+	"anyrun",
+	"indicator.*",
+	"osk",
+	"hyprpicker",
+	"noanim",
 }
 for _, ns in ipairs(no_anim_namespaces) do
-    hl.layer_rule({ match = { namespace = ns }, no_anim = true })
+	hl.layer_rule({ match = { namespace = ns }, no_anim = true })
 end
 hl.layer_rule({ match = { namespace = "noanim" }, blur = true })
 

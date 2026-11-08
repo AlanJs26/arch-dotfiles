@@ -59,6 +59,8 @@ hl.config({
 	dwindle = {
 		smart_resizing = false,
 		preserve_split = true,
+		smart_split = true,
+		precise_mouse_move = true,
 	},
 	master = {
 		new_status = "inherit",
@@ -68,6 +70,9 @@ hl.config({
 		always_keep_position = false,
 	},
 	decoration = {
+		wobble = {
+			enabled = false,
+		},
 		rounding = 5,
 		blur = {
 			enabled = true,
@@ -102,6 +107,7 @@ hl.config({
 		key_press_enables_dpms = true,
 		mouse_move_focuses_monitor = true,
 		disable_hyprland_logo = true,
+		initial_workspace_tracking = 2,
 	},
 	xwayland = {
 		force_zero_scaling = true,
@@ -121,4 +127,5 @@ require("dms.binds")
 require("modules.essential_keybinds")
 require("modules.kbptr_keybinds")
 require("dms.outputs")
-require("hyprland.colors")
+require("modules.colors")
+require("dms.cursor")

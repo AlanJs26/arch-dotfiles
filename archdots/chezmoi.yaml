@@ -1,34 +1,34 @@
 chezmoi:
-  - ~/.config/gtk-3.0
-  - ~/.scripts
-  - ~/.config/sioyek
-  - ~/.config/btop
-  - ~/.config/yay
-  - ~/.config/niri
-  - ~/.config/environment.d
+  - ~/.config/kitty
   - ~/.config/hypr
+  - ~/.config/jgmenu
   - ~/.config/eww
-  - ~/.config/waybar
-  - ~/.env.sh
-  - ~/.config/bspwm
-  - ~/.config/dunst
-  - ~/.config/sxhkd
+  - ~/.config/yay
   - ~/.urserver/remotes/MPV/
+  - ~/.config/bspwm
+  - ~/.config/rofi
+  - ~/.config/feh
   - ~/.config/polybar
-  - ~/.config/thefuck
+  - ~/.config/direnv
+  - ~/.config/waybar
   - ~/.zshrc
-  - ~/.config/pacdef
+  - ~/.config/sioyek
+  - ~/.config/evrouter
+  - ~/.config/environment.d
+  - ~/.local/share/applications
+  - ~/.Xresources
+  - ~/.config/btop
   - ~/.config/autostart
+  - ~/.config/gtk-2.0
+  - ~/.env.sh
+  - ~/.config/pacdef
+  - ~/.config/niri
+  - ~/.config/gtk-3.0
+  - ~/.config/picom
   - ~/.config/evremap
   - ~/.bashrc
-  - ~/.config/rofi
-  - ~/.config/direnv
-  - ~/.config/jgmenu
-  - ~/.config/feh
-  - ~/.config/picom
-  - ~/.config/kitty
-  - ~/.config/evrouter
-  - ~/.Xresources
+  - ~/.config/dunst
+  - ~/.scripts
+  - ~/.config/thefuck
+  - ~/.config/sxhkd
   - ~/.config/nemo
-  - ~/.local/share/applications
-  - ~/.config/gtk-2.0
